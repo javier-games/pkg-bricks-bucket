@@ -49,7 +49,7 @@ namespace Framework.Generics {
             if (writer != null)
                 writer.Close ();
             writer = null;
-            localPath = UnityEngine.Application.dataPath + "/Scripts/jgt-framework/Generics/RegisteredTypes.cs";
+            localPath = UnityEngine.Application.dataPath + "/Scripts/Framework/Generics/RegisteredTypes.cs";
             writer = new StreamWriter (localPath, false);
 
 
