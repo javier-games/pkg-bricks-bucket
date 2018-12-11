@@ -110,17 +110,7 @@ namespace Framework.Pooling {
 
         /// <summary> Despawn the specified intance. </summary>
         public static void Despawn (Pooled instance) {
-
-            if (instance.pool != null) {
-                GetPoolFromInstance (instance).Despawn (instance);
-                return;
-            }
-
-            Debug.LogError (string.Concat (
-                "The instance ",
-                instance.name,
-                " do not belongs to any pool."
-            ));
+            instance.Despawn ();
         }
 
         /// <summary> Despawn the specified gameObject. </summary>

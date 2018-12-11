@@ -36,7 +36,7 @@ namespace Framework.Pooling {
             get { return _spawned.Count + _stack.Count; }
         }
 
-        /// <summary> Gets the count of instances spwaned. </summary>
+        /// <summary> Gets the count of instances spawned. </summary>
         public int spawnedCount {
             get { return _spawned.Count; }
         }
@@ -86,8 +86,8 @@ namespace Framework.Pooling {
 
         #endregion
 
-        /// <summary> Allocates the indicated amount of instances. </summary>
-        public void AllocateInstance (int count = 1) {
+        // Allocates the indicated amount of instances.
+        private void AllocateInstance (int count = 1) {
             for (int i = 0; i < count; i++) {
 
                 Pooled instance = Object.Instantiate (
@@ -97,7 +97,8 @@ namespace Framework.Pooling {
                 ).GetComponent<Pooled> ();
 
                 _stack.Add (instance);
-                instance.Instatiate (this);
+                instance.AssignPool (this);
+                instance.Despawn ();
             }
         }
 

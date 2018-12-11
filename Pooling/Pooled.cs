@@ -18,13 +18,16 @@ namespace Framework.Pooling {
         #region Class members
 
         [SerializeField]
+        private Pooled _prefab;      //  Original prefab reference.
+
+        [SerializeField]
         private int _amount = 1;        //  Amount to be spawned.
 
         [SerializeField]
         private PrefabType _type;       //  Type of prefab.
 
         [SerializeField]
-        private bool _stopCorutines;    //  Flag to stop coroutines.
+        private bool _stopCoroutines;   //  Flag to skip coroutines.
 
         private Pool        _pool;      //  Reference to the pool.
         private GameObject  _spawner;   //  Reference to the spawner.
@@ -37,6 +40,11 @@ namespace Framework.Pooling {
 
 
         #region Accessors
+
+        /// <summary> Gets the original prefab. </summary>
+        public Pooled prefab {
+            get { return _prefab; }
+        }
 
         /// <summary> Gets the amount of prefab to be spawned. </summary>
         public int amount{
@@ -100,10 +108,9 @@ namespace Framework.Pooling {
         #region Class Implementation
 
         /// <summary> Assign the pool for this prefab. </summary>
-        public void Instatiate(Pool pool){
+        public void AssignPool(Pool pool){
             _pool = pool;
             this.name = pool.prefab.name;
-            Despawn (); 
         }
 
         /// <summary> Specifies position, rotation and parent. </summary>
@@ -131,11 +138,18 @@ namespace Framework.Pooling {
         public void Despawn () {
 
             //  Move to the stack if it is not there yet.
-            if(pool != null)
-            if (!pool.OnStack (this)) {
-                pool.Despawn (this);
-                return;
+            if (pool != null) {
+                if (!pool.OnStack (this)) {
+                    pool.Despawn (this);
+                    return;
+                }
             }
+            else if (prefab != null) {
+                
+            }
+            else
+                Debug.LogError ("From editor assign a prefab reference.");
+
 
             //  Disable the game object in scene.
             gameObject.SetActive (false);
@@ -167,7 +181,7 @@ namespace Framework.Pooling {
             }
 
             //  Stop current calls and coroutines.
-            if (_stopCorutines) {
+            if (_stopCoroutines) {
                 MonoBehaviour [] c = GetComponentsInChildren<MonoBehaviour> ();
                 foreach (MonoBehaviour component in c) {
                     component.StopAllCoroutines ();
