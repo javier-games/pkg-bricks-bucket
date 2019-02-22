@@ -10,6 +10,7 @@ namespace Framework.Utils {
     /// Generic singleton that inherits from monobehaviour.
     /// </para>
     /// </summary>
+    [DisallowMultipleComponent]
     public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T> {
 
 
@@ -17,8 +18,10 @@ namespace Framework.Utils {
         #region Class Members
 
         private static T    instance;       //  Instance of the singleton.
+        #pragma warning disable RECS0108    //  Warns about static fields in generic types
         private static bool didAwoken;      //  Flagged true after awake.
         private static bool didDestroyed;   //  Flagged true after on destroy.
+        #pragma warning restore RECS0108    //  Warns about static fields in generic types
 
         #endregion
 
@@ -88,7 +91,7 @@ namespace Framework.Utils {
 
                 //  Create an instance.
                 instance = new GameObject (
-                    name:       "Temporal " + typeof (T) + " instances.",
+                    name:       "Temporal " + typeof (T),
                     components: typeof (T)
                 ).GetComponent<T> ();
                 return instance;
