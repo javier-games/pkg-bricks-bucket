@@ -15,24 +15,24 @@ namespace Framework.Generics {
 
         #region Class Members
 
-        private int m_HashCode;// = -1;        //  Hashcode of this instance.
-        protected bool m_ReadOnly;          //  Flag to know if this is read only.
+        private int _hashCode = -1;         //  Hashcode of this instance.
+        protected bool _readOnly;           //  Flag to know if this is read only.
 
         [SerializeField]
-        protected string m_String;          //  String variable.
+        protected string _string;           //  String variable.
 
         [SerializeField]
-        protected Vector4 m_Vector;         //  Vector4 variable.
+        protected Vector4 _vector;          //  Vector4 variable.
 
         [SerializeField]
-        protected Object m_Object;          //  UnityEngine.Object variable.
+        protected Object _object;           //  UnityEngine.Object variable.
 
         [SerializeField]
-        protected AnimationCurve m_Curve    //  Curve variable
+        protected AnimationCurve _curve     //  Curve variable
         = new AnimationCurve ();
 
         [SerializeField]
-        protected DataType m_Type;         //  Stores the type of variable.
+        protected DataType _type;           //  Stores the type of variable.
 
         #endregion
 
@@ -42,104 +42,104 @@ namespace Framework.Generics {
 
         /// <summary> Gets or sets the type. </summary>
         public DataType Type {
-            get { return m_Type; }
+            get { return _type; }
             set {
-                if (value != m_Type) {
-                    m_Vector = Vector4.zero;
-                    m_String = string.Empty;
-                    m_Object = null;
-                    if (m_Curve != null)
-                        for (int i = 0; i < m_Curve.keys.Length; i++)
-                            m_Curve.RemoveKey (i);
+                if (value != _type) {
+                    _vector = Vector4.zero;
+                    _string = string.Empty;
+                    _object = null;
+                    if (_curve != null)
+                        for (int i = 0; i < _curve.keys.Length; i++)
+                            _curve.RemoveKey (i);
                 }
-                m_Type = value;
+                _type = value;
             }
         }
 
         /// <summary> Gets or sets a boolean value. </summary>
         public bool Boolean {
-            get { return (m_Vector.x > 0 || m_Vector.x < 0); }
-            set { m_Vector.x = value ? 1 : 0; }
+            get { return (_vector.x > 0 || _vector.x < 0); }
+            set { _vector.x = value ? 1 : 0; }
         }
 
         /// <summary> Gets or sets the integer. </summary>
         public int Integer {
-            get { return (int)m_Vector.x; }
-            set { m_Vector.x = value; }
+            get { return (int)_vector.x; }
+            set { _vector.x = value; }
         }
 
         /// <summary> Gets or sets the float. </summary>
         public float Float {
-            get { return m_Vector.x; }
-            set { m_Vector.x = value; }
+            get { return _vector.x; }
+            set { _vector.x = value; }
         }
 
         /// <summary> Gets or sets the double. </summary>
         public double Double {
-            get { return (double)m_Vector.x; }
-            set { m_Vector.x = (float)value; }
+            get { return (double)_vector.x; }
+            set { _vector.x = (float)value; }
         }
 
         /// <summary> Gets or sets the vector2. </summary>
         public Vector2 Vector2 {
-            get { return (Vector2)m_Vector; }
-            set { m_Vector = (Vector4)value; }
+            get { return (Vector2)_vector; }
+            set { _vector = (Vector4)value; }
         }
 
         /// <summary> Gets or sets the vector3. </summary>
         public Vector3 Vector3 {
-            get { return (Vector3)m_Vector; }
-            set { m_Vector = (Vector4)value; }
+            get { return (Vector3)_vector; }
+            set { _vector = (Vector4)value; }
         }
 
         /// <summary> Gets or sets the vector4. </summary>
         public Vector4 Vector4 {
-            get { return m_Vector; }
-            set { m_Vector = value; }
+            get { return _vector; }
+            set { _vector = value; }
         }
 
         /// <summary> Gets or sets the color. </summary>
         public Color Color {
-            get { return m_Vector; }
-            set { m_Vector = value; }
+            get { return _vector; }
+            set { _vector = value; }
         }
 
         /// <summary> Gets or sets the quaternion. </summary>
         public Quaternion Quaternion {
             get {
                 return new Quaternion (
-              m_Vector.x,
-              m_Vector.y,
-              m_Vector.z,
-              m_Vector.w
+              _vector.x,
+              _vector.y,
+              _vector.z,
+              _vector.w
           );
             }
             set {
-                m_Vector = new Vector4 (value.x, value.y, value.z, value.w);
+                _vector = new Vector4 (value.x, value.y, value.z, value.w);
             }
         }
 
         /// <summary> Gets or sets the string. </summary>
         public string String {
-            get { return m_String; }
-            set { m_String = value; }
+            get { return _string; }
+            set { _string = value; }
         }
 
         /// <summary> Gets or sets the asset. </summary>
         public Object Asset {
-            get { return m_Object; }
-            set { m_Object = value; }
+            get { return _object; }
+            set { _object = value; }
         }
 
         /// <summary> Gets or sets the curve. </summary>
         public AnimationCurve Curve {
-            get { return m_Curve; }
-            set { m_Curve = value; }
+            get { return _curve; }
+            set { _curve = value; }
         }
 
         /// <summary> Returns true if this instance is write protected. </summary>
         public bool ReadOnly {
-            get { return m_ReadOnly; }
+            get { return _readOnly; }
         }
 
         /// <summary> Determines whether this instance is nil or void. </summary>
@@ -149,8 +149,8 @@ namespace Framework.Generics {
 
         /// <summary> Gets the hash code. </summary>
         public int HashCode {
-            get { return m_HashCode; }
-            private set { m_HashCode = value; }
+            get { return _hashCode; }
+            private set { _hashCode = value; }
         }
 
         #endregion
@@ -160,45 +160,45 @@ namespace Framework.Generics {
         #region Class Implementation
 
         public DynVar (bool m_ReadOnly = false) {
-            m_Type = DataType.Null;
-            m_Vector = Vector4.zero;
-            m_String = string.Empty;
-            m_Object = null;
-            m_Curve = new AnimationCurve ();
-            m_HashCode = -1;
-            this.m_ReadOnly = m_ReadOnly;
-            for (int i = 0; i < m_Curve.keys.Length; i++)
-                m_Curve.RemoveKey (i);
+            _type = DataType.Null;
+            _vector = Vector4.zero;
+            _string = string.Empty;
+            _object = null;
+            _curve = new AnimationCurve ();
+            _hashCode = -1;
+            this._readOnly = m_ReadOnly;
+            for (int i = 0; i < _curve.keys.Length; i++)
+                _curve.RemoveKey (i);
         }
 
         public DynVar (
-            Vector4 m_Vector,
-            string m_String,
-            AnimationCurve m_Curve,
-            Object m_Object,
-            int m_HashCode,
-            DataType m_Type,
-            bool m_ReadOnly
+            Vector4 _vector,
+            string _string,
+            AnimationCurve _curve,
+            Object _object,
+            int _hashCode,
+            DataType _type,
+            bool _readOnly
         ) {
-            this.m_Vector = m_Vector;
-            this.m_String = m_String;
-            this.m_Curve = m_Curve;
-            this.m_Object = m_Object;
-            this.m_HashCode = m_HashCode;
-            this.m_Type = m_Type;
-            this.m_ReadOnly = m_ReadOnly;
+            this._vector = _vector;
+            this._string = _string;
+            this._curve = _curve;
+            this._object = _object;
+            this._hashCode = _hashCode;
+            this._type = _type;
+            this._readOnly = _readOnly;
         }
 
         /// <summary> Clones this instance, overriding the "readonly". </summary>
         public DynVar Clone (bool readOnly) {
             DynVar v = new DynVar {
-                m_Vector = this.m_Vector,
-                m_String = this.m_String,
-                m_Curve = this.m_Curve,
-                m_Object = this.m_Object,
-                m_HashCode = this.m_HashCode,
-                m_Type = this.m_Type,
-                m_ReadOnly = readOnly
+                _vector = this._vector,
+                _string = this._string,
+                _curve = this._curve,
+                _object = this._object,
+                _hashCode = this._hashCode,
+                _type = this._type,
+                _readOnly = readOnly
             };
             return v;
         }
@@ -227,12 +227,12 @@ namespace Framework.Generics {
             if (this.ReadOnly)
                 throw new System.Exception ("Assigning on r-value");
 
-            this.m_Vector = value.m_Vector;
-            this.m_String = value.m_String;
-            this.m_Object = value.m_Object;
-            this.m_Curve = value.m_Curve;
-            this.m_Type = value.Type;
-            this.m_HashCode = -1;
+            this._vector = value._vector;
+            this._string = value._string;
+            this._object = value._object;
+            this._curve = value._curve;
+            this._type = value.Type;
+            this._hashCode = -1;
         }
 
         /// <summary> Set with the specified value. </summary>

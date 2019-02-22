@@ -97,7 +97,7 @@ namespace Framework.Generics {
 
             writer.WriteLine (System.String.Concat (
                 "\n\t/// <summary> Quickly view of all registered types. </summary>",
-                "\n\tprivate static readonly List<Type> typesList = new List<Type>{"
+                "\n\tprivate static readonly List<Type> _typesList = new List<Type>{"
             ));
             content = string.Empty;
             for (int i = 0; i < registeredTypes.Count; i++) {
@@ -115,9 +115,9 @@ namespace Framework.Generics {
             #region Set Dictionary
 
             writer.WriteLine (System.String.Concat (
-                "\n\n\t/// <summary> The set. </summary>",
+                "\n\n\t/// <summary> Dictionary of actions to set values. </summary>",
                 "\n\tprivate static readonly",
-                "\n\tDictionary<string, Dictionary<string, Action<object, object>>> set =",
+                "\n\tDictionary<string, Dictionary<string, Action<object, object>>> _set =",
                 "\n\t\tnew Dictionary<string, Dictionary<string, Action<object, object>>> {"
             ));
             content = string.Empty;
@@ -183,9 +183,9 @@ namespace Framework.Generics {
             #region Get Dictionary
 
             writer.WriteLine (System.String.Concat (
-                "\n\n\t/// <summary> The get. </summary>",
+                "\n\n\t/// <summary> Dictionary of functions to return values. </summary>",
                 "\n\tprivate static readonly",
-                "\n\tDictionary<string, Dictionary<string, Func<object, object>>> get =",
+                "\n\tDictionary<string, Dictionary<string, Func<object, object>>> _get =",
                 "\n\t\tnew Dictionary<string, Dictionary<string, Func<object, object>>> {"
             ));
 
@@ -250,29 +250,29 @@ namespace Framework.Generics {
             #region Accessors and Methods
 
             writer.WriteLine (System.String.Concat (
-                "\n\n\t/// <summary>  the array of types. </summary>",
+                "\n\n\t/// <summary>  The array of registered types. </summary>",
                 "\n\t/// <value>The array.</value>",
                 "\n\tpublic static Type[] Array {",
-                "\n\t\tget { return typesList.ToArray (); }",
+                "\n\t\tget { return _typesList.ToArray (); }",
                 "\n\t}",
                 "\n\t",
-                "\n\t/// <summary> Containses the component. </summary>",
-                "\n\t/// <returns><c>true</c>, if component was containsed.</returns>",
+                "\n\t/// <summary> Contains the component. </summary>",
+                "\n\t/// <returns><c>true</c>, if component is contained.</returns>",
                 "\n\t/// <param name=\"component\">Component.</param>",
                 "\n\tpublic static bool ContainsComponent(string component){",
                 "\n\t\treturn",
-                "\n\t\tset.ContainsKey (component) &&",
-                "\n\t\tget.ContainsKey (component);",
+                "\n\t\t_set.ContainsKey (component) &&",
+                "\n\t\t_get.ContainsKey (component);",
                 "\n\t}",
                 "\n\t",
-                "\n\t/// <summary> Containses the property. </summary>",
-                "\n\t/// <returns><c>true</c>, if property was containsed.</returns>",
+                "\n\t/// <summary> Contains the property. </summary>",
+                "\n\t/// <returns><c>true</c>, if property is contained.</returns>",
                 "\n\t/// <param name=\"component\">Component.</param>",
                 "\n\t/// <param name=\"property\">Property name.</param>",
                 "\n\tpublic static bool ContainsProperty(string component, string property) {",
                 "\n\t\treturn",
-                "\n\t\t\tset[component].ContainsKey (property) &&",
-                "\n\t\t\tget[component].ContainsKey (property);",
+                "\n\t\t\t_set[component].ContainsKey (property) &&",
+                "\n\t\t\t_get[component].ContainsKey (property);",
                 "\n\t}",
                 "\n\t",
                 "\n\t/// <summary> Gets the value. </summary>",
@@ -281,7 +281,7 @@ namespace Framework.Generics {
                 "\n\t/// <param name=\"property\">Property name.</param>",
                 "\n\tpublic static object GetValue(object component, string property) {",
                 "\n\t\ttry {",
-                "\n\t\t\treturn get[component.GetType ().ToString ()][property] (component);",
+                "\n\t\t\treturn _get[component.GetType ().ToString ()][property] (component);",
                 "\n\t\t}",
                 "\n\t\tcatch(Exception exception){",
                 "\n\t\t\tUnityEngine.Debug.LogError (exception);",
@@ -295,7 +295,7 @@ namespace Framework.Generics {
                 "\n\t/// <param name=\"value\">Value.</param>",
                 "\n\tpublic static void SetValue (object component, string property, object value) {",
                 "\n\t\ttry {",
-                "\n\t\t\tset[component.GetType ().ToString ()][property] (component, value);",
+                "\n\t\t\t_set[component.GetType ().ToString ()][property] (component, value);",
                 "\n\t\t}",
                 "\n\t\tcatch (Exception exception) {",
                 "\n\t\t\tUnityEngine.Debug.LogError (exception);",
@@ -319,125 +319,3 @@ namespace Framework.Generics {
     }
     #endif
 }
-
-
-// Original Script
-/*
-using System.Collections.Generic;
-using System;
-
-/// <summary>
-/// Registered types.
-///
-/// Since iOS cannot support System.Reflection, DynRef has to had
-/// this static class to cast values.
-///
-///
-/// <autogenerated>
-///
-/// This code was generated by a tool.
-/// Changes to this file may cause incorrect behavior and will be lost if
-/// the code is regenerated.
-///
-/// </autogenerated>
-///
-/// ----------------------------------------------------------
-/// Code generated on 2017-08-25T09:20:15.8886930-05:00
-/// ----------------------------------------------------------
-///
-/// By Javier García.
-/// </summary>
-public static class RegisteredTypes {
-
-    /// <summary> Quickly view of all registered types. </summary>
-    private static readonly List<Type> typesList = new List<Type>{
-        typeof(UnityEngine.Light)
-    };
-
-    /// <summary> The set. </summary>
-    private static readonly
-    Dictionary<string, Dictionary<string, Action<object, object>>> set =
-        new Dictionary<string, Dictionary<string, Action<object, object>>> {
-        {
-
-            #region UnityEngine.Light
-
-            "UnityEngine.Light",
-            new Dictionary<string, Action<object, object>>{
-                {"color", (component, value) => (component as UnityEngine.Light).color = (UnityEngine.Color)value }
-            }
-
-            #endregion
-        }
-    };
-
-    /// <summary> The get. </summary>
-    private static readonly
-    Dictionary<string, Dictionary<string, Func<object, object>>> get =
-        new Dictionary<string, Dictionary<string, Func<object, object>>> {
-        {
-            #region UnityEngine.Light
-
-            "UnityEngine.Light",
-            new Dictionary<string, Func<object, object>>{
-                {"color", (component) => (component as UnityEngine.Light).color}
-            }
-
-            #endregion
-        }
-    };
-
-    /// <summary>  the array of types. </summary>
-    /// <value>The array.</value>
-    public static Type[] Array {
-        get { return typesList.ToArray (); }
-    }
-
-    /// <summary> Containses the component. </summary>
-    /// <returns><c>true</c>, if component was containsed.</returns>
-    /// <param name="component">Component.</param>
-    public static bool ContainsComponent(string component){
-        return
-            set.ContainsKey (component) &&
-            get.ContainsKey (component);
-    }
-
-    /// <summary> Containses the property. </summary>
-    /// <returns><c>true</c>, if property was containsed.</returns>
-    /// <param name="component">Component.</param>
-    /// <param name="property">Property.</param>
-    public static bool ContainsProperty(string component, string property) {
-        return
-            set[component].ContainsKey (property) &&
-            get[component].ContainsKey (property);
-    }
-
-    /// <summary> Gets the value. </summary>
-    /// <returns>The value.</returns>
-    /// <param name="component">Component.</param>
-    /// <param name="property">Property name.</param>
-    public static object GetValue(object component, string property) {
-        try {
-            return get[component.GetType ().ToString ()][property] (component);
-        }
-        catch(Exception exception){
-            UnityEngine.Debug.LogError (exception);
-            return null;
-        }
-    }
-
-    /// <summary> Sets the value. </summary>
-    /// <param name="component">Component.</param>
-    /// <param name="property">Property name.</param>
-    /// <param name="value">Value.</param>
-    public static void SetValue (object component, string property, object value) {
-        try {
-            set[component.GetType ().ToString ()][property] (component, value);
-        }
-        catch (Exception exception) {
-            UnityEngine.Debug.LogError (exception);
-        }
-    }
-
-}
-*/

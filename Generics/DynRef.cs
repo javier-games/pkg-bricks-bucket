@@ -16,13 +16,13 @@ namespace Framework.Generics {
         #region Class Members
 
         [SerializeField]
-        private Object m_Component;    //  Component Reference.
+        private Object _component;    //  Component Reference.
 
         [SerializeField]
-        private string m_Property;     //  Name of the property.
+        private string _property;     //  Name of the property.
 
         [SerializeField]
-        private DynVar m_Value;        //  Value of the property.
+        private DynVar _value;        //  Value of the property.
 
         #endregion
 
@@ -32,17 +32,17 @@ namespace Framework.Generics {
 
         /// <summary> Gets the component reference. </summary>
         public Object Component {
-            get { return m_Component; }
+            get { return _component; }
         }
 
         /// <summary> Gets the property name. </summary>
         public string Property {
-            get { return m_Property; }
+            get { return _property; }
         }
 
         /// <summary> Gets the dynamic variable. </summary>
         public DynVar DynVar {
-            get { return m_Value; }
+            get { return _value; }
         }
 
         #endregion
@@ -53,30 +53,30 @@ namespace Framework.Generics {
 
         /// <summary> Initializes a new instance of the DynRef class. </summary>
         public DynRef () {
-            m_Component = null;
-            m_Property = string.Empty;
-            m_Value = DynVar.NewNull ();
+            _component = null;
+            _property = string.Empty;
+            _value = DynVar.NewNull ();
         }
 
         /// <summary> Sets the reference. </summary>
         public void SetReference (Object component) {
-            if (m_Component != component) {
-                m_Component = component;
-                m_Property = string.Empty;
-                m_Value.Type = DataType.Null;
+            if (_component != component) {
+                _component = component;
+                _property = string.Empty;
+                _value.Type = DataType.Null;
             }
         }
 
         /// <summary> Sets the property. </summary>
         public void SetProperty (string property) {
-            m_Property = property;
+            _property = property;
             UpdatedDynVar ();
         }
 
         /// <summary> Updates the dyn variable. </summary>
         public void UpdatedDynVar () {
             if (GetValue () != null)
-                m_Value.Set (GetValue ());
+                _value.Set (GetValue ());
         }
 
         /// <summary> Gets the value. </summary>

@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -37,7 +36,6 @@ namespace Framework.Generics {
         private Component [] components;             //  Reference to components.
         private int rectIndex;                      //  Curren count of rects.
         private int count;                          //  Count of fields.
-        private StreamWriter writer;                //  Writer for RegisteredTypes.cs
 
         private const float padding = 4;            //  Size of padding.
         private const string text = "Value";        //  Text to show in value.
@@ -94,9 +92,9 @@ namespace Framework.Generics {
 
 
             //  Getting the properties references.
-            SerializedProperty dynProperty = property.FindPropertyRelative ("m_Value");
-            dynRef.SetReference (property.FindPropertyRelative ("m_Component").objectReferenceValue);
-            dynRef.SetProperty (property.FindPropertyRelative ("m_Property").stringValue);
+            SerializedProperty dynProperty = property.FindPropertyRelative ("_value");
+            dynRef.SetReference (property.FindPropertyRelative ("_component").objectReferenceValue);
+            dynRef.SetProperty (property.FindPropertyRelative ("_property").stringValue);
 
             //  Drawing object field.
             dynRef.SetReference (EditorGUI.ObjectField (
@@ -166,7 +164,7 @@ namespace Framework.Generics {
                 int propIndex = 0;
                 bool inList = false;
                 for (int i = 0; i < dropdown.Count; i++)
-                    if (property.FindPropertyRelative ("m_Property").stringValue == dropdown [i]) {
+                    if (property.FindPropertyRelative ("_property").stringValue == dropdown [i]) {
                         propIndex = i;
                         inList = true;
                     }
@@ -279,13 +277,13 @@ namespace Framework.Generics {
         /// <summary> Stores the data. </summary>
         private void StoreData (SerializedProperty property, SerializedProperty dynProperty) {
 
-            property.FindPropertyRelative ("m_Component").objectReferenceValue = dynRef.Component;
-            property.FindPropertyRelative ("m_Property").stringValue = dynRef.Property;
-            dynProperty.FindPropertyRelative ("m_String").stringValue = dynRef.DynVar.String;
-            dynProperty.FindPropertyRelative ("m_Curve").animationCurveValue = dynRef.DynVar.Curve;
-            dynProperty.FindPropertyRelative ("m_Object").objectReferenceValue = dynRef.DynVar.Asset;
-            dynProperty.FindPropertyRelative ("m_Vector").vector4Value = dynRef.DynVar.Vector4;
-            dynProperty.FindPropertyRelative ("m_Type").enumValueIndex = (int)dynRef.DynVar.Type;
+            property.FindPropertyRelative ("_component").objectReferenceValue = dynRef.Component;
+            property.FindPropertyRelative ("_property").stringValue = dynRef.Property;
+            dynProperty.FindPropertyRelative ("_string").stringValue = dynRef.DynVar.String;
+            dynProperty.FindPropertyRelative ("_curve").animationCurveValue = dynRef.DynVar.Curve;
+            dynProperty.FindPropertyRelative ("_object").objectReferenceValue = dynRef.DynVar.Asset;
+            dynProperty.FindPropertyRelative ("_vector").vector4Value = dynRef.DynVar.Vector4;
+            dynProperty.FindPropertyRelative ("_type").enumValueIndex = (int)dynRef.DynVar.Type;
 
             //  Assigning count of fields shown.
             count = rectIndex;

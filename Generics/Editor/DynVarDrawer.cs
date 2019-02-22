@@ -69,11 +69,11 @@ namespace Framework.Generics {
             EditorGUI.indentLevel = indent;
 
             //  Getting the properties references.
-            dynVar.Type = (DataType)property.FindPropertyRelative ("m_Type").enumValueIndex;
-            dynVar.Vector4 = property.FindPropertyRelative ("m_Vector").vector4Value;
-            dynVar.Asset = property.FindPropertyRelative ("m_Object").objectReferenceValue;
-            dynVar.Curve = property.FindPropertyRelative ("m_Curve").animationCurveValue;
-            dynVar.String = property.FindPropertyRelative ("m_String").stringValue;
+            dynVar.Type = (DataType)property.FindPropertyRelative ("_type").enumValueIndex;
+            dynVar.Vector4 = property.FindPropertyRelative ("_vector").vector4Value;
+            dynVar.Asset = property.FindPropertyRelative ("_object").objectReferenceValue;
+            dynVar.Curve = property.FindPropertyRelative ("_curve").animationCurveValue;
+            dynVar.String = property.FindPropertyRelative ("_string").stringValue;
 
             //  Draw properties.
             dynVar.Type = (DataType)EditorGUI.EnumPopup (rectType, "DynVar", dynVar.Type);
@@ -139,11 +139,11 @@ namespace Framework.Generics {
             }
 
             //  Update properties values..
-            property.FindPropertyRelative ("m_String").stringValue = dynVar.String;
-            property.FindPropertyRelative ("m_Curve").animationCurveValue = dynVar.Curve;
-            property.FindPropertyRelative ("m_Object").objectReferenceValue = dynVar.Asset;
-            property.FindPropertyRelative ("m_Vector").vector4Value = dynVar.Vector4;
-            property.FindPropertyRelative ("m_Type").enumValueIndex = (int)dynVar.Type;
+            property.FindPropertyRelative ("_string").stringValue = dynVar.String;
+            property.FindPropertyRelative ("_curve").animationCurveValue = dynVar.Curve;
+            property.FindPropertyRelative ("_object").objectReferenceValue = dynVar.Asset;
+            property.FindPropertyRelative ("_vector").vector4Value = dynVar.Vector4;
+            property.FindPropertyRelative ("_type").enumValueIndex = (int)dynVar.Type;
 
         }
         #endregion
