@@ -16,6 +16,7 @@ namespace Framework.CameraShader {
     /// </para>
     /// </summary>
     [ExecuteInEditMode]
+    [DisallowMultipleComponent]
     [RequireComponent (typeof (Camera))]
     public class AnalogGlitch: MonoBehaviour {
 
