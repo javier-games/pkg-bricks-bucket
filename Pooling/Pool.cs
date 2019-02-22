@@ -29,25 +29,25 @@ namespace Framework.Pooling {
 
 
 
-        #region Class accessors
+        #region Class Accessors
 
         /// <summary> Gets the count of instances in the pool. </summary>
-        public int instanceCount {
+        public int InstanceCount {
             get { return _spawned.Count + _stack.Count; }
         }
 
         /// <summary> Gets the count of instances spawned. </summary>
-        public int spawnedCount {
+        public int SpawnedCount {
             get { return _spawned.Count; }
         }
 
         /// <summary> Gets the count of instances on stack. </summary>
-        public int stackCount {
+        public int StackCount {
             get { return _stack.Count; }
         }
 
         /// <summary> Gets the prefab of the pool. </summary>
-        public Pooled prefab { get; private set; }
+        public Pooled Prefab { get; private set; }
 
         #endregion
 
@@ -57,8 +57,8 @@ namespace Framework.Pooling {
 
         /// <summary> Initializes a new instance. </summary>
         public Pool (Pooled prefab) {
-            this.prefab = prefab;
-            AllocateInstance (prefab.amount);
+            Prefab = prefab;
+            AllocateInstance (prefab.Amount);
         }
 
         #endregion
@@ -91,7 +91,7 @@ namespace Framework.Pooling {
             for (int i = 0; i < count; i++) {
 
                 Pooled instance = Object.Instantiate (
-                    original: prefab.gameObject,
+                    original: Prefab.gameObject,
                     position: Vector3.zero,
                     rotation: Quaternion.identity
                 ).GetComponent<Pooled> ();
@@ -154,7 +154,7 @@ namespace Framework.Pooling {
                     "The Game Object ", 
                     gameObject.name, 
                     " is not an instance of the pool ",
-                    prefab.name,
+                    Prefab.name,
                     "."
                 ));
 
@@ -167,7 +167,7 @@ namespace Framework.Pooling {
             if(instance == null)
                 Debug.LogError (string.Concat (
                      "Trying to add a null instance to the ",
-                     prefab.name,
+                     Prefab.name,
                      " pool."
                 ));
 
@@ -189,7 +189,7 @@ namespace Framework.Pooling {
 
                 Debug.LogError (string.Concat (
                      "Trying to add an external instance to the ",
-                     prefab.name,
+                     Prefab.name,
                      " pool."
                 ));
             }
@@ -224,11 +224,14 @@ namespace Framework.Pooling {
                     "Over Request Alert: ",
                     _overRequest,
                     " extra instances of \"",
-                    prefab.name,
+                    Prefab.name,
                     "\" prefab has been requested during the game."
                 ));
         }
 
         #endregion
+
+
+
     }
 }

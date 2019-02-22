@@ -19,7 +19,7 @@ namespace Framework.Pooling {
         #region Class Members
 
         //  <summary> The pools dictionary.
-        private readonly Dictionary<Pooled, Pool> poolsDictionary
+        private readonly Dictionary<Pooled, Pool> _poolsDictionary
         = new Dictionary<Pooled, Pool>();
 
         #endregion
@@ -39,7 +39,7 @@ namespace Framework.Pooling {
 
         /// <summary> Called on destroy. </summary>
         private void OnApplicationQuit () {
-            foreach (Pool pool in poolsDictionary.Values)
+            foreach (Pool pool in _poolsDictionary.Values)
                 pool.LogOverRequest ();
         }
 
@@ -53,7 +53,7 @@ namespace Framework.Pooling {
         private static Pool GetPool(Pooled instance) {
 
             //  If the instance has not a pool.
-            return instance.pool == null ? 
+            return instance.Pool == null ? 
                         GetPoolFromPrefab (instance) :
                         GetPoolFromInstance (instance);
         }
@@ -62,8 +62,8 @@ namespace Framework.Pooling {
         private static Pool GetPoolFromInstance (Pooled instance) {
 
             //  Look for the pool in the collection.
-            if (Instance.poolsDictionary.ContainsValue (instance.pool))
-                return instance.pool;
+            if (Instance._poolsDictionary.ContainsValue (instance.Pool))
+                return instance.Pool;
 
             Debug.LogError (string.Concat(
                 "The instance ",
@@ -78,12 +78,12 @@ namespace Framework.Pooling {
         private static Pool GetPoolFromPrefab (Pooled prefab) {
 
             //  If it is a prefab with a pool return its pool.
-            if (Instance.poolsDictionary.ContainsKey (prefab))
-                return Instance.poolsDictionary [prefab];
+            if (Instance._poolsDictionary.ContainsKey (prefab))
+                return Instance._poolsDictionary [prefab];
 
             //  Else create a prefab.
             Pool pool = new Pool (prefab);
-            Instance.poolsDictionary.Add (prefab, pool);
+            Instance._poolsDictionary.Add (prefab, pool);
             return pool;
         }
 
@@ -131,27 +131,31 @@ namespace Framework.Pooling {
 
         /// <summary> Despawns all pooled objects. </summary>
         public static void DespawnAll () {
-            foreach (Pool pool in Instance.poolsDictionary.Values)
+            foreach (Pool pool in Instance._poolsDictionary.Values)
                 pool.DespawnAll ();
         }
 
         /// <summary> Deletes the specified pool. </summary>
         public static void DeletePool(Pooled prefab, bool useGC = true){
             GetPool (prefab).Clear ();
-            Instance.poolsDictionary.Remove (prefab);
+            Instance._poolsDictionary.Remove (prefab);
             if (useGC)
                 System.GC.Collect ();
         }
 
         /// <summary> Clear all pools. </summary>
         public static void Clear(bool useGC = true) {
-            foreach (Pool pool in Instance.poolsDictionary.Values)
+            foreach (Pool pool in Instance._poolsDictionary.Values)
                 pool.Clear ();
-            Instance.poolsDictionary.Clear ();
+            Instance._poolsDictionary.Clear ();
             if (useGC)
                 System.GC.Collect ();
         }
+
         #endregion
+
+
+
     }
 }
 

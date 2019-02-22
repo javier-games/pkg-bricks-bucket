@@ -11,6 +11,7 @@ namespace Framework.Pooling {
     /// Manager for pools.
     /// </para>
     /// </summary>
+    [DisallowMultipleComponent]
     public class Pooled : MonoBehaviour {
 
 
@@ -18,7 +19,7 @@ namespace Framework.Pooling {
         #region Class members
 
         [SerializeField]
-        private Pooled _prefab;      //  Original prefab reference.
+        private Pooled _prefab;         //  Original prefab reference.
 
         [SerializeField]
         private int _amount = 1;        //  Amount to be spawned.
@@ -29,12 +30,6 @@ namespace Framework.Pooling {
         [SerializeField]
         private bool _stopCoroutines;   //  Flag to skip coroutines.
 
-        private Pool        _pool;      //  Reference to the pool.
-        private GameObject  _spawner;   //  Reference to the spawner.
-
-        private Action _onSpawn;        //  Action called on spawn.
-        private Action _onDespawn;      //  Action called on despawn.
-
         #endregion
 
 
@@ -42,27 +37,37 @@ namespace Framework.Pooling {
         #region Accessors
 
         /// <summary> Gets the original prefab. </summary>
-        public Pooled prefab {
+        public Pooled Prefab {
             get { return _prefab; }
+            private set { _prefab = value; }
         }
 
         /// <summary> Gets the amount of prefab to be spawned. </summary>
-        public int amount{
+        public int Amount{
             get { return _amount; }
+            private set { _amount = value; }
+        }
+
+        /// <summary> Type of prefab.. </summary>
+        private PrefabType Type {
+            get { return _type; }
+            set { _type = value; }
+        }
+
+        /// <summary> Flag to stop coroutines. </summary>
+        private bool StopCoroutines {
+            get { return _stopCoroutines; }
+            set { _stopCoroutines = value; }
         }
 
         /// <summary> Gets the pool reference. </summary>
-        public Pool pool{
-            get { return _pool; }
-        }
+        public Pool Pool { get; private set; }
 
         /// <summary> Gets the spawner reference. </summary>
-        public GameObject spawner {
-            get { return _spawner; }
-        }
+        public GameObject Spawner { get; private set; }
 
         /// <summary> Gets or sets the parent of this transform.</summary>
-        public Transform parent{
+        public Transform Parent{
             get{
                 return transform.parent;
             }
@@ -90,16 +95,10 @@ namespace Framework.Pooling {
         }
 
         /// <summary> Gets or sets the on spawn action. </summary>
-        public Action OnSpawn {
-            get { return _onSpawn; }
-            set { _onSpawn = value; }
-        }
+        public Action OnSpawn { get; set; }
 
         /// <summary> Gets or sets the on despawn action. </summary>
-        public Action OnDespawn {
-            get { return _onDespawn; }
-            set { _onDespawn = value; }
-        }
+        public Action OnDespawn { get; set; }
 
         #endregion
 
@@ -109,8 +108,8 @@ namespace Framework.Pooling {
 
         /// <summary> Assign the pool for this prefab. </summary>
         public void AssignPool(Pool pool){
-            _pool = pool;
-            this.name = pool.prefab.name;
+            Pool = pool;
+            this.name = pool.Prefab.name;
         }
 
         /// <summary> Specifies position, rotation and parent. </summary>
@@ -122,11 +121,11 @@ namespace Framework.Pooling {
         ){
             transform.position = position;
             transform.rotation = rotation;
-            this.parent = parent;
-            _spawner = spawner;
+            Parent = parent;
+            Spawner = spawner;
             gameObject.SetActive (true);
-            if (_onSpawn != null)
-                _onSpawn.Invoke();
+            if (OnSpawn != null)
+                OnSpawn.Invoke();
         }
 
         /// <summary> Despawn this instance with a specified delay. </summary>
@@ -138,13 +137,13 @@ namespace Framework.Pooling {
         public void Despawn () {
 
             //  Move to the stack if it is not there yet.
-            if (pool != null) {
-                if (!pool.OnStack (this)) {
-                    pool.Despawn (this);
+            if (Pool != null) {
+                if (!Pool.OnStack (this)) {
+                    Pool.Despawn (this);
                     return;
                 }
             }
-            else if (prefab != null) {
+            else if (Prefab != null) {
                 
             }
             else
@@ -153,7 +152,7 @@ namespace Framework.Pooling {
 
             //  Disable the game object in scene.
             gameObject.SetActive (false);
-            parent = PoolManager.Instance.transform;
+            Parent = PoolManager.Instance.transform;
 
             //  Applying custom preferences for types.
             switch (_type){
@@ -189,8 +188,8 @@ namespace Framework.Pooling {
                 }
             }
 
-            if (_onDespawn != null)
-                _onDespawn.Invoke ();
+            if (OnDespawn != null)
+                OnDespawn.Invoke ();
         }
 
         #endregion
@@ -207,5 +206,8 @@ namespace Framework.Pooling {
         }
 
         #endregion
+
+
+
     }
 }
