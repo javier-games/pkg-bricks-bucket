@@ -2,10 +2,17 @@
 {
     Properties
     {
+        _StencilComp ("Stencil Comparison", Float) = 8
+        _Stencil ("Stencil ID", Float) = 0
+        _StencilOp ("Stencil Operation", Float) = 0
+        _StencilWriteMask ("Stencil Write Mask", Float) = 255
+        _StencilReadMask ("Stencil Read Mask", Float) = 255
+    
+        _ColorMask ("Color Mask", Float) = 15
+    
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         [HideInInspector] _RendererColor ("RendererColor", Color) = (1,1,1,1)
-        _Float ("Float", Range(0.0,10.0)) = 0.0
     }
     SubShader
     {
@@ -16,15 +23,26 @@
             "IgnoreProjector" = "True"
             "PreviewType" = "Plane"
         }
+        
+        Stencil{
+            Ref [_Stencil]
+            Comp [_StencilComp]
+            Pass [_StencilOp]
+            ReadMask [_StencilReadMask]
+            WriteMask [_StencilWriteMask]
+        }
+        
         LOD 100
 
         Cull Off
         Lighting Off
         ZWrite Off
         Blend One OneMinusSrcAlpha
-
+        ColorMask [_ColorMask]
+        
         Pass
         {
+        
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -65,8 +83,6 @@
             float4 _MainTex_ST;
             float4 _MainTex_TexelSize;
             fixed4 _Color;
-            
-            float _Float;
 
             v2f vert (appdata v)
             {

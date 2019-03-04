@@ -1,9 +1,18 @@
 ﻿Shader "Vector Graphics/Jelly" {
     Properties {
+    
+        _StencilComp ("Stencil Comparison", Float) = 8
+        _Stencil ("Stencil ID", Float) = 0
+        _StencilOp ("Stencil Operation", Float) = 0
+        _StencilWriteMask ("Stencil Write Mask", Float) = 255
+        _StencilReadMask ("Stencil Read Mask", Float) = 255
+    
+        _ColorMask ("Color Mask", Float) = 15
+    
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         _Speed ("Velocidad",Range(-100,100)) = 5
-        _Frequency ("Frecuencia",Range(0,100)) = 0
+        _Frequency ("Frecuencia",Range(0,0.01)) = 0
         _Amplitude ("Amplitud",Range(-100,100)) = 1
         [HideInInspector] _RendererColor ("RendererColor", Color) = (1,1,1,1)
     }
@@ -14,12 +23,22 @@
             "IgnoreProjector" = "True"
             "PreviewType" = "Plane"
         }
+        
+        Stencil{
+            Ref [_Stencil]
+            Comp [_StencilComp]
+            Pass [_StencilOp]
+            ReadMask [_StencilReadMask]
+            WriteMask [_StencilWriteMask]
+        }
+        
         LOD 100
 
         Cull Off
         Lighting Off
         ZWrite Off
         Blend One OneMinusSrcAlpha
+        ColorMask [_ColorMask]
 
         Pass {
             CGPROGRAM
