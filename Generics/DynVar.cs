@@ -16,7 +16,7 @@ namespace Framework.Generics {
         #region Class Members
 
         private int _hashCode = -1;         //  Hashcode of this instance.
-        protected bool _readOnly;           //  Flag to know if this is read only.
+        protected bool _readOnly;           //  Flag to know if is read only.
 
         [SerializeField]
         protected string _string;           //  String variable.
