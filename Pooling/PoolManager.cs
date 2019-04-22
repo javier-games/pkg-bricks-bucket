@@ -5,22 +5,24 @@ using Framework.Utils;
 namespace Framework.Pooling {
 
     /// <summary>
+    /// 
     /// Pool manager.
-    /// By Javier García, 2018.
     /// 
     /// <para>
-    /// Manager for pools.
+    /// Manage instances of prefabs related to the pooled component.
     /// </para>
+    /// 
+    /// <para> By Javier García, 2018. </para>
     /// </summary>
-    public sealed class PoolManager : Singleton<PoolManager> {
+    public sealed class PoolManager: Singleton<PoolManager> {
 
 
 
         #region Class Members
 
-        //  <summary> The pools dictionary.
+        /// <summary> The pools dictionary. </summary>
         private readonly Dictionary<Pooled, Pool> _poolsDictionary
-        = new Dictionary<Pooled, Pool>();
+        = new Dictionary<Pooled, Pool> ();
 
         #endregion
 
@@ -28,8 +30,8 @@ namespace Framework.Pooling {
 
         #region Class Accessors
 
-        /// <summary> Gets the pool with the specified prefab. </summary>
-        public Pool this [Pooled prefab] { get { return GetPool(prefab) ; } }
+        /// <summary> Gets the pool with the specified instance. </summary>
+        public Pool this[Pooled instance] { get { return GetPool (instance); } }
 
         #endregion
 
@@ -49,50 +51,71 @@ namespace Framework.Pooling {
 
         #region Class Implementation
 
-        //  Gets the pool.
+        /// <summary> Gets the pool for the passed instance. </summary>
+        /// <returns>The pool.</returns>
+        /// <param name="instance">Instance.</param>
         private static Pool GetPool(Pooled instance) {
 
-            //  If the instance has not a pool.
-            return instance.Pool == null ? 
-                        GetPoolFromPrefab (instance) :
-                        GetPoolFromInstance (instance);
+            //  Return if the passed instance is null.
+            if (instance == null) {
+                Debug.LogWarning ("The pooled instance is null.");
+                return null;
+            }
+
+            //  If it is a prefab with already a pool return its pool.
+            if (Instance._poolsDictionary.ContainsKey (instance))
+                return Instance._poolsDictionary[instance];
+
+            //  So it is an Instance. Return the pool if it have one.
+            if (instance.Pool != null)
+                if(Instance._poolsDictionary.ContainsValue(instance.Pool))
+                    return instance.Pool;
+
+            //  Return a pool of its prefab.
+            if (instance.Source != null) {
+
+                //  If its source alrady have a prefab return its pool.
+                if (Instance._poolsDictionary.ContainsKey (instance.Source))
+                    return Instance._poolsDictionary[instance.Source];
+
+                // Create a pool for its source.
+                Pool pool = GetPoolFromPrefab (instance.Source);
+                instance.SetPool(pool);
+                return pool;
+            }
+
+            //  Consider the instance as a prefab. Returns its pool.
+            return GetPoolFromPrefab (instance);
         }
 
-        /// <summary> Gets a pool from a instance. </summary>
-        private static Pool GetPoolFromInstance (Pooled instance) {
-
-            //  Look for the pool in the collection.
-            if (Instance._poolsDictionary.ContainsValue (instance.Pool))
-                return instance.Pool;
-
-            Debug.LogError (string.Concat(
-                "The instance ",
-                instance.name,
-                " do not belongs to any pool in the Pool Manager."
-            ));
-
-            return null;
-        }
-
-        /// <summary> Gets a pool from a prefab. </summary>
+        //  Gets a pool from a prefab.
         private static Pool GetPoolFromPrefab (Pooled prefab) {
-
-            //  If it is a prefab with a pool return its pool.
-            if (Instance._poolsDictionary.ContainsKey (prefab))
-                return Instance._poolsDictionary [prefab];
-
-            //  Else create a prefab.
+            //  Creates the pool.
             Pool pool = new Pool (prefab);
             Instance._poolsDictionary.Add (prefab, pool);
             return pool;
         }
 
         /// <summary> Spawn a new instance of the specified prefab. </summary>
+        /// <returns>The spawned instance.</returns>
+        /// <param name="prefab">Prefab.</param>
+        /// <param name="spawner">Spawner.</param>
         public static Pooled Spawn (Pooled prefab, GameObject spawner = null) {
-            return GetPool (prefab).Spawn (spawner);
+
+            if(prefab)
+                return GetPool (prefab).Spawn (spawner);
+
+            Debug.LogWarning ("Trying to Spawn from a null prefab.");
+            return null;
         }
 
         /// <summary> Spawn a new instance of the specified prefab. </summary>
+        /// <returns>The spawned instance.</returns>
+        /// <param name="prefab">Prefab.</param>
+        /// <param name="position">Position.</param>
+        /// <param name="rotation">Rotation.</param>
+        /// <param name="parent">Parent.</param>
+        /// <param name="spawner">Spawner.</param>
         public static Pooled SpawnAt (
             Pooled prefab,
             Vector3 position,
@@ -100,24 +123,39 @@ namespace Framework.Pooling {
             Transform parent = null,
             GameObject spawner = null
         ) {
-            return GetPool (prefab).SpawnAt (
-                position:   position,
-                rotation:   rotation,
-                parent:     parent,
-                spawner:    spawner
-            );
+
+            if(prefab)
+                return GetPool (prefab).SpawnAt (
+                    position: position,
+                    rotation: rotation,
+                    parent: parent,
+                    spawner: spawner
+                );
+
+            Debug.LogWarning ("Trying to Spawn from a null prefab.");
+            return null;
         }
 
         /// <summary> Despawn the specified intance. </summary>
+        /// <param name="instance">Instance to be despawned.</param>
         public static void Despawn (Pooled instance) {
-            instance.Despawn ();
+            if (instance)
+                instance.Despawn ();
+            else
+                Debug.LogWarning ("Trying to despawn a null instance.");
         }
 
         /// <summary> Despawn the specified gameObject. </summary>
+        /// <param name="gameObject">Game object to be despawned.</param>
         public static void Despawn(GameObject gameObject){
 
+            if (gameObject == null) {
+                Debug.LogWarning ("Trying to despawn a null instance.");
+                return;
+            }
+
             Pooled instance = gameObject.GetComponent<Pooled> ();
-            if (instance != null) {
+            if (instance) {
                 Despawn (instance);
                 return;
             }
@@ -136,14 +174,19 @@ namespace Framework.Pooling {
         }
 
         /// <summary> Deletes the specified pool. </summary>
-        public static void DeletePool(Pooled prefab, bool useGC = true){
-            GetPool (prefab).Clear ();
-            Instance._poolsDictionary.Remove (prefab);
+        /// <param name="prefab">Prefab.</param>
+        /// <param name="useGC">If <c>true</c> Use Garbage Collector.</param>
+        public static void DeletePool (Pooled prefab, bool useGC = true) {
+            if (Instance._poolsDictionary.ContainsKey (prefab)) {
+                Instance._poolsDictionary[prefab].Clear ();
+                Instance._poolsDictionary.Remove (prefab);
+            }
             if (useGC)
                 System.GC.Collect ();
         }
 
         /// <summary> Clear all pools. </summary>
+        /// <param name="useGC">If <c>true</c> Use Garbage Collector.</param>
         public static void Clear(bool useGC = true) {
             foreach (Pool pool in Instance._poolsDictionary.Values)
                 pool.Clear ();

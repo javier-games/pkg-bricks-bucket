@@ -4,12 +4,15 @@ using UnityEngine;
 namespace Framework.Pooling {
 
     /// <summary>
-    /// Pool manager.
-    /// By Javier García, 2018.
+    /// 
+    /// Pooled.
     /// 
     /// <para>
-    /// Manager for pools.
+    /// Helps to specified the type and number of instances to be spawned
+    /// and be managed by Pool Manager and Pool classes.
     /// </para>
+    /// 
+    /// <para>By Javier García, 2018.</para>
     /// </summary>
     [DisallowMultipleComponent]
     public class Pooled : MonoBehaviour {
@@ -19,10 +22,10 @@ namespace Framework.Pooling {
         #region Class members
 
         [SerializeField]
-        private Pooled _prefab;         //  Original prefab reference.
+        private Pooled _source;         //  Original prefab reference.
 
         [SerializeField]
-        private int _amount = 1;        //  Amount to be spawned.
+        private uint _amount = 1;       //  Amount to be spawned.
 
         [SerializeField]
         private PrefabType _type;       //  Type of prefab.
@@ -37,13 +40,13 @@ namespace Framework.Pooling {
         #region Accessors
 
         /// <summary> Gets the original prefab. </summary>
-        public Pooled Prefab {
-            get { return _prefab; }
-            private set { _prefab = value; }
+        public Pooled Source {
+            get { return _source; }
+            private set { _source = value; }
         }
 
         /// <summary> Gets the amount of prefab to be spawned. </summary>
-        public int Amount{
+        public uint Amount{
             get { return _amount; }
             private set { _amount = value; }
         }
@@ -107,12 +110,23 @@ namespace Framework.Pooling {
         #region Class Implementation
 
         /// <summary> Assign the pool for this prefab. </summary>
-        public void AssignPool(Pool pool){
+        /// <param name="pool">New pool.</param>
+        public void SetPool(Pool pool){
             Pool = pool;
             this.name = pool.Prefab.name;
         }
 
-        /// <summary> Specifies position, rotation and parent. </summary>
+        /// <summary> Sets the source. </summary>
+        /// <param name="source">Source.</param>
+        public void SetSource (Pooled source) {
+            Source = source;
+        }
+
+        /// <summary> Spawn this instance with specified parameters. </summary>
+        /// <param name="position">Position.</param>
+        /// <param name="rotation">Rotation.</param>
+        /// <param name="parent">Parent.</param>
+        /// <param name="spawner">Spawner.</param>
         public void Spawn(
             Vector3 position,
             Quaternion rotation,
@@ -129,6 +143,7 @@ namespace Framework.Pooling {
         }
 
         /// <summary> Despawn this instance with a specified delay. </summary>
+        /// <param name="delay">Delay.</param>
         public void Despawn (float delay) {
             Invoke ("Despawn", delay);
         }
@@ -136,23 +151,20 @@ namespace Framework.Pooling {
         /// <summary> Despawn this instance. </summary>
         public void Despawn () {
 
-            //  Move to the stack if it is not there yet.
-            if (Pool != null) {
-                if (!Pool.OnStack (this)) {
-                    Pool.Despawn (this);
-                    return;
-                }
+            //  Check for pool.
+            if (Pool == null) {
+                    Pool = PoolManager.Instance[this];
             }
-            else if (Prefab != null) {
-                
-            }
-            else
-                Debug.LogError ("From editor assign a prefab reference.");
 
+            //  Move to the stack if it is not there yet.
+            if (!Pool.OnStack (this)) {
+                Pool.Despawn (this);
+                return;
+            }
 
             //  Disable the game object in scene.
             gameObject.SetActive (false);
-            Parent = PoolManager.Instance.transform;
+            Parent = Pool.Root;
 
             //  Applying custom preferences for types.
             switch (_type){
@@ -198,6 +210,7 @@ namespace Framework.Pooling {
 
         #region Nested Classes
 
+        /// <summary> Prefab Types Available. </summary>
         private enum PrefabType {
             NONE,
             _3D,

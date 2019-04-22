@@ -4,11 +4,12 @@ namespace Framework.Utils {
 
     /// <summary>
     /// Singleton.
-    /// By Javier García, 2018.
     /// 
     /// <para>
     /// Generic singleton that inherits from monobehaviour.
     /// </para>
+    /// 
+    /// <para>By Javier García, 2018.</para>
     /// </summary>
     [DisallowMultipleComponent]
     public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T> {
@@ -34,8 +35,10 @@ namespace Framework.Utils {
             get {
 
                 //  Return null if the instances has been already destroyed.
-                if (didDestroyed)
+                if (didDestroyed) {
+                    Debug.LogWarning (typeof (T) + " already destroyed.");
                     return null;
+                }
 
                 //  Return InstanceForced if this has not passed for Awake.
                 if (!didAwoken && instance == null){
@@ -46,8 +49,8 @@ namespace Framework.Utils {
                      * this singleton is initialized or the execution order is
                      * wrong.
                      * 
-                     * Try to call this singleton from Start method or Instance
-                     * Forced property instead if it is necessary.
+                     * Try to call this singleton from Start method or use
+                     * Instance Forced property instead if it is necessary.
                      * 
                      * Check out the Unity's execution order of events:
                      * https://docs.unity3d.com/Manual/ExecutionOrder.html
@@ -65,8 +68,10 @@ namespace Framework.Utils {
             get {
 
                 //  Return null if the instances has been already destroyed.
-                if (didDestroyed)
+                if (didDestroyed) {
+                    Debug.LogWarning (typeof (T) + " already destroyed.");
                     return null;
+                }
 
                 //  Return this instance.
                 if (instance != null)
@@ -91,15 +96,15 @@ namespace Framework.Utils {
 
                 //  Create an instance.
                 instance = new GameObject (
-                    name:       "Temporal " + typeof (T),
+                    name: typeof (T).Name,
                     components: typeof (T)
                 ).GetComponent<T> ();
                 return instance;
             }
         }
 
-        /// <summary> Indicates whether this has an instance. </summary>
-        public static bool HasInstance{
+        /// <summary> Indicates whether this has an instance or not. </summary>
+        public static bool InstanceExist{
             get { return instance != null; }
         }
 
@@ -107,9 +112,9 @@ namespace Framework.Utils {
 
 
 
-        #region MonoBehaviour Overrides
+        #region Overrides
 
-        //  Called on awake.
+        /// <summary> Called on awake. </summary>
         protected virtual void Awake () {
             if (instance != null && this != instance)
                 Destroy (this.gameObject);
@@ -119,12 +124,14 @@ namespace Framework.Utils {
             }
         }
 
-        //  Called on destroy.
+        /// <summary> Called on destroy. </summary>
         protected virtual void OnDestroy () {
             instance = null;
             didAwoken = false;
             didDestroyed = true;
         }
+
+
 
         #endregion
     }

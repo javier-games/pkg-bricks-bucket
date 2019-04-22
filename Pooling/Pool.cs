@@ -4,12 +4,14 @@ using UnityEngine;
 namespace Framework.Pooling {
 
     /// <summary>
+    /// 
     /// Pool.
-    /// By Javier García, 2018.
     /// 
     /// <para>
-    /// Pool of instances.
+    /// Pool of instances managed by the PoolManager Class.
     /// </para>
+    /// 
+    /// <para>By Javier García, 2018.</para>
     /// </summary>
     public class Pool {
 
@@ -21,9 +23,7 @@ namespace Framework.Pooling {
         private readonly List<Pooled>   _spawned = new List<Pooled>();
 
         //  List of instances on stack.
-        private readonly List<Pooled>   _stack = new List<Pooled>();
-
-        private int                     _overRequest;    //  Extra instances.
+        private readonly Stack<Pooled>  _stack = new Stack<Pooled>();
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Framework.Pooling {
 
         /// <summary> Gets the count of instances in the pool. </summary>
         public int InstanceCount {
-            get { return _spawned.Count + _stack.Count; }
+            get { return SpawnedCount + StackCount; }
         }
 
         /// <summary> Gets the count of instances spawned. </summary>
@@ -49,6 +49,12 @@ namespace Framework.Pooling {
         /// <summary> Gets the prefab of the pool. </summary>
         public Pooled Prefab { get; private set; }
 
+        /// <summary> Gets the parent. </summary>
+        public Transform Root { get; private set; }
+
+        /// <summary> Amount of over requested instances. </summary>
+        private uint OverRequestedInstancesAmount { get; set; }
+
         #endregion
 
 
@@ -58,6 +64,13 @@ namespace Framework.Pooling {
         /// <summary> Initializes a new instance. </summary>
         public Pool (Pooled prefab) {
             Prefab = prefab;
+
+            Root = new GameObject (
+                name: string.Concat (prefab.name, " Pool")
+            ).transform;
+            Root.SetParent (PoolManager.Instance.transform);
+            Root.position = Vector3.zero;
+
             AllocateInstance (prefab.Amount);
         }
 
@@ -86,8 +99,9 @@ namespace Framework.Pooling {
 
         #endregion
 
-        // Allocates the indicated amount of instances.
-        private void AllocateInstance (int count = 1) {
+        /// <summary> Allocates the indicated amount of instances. </summary>
+        /// <param name="count">Count.</param>
+        private void AllocateInstance (uint count = 1) {
             for (int i = 0; i < count; i++) {
 
                 Pooled instance = Object.Instantiate (
@@ -96,31 +110,26 @@ namespace Framework.Pooling {
                     rotation: Quaternion.identity
                 ).GetComponent<Pooled> ();
 
-                _stack.Add (instance);
-                instance.AssignPool (this);
+                _stack.Push (instance);
+                instance.SetPool (this);
+                instance.SetSource (Prefab);
                 instance.Despawn ();
             }
         }
 
         /// <summary> Spawn an instance. </summary>
+        /// <returns>The spawn.</returns>
+        /// <param name="spawner">Spawner.</param>
         public Pooled Spawn (GameObject spawner = null) {
-
-            //  Instantiate a new instace if the stack is empty.
-            if (_stack.Count == 0) {
-                AllocateInstance ();
-                _overRequest++;
-            }
-
-            //  Spawning the first element in the list.
-            Pooled instance = _stack [0];
-            _stack.Remove (instance);
-            _spawned.Add (instance);
-            instance.Spawn (Vector3.zero, Quaternion.identity, null, spawner);
-
-            return instance;
+            return SpawnAt (Vector3.zero, Quaternion.identity, null, spawner);
         }
 
-        /// <summary> Spawns at the specified position and rotation. </summary>
+        /// <summary> Spawns at the specified parameters. </summary>
+        /// <returns>The spawned instance.</returns>
+        /// <param name="position">Position.</param>
+        /// <param name="rotation">Rotation.</param>
+        /// <param name="parent">Parent.</param>
+        /// <param name="spawner">Spawner.</param>
         public Pooled SpawnAt (
             Vector3 position,
             Quaternion rotation,
@@ -130,72 +139,56 @@ namespace Framework.Pooling {
 
             if (_stack.Count == 0) {
                 AllocateInstance ();
-                _overRequest++;
+                OverRequestedInstancesAmount++;
             }
 
             //  Spawning the first element in the list.
-            Pooled instance = _stack [0];
-            _stack.Remove (instance);
+            Pooled instance = _stack.Pop ();
             _spawned.Add (instance);
             instance.Spawn (position, rotation, parent, spawner);
 
             return instance;
         }
 
-        /// <summary> Despawn the specified gameObject. </summary>
-        public void Despawn(GameObject gameObject){
-
-            Pooled instance = gameObject.GetComponent<Pooled> ();
-
-            if (instance != null)
-                Despawn (instance);
-            else
-                Debug.LogError (string.Concat(
-                    "The Game Object ", 
-                    gameObject.name, 
-                    " is not an instance of the pool ",
-                    Prefab.name,
-                    "."
-                ));
-
-        }
-
         /// <summary> Despawn the specified instance. </summary>
+        /// <param name="instance">Instance.</param>
         public void Despawn (Pooled instance) {
 
             //  Avoid adding missing instances.
-            if(instance == null)
+            if (instance == null) {
                 Debug.LogError (string.Concat (
                      "Trying to add a null instance to the ",
                      Prefab.name,
                      " pool."
                 ));
+                return;
+            }
+
+            //  Avoid adding instances from other pools.
+            if (instance.Pool != this) {
+                instance.Despawn ();
+                return;
+            }
 
             //  Set from Spawned to Despawned.
-            else if (DidSpawned (instance)) {
+            if (DidSpawned (instance)) {
                 _spawned.Remove (instance);
-                _stack.Add (instance);
+                _stack.Push (instance);
                 instance.Despawn ();
+                return;
             }
 
             //  Trying to add a instance out of the pool.
-            else if (!OnStack (instance)) {
+            if (!OnStack (instance)) {
 
-                /* All instances from the pool has to be instatiaded by it
-                 * self to prevent the developer to add diferent types of
-                 * instances in the same pool. To create different types of
-                 * instances you must use the Pool Manager.
-                */
-
-                Debug.LogError (string.Concat (
-                     "Trying to add an external instance to the ",
-                     Prefab.name,
-                     " pool."
-                ));
+                //  A instance of the prefab found.
+                _stack.Push (instance);
+                instance.Despawn ();
+                return;
             }
 
             //  Verify the spawner becouse it is already on stack.
-            else instance.Despawn ();
+            instance.Despawn ();
         }
 
         /// <summary> Despawns all. </summary>
@@ -205,11 +198,11 @@ namespace Framework.Pooling {
         }
 
         /// <summary> Clear this pool. </summary>
+        /// <param name="useGC">If <c>true</c> Use Garbage Collector.</param>
         public void Clear (bool useGC = true) {
             DespawnAll ();
             while (_stack.Count > 0) {
-                Pooled instance = _stack [0];
-                _stack.RemoveAt (0);
+                Pooled instance = _stack.Pop ();
                 if (instance != null && instance.gameObject != null)
                     Object.Destroy (instance.gameObject);
             }
@@ -218,11 +211,12 @@ namespace Framework.Pooling {
                 System.GC.Collect ();
         }
 
+        /// <summary> Log the amount of over request instances. </summary>
         public void LogOverRequest(){
-            if (_overRequest > 0)
+            if (OverRequestedInstancesAmount > 0)
                 Debug.LogWarning (string.Concat(
                     "Over Request Alert: ",
-                    _overRequest,
+                    OverRequestedInstancesAmount,
                     " extra instances of \"",
                     Prefab.name,
                     "\" prefab has been requested during the game."
