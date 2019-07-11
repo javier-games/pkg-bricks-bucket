@@ -23,25 +23,27 @@
         Network = 8,    //  Layer for network info.
         Internal = 9,   //  Layer for BrickBucket Scripts.
     };
-}
 
-namespace BricksBucket.Pooling
-{
     /// <summary>
     ///
-    /// PrefabType Enum.
+    /// Compiler Enum.
     ///
     /// <para>
-    /// Defines the different types of prefabs for pooling.
+    /// Defines the different compiler types to Defined Symbols
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// 
+    /// <para>
+    /// Based in the UnityDefineManager by @karl-.
+    /// https://github.com/karl-/UnityDefineManager
+    /// </para>
+    /// 
     /// </summary>
-    public enum PrefabType
+    public enum Compiler
     {
-        NONE,   //  No belongs to any type.
-        _3D,    //  Type for 3D enviroment.
-        _2D,    //  Type for 2D enviroment.
-        UI      //  Type to use in UI.
+        CSharp = 0,     //  Global define symbols for C# scripts.
+        Editor = 1,     //  Global define symbols for Editor scripts.
+        Platform = 2    //  Global define symbols per platform.
     }
 }
