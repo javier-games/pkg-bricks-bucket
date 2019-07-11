@@ -1,7 +1,7 @@
 ﻿#if BRICKSBUCKET_TMPRO
 using TMPro;
 
-namespace BricksBucket.Utils
+namespace BricksBucket.TMPro
 {
     public static class TextMeshProUtils
     {
