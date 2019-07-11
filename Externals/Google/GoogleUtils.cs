@@ -1,12 +1,8 @@
-﻿#if BRICKSBUCKET_GOOGLE
-using System;
-using System.Threading;
-using System.Collections.Generic;
+﻿#if GOOGLE_BRICKS
 
+using System.Threading;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Util.Store;
-using Google.Apis.Services;
-
 using BricksBucket.Utils;
 
 namespace BricksBucket.Google

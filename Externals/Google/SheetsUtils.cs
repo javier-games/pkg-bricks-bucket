@@ -1,7 +1,12 @@
-﻿#if BRICKSBUCKET_GOOGLE && BRICKSBUCKET_GOOGLE_SHEETS
+﻿#if GOOGLE_BRICKS && GOOGLE_SHEETS_BRICKS
+
+using System;
+using System.Collections.Generic;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using BricksBucket.Google;
+using BricksBucket.Utils;
 
 namespace BricksBucket.Google.Sheets
 {
@@ -119,7 +124,7 @@ namespace BricksBucket.Google.Sheets
             }
             catch (Exception e)
             {
-                DebugUtils.LogDevException (e);
+                DebugUtils.ServicesLogException (e);
                 return null;
             }
         }
