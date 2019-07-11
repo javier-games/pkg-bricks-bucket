@@ -1,16 +1,9 @@
-﻿#if BRICKSBUCKET_GOOGLE
-using System;
-using System.Threading;
-using System.Collections.Generic;
-
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Util.Store;
-using Google.Apis.Services;
-
+﻿#if BRICKSBUCKET_GOOGLE && BRICKSBUCKET_GOOGLE_SHEETS
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
+using BricksBucket.Google;
 
-namespace BricksBucket.Utils
+namespace BricksBucket.Google.Sheets
 {
     /// <summary>
     /// 
@@ -30,47 +23,10 @@ namespace BricksBucket.Utils
     public static class GoogleUtils
     {
 
-
-
-        #region Authentication
-
-        /// <summary>
-        /// Get a User Credential.
-        /// </summary>
-        /// <param name="OAuth"></param>
-        /// <param name="path"></param>
-        /// <param name="scopes"></param>
-        /// <returns></returns>
-        public static UserCredential GetCredential (string OAuth, string path, string[] scopes)
-        {
-
-            UserCredential credential;
-            using (var stream = StringUtils.StreamFromString (OAuth))
-            {
-
-                ClientSecrets secrets = GoogleClientSecrets.Load (stream).Secrets;
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync (
-                    clientSecrets: secrets,
-                    scopes: scopes,
-                    user: secrets.ClientId,
-                    taskCancellationToken: CancellationToken.None,
-                    dataStore: new FileDataStore (path, true)
-                ).Result;
-            }
-
-            return credential;
-        }
-
-        #endregion
-
-
-
-        #region Google Sheets Api
-
         /// <summary>
         /// Return the scope for Spread Sheets.
         /// </summary>
-        public static string SheetsServiceScope
+        public static string ServiceScope
         {
             get
             {
@@ -81,7 +37,7 @@ namespace BricksBucket.Utils
         /// <summary>
         /// Return the scope for Spread Sheets as an array.
         /// </summary>
-        public static string[] SheetsServiceScopes
+        public static string[] ServiceScopes
         {
             get
             {
@@ -167,8 +123,6 @@ namespace BricksBucket.Utils
                 return null;
             }
         }
-
-        #endregion
     }
 }
 #endif
