@@ -29,7 +29,7 @@
     /// Compiler Enum.
     ///
     /// <para>
-    /// Defines the different compiler types to Defined Symbols
+    /// Defines the different compiler types to Defined Symbols.
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
@@ -45,5 +45,22 @@
         CSharp = 0,     //  Global define symbols for C# scripts.
         Editor = 1,     //  Global define symbols for Editor scripts.
         Platform = 2    //  Global define symbols per platform.
+    }
+
+    /// <summary>
+    /// 
+    /// Round Approximation Type Enum.
+    ///
+    /// <para>
+    /// Defines the different approximation types.
+    /// </para>
+    ///
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// </summary>
+    public enum RoundType
+    {
+        Round = 0,      //  Rounded to the nearest integer.
+        Ceil = 1,       //  Smallest integer greater or equal.
+        Floor = 2       //  Grater integer smallest or equal.
     }
 }
