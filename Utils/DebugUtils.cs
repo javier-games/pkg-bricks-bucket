@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace BricksBucket.Utils
 {
 
@@ -1102,6 +1106,142 @@ namespace BricksBucket.Utils
         }
 
         #endregion
+
+        #endregion
+
+
+
+        #region Editor
+
+        /// <summary> Draw bounds in scene. </summary>
+        /// <param name="mesh"></param>
+        /// <param name="color"></param>
+        public static void DrawDebugBounds (MeshFilter mesh, Color color)
+        {
+            #if UNITY_EDITOR
+            if (mesh == null)
+                return;
+            var renderer = mesh.GetComponent<MeshRenderer> ();
+            DrawDebugBounds (renderer, color);
+            #endif
+        }
+
+        /// <summary> Draw bounds in scene. </summary>
+        /// <param name="renderer"></param>
+        /// <param name="color"></param>
+        public static void DrawDebugBounds (MeshRenderer renderer, Color color)
+        {
+            #if UNITY_EDITOR
+            var bounds = renderer.bounds;
+            DrawDebugBounds (bounds, color);
+            #endif
+        }
+
+        /// <summary> Draw bounds in scene. </summary>
+        /// <param name="bounds"></param>
+        /// <param name="color"></param>
+        public static void DrawDebugBounds (Bounds bounds, Color color)
+        {
+            #if UNITY_EDITOR
+
+            var center = bounds.center;
+            var extents = bounds.extents;
+            var diff = center - extents;
+            var summ = center + extents;
+
+            //  Getting corners.
+            var frontTopLeft = new Vector3 (diff.x, summ.y, diff.z);
+            var frontTopRight = new Vector3 (summ.x, summ.y, diff.z);
+            var frontBottomLeft = new Vector3 (diff.x, diff.y, diff.z);
+            var frontBottomRight = new Vector3 (summ.x, diff.y, diff.z);
+            var backTopLeft = new Vector3 (diff.x, summ.y, summ.z);
+            var backTopRight = new Vector3 (summ.x, summ.y, summ.z);
+            var backBottomLeft = new Vector3 (diff.x, diff.y, summ.z);
+            var backBottomRight = new Vector3 (summ.x, diff.y, summ.z);
+
+            //  Drawing edges.
+            Debug.DrawLine (frontTopLeft, frontTopRight, color);
+            Debug.DrawLine (frontTopRight, frontBottomRight, color);
+            Debug.DrawLine (frontBottomRight, frontBottomLeft, color);
+            Debug.DrawLine (frontBottomLeft, frontTopLeft, color);
+
+            Debug.DrawLine (backTopLeft, backTopRight, color);
+            Debug.DrawLine (backTopRight, backBottomRight, color);
+            Debug.DrawLine (backBottomRight, backBottomLeft, color);
+            Debug.DrawLine (backBottomLeft, backTopLeft, color);
+
+            Debug.DrawLine (frontTopLeft, backTopLeft, color);
+            Debug.DrawLine (frontTopRight, backTopRight, color);
+            Debug.DrawLine (frontBottomRight, backBottomRight, color);
+            Debug.DrawLine (frontBottomLeft, backBottomLeft, color);
+            #endif
+        }
+
+        /// <summary> Draws a text in scene. </summary>
+        /// <param name="text"></param>
+        /// <param name="worldPos"></param>
+        /// <param name="color"></param>
+        public static void DrawString (string text, Vector3 worldPos, Color ? color = null)
+        {
+            #if UNITY_EDITOR
+
+            //  Setting color.
+            var defaultColor = GUI.color;
+            Handles.BeginGUI ();
+
+            if (color.HasValue)
+                GUI.color = color.Value;
+
+            //  Getting variables.
+            var view = SceneView.currentDrawingSceneView;
+            var screenPos = view.camera.WorldToScreenPoint (worldPos);
+            var size = GUI.skin.label.CalcSize (new GUIContent (text));
+
+            //  Drawing label.
+            GUI.Label (
+                position: new Rect (
+                    x: screenPos.x - (size.x / 2),
+                    y: -screenPos.y + view.position.height + 4,
+                    width: size.x,
+                    height: size.y
+                ),
+                text: text
+            );
+
+            //  Reseting color.
+            Handles.EndGUI ();
+            GUI.color = defaultColor;
+
+            #endif
+        }
+
+        /// <summary> Draws a vector in scene. </summary>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="headLength"></param>
+        /// <param name="headAngle"></param>
+        public static void DrawVector (Vector3 position, Vector3 direction, float headLength = 0.25f, float headAngle = 20.0f)
+        {
+            #if UNITY_EDITOR
+
+            //  Getting variables.
+            var forward = Vector3.forward;
+            var rotation = Quaternion.LookRotation (direction);
+            var right = Quaternion.Euler (0, 180 + headAngle, 0);
+            var left = Quaternion.Euler (0, 180 - headAngle, 0);
+
+            //  Draws de vector.
+            Debug.DrawRay (position, direction);
+            Debug.DrawRay (
+                start: position + direction,
+                dir: right * rotation * forward * headLength
+            );
+            Debug.DrawRay (
+                start: position + direction,
+                dir: left * rotation * forward * headLength
+            );
+            #endif
+        }
 
         #endregion
     }
