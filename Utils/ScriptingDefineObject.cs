@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 namespace BricksBucket.Utils
 {
     /// <summary>
-    /// 
+    ///
     /// ScriptingDefineObject.cs
     ///
     /// <para>
@@ -13,29 +13,29 @@ namespace BricksBucket.Utils
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// <para>
     /// Based in the UnityDefineManager by @karl-.
     /// https://github.com/karl-/UnityDefineManager
     /// </para>
-    /// 
+    ///
     /// </summary>
-	[SuppressMessage ("ReSharper", "NotAccessedField.Local")]
-	[SuppressMessage("ReSharper", "InconsistentNaming")]
-	public class ScriptingDefineObject : ScriptableObject
-	{
+    [SuppressMessage ("ReSharper", "NotAccessedField.Local")]
+    [SuppressMessage ("ReSharper", "InconsistentNaming")]
+    public class ScriptingDefineObject : ScriptableObject
+    {
         #region Class Members
 
         [SerializeField]
-		protected Compiler _compiler;               //  Compiler.
+        protected Compiler _compiler;               //  Compiler.
 
-		[SerializeField]
+        [SerializeField]
         protected BuildTargetGroup _buildTarget;    //  Platform.
 
-		[SerializeField]
+        [SerializeField]
         protected string[] _defines;                //  Symbols.
 
-		[SerializeField]
+        [SerializeField]
         protected bool _isApplied;                  //  Flag to apply.
 
         #endregion

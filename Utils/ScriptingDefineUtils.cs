@@ -23,7 +23,7 @@ namespace BricksBucket.Utils
     ///
     /// </summary>
     public static class ScriptingDefineUtils
-	{
+    {
 
         #region Constants
 
@@ -52,96 +52,96 @@ namespace BricksBucket.Utils
         /// <summary> Get the defined symbols. </summary>
         /// <param name="compiler"></param>
         /// <returns> Array of defined symbols. </returns>
-        public static string[] GetDefines(Compiler compiler)
-		{
-			if (compiler == Compiler.CSharp)
-				return ParseRspFile(_csharp_path);
-			if(compiler == Compiler.Editor)
-				return ParseRspFile(_editor_path);
+        public static string[] GetDefines (Compiler compiler)
+        {
+            if (compiler == Compiler.CSharp)
+                return ParseRspFile (_csharp_path);
+            if (compiler == Compiler.Editor)
+                return ParseRspFile (_editor_path);
 
-			return null;
-		}
+            return null;
+        }
 
         /// <summary> Modifies the current defined symbols. </summary>
         /// <param name="compiler"></param>
         /// <param name="defs"></param>
-		public static void SetDefines(Compiler compiler, string[] defs)
-		{
-			switch (compiler)
-			{
-				case Compiler.CSharp:
-					WriteDefines(_csharp_path, defs);
-					break;
+        public static void SetDefines (Compiler compiler, string[] defs)
+        {
+            switch (compiler)
+            {
+                case Compiler.CSharp:
+                WriteDefines (_csharp_path, defs);
+                break;
 
-				case Compiler.Editor:
-					WriteDefines(_editor_path, defs);
-					break;
-			}
+                case Compiler.Editor:
+                WriteDefines (_editor_path, defs);
+                break;
+            }
 
-			string first = Directory.GetFiles(
+            string first = Directory.GetFiles (
                 path: _assets_folder,
                 searchPattern: _script_extension,
                 searchOption: SearchOption.AllDirectories
-            ).FirstOrDefault();
+            ).FirstOrDefault ();
 
-			if(!string.IsNullOrEmpty(first))
-				AssetDatabase.ImportAsset(first);
-		}
+            if (!string.IsNullOrEmpty (first))
+                AssetDatabase.ImportAsset (first);
+        }
 
         /// <summary> Parse defined symbols from main file. </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-		public static string[] ParseRspFile(string path)
-		{
-			if (!File.Exists(path))
-				return new string[0];
+        public static string[] ParseRspFile (string path)
+        {
+            if (!File.Exists (path))
+                return new string[0];
 
-			string[] lines = File.ReadAllLines(path);
-			List<string> defs = new List<string>();
+            string[] lines = File.ReadAllLines (path);
+            List<string> defs = new List<string> ();
 
-			foreach (string line in lines)
-				if (line.StartsWith(
+            foreach (string line in lines)
+                if (line.StartsWith (
                     value: _define_declaration,
                     comparisonType: System.StringComparison.Ordinal))
-					defs.AddRange(
-                        line.Replace(
+                    defs.AddRange (
+                        line.Replace (
                             oldValue: _define_declaration,
                             newValue: string.Empty
-                        ).Split(_semicolon_char)
+                        ).Split (_semicolon_char)
                     );
 
-			return defs.ToArray();
-		}
+            return defs.ToArray ();
+        }
 
         /// <summary> Write current defines to the main file. </summary>
         /// <param name="path"></param>
         /// <param name="defs"></param>
-		public static void WriteDefines(string path, string[] defs)
-		{
-			if (defs == null || (defs.Length < 1 && File.Exists(path)))
-			{
-				File.Delete(path);
-				File.Delete(path + _meta_extension);
-				AssetDatabase.Refresh();
-				return;
-			}
+        public static void WriteDefines (string path, string[] defs)
+        {
+            if (defs == null || (defs.Length < 1 && File.Exists (path)))
+            {
+                File.Delete (path);
+                File.Delete (path + _meta_extension);
+                AssetDatabase.Refresh ();
+                return;
+            }
 
-			StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder ();
 
-			sb.Append(_define_declaration);
+            sb.Append (_define_declaration);
 
-			for (int i = 0; i < defs.Length; i++)
-			{
-				sb.Append(defs[i]);
-				if (i < defs.Length - 1)
-                    sb.Append(_semicolon_string);
-			}
+            for (int i = 0; i < defs.Length; i++)
+            {
+                sb.Append (defs[i]);
+                if (i < defs.Length - 1)
+                    sb.Append (_semicolon_string);
+            }
 
-			using (StreamWriter writer = new StreamWriter(path, false))
-			{
-				writer.Write(sb);
-			}
-		}
+            using (StreamWriter writer = new StreamWriter (path, false))
+            {
+                writer.Write (sb);
+            }
+        }
 
         #endregion
     }

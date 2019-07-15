@@ -21,20 +21,20 @@ namespace BricksBucketEditor.Utils
     /// </para>
     /// 
     /// </summary>
-	[CustomEditor (typeof(ScriptingDefineObject))]
-	public class ScriptingDefineObjectEditor : Editor
-	{
+	[CustomEditor (typeof (ScriptingDefineObject))]
+    public class ScriptingDefineObjectEditor : Editor
+    {
 
         #region Class Members
 
         const int _compilerCount = 3;
-		ReorderableList _reorderableList;
+        ReorderableList _reorderableList;
         BuildTargetGroup _currentTargetGroup;
 
         SerializedProperty _compilerProperty;
-		SerializedProperty _buildTargetProperty;
-		SerializedProperty _definesProperty;
-		SerializedProperty _isAppliedProperty;
+        SerializedProperty _buildTargetProperty;
+        SerializedProperty _definesProperty;
+        SerializedProperty _isAppliedProperty;
 
         #endregion
 
@@ -46,21 +46,21 @@ namespace BricksBucketEditor.Utils
         /// Styles
         /// </summary>
         static class Styles
-		{
-			public static GUIStyle _listContainer;
-			static bool _isInitialized;
+        {
+            public static GUIStyle _listContainer;
+            static bool _isInitialized;
 
-			public static void Init()
-			{
-				if (_isInitialized)
-					return;
-				_isInitialized = true;
-				_listContainer = new GUIStyle()
-				{
-					margin = new RectOffset(4, 4, 4, 4)
-				};
-			}
-		}
+            public static void Init ()
+            {
+                if (_isInitialized)
+                    return;
+                _isInitialized = true;
+                _listContainer = new GUIStyle ()
+                {
+                    margin = new RectOffset (4, 4, 4, 4)
+                };
+            }
+        }
 
         #endregion
 
@@ -70,19 +70,19 @@ namespace BricksBucketEditor.Utils
 
         //  Called on enable.
         void OnEnable ()
-		{
+        {
             //  Initialize properties.
-			_compilerProperty = serializedObject.FindProperty("_compiler");
-			SetCompilerTarget((Compiler) _compilerProperty.intValue);
+            _compilerProperty = serializedObject.FindProperty ("_compiler");
+            SetCompilerTarget ((Compiler) _compilerProperty.intValue);
 
             //  Initialize reorderable list.
-			_reorderableList = new ReorderableList(serializedObject, _definesProperty);
-			_reorderableList.drawHeaderCallback += OnDrawHeader;
-			_reorderableList.drawElementCallback += OnDrawListElement;
-		}
+            _reorderableList = new ReorderableList (serializedObject, _definesProperty);
+            _reorderableList.drawHeaderCallback += OnDrawHeader;
+            _reorderableList.drawElementCallback += OnDrawListElement;
+        }
 
         //  Called on disable.
-		void OnDisable()
+        void OnDisable ()
         {/*
             //  Ask for save.
             if (_isAppliedProperty != null && _isAppliedProperty.serializedObject != null)
@@ -96,7 +96,7 @@ namespace BricksBucketEditor.Utils
                     ))
                         ApplyDefines ();
                 }*/
-		}
+        }
 
         #endregion
 
@@ -105,7 +105,7 @@ namespace BricksBucketEditor.Utils
         #region Editor Methods
 
         /// <summary> Called On Inspector GUI. </summary>
-		public override void OnInspectorGUI ()
+        public override void OnInspectorGUI ()
         {
             Styles.Init ();
 
@@ -194,99 +194,99 @@ namespace BricksBucketEditor.Utils
 
         //  Change of compiler.
         void SetCompilerTarget (Compiler compiler)
-		{
-			_compilerProperty.intValue = (int) compiler;
+        {
+            _compilerProperty.intValue = (int) compiler;
 
-			_definesProperty = serializedObject.FindProperty("_defines");
-			_isAppliedProperty = serializedObject.FindProperty("_isApplied");
+            _definesProperty = serializedObject.FindProperty ("_defines");
+            _isAppliedProperty = serializedObject.FindProperty ("_isApplied");
 
-			if (_compilerProperty.intValue == (int) Compiler.Platform)
-			{
-				_buildTargetProperty = serializedObject.FindProperty("_buildTarget");
-				_currentTargetGroup = (BuildTargetGroup) _buildTargetProperty.intValue;
+            if (_compilerProperty.intValue == (int) Compiler.Platform)
+            {
+                _buildTargetProperty = serializedObject.FindProperty ("_buildTarget");
+                _currentTargetGroup = (BuildTargetGroup) _buildTargetProperty.intValue;
 
-				SetBuildTarget(_currentTargetGroup == BuildTargetGroup.Unknown
-					? BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget)
-					: _currentTargetGroup);
-			}
-			else
-			{
-				var defs = ScriptingDefineUtils.GetDefines((Compiler) _compilerProperty.intValue);
+                SetBuildTarget (_currentTargetGroup == BuildTargetGroup.Unknown
+                    ? BuildPipeline.GetBuildTargetGroup (EditorUserBuildSettings.activeBuildTarget)
+                    : _currentTargetGroup);
+            }
+            else
+            {
+                var defs = ScriptingDefineUtils.GetDefines ((Compiler) _compilerProperty.intValue);
 
-				_definesProperty.arraySize = defs.Length;
+                _definesProperty.arraySize = defs.Length;
 
-				for (int i = 0; i < defs.Length; i++)
-					_definesProperty.GetArrayElementAtIndex(i).stringValue = defs[i];
+                for (int i = 0; i < defs.Length; i++)
+                    _definesProperty.GetArrayElementAtIndex (i).stringValue = defs[i];
 
-				_isAppliedProperty.boolValue = true;
-				serializedObject.ApplyModifiedProperties();
-			}
-		}
+                _isAppliedProperty.boolValue = true;
+                serializedObject.ApplyModifiedProperties ();
+            }
+        }
 
         //  Set of building target.
-		void SetBuildTarget(BuildTargetGroup buildTarget)
-		{
-			_currentTargetGroup = buildTarget;
-			_buildTargetProperty.intValue = (int) buildTarget;
+        void SetBuildTarget (BuildTargetGroup buildTarget)
+        {
+            _currentTargetGroup = buildTarget;
+            _buildTargetProperty.intValue = (int) buildTarget;
 
-			var defs = GetScriptingDefineSymbols((BuildTargetGroup) _buildTargetProperty.enumValueIndex);
-			_definesProperty.arraySize = defs.Length;
-			for (int i = 0; i < defs.Length; i++)
-				_definesProperty.GetArrayElementAtIndex(i).stringValue = defs[i];
+            var defs = GetScriptingDefineSymbols ((BuildTargetGroup) _buildTargetProperty.enumValueIndex);
+            _definesProperty.arraySize = defs.Length;
+            for (int i = 0; i < defs.Length; i++)
+                _definesProperty.GetArrayElementAtIndex (i).stringValue = defs[i];
 
-			_isAppliedProperty.boolValue = true;
-			serializedObject.ApplyModifiedProperties();
-		}
+            _isAppliedProperty.boolValue = true;
+            serializedObject.ApplyModifiedProperties ();
+        }
 
 
-		static string[] GetScriptingDefineSymbols(BuildTargetGroup group)
-		{
-			string res = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
-			return res.Split(';');
-		}
+        static string[] GetScriptingDefineSymbols (BuildTargetGroup group)
+        {
+            string res = PlayerSettings.GetScriptingDefineSymbolsForGroup (group);
+            return res.Split (';');
+        }
 
         //  Save current changes.
-		void ApplyDefines()
-		{
-			string[] arr = new string[_definesProperty.arraySize];
+        void ApplyDefines ()
+        {
+            string[] arr = new string[_definesProperty.arraySize];
 
-			for (int i = 0, c = arr.Length; i < c; i++)
-				arr[i] = _definesProperty.GetArrayElementAtIndex(i).stringValue;
+            for (int i = 0, c = arr.Length; i < c; i++)
+                arr[i] = _definesProperty.GetArrayElementAtIndex (i).stringValue;
 
-			if(_compilerProperty.intValue == (int) Compiler.Platform)
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(_currentTargetGroup, string.Join(";", arr));
-			else
-				ScriptingDefineUtils.SetDefines((Compiler) _compilerProperty.intValue, arr);
+            if (_compilerProperty.intValue == (int) Compiler.Platform)
+                PlayerSettings.SetScriptingDefineSymbolsForGroup (_currentTargetGroup, string.Join (";", arr));
+            else
+                ScriptingDefineUtils.SetDefines ((Compiler) _compilerProperty.intValue, arr);
 
-			_isAppliedProperty.boolValue = true;
+            _isAppliedProperty.boolValue = true;
 
-			serializedObject.ApplyModifiedProperties();
+            serializedObject.ApplyModifiedProperties ();
 
-			GUI.FocusControl(string.Empty);
-		}
+            GUI.FocusControl (string.Empty);
+        }
 
         #region Callbacks
 
         //  Called on DrawHeaderCallback.
         void OnDrawHeader (Rect rect)
-		{
-			var cur = ((Compiler) _compilerProperty.intValue).ToString();
+        {
+            var cur = ((Compiler) _compilerProperty.intValue).ToString ();
 
-			if (_compilerProperty.intValue == (int) Compiler.Platform)
-				cur += " " + ((BuildTargetGroup) (_buildTargetProperty.intValue));
+            if (_compilerProperty.intValue == (int) Compiler.Platform)
+                cur += " " + ((BuildTargetGroup) (_buildTargetProperty.intValue));
 
-			GUI.Label(rect, cur.ToString(), EditorStyles.boldLabel);
-		}
+            GUI.Label (rect, cur.ToString (), EditorStyles.boldLabel);
+        }
 
         //   Called on DrawElementCallback.
         void OnDrawListElement (Rect rect, int index, bool isactive, bool isfocused)
-		{
-			var element = _reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+        {
+            var element = _reorderableList.serializedProperty.GetArrayElementAtIndex (index);
 
-			EditorGUIUtility.labelWidth = 4;
-			EditorGUI.PropertyField(new Rect(rect.x, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight), element);
-			EditorGUIUtility.labelWidth = 0;
-		}
+            EditorGUIUtility.labelWidth = 4;
+            EditorGUI.PropertyField (new Rect (rect.x, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight), element);
+            EditorGUIUtility.labelWidth = 0;
+        }
 
         #endregion
 
