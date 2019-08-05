@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using BricksBucket.Utils;
+using BricksBucket;
 
 namespace BricksBucket.Pooling
 {
@@ -171,7 +171,9 @@ namespace BricksBucket.Pooling
             //  Avoid adding missing instances.
             if (instance == null)
             {
-                DebugUtils.LogisticsLogErrorFormat (
+                DebugUtils.InternalExtendedLog (
+                    layer: LogLayer.Logistics,
+                    type: LogType.Error,
                     context: null,
                     format: StringUtils.Concat(
                         "Trying to despawn from a ",
@@ -239,7 +241,9 @@ namespace BricksBucket.Pooling
         public void LogOverRequest ()
         {
             if (OverRequestedInstancesAmount > 0)
-                DebugUtils.LogisticsLogWarningFormat (
+                DebugUtils.InternalExtendedLog (
+                    layer: LogLayer.Logistics,
+                    type: LogType.Error,
                     context: null,
                     format: StringUtils.Concat (
                         "Over Request Alert: {0} extra instances of ",

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using BricksBucket.Utils;
+using BricksBucket;
 using BricksBucket.Generics;
 
 namespace BricksBucket.Pooling
@@ -15,7 +15,7 @@ namespace BricksBucket.Pooling
     /// 
     /// <para> By Javier García | @jvrgms | 2018 </para>
     /// </summary>
-    public sealed class PoolManager : Singleton<PoolManager>
+    public sealed class PoolManager : MonoSingleton<PoolManager>
     {
 
 
@@ -33,7 +33,7 @@ namespace BricksBucket.Pooling
         #region Class Accessors
 
         /// <summary> Gets the pool with the specified instance. </summary>
-        public Pool this [Pooled reference]
+        public Pool this[Pooled reference]
         {
             get { return GetPool (reference); }
         }
@@ -65,7 +65,9 @@ namespace BricksBucket.Pooling
             //  Return if the passed instance is null.
             if (reference == null)
             {
-                DebugUtils.LogisticsLogWarningFormat (
+                DebugUtils.InternalExtendedLog (
+                    layer: LogLayer.Logistics,
+                    type: LogType.Warning,
                     context: null,
                     format: string.Empty,
                     data: "The pooled instance is null."
@@ -77,14 +79,14 @@ namespace BricksBucket.Pooling
             if (Instance._poolsDictionary.ContainsKey (reference))
                 return Instance._poolsDictionary[reference];
 
-			//  So... it is an Instance. Return the pool if it have one.
-			if (reference.Pool != null)
+            //  So... it is an Instance. Return the pool if it have one.
+            if (reference.Pool != null)
                 if (Instance._poolsDictionary.ContainsValue (reference.Pool))
                     return reference.Pool;
 
-			//  Return a pool of its prefab.
-			if (reference.Source != null)
-            { 
+            //  Return a pool of its prefab.
+            if (reference.Source != null)
+            {
                 //  If its source alrady have a prefab return its pool.
                 if (Instance._poolsDictionary.ContainsKey (reference.Source))
                     return Instance._poolsDictionary[reference.Source];
@@ -95,8 +97,8 @@ namespace BricksBucket.Pooling
                 return pool;
             }
 
-			//  Consider the instance as a prefab. Returns its pool.
-			return GetPoolFromPrefab (reference);
+            //  Consider the instance as a prefab. Returns its pool.
+            return GetPoolFromPrefab (reference);
         }
 
         //  Gets a pool from a prefab.
@@ -118,7 +120,9 @@ namespace BricksBucket.Pooling
             if (prefab)
                 return GetPool (prefab).Spawn (spawner);
 
-            DebugUtils.LogisticsLogWarningFormat (
+            DebugUtils.InternalExtendedLog (
+                layer: LogLayer.Logistics,
+                type: LogType.Warning,
                 context: null,
                 format: string.Empty,
                 data: "Trying to spawn from a null prefab."
@@ -150,7 +154,9 @@ namespace BricksBucket.Pooling
                     spawner: spawner
                 );
 
-            DebugUtils.LogisticsLogWarningFormat (
+            DebugUtils.InternalExtendedLog (
+                layer: LogLayer.Logistics,
+                type: LogType.Warning,
                 context: null,
                 format: string.Empty,
                 data: "Trying to spawn from a null prefab."
@@ -158,33 +164,37 @@ namespace BricksBucket.Pooling
             return null;
         }
 
-		/// <summary> Despawn the specified intance. </summary>
-		/// <param name="reference">Instance to be despawned.</param>
-		/// <returns> True if the gameObject has been despawned. </returns>
-		public static bool Despawn (Pooled reference)
+        /// <summary> Despawn the specified intance. </summary>
+        /// <param name="reference">Instance to be despawned.</param>
+        /// <returns> True if the gameObject has been despawned. </returns>
+        public static bool Despawn (Pooled reference)
         {
             if (reference)
-			{
-				reference.Despawn();
-				return true;
-			}
-			DebugUtils.LogisticsLogWarningFormat (
+            {
+                reference.Despawn ();
+                return true;
+            }
+            DebugUtils.InternalExtendedLog (
+                layer: LogLayer.Logistics,
+                type: LogType.Warning,
                 context: null,
                 format: string.Empty,
                 data: "Trying to despawn from a null prefab."
             );
-			return false;
+            return false;
         }
 
-		/// <summary> Despawn the specified gameObject. </summary>
-		/// <param name="gameObject">Game object to be despawned.</param>
-		/// <returns> True if the gameObject has been despawned. </returns>
-		public static bool Despawn (GameObject gameObject)
+        /// <summary> Despawn the specified gameObject. </summary>
+        /// <param name="gameObject">Game object to be despawned.</param>
+        /// <returns> True if the gameObject has been despawned. </returns>
+        public static bool Despawn (GameObject gameObject)
         {
 
             if (gameObject == null)
             {
-                DebugUtils.LogisticsLogWarningFormat (
+                DebugUtils.InternalExtendedLog (
+                    layer: LogLayer.Logistics,
+                    type: LogType.Warning,
                     context: null,
                     format: string.Empty,
                     data: "Trying to despawn a null instance."
@@ -196,12 +206,14 @@ namespace BricksBucket.Pooling
             if (reference)
                 return Despawn (reference);
 
-            DebugUtils.LogisticsLogErrorFormat (
+            DebugUtils.InternalExtendedLog (
+                layer: LogLayer.Logistics,
+                type: LogType.Warning,
                 context: gameObject,
                 format: "The game object {0} has not a pooled component.",
                 data: gameObject.name
             );
-			return false;
+            return false;
         }
 
         /// <summary> Despawns all pooled objects. </summary>

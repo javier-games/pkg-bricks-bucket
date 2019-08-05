@@ -2,12 +2,12 @@
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using BricksBucket.Pooling;
 
 
-namespace BricksBucketEditor.Pooling
+namespace BricksBucket.Pooling
 {
     /// <summary>
+    /// 
     /// Pooled Editor.
     /// 
     /// <para>
@@ -16,7 +16,8 @@ namespace BricksBucketEditor.Pooling
     /// assign the source attribute.
     /// </para>
     /// 
-    /// <para>By Javier García, 2019</para>
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// 
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor (typeof (Pooled), false)]
@@ -34,11 +35,14 @@ namespace BricksBucketEditor.Pooling
             _sourceProperty = serializedObject.FindProperty ("_source");
             _amountProperty = serializedObject.FindProperty ("_amount");
             _typeProperty = serializedObject.FindProperty ("_type");
-            _stopCoroutinesProperty = serializedObject.FindProperty ("_stopCoroutines");
+            _stopCoroutinesProperty = serializedObject.FindProperty (
+                propertyPath: "_stopCoroutines"
+            );
         }
 
 
-        /// <summary> Called on inspector GUI. </summary>
+        /// <summary> Called to return the Height of a property. </summary>
+        /// <returns> Height to draw property.</returns>
         public override void OnInspectorGUI ()
         {
 
@@ -50,7 +54,8 @@ namespace BricksBucketEditor.Pooling
                 //  Determining if the current object belongs to the scene (is a
                 //  prefab instance) or is a prefab Asset.
 
-                List<Pooled> pooledObjects = FindObjectsOfType<Pooled> ().ToList ();
+                List<Pooled> pooledObjects =
+                    FindObjectsOfType<Pooled> ().ToList ();
                 bool isInstance = pooledObjects.Contains (current);
 
                 //  TODO: There must be a way to not use FindObject Method.
@@ -67,7 +72,9 @@ namespace BricksBucketEditor.Pooling
                         case PrefabAssetType.Regular:
                         case PrefabAssetType.Variant:
                         case PrefabAssetType.Model:
-                        GameObject sourceGO = GetPrefabSource (current.gameObject);
+                        GameObject sourceGO = GetPrefabSource (
+                            instance: current.gameObject
+                        );
                         source = sourceGO.GetComponent<Pooled> ();
                         current.SetSource (source);
                         break;
@@ -93,16 +100,24 @@ namespace BricksBucketEditor.Pooling
 
         }
 
-        //  This method returns the prefab source until the most prefab
-        //  instance root that means that will look trough nested prefabs
-        //  until find the origin of this instance.
+        /// <summary>
+        /// This method returns the prefab source until the most prefab
+        /// instance root that means that will look trough nested prefabs
+        /// until find the origin of this instance.
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         private GameObject GetPrefabSource (GameObject instance)
         {
-            GameObject source = PrefabUtility.GetCorrespondingObjectFromSource (instance);
+            GameObject source = PrefabUtility.GetCorrespondingObjectFromSource (
+                componentOrGameObject: instance
+            );
             if (source == null)
                 return instance;
 
-            if (instance == PrefabUtility.GetOutermostPrefabInstanceRoot (instance))
+            if (instance == PrefabUtility.GetOutermostPrefabInstanceRoot (
+                componentOrGameObject: instance
+            ))
                 return source;
             return GetPrefabSource (source);
         }
