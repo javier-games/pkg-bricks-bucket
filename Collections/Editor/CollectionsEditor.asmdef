@@ -1,0 +1,16 @@
+{
+    "name": "CollectionsEditor",
+    "references": [
+        "GUID:8ab0e9122b4dc4d4886967aadc6b66fe",
+        "GUID:d5b2c5c4b8e454bddb435b4a4a2f0e05"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
