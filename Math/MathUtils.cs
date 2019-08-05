@@ -1,7 +1,18 @@
 ﻿using UnityEngine;
+using Enum = System.Enum;
 
-namespace BricksBucket.Utils
+namespace BricksBucket
 {
+    /// <summary>
+    /// 
+    /// Math Utils.
+    /// 
+    /// <para>
+    /// Usefull math tools.
+    /// </para>
+    /// 
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// </summary>
     public static class MathUtils
     {
 
@@ -13,12 +24,147 @@ namespace BricksBucket.Utils
         #endregion
 
 
+
+        #region General Methods
+
+        /// <summary> Swaps the value between references A and B. </summary>
+        /// <typeparam name="T"> Type of references. </typeparam>
+        /// <param name="a"> Reference A. </param>
+        /// <param name="b"> Reference B. </param>
         public static void Swap<T> (ref T a, ref T b)
         {
             T x = a;
             a = b;
             b = x;
         }
+
+        /// <summary> Loops the number with the specified increment. </summary>
+        /// <param name="current"> Current value to loop. </param>
+        /// <param name="from"> Lowest value to take. </param>
+        /// <param name="to"> Highest value to take. </param>
+        /// <param name="increment"> Increment to apply.  </param>
+        /// <returns> Next value on the loop. </returns>
+        public static int
+        Loop (int current, int from, int to, int increment = 1)
+        {
+            if (from > to)
+                Swap (ref from, ref to);
+
+            int range = to - from + 1;
+
+            if (range == 1)
+                return from;
+
+            if (current < from || current > to)
+                current = from;
+
+            if (increment.Absolute () > range)
+                increment %= range;
+
+            current += increment;
+
+            if (current > to)
+                return current - range;
+
+            if (current < from)
+                return range + current;
+
+            return current;
+        }
+
+        /// <summary> Converts an Enum Constant to its int value. </summary>
+        /// <param name="enum"> Enum Constant to convert</param>
+        /// <returns> Returns int value of an Enum constant. </returns>
+        public static int GetIntFromEnum (Enum @enum)
+        {
+            return (int) Enum.Parse (@enum.GetType (), @enum.ToString ());
+        }
+
+        #endregion
+
+
+
+        #region Int Extensions
+
+        /// <summary> Absolute Value. </summary>
+        /// <param name="x"></param>
+        /// <returns> Absolute value. </returns>
+        public static int Absolute (this int x)
+        {
+            return Mathf.Abs (x);
+        }
+
+        /// <summary> Evaluates if value is between min and max. </summary>
+        /// <param name="x"> Number to evaluate. </param>
+        /// <param name="min"> Min value to compare. </param>
+        /// <param name="max"> Max value to compare. </param>
+        /// <returns> Whether value is in range. </returns>
+        public static bool InRange (this int x, int min, int max)
+        {
+            return (x > min && x < max) ||
+                (x >= min && x > max) ||
+                (x > min && x <= max);
+        }
+
+        /// <summary> Evaluates wether x is between min and max. </summary>
+        /// <param name="x"> Number to evaluate. </param>
+        /// <param name="range"> Range to use to compare. </param>
+        /// <returns> Wether x is between min and max.</returns>
+        public static bool InRange (this int x, RangeIntSerialized range)
+        {
+            return x.InRange (range.Min, range.Max);
+        }
+
+        /// <summary> Add as layer to this numbers an int value. </summary>
+        /// <param name="mask"> Int value as mask. </param>
+        /// <param name="layer"> Int value as Layer. </param>
+        public static void AddLayerToMask (this ref int mask, Enum layer)
+        {
+            mask.AddLayerToMask (GetIntFromEnum (layer));
+        }
+
+        /// <summary> Add as layer to this numbers an int value. </summary>
+        /// <param name="mask"> Int value as mask. </param>
+        /// <param name="layer"> Int value as Layer. </param>
+        public static void AddLayerToMask (this ref int mask, int layer)
+        {
+            mask |= 1 << layer;
+        }
+
+        /// <summary> Wether an int value layer is in mask. </summary>
+        /// <param name="mask"> Int value as mask. </param>
+        /// <param name="layer"> Int value as Layer. </param>
+        public static bool MaskHasLayer (this int mask, Enum layer)
+        {
+            return mask.MaskHasLayer(GetIntFromEnum(layer));
+        }
+
+        /// <summary> Wether an int value layer is in mask. </summary>
+        /// <param name="mask"> Int value as mask. </param>
+        /// <param name="layer"> Int value as Layer. </param>
+        public static bool MaskHasLayer (this int mask, int layer)
+        {
+            return (mask & (1 << layer)) > 0;
+        }
+
+        /// <summary> Removes an int layer reference from mask. </summary>
+        /// <param name="mask"> Int value as mask. </param>
+        /// <param name="layer"> Int value as Layer. </param>
+        public static void RemoveLayerFromMask (this ref int mask, Enum layer)
+        {
+            mask.RemoveLayerFromMask (GetIntFromEnum(layer));
+        }
+
+        /// <summary> Removes an int layer reference from mask. </summary>
+        /// <param name="mask"> Int value as mask. </param>
+        /// <param name="layer"> Int value as Layer. </param>
+        public static void RemoveLayerFromMask (this ref int mask, int layer)
+        {
+            if (mask.MaskHasLayer (layer))
+                mask &= ~(1 << layer);
+        }
+
+        #endregion
 
 
         #region Float Extensions
@@ -63,209 +209,58 @@ namespace BricksBucket.Utils
         /// <returns> Whether value is in range. </returns>
         public static bool InRange (this float x, float min, float max)
         {
-            return x >= min && x < max;
+            return (x > min && x < max) ||
+                (x >= min && x > max) ||
+                (x > min && x <= max);
         }
 
-        #endregion
-
-
-
-        #region Activation Functions
-
-        /// <summary> Sign of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Evaluation: 1, 0, -1 </returns>
-        public static float Sign (float x)
+        /// <summary> Evaluates wether x is between min and max. </summary>
+        /// <param name="x"> Number to evaluate. </param>
+        /// <param name="range"> Range to use to compare. </param>
+        /// <returns> Wether x is between min and max.</returns>
+        public static bool InRange (this float x, RangeIntSerialized range)
         {
-            return x > 0 ? 1 : x < 0 ? -1 : 0;
+            return x.InRange (range.Min, range.Max);
         }
 
-        /// <summary> Binary Step of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Evaluation. </returns>
-        public static int BinaryStep(float x)
+        /// <summary> Rounds a float with the specified method. </summary>
+        /// <param name="x"> Float to convert. </param>
+        /// <param name="roundType"> Round method to use. </param>
+        /// <returns> Rounded value as int. </returns>
+        public static int
+        RoundToInt (this float x, RoundType roundType = RoundType.Round)
         {
-            return x < 0 ? 0 : 1;
+            switch (roundType)
+            {
+                case RoundType.Ceil:
+                return Mathf.CeilToInt (x);
+
+                case RoundType.Floor:
+                return Mathf.FloorToInt (x);
+
+                default:
+                return Mathf.RoundToInt (x);
+            }
         }
 
-        /// <summary> Sigmoid of x. </summary>
-        /// <param name="x"></param>
-        /// <returns>  Evaluation.  </returns>
-        public static float Sigmoid(float x)
+        /// <summary> Rounds a float with the specified method. </summary>
+        /// <param name="x"> Float to convert. </param>
+        /// <param name="roundType"> Round method to use. </param>
+        /// <returns> Rounded value. </returns>
+        public static float
+        Round (this float x, RoundType roundType = RoundType.Round)
         {
-            return Invert (1 + Mathf.Exp(-x));
-        }
+            switch (roundType)
+            {
+                case RoundType.Ceil:
+                return Mathf.Ceil (x);
 
-        /// <summary> Softsign of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Evaluation. </returns>
-        public static float SoftSign (float x)
-        {
-            return x * Invert (1 + x.Absolute());
-        }
+                case RoundType.Floor:
+                return Mathf.Floor (x);
 
-        /// <summary> Inverse Square Root Unit of x. </summary>
-        /// <param name="x"></param>
-        /// <param name="alpha"></param>
-        /// <returns> Evaluation. </returns>
-        public static float ISRU (float x, float alpha)
-        {
-            float sqrt = Mathf.Sqrt (1 + alpha + Mathf.Pow (x, 2));
-            return x * Invert (sqrt);
-        }
-
-        /// <summary> Inverse Square Root Linear Unit of x.</summary>
-        /// <param name="x"></param>
-        /// <param name="alpha"></param>
-        /// <returns> Evaluation. </returns>
-        public static float ISRLU (float x, float alpha)
-        {
-            return x < 0 ? ISRU (x, alpha) : x;
-        }
-
-        /// <summary> Rectified Linear Unit  of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Evaluation. </returns>
-        public static float ReLU (float x)
-        {
-            return x > 0 ? x : 0;
-        }
-
-        /// <summary> Sinc of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Evaluation. </returns>
-        public static float Sinc(float x)
-        {
-            return x.Approximately (0) ? 1 : Sin (x) * Invert (x);
-        }
-
-        /// <summary> Gaussian of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Evaluation. </returns>
-        public static float Gaussian (float x)
-        {
-            return Mathf.Exp (- Mathf.Pow (x, 2));
-        }
-
-
-        #endregion
-
-
-
-        #region Trigonometry Functions
-
-        /// <summary> Returns the sine of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Sine value. </returns>
-        public static float Sin (float x)
-        {
-            return Mathf.Sin (x);
-        }
-
-        /// <summary> Returns the cosine of x.. </summary>
-        /// <param name="x"></param>
-        /// <returns> Cosine value. </returns>
-        public static float Cos (float x)
-        {
-            return Mathf.Cos (x);
-        }
-
-        /// <summary> Returns the tangent of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Tangent value. </returns>
-        public static float Tan (float x)
-        {
-            return Mathf.Tan (x);
-        }
-
-        /// <summary> Returns the angle in radians whose sin is x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Angle in radians. </returns>
-        public static float Asin (float x)
-        {
-            return Mathf.Asin (x);
-        }
-
-        /// <summary> Returns the angle in radians whose cos is x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Angle in radians. </returns>
-        public static float Acos (float x)
-        {
-            return Mathf.Acos (x);
-        }
-
-        /// <summary> Returns the angle in radians whose tan is x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Angle in radians. </returns>
-        public static float Atan (float x)
-        {
-            return Mathf.Atan (x);
-        }
-
-        /// <summary> Returns the angle in radians whose tan is y/x </summary>
-        /// <param name="y"></param>
-        /// <param name="x"></param>
-        /// <returns> Angle in radians. </returns>
-        public static float Atan2 (float y, float x)
-        {
-            return Mathf.Atan2 (y, x);
-        }
-
-        /// <summary> Returns the Hyperbolic Sine of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Hyperbolic Sine Value. </returns>
-        public static float SinH (float x)
-        {
-            float expX = Mathf.Exp (x);
-            float expNX = Mathf.Exp (-x);
-            return (expX - expNX) * 0.5f;
-        }
-
-        /// <summary> Returns the tan Hyperbolic Cosine of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Hyperbolic Cosine Value. </returns>
-        public static float CosH (float x)
-        {
-            float expX = Mathf.Exp (x);
-            float expNX = Mathf.Exp (-x);
-            return (expX + expNX) * 0.5f;
-        }
-
-        /// <summary> Returns the Hyperbolic Tangent of x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Hyperbolic Tangent Value. </returns>
-        public static float TanH (float x)
-        {
-            float expX = Mathf.Exp (x);
-            float expNX = Mathf.Exp (-x);
-            return (expX - expNX) * Invert (expX + expNX);
-        }
-
-        /// <summary> Returns the angle whose Inverse SinH is x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Angle in radians. </returns>
-        public static float AsinH (float x)
-        {
-            float sqrt = Mathf.Sqrt (Mathf.Pow (x, 2) + 1);
-            return Mathf.Log (x + sqrt, Mathf.Exp (1));
-        }
-
-        /// <summary> Returns the angle whose Inverse CosH is x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Angle in radians. </returns>
-        public static float AcosH (float x)
-        {
-            float sqrt = Mathf.Sqrt (Mathf.Pow (x, 2) + 1);
-            return Mathf.Log (x - sqrt, Mathf.Exp (1));
-        }
-
-        /// <summary> Returns the angle whose Inverse TanH is x. </summary>
-        /// <param name="x"></param>
-        /// <returns> Angle in radians. </returns>
-        public static float AtanH (float x)
-        {
-            float param = (1 + x) * Invert(1 - x);
-            return 0.5f * Mathf.Log (param);
+                default:
+                return Mathf.Round (x);
+            }
         }
 
         #endregion
