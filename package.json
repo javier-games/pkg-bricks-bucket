@@ -1,0 +1,14 @@
+{
+  "name": "games.javier.bricksbucket",
+  "version": "1.0.0",
+  "displayName": "Bricks Bucket",
+  "description": "Bucket full of bricks to build something great.",
+  "unity": "2019.1",
+  "keywords": [
+  ],
+  "author": {
+    "name": "Javier García",
+    "email": "javier.game.dev@gmail.com",
+    "url": "javier.games"
+  }
+}
