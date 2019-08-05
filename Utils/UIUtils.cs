@@ -1,8 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace BricksBucket.Utils
+namespace BricksBucket
 {
+    /// <summary>
+    /// 
+    /// UI Utils.
+    /// 
+    /// <para>
+    /// Usefull tools for UI.
+    /// </para>
+    /// 
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// </summary>
     public static class UIUtils
     {
         /// <summary> Updates Unity Text Component Text. </summary>

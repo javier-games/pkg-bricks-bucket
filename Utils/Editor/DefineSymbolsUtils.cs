@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace BricksBucket.Utils
+namespace BricksBucket
 {
     /// <summary>
     ///
@@ -22,7 +22,7 @@ namespace BricksBucket.Utils
     /// </para>
     ///
     /// </summary>
-    public static class ScriptingDefineUtils
+    public static class DefineSymbolsUtils
     {
 
         #region Constants
@@ -33,15 +33,14 @@ namespace BricksBucket.Utils
          *  http://forum.unity3d.com/threads/93901-global-define/page2
          *
          */
-        const string _csharp_path = "Assets/csc.rsp";
-        const string _editor_path = "Assets/gmcs.rsp";
+        const string CSharpPath = "Assets/csc.rsp";
+        const string EditorPath = "Assets/gmcs.rsp";
 
-        const string _assets_folder = "Assets";
-        const string _script_extension = "*.cs";
-        const string _meta_extension = ".meta";
-        const string _define_declaration = "-define:";
-        const string _semicolon_string = ";";
-        const char _semicolon_char = ';';
+        const string AssetsFolder = "Assets";
+        const string CSharpExtension = "*.cs";
+        const string MetaExtension = ".meta";
+        const string DefineDeclaration = "-define:";
+        const char   SemicolonChar = ';';
 
         #endregion
 
@@ -55,9 +54,9 @@ namespace BricksBucket.Utils
         public static string[] GetDefines (Compiler compiler)
         {
             if (compiler == Compiler.CSharp)
-                return ParseRspFile (_csharp_path);
+                return ParseRspFile (CSharpPath);
             if (compiler == Compiler.Editor)
-                return ParseRspFile (_editor_path);
+                return ParseRspFile (EditorPath);
 
             return null;
         }
@@ -70,17 +69,17 @@ namespace BricksBucket.Utils
             switch (compiler)
             {
                 case Compiler.CSharp:
-                WriteDefines (_csharp_path, defs);
+                WriteDefines (CSharpPath, defs);
                 break;
 
                 case Compiler.Editor:
-                WriteDefines (_editor_path, defs);
+                WriteDefines (EditorPath, defs);
                 break;
             }
 
             string first = Directory.GetFiles (
-                path: _assets_folder,
-                searchPattern: _script_extension,
+                path: AssetsFolder,
+                searchPattern: CSharpExtension,
                 searchOption: SearchOption.AllDirectories
             ).FirstOrDefault ();
 
@@ -101,13 +100,13 @@ namespace BricksBucket.Utils
 
             foreach (string line in lines)
                 if (line.StartsWith (
-                    value: _define_declaration,
+                    value: DefineDeclaration,
                     comparisonType: System.StringComparison.Ordinal))
                     defs.AddRange (
                         line.Replace (
-                            oldValue: _define_declaration,
+                            oldValue: DefineDeclaration,
                             newValue: string.Empty
-                        ).Split (_semicolon_char)
+                        ).Split (SemicolonChar)
                     );
 
             return defs.ToArray ();
@@ -121,20 +120,20 @@ namespace BricksBucket.Utils
             if (defs == null || (defs.Length < 1 && File.Exists (path)))
             {
                 File.Delete (path);
-                File.Delete (path + _meta_extension);
+                File.Delete (path + MetaExtension);
                 AssetDatabase.Refresh ();
                 return;
             }
 
             StringBuilder sb = new StringBuilder ();
 
-            sb.Append (_define_declaration);
+            sb.Append (DefineDeclaration);
 
             for (int i = 0; i < defs.Length; i++)
             {
                 sb.Append (defs[i]);
                 if (i < defs.Length - 1)
-                    sb.Append (_semicolon_string);
+                    sb.Append (SemicolonChar);
             }
 
             using (StreamWriter writer = new StreamWriter (path, false))

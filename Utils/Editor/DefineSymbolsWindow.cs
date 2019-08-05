@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
-using BricksBucket.Utils;
 
-namespace BricksBucketEditor.Utils
+namespace BricksBucket
 {
     /// <summary>
     ///
@@ -26,10 +25,10 @@ namespace BricksBucketEditor.Utils
         #region Class Members
 
         Editor _editor;
-        ScriptingDefineObject _asset;
+        DefineSymbols _asset;
 
-        const string _menuPath = "Bricks Bucket/Scripting Define Symbol";
-        const string _menuTitle = "Define Symbol Editor";
+        const string MenuPath = "Bricks Bucket/Scripting Define Symbol";
+        const string Title = "Define Symbol Editor";
 
         #endregion
 
@@ -38,12 +37,12 @@ namespace BricksBucketEditor.Utils
         #region EditorWindow Methods
 
         //  Called on Init.
-        [MenuItem (_menuPath)]
+        [MenuItem (MenuPath)]
         static void Init ()
         {
             GetWindow<ScriptingDefineWindow> (
                 utility: true,
-                title: _menuTitle,
+                title: Title,
                 focus: true
             );
         }
@@ -51,7 +50,7 @@ namespace BricksBucketEditor.Utils
         //  Called on enable.
         void OnEnable ()
         {
-            _asset = CreateInstance<ScriptingDefineObject> ();
+            _asset = CreateInstance<DefineSymbols> ();
             _editor = Editor.CreateEditor (_asset);
         }
 

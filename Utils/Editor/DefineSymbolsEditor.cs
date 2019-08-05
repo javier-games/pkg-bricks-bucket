@@ -1,9 +1,8 @@
-﻿using UnityEditor;
+﻿using UnityEngine;
+using UnityEditor;
 using UnityEditorInternal;
-using UnityEngine;
-using BricksBucket.Utils;
 
-namespace BricksBucketEditor.Utils
+namespace BricksBucket
 {
     /// <summary>
     /// 
@@ -21,8 +20,8 @@ namespace BricksBucketEditor.Utils
     /// </para>
     /// 
     /// </summary>
-	[CustomEditor (typeof (ScriptingDefineObject))]
-    public class ScriptingDefineObjectEditor : Editor
+    [CustomEditor (typeof (DefineSymbols))]
+    public class DefineSymbolsEditor : Editor
     {
 
         #region Class Members
@@ -37,33 +36,6 @@ namespace BricksBucketEditor.Utils
         SerializedProperty _isAppliedProperty;
 
         #endregion
-
-
-
-        #region Nested Classes
-
-        /// <summary>
-        /// Styles
-        /// </summary>
-        static class Styles
-        {
-            public static GUIStyle _listContainer;
-            static bool _isInitialized;
-
-            public static void Init ()
-            {
-                if (_isInitialized)
-                    return;
-                _isInitialized = true;
-                _listContainer = new GUIStyle ()
-                {
-                    margin = new RectOffset (4, 4, 4, 4)
-                };
-            }
-        }
-
-        #endregion
-
 
 
         #region MonoBehaviour Methods
@@ -107,7 +79,6 @@ namespace BricksBucketEditor.Utils
         /// <summary> Called On Inspector GUI. </summary>
         public override void OnInspectorGUI ()
         {
-            Styles.Init ();
 
             serializedObject.Update ();
 
@@ -149,7 +120,7 @@ namespace BricksBucketEditor.Utils
 
             if (_compilerProperty.intValue == (int) Compiler.Platform)
             {
-                var cur = ((BuildTargetGroup) (_buildTargetProperty.intValue));
+                var cur = (BuildTargetGroup) _buildTargetProperty.intValue;
 
                 GUILayout.Space (3);
 
@@ -159,14 +130,21 @@ namespace BricksBucketEditor.Utils
                     SetBuildTarget (cur);
             }
 
+
             EditorGUI.BeginChangeCheck ();
 
-            GUILayout.BeginVertical (Styles._listContainer);
+            GUILayout.BeginVertical (new GUIStyle 
+            {
+                margin = new RectOffset (4, 4, 4, 4)
+            });
 
             _reorderableList.DoLayoutList ();
             _isAppliedProperty.boolValue &= !EditorGUI.EndChangeCheck ();
 
             GUILayout.EndVertical ();
+
+
+
 
             GUILayout.BeginHorizontal ();
 
@@ -211,7 +189,7 @@ namespace BricksBucketEditor.Utils
             }
             else
             {
-                var defs = ScriptingDefineUtils.GetDefines ((Compiler) _compilerProperty.intValue);
+                var defs = DefineSymbolsUtils.GetDefines ((Compiler) _compilerProperty.intValue);
 
                 _definesProperty.arraySize = defs.Length;
 
@@ -256,7 +234,7 @@ namespace BricksBucketEditor.Utils
             if (_compilerProperty.intValue == (int) Compiler.Platform)
                 PlayerSettings.SetScriptingDefineSymbolsForGroup (_currentTargetGroup, string.Join (";", arr));
             else
-                ScriptingDefineUtils.SetDefines ((Compiler) _compilerProperty.intValue, arr);
+                DefineSymbolsUtils.SetDefines ((Compiler) _compilerProperty.intValue, arr);
 
             _isAppliedProperty.boolValue = true;
 
@@ -275,7 +253,7 @@ namespace BricksBucketEditor.Utils
             if (_compilerProperty.intValue == (int) Compiler.Platform)
                 cur += " " + ((BuildTargetGroup) (_buildTargetProperty.intValue));
 
-            GUI.Label (rect, cur.ToString (), EditorStyles.boldLabel);
+            GUI.Label (rect, cur, EditorStyles.boldLabel);
         }
 
         //   Called on DrawElementCallback.
@@ -284,12 +262,15 @@ namespace BricksBucketEditor.Utils
             var element = _reorderableList.serializedProperty.GetArrayElementAtIndex (index);
 
             EditorGUIUtility.labelWidth = 4;
-            EditorGUI.PropertyField (new Rect (rect.x, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight), element);
+            EditorGUI.PropertyField (new Rect (rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), element);
             EditorGUIUtility.labelWidth = 0;
         }
 
         #endregion
 
         #endregion
+
+
+
     }
 }

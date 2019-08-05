@@ -1,8 +1,17 @@
 ﻿using UnityEngine;
 
-namespace BricksBucket.Utils
+namespace BricksBucket
 {
-
+    /// <summary>
+    /// 
+    /// Unity Utils.
+    /// 
+    /// <para>
+    /// Usefull general unity tools.
+    /// </para>
+    /// 
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// </summary>
     public static class UnityUtils
     {
 

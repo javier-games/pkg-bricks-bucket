@@ -1,4 +1,4 @@
-﻿namespace BricksBucket.Utils
+﻿namespace BricksBucket 
 {
     /// <summary>
     ///
@@ -9,6 +9,7 @@
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// 
     /// </summary>
     public enum LogLayer
     {
@@ -21,7 +22,8 @@
         Services = 6,   //  Layer for external services implementations.
         DataBase = 7,   //  Layer for data base info.
         Network = 8,    //  Layer for network info.
-        Internal = 9,   //  Layer for BrickBucket Scripts.
+        Editor = 9,     //  Layer for editor scripts.
+        Internal = 10,  //  Layer for BrickBucket Scripts.
     };
 
     /// <summary>
@@ -56,6 +58,7 @@
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// 
     /// </summary>
     public enum RoundType
     {

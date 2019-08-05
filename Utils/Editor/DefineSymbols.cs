@@ -1,12 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
-namespace BricksBucket.Utils
+namespace BricksBucket
 {
     /// <summary>
     ///
-    /// ScriptingDefineObject.cs
+    /// DefineSymbols.cs
     ///
     /// <para>
     /// Stores the information of defined symbols.
@@ -20,9 +19,7 @@ namespace BricksBucket.Utils
     /// </para>
     ///
     /// </summary>
-    [SuppressMessage ("ReSharper", "NotAccessedField.Local")]
-    [SuppressMessage ("ReSharper", "InconsistentNaming")]
-    public class ScriptingDefineObject : ScriptableObject
+    public class DefineSymbols : ScriptableObject
     {
         #region Class Members
 
