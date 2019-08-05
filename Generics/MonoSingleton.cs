@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using BricksBucket.Utils;
 
 namespace BricksBucket.Generics
 {
@@ -14,7 +13,7 @@ namespace BricksBucket.Generics
     /// <para> By Javier García | @jvrgms | 2018 </para>
     /// </summary>
     [DisallowMultipleComponent]
-    public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
+    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
 
 
@@ -42,8 +41,9 @@ namespace BricksBucket.Generics
                 //  Return null if the instances has been already destroyed.
                 if (_didDestroyed)
                 {
-                    DebugUtils.InternalLogWarningFormat (
+                    DebugUtils.InternalExtendedLog (
                         layer: LogLayer.Logistics,
+                        type: LogType.Warning,
                         context: null,
                         format: "{0} singleton has been already destroyed.",
                         data: typeof(T)
@@ -68,8 +68,9 @@ namespace BricksBucket.Generics
                 if (_instance != null)
                     return _instance;
 
-                DebugUtils.InternalLogWarningFormat (
+                DebugUtils.InternalExtendedLog (
                     layer: LogLayer.Logistics,
+                    type: LogType.Warning,
                     context: null,
                     format: "{0} singleton has been forced.",
                     data: typeof (T)
@@ -91,8 +92,9 @@ namespace BricksBucket.Generics
                 _instance = FindObjectOfType (typeof (T)) as T;
 
                 if (FindObjectsOfType (typeof (T)).Length > 1)
-                    DebugUtils.InternalLogWarningFormat (
+                    DebugUtils.InternalExtendedLog (
                         layer: LogLayer.Logistics,
+                        type: LogType.Warning,
                         context: _instance,
                         format: "Various instances of {0} singleton found.",
                         data: typeof (T)
