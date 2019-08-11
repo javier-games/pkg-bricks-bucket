@@ -185,7 +185,8 @@ namespace BricksBucket
 
             #region Constructor
 
-            /// <summary> Creates a new instance to wait. </summary>
+            /// <summary> Suspends the coroutine execution for the given
+            /// amount of seconds without using scaled time. </summary>
             /// <param name="waitTime"> Time in seconds to wait. </param>
             public WaitForUnscaledSeconds (float waitTime)
             {
