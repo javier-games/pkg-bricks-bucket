@@ -4,13 +4,13 @@ using UnityEngine.UI;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// UI Utils.
-    /// 
+    ///
     /// <para>
     /// Usefull tools for UI.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     /// </summary>
     public static class UIUtils

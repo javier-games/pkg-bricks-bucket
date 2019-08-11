@@ -4,20 +4,20 @@ using UnityEngine;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Sprite Layer Attribute Drawer.
-    /// 
+    ///
     /// <para>
     /// Editor tool to draw Popup with sprite layers available.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
 	[CustomPropertyDrawer (typeof(SpriteLayerAttribute))]
 	public class SpriteLayerAttributeDrawer : PropertyDrawer

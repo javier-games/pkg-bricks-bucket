@@ -8,20 +8,20 @@ using UnityEngine;
 namespace BricksBucket.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// Array Drawer Base.
-    /// 
+    ///
     /// <para>
     /// Base of an array drawer.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     public abstract class ArrayDrawerBase : DecoratorDrawer
     {

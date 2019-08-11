@@ -7,21 +7,21 @@ namespace BricksBucket
 {
 
     /// <summary>
-    /// 
+    ///
     /// Searchable PopUp Attribute.
-    /// 
+    ///
     /// <para>
     /// A popup window that displays a list of options and may use a search
-    /// string to filter the displayed content. 
+    /// string to filter the displayed content.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityEditorJunkie project by @roboryantron.
     /// https://github.com/roboryantron/UnityEditorJunkie
     /// </para>
-    /// 
+    ///
     /// </summary>
     public class SearchablePopup : PopupWindowContent
     {
@@ -48,7 +48,7 @@ namespace BricksBucket
 
         /// <summary>
         /// Container for all available options that does the actual string
-        /// filtering of the content.  
+        /// filtering of the content.
         /// </summary>
         private readonly FilteredList list;
 
@@ -424,7 +424,7 @@ namespace BricksBucket
 
             #endregion
 
-            #region FilteredList Nested Classes 
+            #region FilteredList Nested Classes
 
             /// <summary>
             /// An entry in the filtered list, mapping the text to the

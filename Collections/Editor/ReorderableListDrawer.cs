@@ -11,20 +11,20 @@ using Object = UnityEngine.Object;
 namespace BricksBucket.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// Reorderable List Drawer.
-    /// 
+    ///
     /// <para>
     /// Custom Property Drawer for attribute..
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof (ReorderableListAttribute))]
     public class ReorderableListDrawer : ArrayDrawer

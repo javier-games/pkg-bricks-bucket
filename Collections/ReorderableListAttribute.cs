@@ -5,20 +5,20 @@ using BricksBucket.Collections;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Reorderable List Attribute.
-    /// 
+    ///
     /// <para>
     /// Attribute to show list as reorderable.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class ReorderableListAttribute : PropertyAttribute

@@ -8,17 +8,17 @@ namespace BricksBucket
 {
 
     /// <summary>
-    /// 
+    ///
     /// Debug Utils.
-    /// 
+    ///
     /// <para>
     /// Usefull utilities for debuging.
     /// - Debug.Log Methods visible only in debug mode and unity editor.
     /// - Filter System to show only desired messages.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     public static class DebugUtils
     {

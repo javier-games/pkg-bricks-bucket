@@ -4,32 +4,32 @@ using UnityEngine;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Auto Property Attribute.
-    /// 
+    ///
     /// <para>
     /// Automatically assign components to the Game Object
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class AutoPropertyAttribute : PropertyAttribute { }
 
     /// <summary>
-    /// 
+    ///
     /// Button Method Attribute.
-    /// 
+    ///
     /// <para>
-    /// 
+    ///
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -41,26 +41,26 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Method)]
     public class ButtonMethodAttribute : PropertyAttribute { }
 
     /// <summary>
-    /// 
+    ///
     /// Conditional Field Attribute.
-    /// 
+    ///
     /// <para>
     /// Hides or show the property according to other property.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class ConditionalFieldAttribute : PropertyAttribute
@@ -102,20 +102,20 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Defined Values Attribute.
-    /// 
+    ///
     /// <para>
     /// Creates Popup with predefined values for string, int or float property.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class DefinedValuesAttribute : PropertyAttribute
@@ -143,53 +143,53 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Sprite Layer Attribute.
-    /// 
+    ///
     /// <para>
     /// Creates Popup with sprite layers available.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class SpriteLayerAttribute : PropertyAttribute { }
 
     /// <summary>
-    /// 
+    ///
     /// Layer Attribute.
-    /// 
+    ///
     /// <para>
     /// Shows an int field as LayerMask.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class LayerAttribute : PropertyAttribute { }
 
     /// <summary>
-    /// 
+    ///
     /// Custom Layer Attribute.
-    /// 
+    ///
     /// <para>
     /// Shows an int field as a mask for enums.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class CustomMaskAttribute : PropertyAttribute
@@ -217,13 +217,13 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Tag Attribute.
-    /// 
+    ///
     /// <para>
     /// Shows an int field as LayerMask.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -235,19 +235,19 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class TagAttribute : PropertyAttribute { }
 
     /// <summary>
-    /// 
+    ///
     /// Tag Attribute.
-    /// 
+    ///
     /// <para>
     /// Shows an int field as LayerMask.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -259,7 +259,7 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     public class MinMaxRangeAttribute : Attribute
     {
@@ -291,13 +291,13 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Positive Value Only Attribute.
-    /// 
+    ///
     /// <para>
     /// Constrains the value to be positive only.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -309,46 +309,46 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class PositiveValueOnlyAttribute : PropertyAttribute { }
 
     /// <summary>
-    /// 
+    ///
     /// Positive Value Only Attribute.
-    /// 
+    ///
     /// <para>
     /// Constrins the value to be positive only.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class DisplayOnlyAttribute : PropertyAttribute { }
 
     /// <summary>
-    /// 
+    ///
     /// Searchable Enum Attribute.
-    /// 
+    ///
     /// <para>
     /// Improved enum selector popup. The enum list is scrollable and
     /// can be filtered by typing.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityEditorJunkie project by @roboryantron.
     /// https://github.com/roboryantron/UnityEditorJunkie
     /// </para>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class SearchableEnumAttribute : PropertyAttribute { }

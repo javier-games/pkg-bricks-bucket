@@ -4,13 +4,13 @@ using UnityEngine;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Positive Value Only Attribute Drawer
-    /// 
+    ///
     /// <para>
     /// Draws and help to not use negative values on numeric properties.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -22,7 +22,7 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof(PositiveValueOnlyAttribute))]
 	public class PositiveValueOnlyAttributeDrawer : PropertyDrawer

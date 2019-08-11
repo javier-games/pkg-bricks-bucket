@@ -6,20 +6,20 @@ using UnityEditor;
 namespace BricksBucket.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// Reorderable List of Structures.
-    /// 
+    ///
     /// <para>
     /// Implementation of a reorderable lis of values to draw structures.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     internal class ReorderableListOfStructures : ReorderableListOfValues
     {
@@ -34,7 +34,7 @@ namespace BricksBucket.Collections
 
 
 
-        #region Accessors 
+        #region Accessors
 
         /// <summary> Wether or not show element header. </summary>
         public override bool ShowElementHeader

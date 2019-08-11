@@ -4,21 +4,21 @@ using UnityEditor;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Searchable PopUp Attribute.
-    /// 
+    ///
     /// <para>
     /// Draws the custom enum selector popup for enum fields using the
     /// SearchableEnumAttribute.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityEditorJunkie project by @roboryantron.
     /// https://github.com/roboryantron/UnityEditorJunkie
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof (SearchableEnumAttribute))]
     public class SearchableEnumAttributeDrawer : PropertyDrawer

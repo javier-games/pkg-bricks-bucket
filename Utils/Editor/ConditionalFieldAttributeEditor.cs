@@ -5,21 +5,21 @@ using UnityEditor;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Conditional Field Attribute Drawer.
-    /// 
+    ///
     /// <para>
     /// Drawer for properties to hide or show the property according to
     /// other property.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
 	[CustomPropertyDrawer (typeof(ConditionalFieldAttribute))]
 	public class ConditionalFieldAttributeDrawer : PropertyDrawer
@@ -165,7 +165,7 @@ namespace BricksBucket
                 _warnings.Add (arrayProperty.exposedReferenceValue);
                 return null;
             }
-            
+
             return parent.FindPropertyRelative (toFind);
         }
 

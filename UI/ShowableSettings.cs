@@ -31,7 +31,7 @@ public class ShowableSettings : ScriptableObject
 
     /// <summary> Properties to animate. </summary>
     [SerializeField]
-    protected int _animatableProperties;
+    private int _animatableProperties;
 
 
     #region Show Parameters
@@ -130,15 +130,15 @@ public class ShowableSettings : ScriptableObject
 
     /// <summary> Automatic show settings. </summary>
     [SerializeField]
-    protected AutoShowChildrenType _autoShowChildren = AutoShowChildrenType.None;
+    private AutoShowChildrenType _autoShowChildren = AutoShowChildrenType.None;
 
     /// <summary> Automatic hide settings. </summary>
     [SerializeField]
-    protected AutoHideChildrenType _autoHideChildren = AutoHideChildrenType.None;
+    private AutoHideChildrenType _autoHideChildren = AutoHideChildrenType.None;
 
     /// <summary> Wether to use sequence. </summary>
     [SerializeField]
-    protected bool _useSequence;
+    private bool _useSequence;
 
     /// <summary> Sequence to show children. </summary>
     [SerializeField]
@@ -179,51 +179,6 @@ public class ShowableSettings : ScriptableObject
         set { _showableType = value; }
     }
 
-    /// <summary> Parameters of show animation. </summary>
-    public TransformShowableParameters Show
-    {
-        get {
-            return new TransformShowableParameters
-            {
-                duration = _showDuration,
-                ease = _showEaseType,
-                animation = _showAnimation,
-                offsetPosition = _showOffsetPosition,
-                offsetRosition = _showOffsetRosition,
-                scale = _showScale,
-                alpha = _showAlpha,
-                overrideAnimation = _showOverrideAnimation,
-                overridePositionAnimation = _showOverridePositionAnimation,
-                overrideRotationAnimation = _showOverrideRotationAnimation,
-                overrideScaleAnimation = _showScaleAnimation,
-                overrideAlphaAnimation = _showAlphaAnimation
-            };
-        }
-    }
-
-    /// <summary> Parameters of hide animation. </summary>
-    public TransformShowableParameters Hide
-    {
-        get
-        {
-            return new TransformShowableParameters
-            {
-                duration = _hideDuration,
-                ease = _hideEaseType,
-                animation = _hideAnimation,
-                offsetPosition = _hideOffsetPosition,
-                offsetRosition = _hideOffsetRosition,
-                scale = _hideScale,
-                alpha = _hideAlpha,
-                overrideAnimation = _hideOverrideAnimation,
-                overridePositionAnimation = _hideOverridePositionAnimation,
-                overrideRotationAnimation = _hideOverrideRotationAnimation,
-                overrideScaleAnimation = _hideScaleAnimation,
-                overrideAlphaAnimation = _hideAlphaAnimation
-            };
-        }
-    }
-
     /// <summary> Wether to ignore the show sequence of the parent. </summary>
     public bool IgnoreParent
     {
@@ -257,6 +212,82 @@ public class ShowableSettings : ScriptableObject
     {
         get { return _animatableProperties; }
         set { _animatableProperties = value; }
+    }
+
+    /// <summary> Parameters of show animation. </summary>
+    public TransformShowableParameters Show
+    {
+        get
+        {
+            return new TransformShowableParameters
+            {
+                duration = _showDuration,
+                ease = _showEaseType,
+                animation = _showAnimation,
+                offsetPosition = _showOffsetPosition,
+                offsetRosition = _showOffsetRosition,
+                scale = _showScale,
+                alpha = _showAlpha,
+                overrideAnimation = _showOverrideAnimation,
+                overridePositionAnimation = _showOverridePositionAnimation,
+                overrideRotationAnimation = _showOverrideRotationAnimation,
+                overrideScaleAnimation = _showScaleAnimation,
+                overrideAlphaAnimation = _showAlphaAnimation
+            };
+        }
+        set
+        {
+            _showDuration = value.duration;
+            _showEaseType = value.ease;
+            _showAnimation = value.animation;
+            _showOffsetPosition = value.offsetPosition;
+            _showOffsetRosition = value.offsetRosition;
+            _showScale = value.scale;
+            _showAlpha = value.alpha;
+            _showOverrideAnimation = value.overrideAnimation;
+            _showOverridePositionAnimation = value.overridePositionAnimation;
+            _showOverrideRotationAnimation = value.overrideRotationAnimation;
+            _showScaleAnimation = value.overrideScaleAnimation;
+            _showAlphaAnimation = value.overrideAlphaAnimation;
+        }
+    }
+
+    /// <summary> Parameters of hide animation. </summary>
+    public TransformShowableParameters Hide
+    {
+        get
+        {
+            return new TransformShowableParameters
+            {
+                duration = _hideDuration,
+                ease = _hideEaseType,
+                animation = _hideAnimation,
+                offsetPosition = _hideOffsetPosition,
+                offsetRosition = _hideOffsetRosition,
+                scale = _hideScale,
+                alpha = _hideAlpha,
+                overrideAnimation = _hideOverrideAnimation,
+                overridePositionAnimation = _hideOverridePositionAnimation,
+                overrideRotationAnimation = _hideOverrideRotationAnimation,
+                overrideScaleAnimation = _hideScaleAnimation,
+                overrideAlphaAnimation = _hideAlphaAnimation
+            };
+        }
+        set
+        {
+            _hideDuration = value.duration;
+            _hideEaseType = value.ease;
+            _hideAnimation = value.animation;
+            _hideOffsetPosition = value.offsetPosition;
+            _hideOffsetRosition = value.offsetRosition;
+            _hideScale = value.scale;
+            _hideAlpha = value.alpha;
+            _hideOverrideAnimation = value.overrideAnimation;
+            _hideOverridePositionAnimation = value.overridePositionAnimation;
+            _hideOverrideRotationAnimation = value.overrideRotationAnimation;
+            _hideScaleAnimation = value.overrideScaleAnimation;
+            _hideAlphaAnimation = value.overrideAlphaAnimation;
+        }
     }
 
     /// <summary> Wether or not to animate position. </summary>

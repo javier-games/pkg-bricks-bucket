@@ -4,13 +4,13 @@ using UnityEditor;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Layer Attribute Drawer.
-    /// 
+    ///
     /// <para>
     /// Editor tool to draw int as LayerMask.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -22,7 +22,7 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof (TagAttribute))]
     public class TagAttributeDrawer : PropertyDrawer

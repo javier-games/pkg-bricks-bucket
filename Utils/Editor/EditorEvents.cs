@@ -16,7 +16,7 @@ namespace BricksBucket
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     [InitializeOnLoad]
     public class EditorEvents : EditorProcessor, IPreprocessBuildWithReport

@@ -7,17 +7,17 @@ using UnityEditor;
 namespace BricksBucket.Pooling
 {
     /// <summary>
-    /// 
+    ///
     /// Pooled Editor.
-    /// 
+    ///
     /// <para>
     /// Custom editor for pooled component. This class shows just the
     /// necessary attributes that the user must manipulate and automatically
     /// assign the source attribute.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor (typeof (Pooled), false)]
@@ -26,7 +26,7 @@ namespace BricksBucket.Pooling
         protected SerializedProperty _sourceProperty;           //  Helps to
         protected SerializedProperty _amountProperty;           //  display
         protected SerializedProperty _typeProperty;             //  properties.
-        protected SerializedProperty _stopCoroutinesProperty;   //  
+        protected SerializedProperty _stopCoroutinesProperty;   //
 
         /// <summary> Called on Enable </summary>
         protected virtual void OnEnable ()

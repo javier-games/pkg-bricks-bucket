@@ -4,20 +4,20 @@ using UnityEditor;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Min Max Range Int Attribute Drawer
-    /// 
+    ///
     /// <para>
     /// Drawer of a range of integers values.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the Scriptable Object Demo project by @richardfine
     /// https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof (RangeIntSerialized), true)]
     public class MinMaxRangeIntAttributeDrawer : PropertyDrawer
@@ -116,20 +116,20 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Min Max Range Float Attribute Drawer
-    /// 
+    ///
     /// <para>
     /// Drawer of a range of floating values.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the Scriptable Object Demo project by @richardfine
     /// https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof (RangeFloatSerialized), true)]
     public class MinMaxRangeFloatAttributeDrawer : PropertyDrawer

@@ -6,20 +6,20 @@ using UnityEngine;
 namespace BricksBucket.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// Array Drawer Adapter.
-    /// 
+    ///
     /// <para>
     /// Adapts an ArrayDrawe to property drawer.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     internal class ArrayDrawerAdapter : PropertyDrawer
     {

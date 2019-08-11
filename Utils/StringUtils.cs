@@ -8,13 +8,13 @@ using UnityEngine;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// StringUtils.
-    /// 
+    ///
     /// <para>
     /// Usefull utilities to work with strings.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     /// </summary>
     public static class StringUtils
@@ -30,7 +30,7 @@ namespace BricksBucket
 
             /*
              * Encapsulation of string builder to not interact with other
-             * code and avoid unusal behaviour.        
+             * code and avoid unusal behaviour.
             */
 
             StringBuilder stringBuilder = new StringBuilder ();
@@ -48,7 +48,7 @@ namespace BricksBucket
 
             /*
              * Encapsulation of string builder to not interact with other
-             * code and avoid unusal behaviour.        
+             * code and avoid unusal behaviour.
             */
 
             StringBuilder stringBuilder = new StringBuilder ();
@@ -236,7 +236,7 @@ namespace BricksBucket
             var keys = path.Split ('.');
             foreach (var key in keys)
             {
-                //  For element identifier. 
+                //  For element identifier.
                 if (key.IsElementIdentifier ())
                 {
                     var subkeys = key.Split ('[', ']');

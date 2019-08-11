@@ -4,15 +4,15 @@ using UnityEngine.EventSystems;
 using Action = System.Action;
 
 /// <summary>
-/// 
+///
 /// IShowable
-/// 
+///
 /// <para>
 /// Interface for showable objects.
 /// </para>
-/// 
+///
 /// <para> By Javier García | @jvrgms | 2019 </para>
-/// 
+///
 /// </summary>
 public interface IShowable
 {
@@ -48,15 +48,15 @@ public interface IShowable
 }
 
 /// <summary>
-/// 
+///
 /// IAnimatable.
-/// 
+///
 /// <para>
 /// Interface for animatable objects..
 /// </para>
-/// 
+///
 /// <para> By Javier García | @jvrgms | 2019 </para>
-/// 
+///
 /// </summary>
 public interface IAnimatable : IShowable,
 IPointerDownHandler, IPointerUpHandler,
@@ -97,15 +97,15 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
 }
 
 /// <summary>
-/// 
+///
 /// IContainer.
-/// 
+///
 /// <para>
 /// Interface for container objects.
 /// </para>
-/// 
+///
 /// <para> By Javier García | @jvrgms | 2019 </para>
-/// 
+///
 /// </summary>
 public interface ISection : IShowable
 {

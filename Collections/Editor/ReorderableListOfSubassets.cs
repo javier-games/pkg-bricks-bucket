@@ -10,20 +10,20 @@ using Object = UnityEngine.Object;
 namespace BricksBucket.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// Reorderable List of Structures.
-    /// 
+    ///
     /// <para>
     /// Implementation of a reorderable lis of structures to draw subassets.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     internal class ReorderableListOfSubassets : ReorderableListOfStructures
     {
@@ -388,7 +388,7 @@ namespace BricksBucket.Collections
                     format: "Failed to create subasset of type {0}",
                     data: subassetType.FullName
                 );
-                
+
                 return;
             }
 

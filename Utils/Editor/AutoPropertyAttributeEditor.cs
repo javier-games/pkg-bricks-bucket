@@ -88,7 +88,7 @@ namespace BricksBucket
             var components =
                 SerializedUtils.GetFieldsWithAttribute
                 <AutoPropertyAttribute> ();
-            
+
             for (int i = 0; i < components.Length; i++)
                 FillProperty (components[i]);
         }

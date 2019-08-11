@@ -6,13 +6,13 @@ using BricksBucket.Generics;
 namespace BricksBucket.Pooling
 {
     /// <summary>
-    /// 
+    ///
     /// Pool manager.
-    /// 
+    ///
     /// <para>
     /// Manage instances of prefabs related to the pooled component.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2018 </para>
     /// </summary>
     public sealed class PoolManager : MonoSingleton<PoolManager>

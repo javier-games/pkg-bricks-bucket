@@ -8,20 +8,20 @@ using UnityEngine;
 namespace BricksBucket.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// Array Drawer.
-    /// 
+    ///
     /// <para>
     /// Implementation of ArrayDrawerBase.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     public class ArrayDrawer : ArrayDrawerBase
     {
@@ -91,7 +91,7 @@ namespace BricksBucket.Collections
 
 
 
-        #region Public Virtual Methods 
+        #region Public Virtual Methods
 
         /// <summary> Defines wether the InsperctorGUI can be cached. </summary>
         /// <param name="property"></param>

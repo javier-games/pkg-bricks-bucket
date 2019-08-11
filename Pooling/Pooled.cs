@@ -5,14 +5,14 @@ using UnityEngine;
 namespace BricksBucket.Pooling
 {
     /// <summary>
-    /// 
+    ///
     /// Pooled.
-    /// 
+    ///
     /// <para>
     /// Helps to specified the type and number of instances to be spawned
     /// and be managed by Pool Manager and Pool classes.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2018 </para>
     /// </summary>
     [DisallowMultipleComponent]

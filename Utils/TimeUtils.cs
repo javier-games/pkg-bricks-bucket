@@ -7,20 +7,20 @@ using UnityEngine;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Time Utils.
-    /// 
+    ///
     /// <para>
     /// Useful tools to manage time.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     public static class TimeUtils
     {
 
-        #region Time Test System 
+        #region Time Test System
 
         /// <summary> History of tests. </summary>
         private static readonly Dictionary<string, TestData>
@@ -153,16 +153,16 @@ namespace BricksBucket
         #region Nested Classes
 
         /// <summary>
-        /// 
+        ///
         /// Wait for Unscaled Seconds.
-        /// 
+        ///
         /// <para>
         /// Suspends the coroutine execution for the given amount of seconds
         /// without using scaled time.
         /// </para>
-        /// 
+        ///
         /// <para> By Javier García | @jvrgms | 2019 </para>
-        /// 
+        ///
         /// </summary>
         public class WaitForUnscaledSeconds : CustomYieldInstruction
         {
@@ -197,15 +197,15 @@ namespace BricksBucket
         }
 
         /// <summary>
-        /// 
+        ///
         /// Time Test Data.
-        /// 
+        ///
         /// <para>
         /// Structure to stores data of a test.
         /// </para>
-        /// 
+        ///
         /// <para> By Javier García | @jvrgms | 2019 </para>
-        /// 
+        ///
         /// </summary>
         private struct TestData
         {
@@ -266,15 +266,15 @@ namespace BricksBucket
         }
 
         /// <summary>
-        /// 
+        ///
         /// Time Test.
-        /// 
+        ///
         /// <para>
         /// History for time tests.
         /// </para>
-        /// 
+        ///
         /// <para> By Javier García | @jvrgms | 2019 </para>
-        /// 
+        ///
         /// </summary>
         public class Test : IDisposable
         {

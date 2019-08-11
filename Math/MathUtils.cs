@@ -4,13 +4,13 @@ using Enum = System.Enum;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Math Utils.
-    /// 
+    ///
     /// <para>
     /// Usefull math tools.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     /// </summary>
     public static class MathUtils

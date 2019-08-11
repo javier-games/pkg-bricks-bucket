@@ -4,13 +4,13 @@ using UnityEditor;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Read Only Attribute Drawer.
-    /// 
+    ///
     /// <para>
     /// Draws property but disables editablity.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// </summary>

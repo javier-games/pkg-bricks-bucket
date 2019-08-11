@@ -12,20 +12,20 @@ namespace BricksBucket.Collections
     using BGColorDelegate = ReorderableListDrawer.BGColorDelegate;
 
     /// <summary>
-    /// 
+    ///
     /// Reorderable List of Values.
-    /// 
+    ///
     /// <para>
     /// Reorderable List implementation for general values.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
     /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
     /// </para>
-    /// 
+    ///
     /// </summary>
     internal class ReorderableListOfValues : ReorderableList
     {
@@ -219,7 +219,7 @@ namespace BricksBucket.Collections
         #endregion
 
 
-        #region Reorderable Implementation 
+        #region Reorderable Implementation
 
         /// <summary> Acquire Serialized Properties. </summary>
         /// <param name="primaryProperty"></param>

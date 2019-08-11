@@ -5,13 +5,13 @@ using BricksBucket;
 namespace BricksBucket.Pooling
 {
     /// <summary>
-    /// 
+    ///
     /// Pool.
-    /// 
+    ///
     /// <para>
     /// Pool of instances managed by the PoolManager Class.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2018 </para>
     /// </summary>
     public sealed class Pool

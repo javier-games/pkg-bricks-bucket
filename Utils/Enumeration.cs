@@ -9,7 +9,7 @@
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     public enum LogLayer
     {
@@ -35,12 +35,12 @@
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// <para>
     /// Based in the UnityDefineManager by @karl-.
     /// https://github.com/karl-/UnityDefineManager
     /// </para>
-    /// 
+    ///
     /// </summary>
     public enum Compiler
     {
@@ -50,7 +50,7 @@
     }
 
     /// <summary>
-    /// 
+    ///
     /// Round Approximation Type Enum.
     ///
     /// <para>
@@ -58,7 +58,7 @@
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     public enum RoundType
     {

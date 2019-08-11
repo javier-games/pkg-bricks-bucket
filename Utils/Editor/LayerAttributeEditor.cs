@@ -4,20 +4,20 @@ using UnityEditor;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Layer Attribute Drawer.
-    /// 
+    ///
     /// <para>
     /// Editor tool to draw int as LayerMask.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
     /// Based in the MyBox project by @deadcows.
     /// https://github.com/Deadcows/MyBox
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof (LayerAttribute))]
     public class LayerAttributeDrawer : PropertyDrawer

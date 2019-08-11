@@ -10,13 +10,13 @@ using Object = UnityEngine.Object;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Button Method MonoBehaviour Editor.
-    /// 
+    ///
     /// <para>
     /// Custom editor for a MonoBehaviour Button Method Attribute.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -28,7 +28,7 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
 	[CustomEditor (typeof(MonoBehaviour), true), CanEditMultipleObjects]
 	public class ButtonMethodMonoBehaviourEditor : Editor
@@ -77,13 +77,13 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Button Method Scriptable Object Editor.
-    /// 
+    ///
     /// <para>
     /// Custom editor for a scriptable object Button Method Attribute.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -95,7 +95,7 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomEditor (typeof (ScriptableObject), true), CanEditMultipleObjects]
     public class ButtonMethodScriptableObjectEditor : Editor
@@ -142,13 +142,13 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Button Method Handler.
-    /// 
+    ///
     /// <para>
     /// Class.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// <para>
@@ -160,7 +160,7 @@ namespace BricksBucket
     /// Original version by @Kaynn-Cahya
     /// https://github.com/Kaynn-Cahya
     /// </para>
-    /// 
+    ///
     /// </summary>
     public static class ButtonMethodHandler
     {

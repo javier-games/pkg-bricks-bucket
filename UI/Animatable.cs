@@ -4,15 +4,15 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// 
+///
 /// Animatable.
-/// 
+///
 /// <para>
 /// Behaviour for UI animatable objects.
 /// </para>
-/// 
+///
 /// <para> By Javier García | @jvrgms | 2019 </para>
-/// 
+///
 /// </summary>
 public class Animatable : AbstractShowable, IAnimatable
 {
@@ -52,7 +52,7 @@ public class Animatable : AbstractShowable, IAnimatable
 
 
 
-    #region Accessors 
+    #region Accessors
 
     /// <summary> gets or sets the selectable reference. </summary>
     public Selectable Selectable
@@ -683,5 +683,3 @@ public class Animatable : AbstractShowable, IAnimatable
 
     #endregion
 }
-
-

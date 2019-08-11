@@ -5,7 +5,7 @@ using UnityEditorInternal;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// ScriptingDefineObject.cs
     ///
     /// <para>
@@ -13,12 +13,12 @@ namespace BricksBucket
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// <para>
     /// Based in the UnityDefineManager by @karl-.
     /// https://github.com/karl-/UnityDefineManager
     /// </para>
-    /// 
+    ///
     /// </summary>
     [CustomEditor (typeof (DefineSymbols))]
     public class DefineSymbolsEditor : Editor
@@ -133,7 +133,7 @@ namespace BricksBucket
 
             EditorGUI.BeginChangeCheck ();
 
-            GUILayout.BeginVertical (new GUIStyle 
+            GUILayout.BeginVertical (new GUIStyle
             {
                 margin = new RectOffset (4, 4, 4, 4)
             });

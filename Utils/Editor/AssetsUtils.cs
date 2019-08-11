@@ -40,7 +40,7 @@ namespace BricksBucket
                 );
 
             #else
-            
+
             //  Determinating wether the asset is a prefab.
             var prefabRoot = PrefabUtility.GetPrefabObject(asset);
             if (prefabRoot != null)

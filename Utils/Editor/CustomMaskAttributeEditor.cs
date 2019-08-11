@@ -5,15 +5,15 @@ using UnityEditor;
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Layer Attribute Drawer.
-    /// 
+    ///
     /// <para>
     /// Editor tool to draw an int as mask.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     [CustomPropertyDrawer (typeof (CustomMaskAttribute))]
     public class CustomMaskAttributeDrawer : PropertyDrawer

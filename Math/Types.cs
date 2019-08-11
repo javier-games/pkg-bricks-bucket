@@ -3,13 +3,13 @@
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Range Float Serialized.
-    /// 
+    ///
     /// <para>
     /// Serialized Range for floating point values.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     /// </summary>
     [System.Serializable]
@@ -90,13 +90,13 @@ namespace BricksBucket
     }
 
     /// <summary>
-    /// 
+    ///
     /// Range Int Serialized.
-    /// 
+    ///
     /// <para>
     /// Serialized Range for integer values.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     /// </summary>
     [System.Serializable]

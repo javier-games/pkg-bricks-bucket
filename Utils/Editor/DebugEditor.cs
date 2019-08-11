@@ -3,15 +3,15 @@
 namespace BricksBucket
 {
     /// <summary>
-    /// 
+    ///
     /// Debug Editor.
-    /// 
+    ///
     /// <para>
     /// Internal version for editor debuging.
     /// </para>
-    /// 
+    ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
+    ///
     /// </summary>
     internal static class DebugEditor
     {
