@@ -1,17 +1,13 @@
 # =============== #
 # Unity generated #
 # =============== #
-[Tt]emp/
-[Oo]bj/
-[Bb]uild
-[Ll]ibrary/
 sysinfo.txt
 *.stackdump
- 
+
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
-[Ee]xported[Oo]bj/
 .vs/
 /*.userprefs
 /*.csproj
@@ -21,7 +17,8 @@ sysinfo.txt
 /*.user
 /*.unityproj
 /*.booproj
- 
+
+
 # ============ #
 # OS generated #
 # ============ #
@@ -32,9 +29,16 @@ sysinfo.txt
 ehthumbs.db
 [Tt]humbs.db
 
-# ================ #
-# Custom generated #
-# ================ #
-Executables/
-AssetBundles/
-AssetBundles.meta
+
+# ============== #
+# Odin Inspector #
+# ============== #
+
+# Ignore the auto-generated AOT compatibility dll.
+/Plugins/Sirenix/Assemblies/AOT/*
+
+# Ignore all unpacked demos.
+/Plugins/Sirenix/Demos/*
+
+# But keep the demo packages themselves.
+#!/Assets/Plugins/Sirenix/Demos/*.unitypackage
