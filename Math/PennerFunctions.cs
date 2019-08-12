@@ -1,13 +1,25 @@
-﻿using System;
-using UnityEngine;
+﻿using Mathd = System.Math;
 
-public class PennerFunctions : MonoBehaviour
+namespace BricksBucket.Math
 {
-
-    public class PennerDoubleAnimation
+    /// <summary>
+    ///
+    /// PannerFunctions.
+    ///
+    /// <para>
+    /// Library to generate ease panner functions for animations..
+    /// </para>
+    ///
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// 
+    /// <para>
+    /// Based in the EasingCurvePresets project by @aureliendrouet - @nobutaka.
+    /// https://github.com/aureliendrouet/EasingCurvePresets
+    /// </para>
+    /// 
+    /// </summary>
+    public static class PennerFunctions
     {
-        #region Equations
-
         #region Linear
 
         /// <summary>
@@ -38,7 +50,7 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double ExpoEaseOut (double t, double b, double c, double d)
         {
-            return (t == d) ? b + c : c * (-Math.Pow (2, -10 * t / d) + 1) + b;
+            return t.Approximately(d) ? b + c : c * (-Mathd.Pow (2, -10 * t / d) + 1) + b;
         }
 
         /// <summary>
@@ -52,7 +64,7 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double ExpoEaseIn (double t, double b, double c, double d)
         {
-            return (t == 0) ? b : c * Math.Pow (2, 10 * (t / d - 1)) + b;
+            return t.Approximately(0) ? b : c * Mathd.Pow (2, 10 * (t / d - 1)) + b;
         }
 
         /// <summary>
@@ -66,16 +78,16 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double ExpoEaseInOut (double t, double b, double c, double d)
         {
-            if (t == 0)
+            if (t.Approximately(0))
                 return b;
 
-            if (t == d)
+            if (t.Approximately(d))
                 return b + c;
 
             if ((t /= d / 2) < 1)
-                return c / 2 * Math.Pow (2, 10 * (t - 1)) + b;
+                return c / 2 * Mathd.Pow (2, 10 * (t - 1)) + b;
 
-            return c / 2 * (-Math.Pow (2, -10 * --t) + 2) + b;
+            return c / 2 * (-Mathd.Pow (2, -10 * --t) + 2) + b;
         }
 
         /// <summary>
@@ -110,7 +122,7 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double CircEaseOut (double t, double b, double c, double d)
         {
-            return c * Math.Sqrt (1 - (t = t / d - 1) * t) + b;
+            return c * Mathd.Sqrt (1 - (t = t / d - 1) * t) + b;
         }
 
         /// <summary>
@@ -124,7 +136,7 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double CircEaseIn (double t, double b, double c, double d)
         {
-            return -c * (Math.Sqrt (1 - (t /= d) * t) - 1) + b;
+            return -c * (Mathd.Sqrt (1 - (t /= d) * t) - 1) + b;
         }
 
         /// <summary>
@@ -139,9 +151,9 @@ public class PennerFunctions : MonoBehaviour
         public static double CircEaseInOut (double t, double b, double c, double d)
         {
             if ((t /= d / 2) < 1)
-                return -c / 2 * (Math.Sqrt (1 - t * t) - 1) + b;
+                return -c / 2 * (Mathd.Sqrt (1 - t * t) - 1) + b;
 
-            return c / 2 * (Math.Sqrt (1 - (t -= 2) * t) + 1) + b;
+            return c / 2 * (Mathd.Sqrt (1 - (t -= 2) * t) + 1) + b;
         }
 
         /// <summary>
@@ -242,7 +254,7 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double SineEaseOut (double t, double b, double c, double d)
         {
-            return c * Math.Sin (t / d * (Math.PI / 2)) + b;
+            return c * Mathd.Sin (t / d * (Mathd.PI / 2)) + b;
         }
 
         /// <summary>
@@ -256,7 +268,7 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double SineEaseIn (double t, double b, double c, double d)
         {
-            return -c * Math.Cos (t / d * (Math.PI / 2)) + c + b;
+            return -c * Mathd.Cos (t / d * (Mathd.PI / 2)) + c + b;
         }
 
         /// <summary>
@@ -271,9 +283,9 @@ public class PennerFunctions : MonoBehaviour
         public static double SineEaseInOut (double t, double b, double c, double d)
         {
             if ((t /= d / 2) < 1)
-                return c / 2 * (Math.Sin (Math.PI * t / 2)) + b;
+                return c / 2 * (Mathd.Sin (Mathd.PI * t / 2)) + b;
 
-            return -c / 2 * (Math.Cos (Math.PI * --t / 2) - 2) + b;
+            return -c / 2 * (Mathd.Cos (Mathd.PI * --t / 2) - 2) + b;
         }
 
         /// <summary>
@@ -504,13 +516,13 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double ElasticEaseOut (double t, double b, double c, double d)
         {
-            if ((t /= d) == 1)
+            if ((t /= d).Approximately(1))
                 return b + c;
 
             double p = d * .3;
             double s = p / 4;
 
-            return (c * Math.Pow (2, -10 * t) * Math.Sin ((t * d - s) * (2 * Math.PI) / p) + c + b);
+            return (c * Mathd.Pow (2, -10 * t) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p) + c + b);
         }
 
         /// <summary>
@@ -524,13 +536,13 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double ElasticEaseIn (double t, double b, double c, double d)
         {
-            if ((t /= d) == 1)
+            if ((t /= d).Approximately(1))
                 return b + c;
 
             double p = d * .3;
             double s = p / 4;
 
-            return -(c * Math.Pow (2, 10 * (t -= 1)) * Math.Sin ((t * d - s) * (2 * Math.PI) / p)) + b;
+            return -(c * Mathd.Pow (2, 10 * (t -= 1)) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p)) + b;
         }
 
         /// <summary>
@@ -544,15 +556,15 @@ public class PennerFunctions : MonoBehaviour
         /// <returns>The correct value.</returns>
         public static double ElasticEaseInOut (double t, double b, double c, double d)
         {
-            if ((t /= d / 2) == 2)
+            if ((t /= d / 2).Approximately(2))
                 return b + c;
 
             double p = d * (.3 * 1.5);
             double s = p / 4;
 
             if (t < 1)
-                return -.5 * (c * Math.Pow (2, 10 * (t -= 1)) * Math.Sin ((t * d - s) * (2 * Math.PI) / p)) + b;
-            return c * Math.Pow (2, -10 * (t -= 1)) * Math.Sin ((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
+                return -.5 * (c * Mathd.Pow (2, 10 * (t -= 1)) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p)) + b;
+            return c * Mathd.Pow (2, -10 * (t -= 1)) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p) * .5 + c + b;
         }
 
         /// <summary>
@@ -588,12 +600,11 @@ public class PennerFunctions : MonoBehaviour
         {
             if ((t /= d) < (1 / 2.75))
                 return c * (7.5625 * t * t) + b;
-            else if (t < (2 / 2.75))
+            if (t < (2 / 2.75))
                 return c * (7.5625 * (t -= (1.5 / 2.75)) * t + .75) + b;
-            else if (t < (2.5 / 2.75))
+            if (t < (2.5 / 2.75))
                 return c * (7.5625 * (t -= (2.25 / 2.75)) * t + .9375) + b;
-            else
-                return c * (7.5625 * (t -= (2.625 / 2.75)) * t + .984375) + b;
+            return c * (7.5625 * (t -= (2.625 / 2.75)) * t + .984375) + b;
         }
 
         /// <summary>
@@ -623,8 +634,7 @@ public class PennerFunctions : MonoBehaviour
         {
             if (t < d / 2)
                 return BounceEaseIn (t * 2, 0, c, d) * .5 + b;
-            else
-                return BounceEaseOut (t * 2 - d, 0, c, d) * .5 + c * .5 + b;
+            return BounceEaseOut (t * 2 - d, 0, c, d) * .5 + c * .5 + b;
         }
 
         /// <summary>
@@ -707,8 +717,6 @@ public class PennerFunctions : MonoBehaviour
                 return BackEaseOut (t * 2, b, c / 2, d);
             return BackEaseIn ((t * 2) - d, b + c / 2, c / 2, d);
         }
-
-        #endregion
 
         #endregion
     }

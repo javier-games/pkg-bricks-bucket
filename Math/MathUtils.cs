@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 using Enum = System.Enum;
 
 namespace BricksBucket
@@ -12,6 +13,7 @@ namespace BricksBucket
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// 
     /// </summary>
     public static class MathUtils
     {
@@ -25,7 +27,7 @@ namespace BricksBucket
 
 
 
-        #region General Methods
+        #region Generic Methods
 
         /// <summary> Swaps the value between references A and B. </summary>
         /// <typeparam name="T"> Type of references. </typeparam>
@@ -167,6 +169,7 @@ namespace BricksBucket
         #endregion
 
 
+
         #region Float Extensions
 
         /// <summary> Pow to -1. </summary>
@@ -174,7 +177,7 @@ namespace BricksBucket
         /// <returns> Inverse of the float. </returns>
         public static float Invert (this float x)
         {
-            return x.Approximately(0) ? Infinity : Mathf.Pow (x, -1);
+            return x.Approximately (0) ? Infinity : Mathf.Pow (x, -1);
         }
 
         /// <summary> Absolute Value. </summary>
@@ -191,7 +194,7 @@ namespace BricksBucket
         /// <returns> Wether aproximates to zero or not. </returns>
         public static bool Approximately (this float x, float compare)
         {
-            return Mathf.Approximately (x, compare);
+            return x.CompareTo(compare) == 1;
         }
 
         /// <summary> Evaluates if value is between zero and one. </summary>
@@ -260,6 +263,107 @@ namespace BricksBucket
 
                 default:
                 return Mathf.Round (x);
+            }
+        }
+
+        #endregion
+
+
+
+        #region Double Extensions
+
+        
+        /// <summary> Pow to -1. </summary>
+        /// <param name="x"></param>
+        /// <returns> Inverse of the float. </returns>
+        public static double Invert (this double x)
+        {
+            return x.Approximately (0) ? Infinity : System.Math.Pow (x, -1);
+        }
+
+        /// <summary> Absolute Value. </summary>
+        /// <param name="x"></param>
+        /// <returns> Absolute value. </returns>
+        public static double Absolute (this double x)
+        {
+            return System.Math.Abs (x);
+        }
+
+        /// <summary> Return if the value aproximates to zero. </summary>
+        /// <param name="x"></param>
+        /// <param name="compare"></param>
+        /// <returns> Wether aproximates to zero or not. </returns>
+        public static bool Approximately (this double x, double compare)
+        {
+            return x.CompareTo(compare) == 1;
+        }
+
+        /// <summary> Evaluates if value is between zero and one. </summary>
+        /// <param name="x"></param>
+        /// <returns> Whether value is in range. </returns>
+        public static bool InRange01 (this double x)
+        {
+            return InRange (x, 0, 1);
+        }
+
+        /// <summary> Evaluates if value is between min and max. </summary>
+        /// <param name="x"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns> Whether value is in range. </returns>
+        public static bool InRange (this double x, double min, double max)
+        {
+            return (x > min && x < max) ||
+                (x >= min && x > max) ||
+                (x > min && x <= max);
+        }
+
+        /// <summary> Evaluates wether x is between min and max. </summary>
+        /// <param name="x"> Number to evaluate. </param>
+        /// <param name="range"> Range to use to compare. </param>
+        /// <returns> Wether x is between min and max.</returns>
+        public static bool InRange (this double x, RangeIntSerialized range)
+        {
+            return x.InRange (range.Min, range.Max);
+        }
+
+        /// <summary> Rounds a float with the specified method. </summary>
+        /// <param name="x"> Float to convert. </param>
+        /// <param name="roundType"> Round method to use. </param>
+        /// <returns> Rounded value as int. </returns>
+        public static int
+        RoundToInt (this double x, RoundType roundType = RoundType.Round)
+        {
+            switch (roundType)
+            {
+                case RoundType.Ceil:
+                return (int) System.Math.Ceiling (x);
+
+                case RoundType.Floor:
+                return (int) System.Math.Floor (x);
+
+                default:
+                return (int) System.Math.Round (x);
+            }
+        }
+
+        /// <summary> Rounds a float with the specified method. </summary>
+        /// <param name="x"> Float to convert. </param>
+        /// <param name="roundType"> Round method to use. </param>
+        /// <returns> Rounded value. </returns>
+        public static double
+        Round (this double x, RoundType roundType = RoundType.Round)
+        {
+            switch (roundType)
+            {
+                case RoundType.Ceil:
+                return System.Math.Ceiling (x);
+
+                case RoundType.Floor:
+                return System.Math.Floor (x);
+
+                default:
+                return System.Math.Round (x);
             }
         }
 

@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
-using BricksBucket;
 
 
 [CustomPropertyDrawer (typeof (AnimationCurve3), true)]

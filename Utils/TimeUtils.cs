@@ -109,23 +109,6 @@ namespace BricksBucket
                 action.Invoke ();
         }
 
-        /// <summary> Invoke Action on Delay. </summary>
-        /// <param name="invoker"> MonoBehaviour who is calling. </param>
-        /// <param name="waitSeconds"> Seconds to wait. </param>
-        /// <param name="action"> Action to execute. </param>
-        /// <param name="unscaled"> Wether to use unscaled time. </param>
-        /// <returns> Delayed Coroutine. </returns>
-        public static Coroutine DelayedAction (
-            this MonoBehaviour invoker,
-            float waitSeconds,
-            Action action,
-            bool unscaled = false
-        ) {
-            return invoker.StartCoroutine (
-                DelayedAction (waitSeconds, action, unscaled))
-            ;
-        }
-
         /// <summary> Invokes the action after one frame. </summary>
         /// <param name="action"> Action to execute. </param>
         /// <returns> IEnumerator. </returns>
@@ -136,14 +119,43 @@ namespace BricksBucket
             if (action != null) action.Invoke ();
         }
 
-        /// <summary> Invokes the action after one frame. </summary>
-        /// <param name="invoker"> MonoBehaviour who is calling. </param>
-        /// <param name="action"> Action to execute. </param>
-        /// <returns> Delayed Coroutine. </returns>
-        public static Coroutine
-        DelayedAction (this MonoBehaviour invoker, Action action)
+        public static IEnumerator UpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
         {
-            return invoker.StartCoroutine (DelayedAction (action));
+
+            if (duration > 0)
+            {
+                float time = 0;
+
+                while (time < duration)
+                {
+                    float t = 1 - ((duration - time) / duration);
+                    onUpdate?.Invoke (t);
+
+                    yield return null;
+                    time += Time.deltaTime;
+                }
+
+                onUpdate?.Invoke (1);
+                onComplete?.Invoke ();
+            }
+        }
+
+        public static IEnumerator UnscaledUpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
+        {
+            if (duration > 0)
+            {
+                float endTime = Time.realtimeSinceStartup + duration;
+                float t = 0;
+                while (t < 1)
+                {
+                    t = 1 - (endTime - Time.realtimeSinceStartup) / duration;
+                    onUpdate?.Invoke (t);
+                    yield return null;
+                }
+
+                onUpdate?.Invoke (1);
+                onComplete?.Invoke ();
+            }
         }
 
         #endregion
@@ -151,50 +163,6 @@ namespace BricksBucket
 
 
         #region Nested Classes
-
-        /// <summary>
-        ///
-        /// Wait for Unscaled Seconds.
-        ///
-        /// <para>
-        /// Suspends the coroutine execution for the given amount of seconds
-        /// without using scaled time.
-        /// </para>
-        ///
-        /// <para> By Javier García | @jvrgms | 2019 </para>
-        ///
-        /// </summary>
-        public class WaitForUnscaledSeconds : CustomYieldInstruction
-        {
-            #region Class Members
-
-            /// <summary> Time to wait. </summary>
-            private readonly float _waitTime;
-
-            #endregion
-
-            #region Accessors
-
-            /// <summary> Wether keep waiting or stops. </summary>
-            public override bool keepWaiting
-            {
-                get { return Time.realtimeSinceStartup < _waitTime; }
-            }
-
-            #endregion
-
-            #region Constructor
-
-            /// <summary> Suspends the coroutine execution for the given
-            /// amount of seconds without using scaled time. </summary>
-            /// <param name="waitTime"> Time in seconds to wait. </param>
-            public WaitForUnscaledSeconds (float waitTime)
-            {
-                _waitTime = Time.realtimeSinceStartup + waitTime;
-            }
-
-            #endregion
-        }
 
         /// <summary>
         ///
@@ -312,4 +280,51 @@ namespace BricksBucket
 
         #endregion
     }
+
+    /// <summary>
+    ///
+    /// Wait for Unscaled Seconds.
+    ///
+    /// <para>
+    /// Suspends the coroutine execution for the given amount of seconds
+    /// without using scaled time.
+    /// </para>
+    ///
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    ///
+    /// </summary>
+    public class WaitForUnscaledSeconds : CustomYieldInstruction
+    {
+        #region Class Members
+
+        /// <summary> Time to wait. </summary>
+        private readonly float _waitTime;
+
+        #endregion
+
+        #region Accessors
+
+        /// <summary> Wether keep waiting or stops. </summary>
+        public override bool keepWaiting
+        {
+            get { return Time.realtimeSinceStartup < _waitTime; }
+        }
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary> Suspends the coroutine execution for the given
+        /// amount of seconds without using scaled time. </summary>
+        /// <param name="waitTime"> Time in seconds to wait. </param>
+        public WaitForUnscaledSeconds (float waitTime)
+        {
+            _waitTime = Time.realtimeSinceStartup + waitTime;
+        }
+
+        #endregion
+    }
+
+
+
 }
