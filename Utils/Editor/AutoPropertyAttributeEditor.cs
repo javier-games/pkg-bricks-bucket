@@ -21,7 +21,7 @@ namespace BricksBucket
     /// </para>
     ///
     /// </summary>
-    [CustomPropertyDrawer (typeof (AutoPropertyAttribute))]
+    [CustomPropertyDrawer (typeof (AutoFillAttribute))]
     public class AutoPropertyDrawer : PropertyDrawer
     {
         #region Property Drawer Overrides
@@ -87,7 +87,7 @@ namespace BricksBucket
         {
             var components =
                 SerializedUtils.GetFieldsWithAttribute
-                <AutoPropertyAttribute> ();
+                <AutoFillAttribute> ();
 
             for (int i = 0; i < components.Length; i++)
                 FillProperty (components[i]);
@@ -153,7 +153,7 @@ namespace BricksBucket
 
             DebugEditor.LogErrorFormat (
                 context: property.component,
-                format: StringUtils.Concat(
+                format: StringUtils.Concat (
                     "AutoProperty not found in {0} component.",
                     "Make sure it is also serialized."),
                 data: property.component.name

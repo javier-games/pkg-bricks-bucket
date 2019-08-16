@@ -15,7 +15,7 @@ namespace BricksBucket
     /// <para> By Javier García | @jvrgms | 2019 </para>
     ///
     /// </summary>
-    [CustomPropertyDrawer (typeof (CustomMaskAttribute))]
+    [CustomPropertyDrawer (typeof (EnumMaskAttribute))]
     public class CustomMaskAttributeDrawer : PropertyDrawer
     {
         #region Class Members
@@ -25,14 +25,14 @@ namespace BricksBucket
 
         #endregion
 
-        private CustomMaskAttribute _attribute;
+        private EnumMaskAttribute _attribute;
 
-        private CustomMaskAttribute Attribute
+        private EnumMaskAttribute Attribute
         {
             get
             {
                 return _attribute ?? (
-                    _attribute = attribute as CustomMaskAttribute
+                    _attribute = attribute as EnumMaskAttribute
                 );
             }
         }
