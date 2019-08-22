@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using BricksBucket;
 
-namespace BricksBucket.Pooling
+namespace BricksBucket.Collections
 {
     /// <summary>
     ///
@@ -13,6 +12,7 @@ namespace BricksBucket.Pooling
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2018 </para>
+    /// 
     /// </summary>
     public sealed class Pool
     {

@@ -3,8 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-
-namespace BricksBucket.Pooling
+namespace BricksBucket.Collections
 {
     /// <summary>
     ///
@@ -91,8 +90,11 @@ namespace BricksBucket.Pooling
 
                 _sourceProperty.objectReferenceValue = source;
             }
-
+            
             //  Show the rest of the attributes on inspector.
+            GUI.enabled = false;
+            EditorGUILayout.PropertyField (_sourceProperty);
+            GUI.enabled = true;
             EditorGUILayout.PropertyField (_amountProperty);
             EditorGUILayout.PropertyField (_typeProperty);
             EditorGUILayout.PropertyField (_stopCoroutinesProperty);

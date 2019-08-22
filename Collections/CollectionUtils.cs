@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Exception = System.Exception;
+using Array = System.Array;
 
 namespace BricksBucket.Collections
 {
     public static class CollectionUtils
     {
-
         #region Array Extensions
 
         /// <summary> Verify wether the index is valid. </summary>
@@ -146,6 +146,8 @@ namespace BricksBucket.Collections
         }
 
         #endregion
+
+
 
         #region List Extensions
 
@@ -287,6 +289,8 @@ namespace BricksBucket.Collections
 
         #endregion
 
+
+
         #region Enumerable Extensions
 
         /// <summary> Verify wether the index is valid. </summary>
@@ -371,6 +375,8 @@ namespace BricksBucket.Collections
 
 
 
+        #region Public Static Methods
+
         /// <summary> Returns a sequence of numbers in a range. </summary>
         /// <param name="from"> First number of the range. </param>
         /// <param name="to"> End number of the range. </param>
@@ -392,6 +398,49 @@ namespace BricksBucket.Collections
             return sequense;
         }
 
+        /// <summary> Removes an element at the specified index. </summary>
+        /// <typeparam name="T"> Type of array. </typeparam>
+        /// <param name="array"> Array collection. </param>
+        /// <param name="index"> Index to remove from collection. </param>
+        public static void RemoveAt<T> (ref T[] array, int index)
+        {
+            if (array.IsNullOrEmpty ())
+                throw NullOrEmptyException (array);
+
+            if (!array.HasIndex (index))
+                throw IndexOutOfRangeException (array, index);
+
+            for (int i = index; i < array.Length - 1; i++)
+                array.Swap (i, i + 1);
+
+            Array.Resize (ref array, array.Length - 1);
+        }
+
+        /// <summary> Add a new element at specified index. </summary>
+        /// <typeparam name="T"> Type of collection. </typeparam>
+        /// <param name="array"> Array where to add the element. </param>
+        /// <param name="index"> Index where to colocate element. </param>
+        /// <param name="element"> Element to add. </param>
+		public static void AddAt<T>(ref T[] array, int index, T element)
+		{
+			if (array.IsNullOrEmpty())
+				throw NullOrEmptyException(array);
+
+			if (!array.HasIndex(index))
+				throw IndexOutOfRangeException(array, index);
+
+			Array.Resize(ref array, array.Length + 1);
+			array[array.Length - 1] = element;
+
+			for (int i = array.Length - 1; i > index; i--)
+				array.Swap(i, i - 1);
+		}
+
+        #endregion
+
+
+
+        #region Exceptions
 
         /// <summary> Value out of range. </summary>
         /// <param name="collection"></param>
@@ -424,5 +473,7 @@ namespace BricksBucket.Collections
                 )
             );
         }
+
+        #endregion
     }
 }

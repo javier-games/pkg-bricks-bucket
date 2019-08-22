@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace BricksBucket.Pooling
+namespace BricksBucket.Collections
 {
     /// <summary>
     ///
@@ -14,6 +14,7 @@ namespace BricksBucket.Pooling
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2018 </para>
+    /// 
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class Pooled : MonoBehaviour
@@ -23,7 +24,7 @@ namespace BricksBucket.Pooling
 
         #region Class members
 
-        [SerializeField]
+        [SerializeField, ReadOnly]
         private Pooled _source;         //  Original prefab reference.
 
         [SerializeField]

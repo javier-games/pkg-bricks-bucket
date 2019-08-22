@@ -11,6 +11,7 @@ namespace BricksBucket.Generics
     /// </para>
     /// 
     /// <para> By Javier García | @jvrgms | 2018 </para>
+    /// 
     /// </summary>
     [DisallowMultipleComponent]
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
@@ -155,8 +156,6 @@ namespace BricksBucket.Generics
             _didAwoken = false;
             _didDestroyed = true;
         }
-
-
 
         #endregion
     }

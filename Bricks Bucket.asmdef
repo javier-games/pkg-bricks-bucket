@@ -1,3 +1,16 @@
-﻿{
-	"name": "BricksBucket"
+{
+    "name": "BricksBucket",
+    "references": [
+        "GUID:0ec9e965a76903443b2e244983ee3c19",
+        ""
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
 }

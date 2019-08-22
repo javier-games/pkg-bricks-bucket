@@ -2,23 +2,20 @@
 {
     /// <summary>
     ///
-    /// Parallel List Layout.
+    /// PrefabType Enum.
     ///
     /// <para>
-    /// Defines the different parallel list Layouts.
+    /// Defines the different types of prefabs for pooling.
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
-    /// <para>
-    /// Based in the UnityExtensions.ArrayDrawer by @garettbass.
-    /// https://github.com/garettbass/UnityExtensions.ArrayDrawer
-    /// </para>
     /// 
     /// </summary>
-    public enum ParallelListLayout
+    public enum PrefabType
     {
-        Rows,       //  Horizontal.
-        Columns     //  Vertical.
-    };
+        NONE,   //  No belongs to any type.
+        _3D,    //  Type for 3D enviroment.
+        _2D,    //  Type for 2D enviroment.
+        UI      //  Type to use in UI.
+    }
 }
