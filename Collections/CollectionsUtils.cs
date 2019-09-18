@@ -7,9 +7,21 @@ using Array = System.Array;
 
 namespace BricksBucket.Collections
 {
+    /// <summary>
+    ///
+    /// CollectionsUtils.
+    ///
+    /// <para>
+    /// Usefull extensions and methods for generic collections.
+    /// </para>
+    ///
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    ///
+    /// </summary>
     public static class CollectionUtils
     {
-        #region Array Extensions
+
+        #region Array Extensions and Methods
 
         /// <summary> Verify wether the index is valid. </summary>
         /// <typeparam name="T"> Type of the array. </typeparam>
@@ -28,6 +40,31 @@ namespace BricksBucket.Collections
             if (array == null)
                 return true;
             return array.Length == 0;
+        }
+
+        /// <summary> Wether an array has the specified element. </summary>
+        /// <typeparam name="T"> Type of array. </typeparam>
+        /// <param name="array"> Array collection. </param>
+        /// <param name="element"> Element to validate. </param>
+        /// <returns> -1 if an elements does not found. </returns>
+        public static bool Contains<T> (this T[] array, T element) =>
+            array.Find (element) >= 0;
+
+        /// <summary> Finds an element in an array. </summary>
+        /// <typeparam name="T"> Type of array. </typeparam>
+        /// <param name="array"> Array collection. </param>
+        /// <param name="element"> Element to find. </param>
+        /// <returns> -1 if an elements does not found. </returns>
+        public static int Find<T> (this T[] array, T element)
+        {
+            if (array.IsNullOrEmpty ())
+                return -1;
+
+            for (int i = 0; i < array.Length; i++)
+                if (EqualityComparer<T>.Default.Equals (array[i], element))
+                    return i;
+
+            return -1;
         }
 
         /// <summary> Swaps the values of index A and index B </summary>
@@ -136,13 +173,101 @@ namespace BricksBucket.Collections
         /// <param name="increment"> Increment to apply. </param>
         /// <returns> Next element in the loop. </returns>
         public static T
-        Loop <T>(this T[] array, ref int index, int increment = 1)
+        Loop<T> (this T[] array, ref int index, int increment = 1)
         {
             if (array.IsNullOrEmpty ())
                 throw NullOrEmptyException (array);
 
             index = MathUtils.Loop (index, 0, array.Length - 1, increment);
             return array[index];
+        }
+
+        /// <summary> Returns a sequence of numbers in a range. </summary>
+        /// <param name="from"> First number of the range. </param>
+        /// <param name="to"> End number of the range. </param>
+        /// <param name="random"> Wether the sequence must be shuffle. </param>
+        /// <returns> Sequence of numbers. </returns>
+        public static int[] GetSequence (int from, int to, bool random = false)
+        {
+            if (to < from)
+                MathUtils.Swap (ref from, ref to);
+
+            int[] sequense = new int[to - from];
+
+            for (int i = 0; i < sequense.Length; i++)
+                sequense[i] = from + i;
+
+            if (random)
+                sequense.Shuffle ();
+
+            return sequense;
+        }
+
+        /// <summary> Removes an element at the specified index. </summary>
+        /// <typeparam name="T"> Type of array. </typeparam>
+        /// <param name="array"> Array collection. </param>
+        /// <param name="index"> Index to remove from collection. </param>
+        public static void RemoveAt<T> (ref T[] array, int index)
+        {
+            if (array.IsNullOrEmpty ())
+                throw NullOrEmptyException (array);
+
+            if (!array.HasIndex (index))
+                throw IndexOutOfRangeException (array, index);
+
+            for (int i = index; i < array.Length - 1; i++)
+                array.Swap (i, i + 1);
+
+            Array.Resize (ref array, array.Length - 1);
+        }
+
+        /// <summary> Removes the specified element. </summary>
+        /// <typeparam name="T"> Type of array. </typeparam>
+        /// <param name="array"> Array collection. </param>
+        /// <param name="element"> Element remove from collection. </param>
+        /// <returns> Wether the value is not any more in the array. </returns>
+        public static void Remove<T> (ref T[] array, T element)
+        {
+            if (array.IsNullOrEmpty ())
+                throw NullOrEmptyException (array);
+
+            int index = array.Find (element);
+            if (index >= 0)
+                RemoveAt (ref array, index);
+            else
+                throw ElementNotFoundException (array, element);
+        }
+
+        /// <summary> Add a new element at specified index. </summary>
+        /// <typeparam name="T"> Type of collection. </typeparam>
+        /// <param name="array"> Array where to add the element. </param>
+        /// <param name="index"> Index where to colocate element. </param>
+        /// <param name="element"> Element to add. </param>
+        public static void AddAt<T> (ref T[] array, int index, T element)
+        {
+            if (array.IsNullOrEmpty ())
+                throw NullOrEmptyException (array);
+
+            if (!array.HasIndex (index))
+                throw IndexOutOfRangeException (array, index);
+
+            Add (ref array, element);
+
+            for (int i = array.Length - 1; i > index; i--)
+                array.Swap (i, i - 1);
+        }
+
+        /// <summary> Add a new element at the last position. </summary>
+        /// <typeparam name="T"> Type of collection. </typeparam>
+        /// <param name="array"> Array where to add the element. </param>
+        /// <param name="element"> Element to add. </param>
+		public static void Add<T> (ref T[] array, T element)
+        {
+            if (array.IsNullOrEmpty ())
+                throw NullOrEmptyException (array);
+
+            Array.Resize (ref array, array.Length + 1);
+            array[array.Length - 1] = element;
         }
 
         #endregion
@@ -318,6 +443,17 @@ namespace BricksBucket.Collections
             return !enumerable.Any ();
         }
 
+        /// <summary>
+        /// Returns the element at the specified index.
+        /// </summary>
+        /// <typeparam name="T">Type of Collection.</typeparam>
+        /// <param name="enumerable">Enumerable Collection.</param>
+        /// <param name="index">Index of element to change.</param>
+        /// <returns>The element at the specified index.</returns>
+        public static T
+        GetElement<T> (this IEnumerable<T> enumerable, int index) =>
+            enumerable.ElementAt (index);
+
         /// <summary> Returns random element from collection </summary>
         /// <typeparam name="T"> Type of enumerable. </typeparam>
         /// <param name="enumerable"> Enumerable Collection. </param>
@@ -375,66 +511,63 @@ namespace BricksBucket.Collections
 
 
 
-        #region Public Static Methods
+        #region Stack Utils
 
-        /// <summary> Returns a sequence of numbers in a range. </summary>
-        /// <param name="from"> First number of the range. </param>
-        /// <param name="to"> End number of the range. </param>
-        /// <param name="random"> Wether the sequence must be shuffle. </param>
-        /// <returns> Sequence of numbers. </returns>
-        public static int[] GetSequence (int from, int to, bool random = false)
+        /// <summary>
+        /// Removes an element from the stack.
+        /// </summary>
+        /// <typeparam name="T">Type of the stack.</typeparam>
+        /// <param name="stack">Stack collection.</param>
+        /// <param name="index">Index to remove.</param>
+        public static void RemoveAt<T> (this Stack<T> stack, int index)
         {
-            if (to < from)
-                MathUtils.Swap (ref from, ref to);
+            if (stack.IsNullOrEmpty ())
+                throw NullOrEmptyException (stack);
 
-            int[] sequense = new int[to - from];
+            if (!stack.HasIndex (index))
+                throw IndexOutOfRangeException (stack, index);
 
-            for (int i = 0; i < sequense.Length; i++)
-                sequense[i] = from + i;
+            Stack<T> aux = new Stack<T>();
+            int times = stack.Count - index - 1;
 
-            if (random)
-                sequense.Shuffle ();
+            for (int i = 0; i < times; i++)
+                aux.Push (stack.Pop());
 
-            return sequense;
+            stack.Pop ();
+
+            for (int i = 0; i < times; i++)
+                stack.Push (aux.Pop ());
         }
 
-        /// <summary> Removes an element at the specified index. </summary>
-        /// <typeparam name="T"> Type of array. </typeparam>
-        /// <param name="array"> Array collection. </param>
-        /// <param name="index"> Index to remove from collection. </param>
-        public static void RemoveAt<T> (ref T[] array, int index)
+        /// <summary>
+        /// Removes the specified element from stack.
+        /// </summary>
+        /// <typeparam name="T">Type of stack.</typeparam>
+        /// <param name="stack">Stack Collection.</param>
+        /// <param name="element">Element to remove.</param>
+        public static void Remove<T> (this Stack<T> stack, T element)
         {
-            if (array.IsNullOrEmpty ())
-                throw NullOrEmptyException (array);
+            if (stack.IsNullOrEmpty ())
+                throw NullOrEmptyException (stack);
 
-            if (!array.HasIndex (index))
-                throw IndexOutOfRangeException (array, index);
-
-            for (int i = index; i < array.Length - 1; i++)
-                array.Swap (i, i + 1);
-
-            Array.Resize (ref array, array.Length - 1);
+            int index = stack.Find (element);
+            if (index >= 0)
+                stack.RemoveAt (index);
+            else
+                throw ElementNotFoundException (stack, element);
         }
 
-        /// <summary> Add a new element at specified index. </summary>
-        /// <typeparam name="T"> Type of collection. </typeparam>
-        /// <param name="array"> Array where to add the element. </param>
-        /// <param name="index"> Index where to colocate element. </param>
-        /// <param name="element"> Element to add. </param>
-		public static void AddAt<T>(ref T[] array, int index, T element)
-		{
-			if (array.IsNullOrEmpty())
-				throw NullOrEmptyException(array);
-
-			if (!array.HasIndex(index))
-				throw IndexOutOfRangeException(array, index);
-
-			Array.Resize(ref array, array.Length + 1);
-			array[array.Length - 1] = element;
-
-			for (int i = array.Length - 1; i > index; i--)
-				array.Swap(i, i - 1);
-		}
+        /// <summary>
+        /// Finds the index of an element on stack.
+        /// </summary>
+        /// <typeparam name="T">Type of stack.</typeparam>
+        /// <param name="stack">Stack Collection.</param>
+        /// <param name="element">Element to find.</param>
+        /// <returns> -1 if an elements does not found. </returns>
+        public static int Find<T> (this Stack<T> stack, T element)
+        {
+            return stack.ToArray ().Find (element);
+        }
 
         #endregion
 
@@ -443,15 +576,15 @@ namespace BricksBucket.Collections
         #region Exceptions
 
         /// <summary> Value out of range. </summary>
-        /// <param name="collection"></param>
-        /// <param name="index"></param>
+        /// <param name="collection"> Collection with exception. </param>
+        /// <param name="index"> Index out of range. </param>
         /// <returns> Exception. </returns>
-        private static Exception
+        public static Exception
         IndexOutOfRangeException (object collection, int index)
         {
             return new Exception (
                 StringUtils.ConcatFormat (
-                    format: "The collection {0} does'nt contain the index {1}.",
+                    format: "The collection {0} does'nt contains index {1}.",
                     array: new object[] {
                         collection,
                         index
@@ -460,11 +593,28 @@ namespace BricksBucket.Collections
             );
         }
 
-        /// <summary> Null or empty collection. </summary>
-        /// <param name="collection"></param>
+        /// <summary> Value out of range. </summary>
+        /// <param name="collection"> Collection with exception. </param>
+        /// <param name="element"> Element not found. </param>
         /// <returns> Exception. </returns>
-        private static Exception
-        NullOrEmptyException (object collection)
+        public static Exception
+        ElementNotFoundException<T> (object collection, T element)
+        {
+            return new Exception (
+                StringUtils.ConcatFormat (
+                    format: "The collection {0} does'nt contains element {1}.",
+                    array: new object[] {
+                        collection,
+                        element
+                    }
+                )
+            );
+        }
+
+        /// <summary>Null or empty collection.</summary>
+        /// <param name="collection"> Collection null or empty. </param>
+        /// <returns>Exception.</returns>
+        public static Exception NullOrEmptyException (object collection)
         {
             return new Exception (
                 StringUtils.ConcatFormat (
@@ -473,6 +623,16 @@ namespace BricksBucket.Collections
                 )
             );
         }
+
+        /// <summary>Prefab is a null reference.</summary>
+        /// <returns>Exception.</returns>
+        public static Exception NullPrefabException () =>
+            new Exception ("Empty prefab reference.");
+
+        /// <summary>Instance is a null reference.</summary>
+        /// <returns>Exception.</returns>
+        public static Exception NullInstanceException () =>
+            new Exception ("Empty instance reference.");
 
         #endregion
     }

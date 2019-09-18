@@ -451,6 +451,40 @@ namespace BricksBucket
             return fields.ToArray ();
         }
 
+        /// <summary> Get all methods with attribute of type T. </summary>
+        /// <typeparam name="T"> Type of attributes. </typeparam>
+        /// <returns> Collection of all attributes. </returns>
+        public static ComponentMethodInfo[]
+        GetMethodsWithAttribute<T> () where T : Attribute
+        {
+            var components = GetAllComponentsInScenes<MonoBehaviour> ();
+
+            var methods = new List<ComponentMethodInfo> ();
+
+            foreach (var component in components)
+            {
+                if (component == null)
+                    continue;
+
+                Type type = component.GetType ();
+                MethodInfo[] methodInfos = type.GetMethods (
+                    BindingFlags.Instance |
+                    BindingFlags.Static |
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic
+                );
+
+                var attributes = methodInfos.Where (
+                    field => field.IsDefined (typeof (T), false)
+                );
+
+                foreach (var attribute in attributes)
+                    methods.Add (new ComponentMethodInfo (attribute, component));
+            }
+
+            return methods.ToArray ();
+        }
+
         /// <summary>
         /// Get all Components on loaded scenes, even all those
         /// that has been disabled.
@@ -675,6 +709,35 @@ namespace BricksBucket
         public ComponentFieldInfo (FieldInfo field, Component component)
         {
             this.field = field;
+            this.component = component;
+        }
+    }
+
+    /// <summary>
+    ///
+    /// Component and FieldInfo.
+    ///
+    /// <para>
+    /// Structure to store Method Info and Component reference.
+    /// </para>
+    ///
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    ///
+    /// </summary>
+    public struct ComponentMethodInfo
+    {
+        /// <summary> Info of the property. </summary>
+        public readonly MethodInfo method;
+
+        /// <summary> Reference to the component. </summary>
+        public readonly Component component;
+
+        /// <summary> Creates a new instance of this structure. </summary>
+        /// <param name="method"> Info of the property. </param>
+        /// <param name="component"> Component </param>
+        public ComponentMethodInfo (MethodInfo method, Component component)
+        {
+            this.method = method;
             this.component = component;
         }
     }

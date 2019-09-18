@@ -86,8 +86,7 @@ namespace BricksBucket
         private static void CheckComponents ()
         {
             var components =
-                SerializedUtils.GetFieldsWithAttribute
-                <AutoFillAttribute> ();
+                SerializedUtils.GetFieldsWithAttribute <AutoFillAttribute> ();
 
             for (int i = 0; i < components.Length; i++)
                 FillProperty (components[i]);

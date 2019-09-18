@@ -6,16 +6,16 @@ namespace BricksBucket.Collections
 {
     /// <summary>
     ///
-    /// Serialized Dictionary.
+    /// Serializable Dictionary.
     ///
     /// <para>
-    /// Dictionary serialized by Unity.
+    /// Dictionary version that can be handled by Unity.
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
     /// 
     /// </summary>
-    public abstract class SerializedDictionary<TKey, TValue> :
+    public abstract class SerializableDictionary<TKey, TValue> :
     Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
         #region Class Properties
@@ -39,12 +39,10 @@ namespace BricksBucket.Collections
         {
             Clear ();
             for (int i = 0; i < _keyData.Count && i < _valueData.Count; i++)
-            {
                 this[_keyData[i]] = _valueData[i];
-            }
         }
 
-        /// <summary> Callback before been deserialized. </summary>
+        /// <summary> Callback before been serialized. </summary>
         void ISerializationCallbackReceiver.OnBeforeSerialize ()
         {
             _keyData.Clear ();

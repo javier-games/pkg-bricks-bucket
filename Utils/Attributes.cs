@@ -160,4 +160,18 @@ namespace BricksBucket
     /// </summary>
     [AttributeUsage (AttributeTargets.Field)]
     public class TagAttribute : PropertyAttribute { }
+
+    /// <summary>
+    ///
+    /// On Save Attribute.
+    ///
+    /// <para>
+    /// Custom callback called on save.
+    /// </para>
+    ///
+    /// <para> By Javier García | @jvrgms | 2019 </para>
+    ///
+    /// </summary>
+    [AttributeUsage (AttributeTargets.Method)]
+    public class OnSaveAttribute : PropertyAttribute { }
 }

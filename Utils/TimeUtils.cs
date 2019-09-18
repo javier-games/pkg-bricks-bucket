@@ -86,82 +86,6 @@ namespace BricksBucket
             _lastStaticTest = string.Empty;
         }
 
-        #endregion
-
-
-
-        #region Coroutines
-
-        /// <summary> Invoke Action on Delay. </summary>
-        /// <param name="waitSeconds"> Seconds to wait. </param>
-        /// <param name="action"> Action to execute. </param>
-        /// <param name="unscaled"> Wether to use unscaled time. </param>
-        /// <returns> IEnumerator. </returns>
-        public static IEnumerator
-        DelayedAction (float waitSeconds, Action action, bool unscaled = false)
-        {
-            if (unscaled)
-                yield return new WaitForUnscaledSeconds (waitSeconds);
-            else
-                yield return new WaitForSeconds (waitSeconds);
-
-            if (action != null)
-                action.Invoke ();
-        }
-
-        /// <summary> Invokes the action after one frame. </summary>
-        /// <param name="action"> Action to execute. </param>
-        /// <returns> IEnumerator. </returns>
-        public static IEnumerator DelayedAction (Action action)
-        {
-            yield return null;
-
-            if (action != null) action.Invoke ();
-        }
-
-        public static IEnumerator UpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
-        {
-
-            if (duration > 0)
-            {
-                float time = 0;
-
-                while (time < duration)
-                {
-                    float t = 1 - ((duration - time) / duration);
-                    onUpdate?.Invoke (t);
-
-                    yield return null;
-                    time += Time.deltaTime;
-                }
-
-                onUpdate?.Invoke (1);
-                onComplete?.Invoke ();
-            }
-        }
-
-        public static IEnumerator UnscaledUpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
-        {
-            if (duration > 0)
-            {
-                float endTime = Time.realtimeSinceStartup + duration;
-                float t = 0;
-                while (t < 1)
-                {
-                    t = 1 - (endTime - Time.realtimeSinceStartup) / duration;
-                    onUpdate?.Invoke (t);
-                    yield return null;
-                }
-
-                onUpdate?.Invoke (1);
-                onComplete?.Invoke ();
-            }
-        }
-
-        #endregion
-
-
-
         #region Nested Classes
 
         /// <summary>
@@ -203,7 +127,8 @@ namespace BricksBucket
                 string testTitle,
                 bool precise = false,
                 LogLayer logLayer = LogLayer.Debug
-            ) {
+            )
+            {
                 _testTitle = testTitle;
                 _precise = precise;
                 _logLayer = logLayer;
@@ -279,6 +204,84 @@ namespace BricksBucket
         }
 
         #endregion
+
+        #endregion
+
+
+
+        #region Coroutines
+
+        /// <summary> Invoke Action on Delay. </summary>
+        /// <param name="waitSeconds"> Seconds to wait. </param>
+        /// <param name="action"> Action to execute. </param>
+        /// <param name="unscaled"> Wether to use unscaled time. </param>
+        /// <returns> IEnumerator. </returns>
+        public static IEnumerator
+        DelayedAction (float waitSeconds, Action action, bool unscaled = false)
+        {
+            if (unscaled)
+                yield return new WaitForUnscaledSeconds (waitSeconds);
+            else
+                yield return new WaitForSeconds (waitSeconds);
+
+            if (action != null)
+                action.Invoke ();
+        }
+
+        /// <summary> Invokes the action after one frame. </summary>
+        /// <param name="action"> Action to execute. </param>
+        /// <returns> IEnumerator. </returns>
+        public static IEnumerator DelayedAction (Action action)
+        {
+            yield return null;
+
+            if (action != null) action.Invoke ();
+        }
+
+        public static IEnumerator
+        UpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
+        {
+
+            if (duration > 0)
+            {
+                float time = 0;
+
+                while (time < duration)
+                {
+                    float t = 1 - ((duration - time) / duration);
+                    onUpdate?.Invoke (t);
+
+                    yield return null;
+                    time += Time.deltaTime;
+                }
+
+                onUpdate?.Invoke (1);
+                onComplete?.Invoke ();
+            }
+        }
+
+        public static IEnumerator
+        UnscaledUpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
+        {
+            if (duration > 0)
+            {
+                float endTime = Time.realtimeSinceStartup + duration;
+                float t = 0;
+                while (t < 1)
+                {
+                    t = 1 - (endTime - Time.realtimeSinceStartup) / duration;
+                    onUpdate?.Invoke (t);
+                    yield return null;
+                }
+
+                onUpdate?.Invoke (1);
+                onComplete?.Invoke ();
+            }
+        }
+
+        #endregion
+
+
     }
 
     /// <summary>

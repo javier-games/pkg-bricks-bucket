@@ -1,7 +1,8 @@
 {
     "name": "UtilsEditor",
     "references": [
-        "GUID:8ab0e9122b4dc4d4886967aadc6b66fe"
+        "GUID:8ab0e9122b4dc4d4886967aadc6b66fe",
+        "GUID:ff4fb95963fb88c44813bcb75bc62ad0"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

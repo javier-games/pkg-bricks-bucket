@@ -2,9 +2,11 @@
     "name": "CollectionsEditor",
     "references": [
         "GUID:8ab0e9122b4dc4d4886967aadc6b66fe",
-        "GUID:d5b2c5c4b8e454bddb435b4a4a2f0e05"
+        "GUID:d5b2c5c4b8e454bddb435b4a4a2f0e05",
+        "GUID:ff4fb95963fb88c44813bcb75bc62ad0",
+        "GUID:8ab1e12d57ee65f44b41c91c8c89d2a9",
+        "GUID:0ec9e965a76903443b2e244983ee3c19"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
