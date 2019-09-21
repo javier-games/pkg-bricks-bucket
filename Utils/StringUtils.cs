@@ -22,7 +22,9 @@ namespace BricksBucket
 
         #region Concatenation
 
-        /// <summary> Concatenate the specified strings. </summary>
+        /// <summary>
+        /// Concatenate the specified strings.
+        /// </summary>
         /// <returns>The concatenated string.</returns>
         /// <param name="array">String array.</param>
         public static string Concat (params object[] array)
@@ -39,7 +41,9 @@ namespace BricksBucket
             return stringBuilder.ToString ();
         }
 
-        /// <summary> Concatenates with the format. </summary>
+        /// <summary>
+        /// Concatenates with the format.
+        /// </summary>
         /// <returns>The format.</returns>
         /// <param name="format">Format.</param>
         /// <param name="array">Array.</param>
@@ -62,7 +66,9 @@ namespace BricksBucket
 
         #region System.IO
 
-        /// <summary> Generates an stream from string. </summary>
+        /// <summary>
+        /// Generates an stream from string.
+        /// </summary>
         /// <returns>The stream from string.</returns>
         /// <param name="toConvert">String to convert.</param>
         public static Stream ToStream (this string toConvert)
@@ -85,46 +91,56 @@ namespace BricksBucket
         public static class RichTextFormat
         {
             /// <summary> Color Format. </summary>
-            public const string Color = "<color={0}>{1}</color>";
+            public const string Color = "<color={1}>{0}</color>";
             /// <summary> Size Format. </summary>
-            public const string Size = "<size={0}>{1}</size>";
+            public const string Size = "<size={1}>{0}</size>";
             /// <summary> Bold Format. </summary>
             public const string Bold = "<b>{0}</b>";
             /// <summary> Italic Format. </summary>
             public const string Italic = "<i>{0}</i>";
         }
 
-        /// <summary> Add RichText Color Tags to the message. </summary>
-        /// <param name="message"></param>
-        /// <param name="color"></param>
-        /// <returns> Formated RichText string. </returns>
+        /// <summary>
+        /// Add RichText Color Tags to the message.
+        /// </summary>
+        /// <param name="message">Message to format.</param>
+        /// <param name="color">Color to use.</param>
+        /// <returns>Formated RichText string.</returns>
         public static string RichTextColor(this string message, Color color) =>
-            ConcatFormat(RichTextFormat.Color, color.HEX(), message);
+            ConcatFormat(RichTextFormat.Color, message, color.HEX());
 
-        /// <summary> Add RichText Color Tags to the message. </summary>
-        /// <param name="message"></param>
-        /// <param name="color"></param>
-        /// <returns> Formated RichText string. </returns>
-        public static string RichTextColor (this string message, string color) =>
-            ConcatFormat (RichTextFormat.Color, color, message);
+		/// <summary>
+        /// Add RichText Color Tags to the message.
+        /// </summary>
+		/// <param name="message">Message to format.</param>
+		/// <param name="color">Color to use.</param>
+		/// <returns>Formated RichText string.</returns>
+		public static string RichTextColor (this string message, string color) =>
+            ConcatFormat (RichTextFormat.Color, message, color);
 
-        /// <summary> Add RichText Size Tags to the message. </summary>
-        /// <param name="message"></param>
-        /// <param name="size"></param>
-        /// <returns> Formated RichText string. </returns>
-        public static string RichTextSize (this string message, int size) =>
-            ConcatFormat (RichTextFormat.Size, size, message);
+		/// <summary>
+        /// Add RichText Size Tags to the message.
+        /// </summary>
+		/// <param name="message">Message to format.</param>
+		/// <param name="size">Size to use.</param>
+		/// <returns>Formated RichText string.</returns>
+		public static string RichTextSize (this string message, int size) =>
+            ConcatFormat (RichTextFormat.Size, message, size);
 
-        /// <summary> Add RichText Bold Tags to the message. </summary>
-        /// <param name="message"></param>
-        /// <returns> Formated RichText string. </returns>
-        public static string RichTextBold (this string message) =>
+		/// <summary>
+        /// Add RichText Bold Tags to the message.
+        /// </summary>
+		/// <param name="message">Message to format.</param>
+		/// <returns>Formated RichText string.</returns>
+		public static string RichTextBold (this string message) =>
             ConcatFormat (RichTextFormat.Bold, message);
 
-        /// <summary> Add RichText Italics Tags to the message. </summary>
-        /// <param name="message"></param>
-        /// <returns> Formated RichText string. </returns>
-        public static string RichTextItalics (this string message) =>
+		/// <summary>
+        /// Add RichText Italics Tags to the message.
+        /// </summary>
+		/// <param name="message">Message to format.</param>
+		/// <returns>Formated RichText string.</returns>
+		public static string RichTextItalics (this string message) =>
             ConcatFormat (RichTextFormat.Italic, message);
 
         #endregion
@@ -167,9 +183,11 @@ namespace BricksBucket
             public const string Replacement2 = "$1 $2";
         }
 
-        /// <summary> Converts a string from camel case. </summary>
-        /// <param name="toConvert"> String to convert. </param>
-        /// <returns> String from camel case. </returns>
+        /// <summary>
+        /// Converts a string from camel case.
+        /// </summary>
+        /// <param name="toConvert">String to convert.</param>
+        /// <returns>String from camel case.</returns>
         public static string FromCamelCase (this string toConvert)
         {
             if (string.IsNullOrEmpty (toConvert))
@@ -195,32 +213,40 @@ namespace BricksBucket
             return firstLetter;
         }
 
-        /// <summary> Converts a string to camel case. </summary>
-        /// <param name="toConvert"></param>
-        /// <returns> Camel case string. </returns>
-        public static string ToCamelCase (this string toConvert) =>
+		/// <summary>
+        /// Converts a string to camel case.
+        /// </summary>
+		/// <param name="toConvert">String to convert.</param>
+		/// <returns>Camel case string.</returns>
+		public static string ToCamelCase (this string toConvert) =>
             Regex.Replace (
                 input: toConvert,
                 pattern: RegexPatterns.ToCamelCasePattern,
                 replacement: RegexPatterns.Replacement1
             ).Trim ();
 
-        /// <summary> Whether this is an element identifier. </summary>
-        /// <param name="toValidate"></param>
-        /// <returns> Whether this is an element identifier or not. </returns>
-        public static bool IsElementIdentifier (this string toValidate) =>
+		/// <summary>
+        /// Whether this is an element identifier.
+        /// </summary>
+		/// <param name="toValidate">String to validate.</param>
+		/// <returns>Whether this is an element identifier or not.</returns>
+		public static bool IsElementIdentifier (this string toValidate) =>
             Regex.IsMatch (toValidate, RegexPatterns.ElementIdentifier);
 
-        /// <summary> Whether this is an element index. </summary>
-        /// <param name="toValidate"></param>
-        /// <returns> Whether this is an element index or not.</returns>
-        public static bool IsElementIndex (this string toValidate) =>
+		/// <summary>
+        /// Whether this is an element index.
+        /// </summary>
+		/// <param name="toValidate">String to validate.</param>
+		/// <returns>Whether this is an element index or not.</returns>
+		public static bool IsElementIndex (this string toValidate) =>
             Regex.IsMatch (toValidate, RegexPatterns.ElementIndex);
 
-        /// <summary> Whether this is a member indentifier. </summary>
-        /// <param name="toValidate"></param>
-        /// <returns> Whether this is a member indentifier or not. </returns>
-        public static bool IsMemberIdentifier (this string toValidate) =>
+		/// <summary>
+        /// Whether this is a member indentifier.
+        /// </summary>
+		/// <param name="toValidate">String to validate.</param>
+		/// <returns>Whether this is a member indentifier or not.</returns>
+		public static bool IsMemberIdentifier (this string toValidate) =>
             Regex.IsMatch (toValidate, RegexPatterns.MemberIdentifier);
 
         #endregion
@@ -229,8 +255,10 @@ namespace BricksBucket
 
         #region Collections
 
-        /// <summary> Parse value path. </summary>
-        /// <param name="path"></param>
+        /// <summary>
+        /// Parse value path.
+        /// </summary>
+        /// <param name="path">Path to parse.</param>
         public static IEnumerable<object> ParseValuePath (string path)
         {
             var keys = path.Split ('.');

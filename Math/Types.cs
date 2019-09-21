@@ -38,9 +38,11 @@ namespace BricksBucket
 
         #region Constructor
 
-        /// <summary> Creates a new struct with min and max values. </summary>
-        /// <param name="min"> Min value in range. </param>
-        /// <param name="max"> Max value in range. </param>
+        /// <summary>
+        /// Creates a new struct with min and max values.
+        /// </summary>
+        /// <param name="min">Min value in range.</param>
+        /// <param name="max">Max value in range.</param>
         public RangeFloatSerialized (float min, float max)
         {
             if (max < min)
@@ -56,22 +58,28 @@ namespace BricksBucket
 
         #region Class Implementation
 
-        /// <summary> Evaluates wether a value is in range. </summary>
-        /// <param name="value"> Value to evaluate </param>
-        /// <returns> Wether a value is in range. </returns>
+        /// <summary>
+        /// Evaluates wether a value is in range.
+        /// </summary>
+        /// <param name="value">Value to evaluate.</param>
+        /// <returns>Wether a value is in range.</returns>
         public bool InRange (float value)
         {
             return value.InRange (Min, Max);
         }
 
-        /// <summary> Returns a random number between [Min, Max]. </summary>
+        /// <summary>
+        /// Returns a random number between [Min, Max].
+        /// </summary>
         /// <returns> Random number. </returns>
         public float GetRandom ()
         {
             return Random.Range (Min, Max);
         }
 
-        /// <summary> Returns an int version of the range. </summary>
+        /// <summary>
+        /// Returns an int version of the range.
+        /// </summary>
         /// <param name="roundTypeMin"> Round Type for minimum value. </param>
         /// <param name="roundTypeMax"> Round Type for maximum value. </param>
         /// <returns> RangeIntSerialized version of the range. </returns>
@@ -126,7 +134,9 @@ namespace BricksBucket
 
         #region Constructor
 
-        /// <summary> Creates a new struct with min and max values. </summary>
+        /// <summary>
+        /// Creates a new struct with min and max values.
+        /// </summary>
         /// <param name="min"> Min value in range. </param>
         /// <param name="max"> Max value in range. </param>
         public RangeIntSerialized (int min, int max)
@@ -144,7 +154,9 @@ namespace BricksBucket
 
         #region Class Implementation
 
-        /// <summary> Evaluates wether a value is in range. </summary>
+        /// <summary>
+        /// Evaluates wether a value is in range.
+        /// </summary>
         /// <param name="value"> Value to evaluate </param>
         /// <returns> Wether a value is in range. </returns>
         public bool InRange (int value)
@@ -152,7 +164,9 @@ namespace BricksBucket
             return value.InRange (Min, Max);
         }
 
-        /// <summary> Returns a random number between [Min, Max]. </summary>
+        /// <summary>
+        /// Returns a random number between [Min, Max].
+        /// </summary>
         /// <param name="maxInclusive"> Wether max must be inclusive</param>
         /// <returns> Random number. </returns>
         public int GetRandom (bool maxInclusive = true)

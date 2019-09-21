@@ -720,8 +720,4 @@ namespace BricksBucket.Math
 
         #endregion
     }
-
-
-
-
 }

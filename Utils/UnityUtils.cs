@@ -19,8 +19,8 @@ namespace BricksBucket
         #region Color
 
         /// <summary> Add Brightness to color. </summary>
-        /// <param name="color"></param>
-        /// <param name="brightness"></param>
+        /// <param name="color">Color to manage brightness.</param>
+        /// <param name="brightness">Brightness to add.</param>
         /// <returns> Brightness color. </returns>
         public static Color Brightness (this Color color, float brightness)
         {
@@ -32,21 +32,31 @@ namespace BricksBucket
             );
         }
 
-        /// <summary> Convert string HEX color to Color. </summary>
-        /// <param name="stringToConvert"></param>
-        /// <returns> Color. </returns>
+        /// <summary> Sets the alpha of a color. </summary>
+        /// <param name="color">Color to manage brightness.</param>
+        /// <param name="alpha">New alpha to add.</param>
+        /// <returns> Brightness color. </returns>
+        public static Color SetAlpha(this Color color, float alpha) =>
+            new Color(color.r, color.g, color.b, alpha);
+
+        /// <summary>Convert string HEX color to Color.</summary>
+        /// <param name="stringToConvert">String to Convert.</param>
+        /// <returns>Color from string.</returns>
         public static Color ToColor (this string stringToConvert)
         {
             ColorUtility.TryParseHtmlString (stringToConvert, out Color color);
             return color;
         }
 
-        /// <summary> Convert Color to HEX string color.  </summary>
-        /// <param name="color"></param>
-        /// <returns> HEX code of a color. </returns>
+        /// <summary>Convert Color to HEX string color.</summary>
+        /// <param name="color">Color to convert to HEX.</param>
+        /// <returns>HEX code of a color.</returns>
         public static string HEX (this Color color)
         {
-            return StringUtils.Concat ("#", ColorUtility.ToHtmlStringRGBA (color));
+            return StringUtils.Concat (
+                "#",
+                ColorUtility.ToHtmlStringRGBA (color)
+            );
         }
 
         #endregion
@@ -65,12 +75,13 @@ namespace BricksBucket
             return Sprite.Create (texture, rect, pivot);
         }
 
-        /// <summary> Generates a new sample texture resized. </summary>
-        /// <param name="source"></param>
-        /// <param name="targetWidth"></param>
-        /// <param name="targetHeight"></param>
-        /// <returns> New texture resized. </returns>
-        public static Texture2D GetSample (this Texture2D source, int targetWidth, int targetHeight)
+        /// <summary>Generates a new sample texture resized.</summary>
+        /// <param name="source">Texture base.</param>
+        /// <param name="targetWidth">Target width.</param>
+        /// <param name="targetHeight">Target Height.</param>
+        /// <returns>New texture resized.</returns>
+        public static Texture2D
+        GetSample (this Texture2D source, int targetWidth, int targetHeight)
         {
             var width = source.width;
             var height = source.height;
@@ -134,18 +145,19 @@ namespace BricksBucket
             return texture;
         }
 
-        /// <summary> Crops the current texture. </summary>
-        /// <param name="original"></param>
-        /// <param name="offset"></param>
-        /// <returns> Crop the current text. </returns>
-        public static Texture2D Crop (this Texture2D original, RectOffset offset)
+        /// <summary>Crops the current texture.</summary>
+        /// <param name="source">Texture base.</param>
+        /// <param name="offset">Offset to apply.</param>
+        /// <returns>Crop the current text.</returns>
+        public static Texture2D
+        Crop (this Texture2D source, RectOffset offset)
         {
             int x = offset.left + offset.right;
             int y = offset.top + offset.bottom;
-            int diffWidth = original.width - x;
-            int diffHeight = original.height - y;
+            int diffWidth = source.width - x;
+            int diffHeight = source.height - y;
 
-            var pixels = original.GetPixels (
+            var pixels = source.GetPixels (
                 x: offset.left,
                 y: offset.bottom,
                 blockWidth: diffWidth,

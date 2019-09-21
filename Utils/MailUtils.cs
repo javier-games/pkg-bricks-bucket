@@ -5,30 +5,136 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.ComponentModel;
 
-static public class MailUtils
+namespace BricksBucket
 {
-    static public void SendMail (
-        string host,
-        int port,
-        string from,
-        string pass,
-        string to,
-        string subject,
-        string body,
-        string filePath = "",
-        SendCompletedEventHandler callback = null
-    ) {
+    static public class MailUtils
+    {
 
-        //  Validation mail parameters Process.
-        bool invalidMail =
-            string.IsNullOrWhiteSpace (host) ||
-            string.IsNullOrWhiteSpace (from) ||
-            string.IsNullOrWhiteSpace (pass) ||
-            string.IsNullOrWhiteSpace (to);
+        /// <summary>
+        /// Sends an e-mail to a single receiver.
+        /// </summary>
+        /// <param name="host">Host of the sender mail account.</param>
+        /// <param name="port">Port of the sender mail account.</param>
+        /// <param name="sender">Sender mail account.</param>
+        /// <param name="pass">Password of the sender's mail.</param>
+        /// <param name="receiver">Receiver of the mail.</param>
+        /// <param name="subject">Subject of the mail.</param>
+        /// <param name="body">Body of the mail.</param>
+        /// <param name="file">File path of the attachment.</param>
+        /// <param name="callback">Callback method.</param>
+        static public void SendMail (
+            string host,
+            int port,
+            string sender,
+            string pass,
+            string receiver,
+            string subject,
+            string body,
+            string file = "",
+            SendCompletedEventHandler callback = null
+        ) {
 
-        if (invalidMail)
+            //  Validation mail parameters Process.
+
+            //  Sender Validation.
+            if (string.IsNullOrWhiteSpace (sender) || !IsValidEmail (sender))
+            {
+                ExceptionCallback ("Invalid e-mail sender.", callback);
+                return;
+            }
+
+            //  Reciver Validation.
+            if (string.IsNullOrWhiteSpace (receiver)|| !IsValidEmail (receiver))
+            {
+                ExceptionCallback ("Invalid e-mail receiver.", callback);
+                return;
+            }
+
+            //  Validating Password
+            if (string.IsNullOrWhiteSpace (pass))
+            {
+                ExceptionCallback ("Empty Password.", callback);
+                return;
+            }
+
+
+            //  Validating host.
+            if (string.IsNullOrWhiteSpace (host))
+            {
+                ExceptionCallback ("Invalid Host.", callback);
+                return;
+            }
+
+
+            // Create the mail message
+            using (MailMessage mail = new MailMessage ())
+            {
+                mail.IsBodyHtml = true;
+                mail.From = new MailAddress (sender);
+                mail.To.Add (receiver);
+                mail.Subject = subject;
+                mail.Body = body;
+
+
+                // Add the attachment
+
+                if (!string.IsNullOrEmpty (file))
+                {
+                    Attachment data = new Attachment (
+                        file,
+                        MediaTypeNames.Application.Octet
+                    );
+
+                    // Add time stamp information for the file.
+                    ContentDisposition disposition = data.ContentDisposition;
+                    disposition.CreationDate = File.GetCreationTime (file);
+                    disposition.ModificationDate = File.GetLastWriteTime (file);
+                    disposition.ReadDate = File.GetLastAccessTime (file);
+
+                    mail.Attachments.Add (data);
+                }
+
+                // Send the email
+                using (var smtpClient = new SmtpClient (host))
+                {
+
+                    smtpClient.Port = port;
+                    smtpClient.Credentials = new NetworkCredential (
+                        userName: sender,
+                        password: pass
+                    );
+                    smtpClient.EnableSsl = true;
+
+                    //  Add callback.
+                    if (callback != null)
+                        smtpClient.SendCompleted += callback;
+
+                    try
+                    {
+                        smtpClient.SendAsync (mail, mail);
+                    }
+                    catch (Exception e)
+                    {
+                        //  Invoke Callback.
+                        if (callback != null)
+                            callback.Invoke (
+                                sender: mail,
+                                new AsyncCompletedEventArgs (e, true, mail)
+                            );
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls an exception or a callback.
+        /// </summary>
+        /// <param name="message">Message of the exception.</param>
+        /// <param name="callback">Callback Method.</param>
+        private static void
+        ExceptionCallback (string message, SendCompletedEventHandler callback)
         {
-            var e = new Exception ("Invalid mail settings.");
+            var e = new Exception (message);
             if (callback != null)
                 callback.Invoke (
                     sender: null,
@@ -37,60 +143,21 @@ static public class MailUtils
             throw e;
         }
 
-
-        // Create the mail message
-        using (MailMessage mail = new MailMessage())
+        /// <summary>
+        /// Validates an string as a mail.
+        /// </summary>
+        /// <param name="email">String to validate.</param>
+        /// <returns>Wether the string is valid.</returns>
+        public static bool IsValidEmail (string email)
         {
-            mail.IsBodyHtml = true;
-            mail.From = new MailAddress(from);
-            mail.To.Add(to);
-            mail.Subject = subject;
-            mail.Body = body;
-
-
-            // Add the attachment
-
-            if (!string.IsNullOrEmpty(filePath))
+            try
             {
-                Attachment data = new Attachment(
-                    filePath,
-                    MediaTypeNames.Application.Octet
-                );
-
-                // Add time stamp information for the file.
-                ContentDisposition disposition = data.ContentDisposition;
-                disposition.CreationDate = File.GetCreationTime(filePath);
-                disposition.ModificationDate = File.GetLastWriteTime(filePath);
-                disposition.ReadDate = File.GetLastAccessTime(filePath);
-
-                mail.Attachments.Add(data);
+                var mail = new MailAddress (email);
+                return mail.Address == email;
             }
-
-            // Send the email
-            using ( var smtpClient = new SmtpClient (host))
+            catch
             {
-
-                smtpClient.Port = port;
-                smtpClient.Credentials = new NetworkCredential (from, pass);
-                smtpClient.EnableSsl = true;
-
-                //  Add callback.
-                if (callback != null)
-                    smtpClient.SendCompleted += callback;
-
-                try
-                {
-                    smtpClient.SendAsync (mail, mail);
-                }
-                catch (Exception e)
-                {
-                    //  Invoke Callback.
-                    if (callback != null)
-                        callback.Invoke (
-                            sender: mail,
-                            new AsyncCompletedEventArgs (e, true, mail)
-                        );
-                }
+                return false;
             }
         }
     }

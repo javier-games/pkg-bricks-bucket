@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿#if UNITY_EDITOR
+
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace BricksBucket
+namespace BricksBucket.Editor
 {
     /// <summary>
     ///
@@ -86,7 +88,8 @@ namespace BricksBucket
             }
             catch (System.Exception e)
             {
-                DebugEditor.LogException (e);
+                Debug.Log (e);
+                //DebugEditor.LogException (e);
             }
         }
 
@@ -211,7 +214,8 @@ namespace BricksBucket
             }
             catch (System.Exception e)
             {
-                DebugEditor.LogError (e);
+                Debug.Log (e);
+                //DebugEditor.LogError (e);
                 settingsInstance = null;
             }
 
@@ -286,3 +290,5 @@ namespace BricksBucket
 
     }
 }
+
+#endif

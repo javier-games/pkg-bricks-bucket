@@ -1,11 +1,13 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
 using EditorProcessor = UnityEditor.AssetModificationProcessor;
 
-namespace BricksBucket
+namespace BricksBucket.Editor
 {
     /// <summary>
     ///
@@ -81,3 +83,5 @@ namespace BricksBucket
         }
     }
 }
+
+#endif

@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Linq;
 using System.Text;
@@ -10,7 +12,7 @@ using UnityEditor;
 
 using Object = UnityEngine.Object;
 
-namespace BricksBucket
+namespace BricksBucket.Editor
 {
     /// <summary>
     ///
@@ -742,3 +744,5 @@ namespace BricksBucket
         }
     }
 }
+
+#endif

@@ -23,15 +23,17 @@ namespace BricksBucket
         #region Time Test System
 
         /// <summary> History of tests. </summary>
-        private static readonly Dictionary<string, TestData>
-        _tests = new Dictionary<string, TestData> ();
+        private static readonly Dictionary<string, TimeTestData>
+        _tests = new Dictionary<string, TimeTestData> ();
 
         /// <summary> Name of the last test. </summary>
         private static string _lastStaticTest = string.Empty;
 
-        /// <summary> Starts or resume a test of time. </summary>
-        /// <param name="title"> Title of the test. </param>
-        /// <param name="useMilliseconds"> Wether use milliseconds.  </param>
+        /// <summary>
+        /// Starts or resume a test of time.
+        /// </summary>
+        /// <param name="title">Title of the test.</param>
+        /// <param name="useMilliseconds">Wether use milliseconds.</param>
         public static void
         StartTest (string title, bool useMilliseconds = false)
         {
@@ -45,12 +47,14 @@ namespace BricksBucket
             else
             {
                 _lastStaticTest = title;
-                _tests[_lastStaticTest] = new TestData (title, useMilliseconds);
+                _tests[_lastStaticTest] = new TimeTestData (title, useMilliseconds);
             }
         }
 
-        /// <summary> Pauses the specified time time. </summary>
-        /// <param name="title"> Name of the test to pause. </param>
+        /// <summary>
+        /// Pauses the specified time time.
+        /// </summary>
+        /// <param name="title">Name of the test to pause.</param>
         public static void
         PauseTest (string title = null)
         {
@@ -67,8 +71,10 @@ namespace BricksBucket
             _tests[title].Timer.Stop ();
         }
 
-        /// <summary> Ends the specified time test. </summary>
-        /// <param name="title"></param>
+        /// <summary>
+        /// Ends the specified time test.
+        /// </summary>
+        /// <param name="title">Name of the test.</param>
         public static void EndTest (string title = null)
         {
             title = string.IsNullOrWhiteSpace (title) ? _lastStaticTest : title;
@@ -99,7 +105,7 @@ namespace BricksBucket
         /// <para> By Javier García | @jvrgms | 2019 </para>
         ///
         /// </summary>
-        private struct TestData
+        private struct TimeTestData
         {
             #region TestData Class Members
 
@@ -119,11 +125,13 @@ namespace BricksBucket
 
             #region TestData Constructor
 
-            /// <summary> Creates and Initialize a new test. </summary>
-            /// <param name="testTitle"> Name of the test. </param>
-            /// <param name="precise"> Wether to use second or milis. </param>
-            /// <param name="logLayer"> Layer where to logs test data. </param>
-            public TestData (
+            /// <summary>
+            /// Creates and Initialize a new test.
+            /// </summary>
+            /// <param name="testTitle">Name of the test.</param>
+            /// <param name="precise">Wether to use second or milis.</param>
+            /// <param name="logLayer">Layer where to logs test data.</param>
+            public TimeTestData (
                 string testTitle,
                 bool precise = false,
                 LogLayer logLayer = LogLayer.Debug
@@ -139,7 +147,9 @@ namespace BricksBucket
 
             #region TestData Class Implementation
 
-            /// <summary> Ends the test just on debug mode. </summary>
+            /// <summary>
+            /// Ends the test just on debug mode.
+            /// </summary>
             [Conditional ("DEBUG")]
             public void End ()
             {
@@ -169,7 +179,7 @@ namespace BricksBucket
         /// <para> By Javier García | @jvrgms | 2019 </para>
         ///
         /// </summary>
-        public class Test : IDisposable
+        public class TimeTest : IDisposable
         {
             #region Test Members
 
@@ -180,20 +190,27 @@ namespace BricksBucket
 
             #region Test Constructor
 
-            /// <summary> Creates a new test of time. </summary>
-            /// <param name="title"> Name of the test. </param>
-            /// <param name="useMilliseconds"> Wether use millis. </param>
-            public Test (string title, bool useMilliseconds = false)
+            /// <summary>
+            /// Creates a new test of time.
+            /// </summary>
+            /// <param name="title">Name of the test.</param>
+            /// <param name="useMilliseconds">Wether use millis.</param>
+            public TimeTest (string title, bool useMilliseconds = false)
             {
                 _disposableTest = title;
-                _tests[_disposableTest] = new TestData (title, useMilliseconds);
+                _tests[_disposableTest] = new TimeTestData (
+                    testTitle: title,
+                    precise: useMilliseconds
+                );
             }
 
             #endregion
 
             #region IDisposable Implementation
 
-            /// <summary> Disposes thecurrent instance. </summary>
+            /// <summary>
+            /// Disposes thecurrent instance.
+            /// </summary>
             public void Dispose ()
             {
                 _tests[_disposableTest].End ();
@@ -211,67 +228,78 @@ namespace BricksBucket
 
         #region Coroutines
 
-        /// <summary> Invoke Action on Delay. </summary>
+        /// <summary>
+        /// Invoke Action on Delay.
+        /// </summary>
         /// <param name="waitSeconds"> Seconds to wait. </param>
         /// <param name="action"> Action to execute. </param>
-        /// <param name="unscaled"> Wether to use unscaled time. </param>
+        /// <param name="scaledTime"> Wether to use unscaled time. </param>
         /// <returns> IEnumerator. </returns>
         public static IEnumerator
-        DelayedAction (float waitSeconds, Action action, bool unscaled = false)
+        DelayedAction (float waitSeconds, Action action, bool scaledTime = true)
         {
-            if (unscaled)
-                yield return new WaitForUnscaledSeconds (waitSeconds);
-            else
+            if (scaledTime)
                 yield return new WaitForSeconds (waitSeconds);
+            else
+                yield return new WaitForUnscaledSeconds (waitSeconds);
 
             if (action != null)
                 action.Invoke ();
         }
 
-        /// <summary> Invokes the action after one frame. </summary>
-        /// <param name="action"> Action to execute. </param>
-        /// <returns> IEnumerator. </returns>
+        /// <summary>
+        /// Invokes the action after one frame.
+        /// </summary>
+        /// <param name="action">Action to execute.</param>
+        /// <returns>IEnumerator.</returns>
         public static IEnumerator DelayedAction (Action action)
         {
             yield return null;
 
-            if (action != null) action.Invoke ();
+            if (action != null)
+                action.Invoke ();
         }
 
+        /// <summary>
+        /// Invokes during the specified duration the OnUpdate callback.
+        /// </summary>
+        /// <param name="duration">Duration of the coroutine.</param>
+        /// <param name="onUpdate">Callback called each time.</param>
+        /// <param name="onComplete">Called when coroutine finishes.</param>
+        /// <param name="scaledTime">Wether use scaled time.</param>
+        /// <returns></returns>
         public static IEnumerator
-        UpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
-        {
+        UpdateForSeconds (
+            float duration,
+            Action<float> onUpdate,
+            Action onComplete = null,
+            bool scaledTime = true
+        ) {
 
             if (duration > 0)
             {
-                float time = 0;
-
-                while (time < duration)
+                if (scaledTime)
                 {
-                    float t = 1 - ((duration - time) / duration);
-                    onUpdate?.Invoke (t);
+                    float time = 0;
+                    while (time < duration)
+                    {
+                        float t = 1 - ((duration - time) / duration);
+                        onUpdate?.Invoke (t);
 
-                    yield return null;
-                    time += Time.deltaTime;
+                        yield return null;
+                        time += Time.deltaTime;
+                    }
                 }
-
-                onUpdate?.Invoke (1);
-                onComplete?.Invoke ();
-            }
-        }
-
-        public static IEnumerator
-        UnscaledUpdateForSeconds (float duration, Action<float> onUpdate, Action onComplete)
-        {
-            if (duration > 0)
-            {
-                float endTime = Time.realtimeSinceStartup + duration;
-                float t = 0;
-                while (t < 1)
+                else
                 {
-                    t = 1 - (endTime - Time.realtimeSinceStartup) / duration;
-                    onUpdate?.Invoke (t);
-                    yield return null;
+                    float time = Time.realtimeSinceStartup + duration;
+                    float t = 0;
+                    while (t < 1)
+                    {
+                        t = 1 - (time - Time.realtimeSinceStartup) / duration;
+                        onUpdate?.Invoke (t);
+                        yield return null;
+                    }
                 }
 
                 onUpdate?.Invoke (1);
@@ -280,7 +308,6 @@ namespace BricksBucket
         }
 
         #endregion
-
 
     }
 
@@ -317,8 +344,10 @@ namespace BricksBucket
 
         #region Constructor
 
-        /// <summary> Suspends the coroutine execution for the given
-        /// amount of seconds without using scaled time. </summary>
+        /// <summary>
+        /// Suspends the coroutine execution for the given amount of
+        /// seconds without using scaled time.
+        /// </summary>
         /// <param name="waitTime"> Time in seconds to wait. </param>
         public WaitForUnscaledSeconds (float waitTime)
         {

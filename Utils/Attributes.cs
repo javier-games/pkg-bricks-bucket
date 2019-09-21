@@ -1,7 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BricksBucket
+/*
+ *
+ * Attributes blaced in the same sirenix name space to just use one
+ * library for all editor attributes.
+ *
+ */
+namespace Sirenix.OdinInspector
 {
     /// <summary>
     ///
