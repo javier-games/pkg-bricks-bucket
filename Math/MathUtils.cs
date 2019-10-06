@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using Enum = System.Enum;
 
@@ -538,6 +538,23 @@ namespace BricksBucket
             return new Vector2Int (x, y);
         }
 
+        /// <summary>
+        /// Returns a promedy of an array of vectors.
+        /// </summary>
+        /// <param name="collection">Collection of vectors.</param>
+        /// <returns>Promedy vector in an array.</returns>
+        public static Vector2 Average (this Vector2[] collection)
+        {
+            var promedy = Vector2.zero;
+            var values = collection;
+            for (int i = 0; i < values.Length; i++)
+                promedy += values[i];
+
+            promedy /= values.Length;
+
+            return promedy;
+        }
+
         #endregion
 
 
@@ -659,6 +676,23 @@ namespace BricksBucket
                 break;
             }
             return new Vector3Int (x, y, z);
+        }
+
+        /// <summary>
+        /// Returns a promedy of an array of vectors.
+        /// </summary>
+        /// <param name="collection">Collection of vectors.</param>
+        /// <returns>Promedy vector in an array.</returns>
+        public static Vector3 Average (this Vector3[] collection)
+        {
+            var promedy = Vector3.zero;
+            var values = collection;
+            for (int i = 0; i < values.Length; i++)
+                promedy += values[i];
+
+            promedy /= values.Length;
+
+            return promedy;
         }
 
         #endregion
