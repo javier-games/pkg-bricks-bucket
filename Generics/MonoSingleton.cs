@@ -4,7 +4,7 @@ namespace BricksBucket.Generics
 {
 
     /// <summary>
-    /// Singleton.
+    /// MonoSingleton.
     /// 
     /// <para>
     /// Generic singleton that inherits from monobehaviour.
