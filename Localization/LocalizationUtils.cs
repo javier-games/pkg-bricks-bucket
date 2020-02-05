@@ -1,8 +1,18 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace BricksBucket.Localization
 {
+    /// <summary>
+    /// 
+    /// Localization Utils
+    ///
+    /// <para>
+    /// Static collection of methods and variables for localization.
+    /// </para>
+    /// 
+    /// <para> By Javier García | @jvrgms | 2020 </para>
+    /// 
+    /// </summary>
     public static class LocalizationUtils
     {
 
@@ -120,7 +130,7 @@ namespace BricksBucket.Localization
             {26, "Corsican"},
             {27, "Cree"},
             {28, "Czech"},
-            {29, "Church Slavic, Old Slavonic, Church Slavonic, Old Bulgarian, Old Church Slavonic"},
+            {29, "Church Slavic, Old-Church Slavonic, Old Bulgarian"},
             {30, "Chuvash"},
             {31, "Welsh"},
             {32, "Danish"},

@@ -135,7 +135,8 @@
         HY = 63,
         /// <summary> Herero ISO 639-1 Code. </summary>
         HZ = 64,
-        /// <summary> Interlingua(International Auxiliary Language Association) ISO 639-1 Code. </summary>
+        /// <summary> Interlingua(International Auxiliary Language Association)
+        /// ISO 639-1 Code. </summary>
         IA = 65,
         /// <summary> Indonesian ISO 639-1 Code. </summary>
         ID = 66,
@@ -195,7 +196,8 @@
         LB = 93,
         /// <summary> Ganda ISO 639-1 Code. </summary>
         LG = 94,
-        /// <summary> Limburgan, Limburger, Limburgish ISO 639-1 Code. </summary>
+        /// <summary> Limburgan, Limburger, Limburgish ISO 639-1
+        /// Code. </summary>
         LI = 95,
         /// <summary> Lingala ISO 639-1 Code. </summary>
         LN = 96,
@@ -440,7 +442,8 @@
         CRE = 27,
         /// <summary> Czech ISO 639-2T Code. </summary>
         CES = 28,
-        /// <summary> Church Slavic, Old Slavonic, Church Slavonic, Old Bulgarian,Old Church Slavonic ISO 639-2T Code. </summary>
+        /// <summary> Church Slavic, Old Slavonic, Church Slavonic,
+        /// Old Bulgarian,Old Church Slavonic ISO 639-2T Code. </summary>
         CHU = 29,
         /// <summary> Chuvash ISO 639-2T Code. </summary>
         CHV = 30,
@@ -512,7 +515,8 @@
         HYE = 63,
         /// <summary> Herero ISO 639-2T Code. </summary>
         HER = 64,
-        /// <summary> Interlingua(International Auxiliary Language Association) ISO 639-2T Code. </summary>
+        /// <summary> Interlingua(International Auxiliary Language Association)
+        /// ISO 639-2T Code. </summary>
         INA = 65,
         /// <summary> Indonesian ISO 639-2T Code. </summary>
         IND = 66,
@@ -572,7 +576,8 @@
         LTZ = 93,
         /// <summary> Ganda ISO 639-2T Code. </summary>
         LUG = 94,
-        /// <summary> Limburgan, Limburger, Limburgish ISO 639-2T Code. </summary>
+        /// <summary> Limburgan, Limburger, Limburgish ISO 639-2T
+        /// Code. </summary>
         LIM = 95,
         /// <summary> Lingala ISO 639-2T Code. </summary>
         LIN = 96,
@@ -817,7 +822,8 @@
         CRE = 27,
         /// <summary> Czech ISO 639-2B Code. </summary>
         CZE = 28,
-        /// <summary> Church Slavic, Old Slavonic, Church Slavonic, Old Bulgarian,Old Church Slavonic ISO 639-2B Code. </summary>
+        /// <summary> Church Slavic, Old Slavonic, Church Slavonic,
+        /// Old Bulgarian,Old Church Slavonic ISO 639-2B Code. </summary>
         CHU = 29,
         /// <summary> Chuvash ISO 639-2B Code. </summary>
         CHV = 30,
@@ -889,7 +895,8 @@
         ARM = 63,
         /// <summary> Herero ISO 639-2B Code. </summary>
         HER = 64,
-        /// <summary> Interlingua(International Auxiliary Language Association) ISO 639-2B Code. </summary>
+        /// <summary> Interlingua(International Auxiliary Language Association)
+        /// ISO 639-2B Code. </summary>
         INA = 65,
         /// <summary> Indonesian ISO 639-2B Code. </summary>
         IND = 66,
@@ -949,7 +956,8 @@
         LTZ = 93,
         /// <summary> Ganda ISO 639-2B Code. </summary>
         LUG = 94,
-        /// <summary> Limburgan, Limburger, Limburgish ISO 639-2B Code. </summary>
+        /// <summary> Limburgan, Limburger, Limburgish ISO 639-2B
+        /// Code. </summary>
         LIM = 95,
         /// <summary> Lingala ISO 639-2B Code. </summary>
         LIN = 96,

@@ -491,7 +491,8 @@
         TI_ER = 2163,
         /// <summary> Arabic (Egypt) LCID. </summary>
         AR_EG = 3073,
-        /// <summary> Chinese (Traditional, Hong Kong SAR China) LCID. </summary>
+        /// <summary> Chinese (Traditional, Hong Kong SAR China)
+        /// LCID. </summary>
         ZH_HK = 3076,
         /// <summary> German (Austria) LCID. </summary>
         DE_AT = 3079,
@@ -547,7 +548,8 @@
         EN_ZA = 7177,
         /// <summary> Spanish (Dominican Republic) LCID. </summary>
         ES_DO = 7178,
-        /// <summary> Serbian (Cyrillic, Bosnia and Herzegovina) LCID. </summary>
+        /// <summary> Serbian (Cyrillic, Bosnia and Herzegovina)
+        /// LCID. </summary>
         SR_CYRL_BA = 7194,
         /// <summary> Arabic (Oman) LCID. </summary>
         AR_OM = 8193,
@@ -557,7 +559,8 @@
         ES_VE = 8202,
         /// <summary> French (Réunion) LCID. </summary>
         FR_RE = 8204,
-        /// <summary> Bosnian (Cyrillic, Bosnia and Herzegovina) LCID. </summary>
+        /// <summary> Bosnian (Cyrillic, Bosnia and Herzegovina)
+        /// LCID. </summary>
         BS_CYRL_BA = 8218,
         /// <summary> Arabic (Yemen) LCID. </summary>
         AR_YE = 9217,

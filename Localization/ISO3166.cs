@@ -59,9 +59,11 @@
         BM = 60,
         /// <summary> Bhutan ISO 3166-2 Code. </summary>
         BT = 64,
-        /// <summary> Bolivia (Plurinational State of) ISO 3166-2 Code. </summary>
+        /// <summary> Bolivia (Plurinational State of) ISO 3166-2
+        /// Code. </summary>
         BO = 68,
-        /// <summary> Bonaire, Sint Eustatius and Saba ISO 3166-2 Code. </summary>
+        /// <summary> Bonaire, Sint Eustatius and Saba ISO 3166-2
+        /// Code. </summary>
         BQ = 535,
         /// <summary> Bosnia and Herzegovina ISO 3166-2 Code. </summary>
         BA = 70,
@@ -109,7 +111,8 @@
         KM = 174,
         /// <summary> Congo ISO 3166-2 Code. </summary>
         CG = 178,
-        /// <summary> Congo, Democratic Republic of the ISO 3166-2 Code. </summary>
+        /// <summary> Congo, Democratic Republic of the ISO 3166-2
+        /// Code. </summary>
         CD = 180,
         /// <summary> Cook Islands ISO 3166-2 Code. </summary>
         CK = 184,
@@ -151,7 +154,8 @@
         SZ = 748,
         /// <summary> Ethiopia ISO 3166-2 Code. </summary>
         ET = 231,
-        /// <summary> Falkland Islands (Malvinas) ISO 3166-2 Code. </summary>
+        /// <summary> Falkland Islands (Malvinas) ISO 3166-2
+        /// Code. </summary>
         FK = 238,
         /// <summary> Faroe Islands ISO 3166-2 Code. </summary>
         FO = 234,
@@ -165,7 +169,8 @@
         GF = 254,
         /// <summary> French Polynesia ISO 3166-2 Code. </summary>
         PF = 258,
-        /// <summary> French Southern Territories ISO 3166-2 Code. </summary>
+        /// <summary> French Southern Territories ISO 3166-2
+        /// Code. </summary>
         TF = 260,
         /// <summary> Gabon ISO 3166-2 Code. </summary>
         GA = 266,
@@ -201,7 +206,8 @@
         GY = 328,
         /// <summary> Haiti ISO 3166-2 Code. </summary>
         HT = 332,
-        /// <summary> Heard Island and McDonald Islands ISO 3166-2 Code. </summary>
+        /// <summary> Heard Island and McDonald Islands ISO 3166-2
+        /// Code. </summary>
         HM = 334,
         /// <summary> Holy See ISO 3166-2 Code. </summary>
         VA = 336,
@@ -217,7 +223,8 @@
         IN = 356,
         /// <summary> Indonesia ISO 3166-2 Code. </summary>
         ID = 360,
-        /// <summary> Iran (Islamic Republic of) ISO 3166-2 Code. </summary>
+        /// <summary> Iran (Islamic Republic of) ISO 3166-2
+        /// Code. </summary>
         IR = 364,
         /// <summary> Iraq ISO 3166-2 Code. </summary>
         IQ = 368,
@@ -243,7 +250,8 @@
         KE = 404,
         /// <summary> Kiribati ISO 3166-2 Code. </summary>
         KI = 296,
-        /// <summary> Korea (Democratic People's Republic of) ISO 3166-2 Code. </summary>
+        /// <summary> Korea (Democratic People's Republic of) ISO 3166-2
+        /// Code. </summary>
         KP = 408,
         /// <summary> Korea, Republic of ISO 3166-2 Code. </summary>
         KR = 410,
@@ -251,7 +259,8 @@
         KW = 414,
         /// <summary> Kyrgyzstan ISO 3166-2 Code. </summary>
         KG = 417,
-        /// <summary> Lao People's Democratic Republic ISO 3166-2 Code. </summary>
+        /// <summary> Lao People's Democratic Republic ISO 3166-2
+        /// Code. </summary>
         LA = 418,
         /// <summary> Latvia ISO 3166-2 Code. </summary>
         LV = 428,
@@ -295,7 +304,8 @@
         YT = 175,
         /// <summary> Mexico ISO 3166-2 Code. </summary>
         MX = 484,
-        /// <summary> Micronesia (Federated States of) ISO 3166-2 Code. </summary>
+        /// <summary> Micronesia (Federated States of) ISO 3166-2
+        /// Code. </summary>
         FM = 583,
         /// <summary> Moldova, Republic of ISO 3166-2 Code. </summary>
         MD = 498,
@@ -379,7 +389,8 @@
         RW = 646,
         /// <summary> Saint Barthélemy ISO 3166-2 Code. </summary>
         BL = 652,
-        /// <summary> Saint Helena, Ascension and Tristan da Cunha ISO 3166-2 Code. </summary>
+        /// <summary> Saint Helena, Ascension and Tristan da Cunha ISO 3166-2
+        /// Code. </summary>
         SH = 654,
         /// <summary> Saint Kitts and Nevis ISO 3166-2 Code. </summary>
         KN = 659,
@@ -389,7 +400,8 @@
         MF = 663,
         /// <summary> Saint Pierre and Miquelon ISO 3166-2 Code. </summary>
         PM = 666,
-        /// <summary> Saint Vincent and the Grenadines ISO 3166-2 Code. </summary>
+        /// <summary> Saint Vincent and the Grenadines ISO 3166-2
+        /// Code. </summary>
         VC = 670,
         /// <summary> Samoa ISO 3166-2 Code. </summary>
         WS = 882,
@@ -421,7 +433,8 @@
         SO = 706,
         /// <summary> South Africa ISO 3166-2 Code. </summary>
         ZA = 710,
-        /// <summary> South Georgia and the South Sandwich Islands ISO 3166-2 Code. </summary>
+        /// <summary> South Georgia and the South Sandwich Islands ISO 3166-2
+        /// Code. </summary>
         GS = 239,
         /// <summary> South Sudan ISO 3166-2 Code. </summary>
         SS = 728,
@@ -475,11 +488,13 @@
         UA = 804,
         /// <summary> United Arab Emirates ISO 3166-2 Code. </summary>
         AE = 784,
-        /// <summary> United Kingdom of Great Britain and Northern Ireland ISO 3166-2 Code. </summary>
+        /// <summary> United Kingdom of Great Britain and Northern Ireland
+        /// ISO 3166-2 Code. </summary>
         GB = 826,
         /// <summary> United States of America ISO 3166-2 Code. </summary>
         US = 840,
-        /// <summary> United States Minor Outlying Islands ISO 3166-2 Code. </summary>
+        /// <summary> United States Minor Outlying Islands ISO 3166-2
+        /// Code. </summary>
         UM = 581,
         /// <summary> Uruguay ISO 3166-2 Code. </summary>
         UY = 858,
@@ -487,7 +502,8 @@
         UZ = 860,
         /// <summary> Vanuatu ISO 3166-2 Code. </summary>
         VU = 548,
-        /// <summary> Venezuela (Bolivarian Republic of) ISO 3166-2 Code. </summary>
+        /// <summary> Venezuela (Bolivarian Republic of) ISO 3166-2
+        /// Code. </summary>
         VE = 862,
         /// <summary> Viet Nam ISO 3166-2 Code. </summary>
         VN = 704,
@@ -566,9 +582,11 @@
         BMU = 60,
         /// <summary> Bhutan ISO 3166-2 Code. </summary>
         BTN = 64,
-        /// <summary> Bolivia (Plurinational State of) ISO 3166-2 Code. </summary>
+        /// <summary> Bolivia (Plurinational State of) ISO 3166-2
+        /// Code. </summary>
         BOL = 68,
-        /// <summary> Bonaire, Sint Eustatius and Saba ISO 3166-2 Code. </summary>
+        /// <summary> Bonaire, Sint Eustatius and Saba ISO 3166-2
+        /// Code. </summary>
         BES = 535,
         /// <summary> Bosnia and Herzegovina ISO 3166-2 Code. </summary>
         BIH = 70,
@@ -578,7 +596,8 @@
         BVT = 74,
         /// <summary> Brazil ISO 3166-2 Code. </summary>
         BRA = 76,
-        /// <summary> British Indian Ocean Territory ISO 3166-2 Code. </summary>
+        /// <summary> British Indian Ocean Territory ISO 3166-2
+        /// Code. </summary>
         IOT = 86,
         /// <summary> Brunei Darussalam ISO 3166-2 Code. </summary>
         BRN = 96,
@@ -616,7 +635,8 @@
         COM = 174,
         /// <summary> Congo ISO 3166-2 Code. </summary>
         COG = 178,
-        /// <summary> Congo, Democratic Republic of the ISO 3166-2 Code. </summary>
+        /// <summary> Congo, Democratic Republic of the ISO 3166-2
+        /// Code. </summary>
         COD = 180,
         /// <summary> Cook Islands ISO 3166-2 Code. </summary>
         COK = 184,
@@ -708,7 +728,8 @@
         GUY = 328,
         /// <summary> Haiti ISO 3166-2 Code. </summary>
         HTI = 332,
-        /// <summary> Heard Island and McDonald Islands ISO 3166-2 Code. </summary>
+        /// <summary> Heard Island and McDonald Islands ISO 3166-2
+        /// Code. </summary>
         HMD = 334,
         /// <summary> Holy See ISO 3166-2 Code. </summary>
         VAT = 336,
@@ -750,7 +771,8 @@
         KEN = 404,
         /// <summary> Kiribati ISO 3166-2 Code. </summary>
         KIR = 296,
-        /// <summary> Korea (Democratic People's Republic of) ISO 3166-2 Code. </summary>
+        /// <summary> Korea (Democratic People's Republic of) ISO 3166-2
+        /// Code. </summary>
         PRK = 408,
         /// <summary> Korea, Republic of ISO 3166-2 Code. </summary>
         KOR = 410,
@@ -758,7 +780,8 @@
         KWT = 414,
         /// <summary> Kyrgyzstan ISO 3166-2 Code. </summary>
         KGZ = 417,
-        /// <summary> Lao People's Democratic Republic ISO 3166-2 Code. </summary>
+        /// <summary> Lao People's Democratic Republic ISO 3166-2
+        /// Code. </summary>
         LAO = 418,
         /// <summary> Latvia ISO 3166-2 Code. </summary>
         LVA = 428,
@@ -802,7 +825,8 @@
         MYT = 175,
         /// <summary> Mexico ISO 3166-2 Code. </summary>
         MEX = 484,
-        /// <summary> Micronesia (Federated States of) ISO 3166-2 Code. </summary>
+        /// <summary> Micronesia (Federated States of) ISO 3166-2
+        /// Code. </summary>
         FSM = 583,
         /// <summary> Moldova, Republic of ISO 3166-2 Code. </summary>
         MDA = 498,
@@ -886,7 +910,8 @@
         RWA = 646,
         /// <summary> Saint Barthélemy ISO 3166-2 Code. </summary>
         BLM = 652,
-        /// <summary> Saint Helena, Ascension and Tristan da Cunha ISO 3166-2 Code. </summary>
+        /// <summary> Saint Helena, Ascension and Tristan da Cunha ISO 3166-2
+        /// Code. </summary>
         SHN = 654,
         /// <summary> Saint Kitts and Nevis ISO 3166-2 Code. </summary>
         KNA = 659,
@@ -896,7 +921,8 @@
         MAF = 663,
         /// <summary> Saint Pierre and Miquelon ISO 3166-2 Code. </summary>
         SPM = 666,
-        /// <summary> Saint Vincent and the Grenadines ISO 3166-2 Code. </summary>
+        /// <summary> Saint Vincent and the Grenadines ISO 3166-2
+        /// Code. </summary>
         VCT = 670,
         /// <summary> Samoa ISO 3166-2 Code. </summary>
         WSM = 882,
@@ -928,7 +954,8 @@
         SOM = 706,
         /// <summary> South Africa ISO 3166-2 Code. </summary>
         ZAF = 710,
-        /// <summary> South Georgia and the South Sandwich Islands ISO 3166-2 Code. </summary>
+        /// <summary> South Georgia and the South Sandwich Islands ISO 3166-2
+        /// Code. </summary>
         SGS = 239,
         /// <summary> South Sudan ISO 3166-2 Code. </summary>
         SSD = 728,
@@ -982,11 +1009,13 @@
         UKR = 804,
         /// <summary> United Arab Emirates ISO 3166-2 Code. </summary>
         ARE = 784,
-        /// <summary> United Kingdom of Great Britain and Northern Ireland ISO 3166-2 Code. </summary>
+        /// <summary> United Kingdom of Great Britain and Northern Ireland
+        /// ISO 3166-2 Code. </summary>
         GBR = 826,
         /// <summary> United States of America ISO 3166-2 Code. </summary>
         USA = 840,
-        /// <summary> United States Minor Outlying Islands ISO 3166-2 Code. </summary>
+        /// <summary> United States Minor Outlying Islands ISO 3166-2
+        /// Code. </summary>
         UMI = 581,
         /// <summary> Uruguay ISO 3166-2 Code. </summary>
         URY = 858,
@@ -994,7 +1023,8 @@
         UZB = 860,
         /// <summary> Vanuatu ISO 3166-2 Code. </summary>
         VUT = 548,
-        /// <summary> Venezuela (Bolivarian Republic of) ISO 3166-2 Code. </summary>
+        /// <summary> Venezuela (Bolivarian Republic of) ISO 3166-2
+        /// Code. </summary>
         VEN = 862,
         /// <summary> Viet Nam ISO 3166-2 Code. </summary>
         VNM = 704,

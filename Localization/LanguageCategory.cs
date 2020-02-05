@@ -1,62 +1,92 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
 namespace BricksBucket.Localization
 {
     /// <summary>
-    /// Structure to categorize languages.
+    /// Structure for languages categorizing.
     /// </summary>
     [System.Serializable]
     public struct LanguageCategory
     {
 
-        #region  Members
 
-        /// <summary>Code to identify language category.</summary>
+
+        #region  Fields
+
+        /// <summary>
+        /// Code to identify language category.
+        /// </summary>
         [SerializeField, EnableIf("_isCustom")]
         private string _code;
 
-        /// <summary>Name for language category.</summary>
-        [SerializeField, EnableIf("_isCustom")]
+        /// <summary>
+        /// Name for language category.
+        /// </summary>
+        [Indent, SerializeField, EnableIf("_isCustom")]
         private string _name;
 
-        /// <summary>Language ISO-639 code.</summary>
-        [SerializeField, HideIf("_isCustom"), OnValueChanged("OnISOChanged")]
-        private ISO639_1 _language;
-
-        /// <summary>Country ISO-3166 code.</summary>
-        [SerializeField, OnValueChanged("OnISOChanged")]
-        private ISO3166_2 _coutry;
-
-        /// <summary>LCID code.</summary>
+        /// <summary>
+        /// LCID code.
+        /// </summary>
+        [Indent, EnumPaging]
         [SerializeField, HideIf("_isCustom"), OnValueChanged("OnLCIDChanged")]
         private LCID _LCID;
 
-        /// <summary>Whether this catecory is custom.</summary>
-        [SerializeField, OnValueChanged("OnIsCustomChanged")]
+        /// <summary>
+        /// Language ISO-639 code.
+        /// </summary>
+        [Indent, EnumPaging]
+        [SerializeField, HideIf("_isCustom"), OnValueChanged("OnISOChanged")]
+        private ISO639_1 _language;
+
+        /// <summary>
+        /// Country ISO-3166 code.
+        /// </summary>
+        [Indent, EnumPaging]
+        [SerializeField, OnValueChanged("OnISOChanged")]
+        private ISO3166_2 _country;
+
+        /// <summary>
+        /// Specifies a region for the language.
+        /// </summary>
+        [Indent, SerializeField, OnValueChanged("OnRegionChanged")]
+        private string _region;
+
+        /// <summary>
+        /// Whether this catecory is custom.
+        /// </summary>
+        [Indent, SerializeField, OnValueChanged("OnIsCustomChanged")]
         private bool _isCustom;
 
         #endregion
 
 
-        #region  Accessors
 
+        #region  Properties
+
+        /// <summary>
+        /// Name to display nicely.
+        /// </summary>
         public string DisplayName
         {
-            get{ return _name; }
-            private set{ _name = value;}
+            get => _name;
+            private set => _name = value;
         }
 
-        /// <summary>Whether this catecory is custom.</summary>
+        /// <summary>
+        /// Whether this catecory is custom.
+        /// </summary>
         public bool IsCustom
         {
-            get { return _isCustom; }
-            private set { _isCustom = value; }
+            get => _isCustom;
+            private set => _isCustom = value;
         }
 
-        /// <summary>Language ISO-639 code.</summary>
+        /// <summary>
+        /// Language ISO-639 code.
+        /// </summary>
         public ISO639_1 Language
         {
             get
@@ -65,206 +95,179 @@ namespace BricksBucket.Localization
                     return ISO639_1.NONE;
                 return _language;
             }
-            private set { _language = value; }
+            private set => _language = value;
         }
 
-        /// <summary>Country ISO-3166 code.</summary>
+        /// <summary>
+        /// Country ISO-3166 code.
+        /// </summary>
         public ISO3166_2 Country
         {
             get
             {
                 if (_isCustom)
                     return ISO3166_2.NONE;
-                return _coutry;
+                return _country;
             }
-            private set { _coutry = value; }
+            private set => _country = value;
         }
 
+
+        public string Region
+        {
+            get => _region;
+            private set => _region = value;
+        }
+
+        /// <summary>
+        /// Code of the language.
+        /// </summary>
         public string Code
         {
-            get
-            {
-                return _code;
-            }
+            get => _code;
+            private set => _code = value;
+        }
+
+        /// <summary>
+        /// Windows Language Code Identifier.
+        /// </summary>
+        public LCID LCID
+        {
+            get => _LCID;
+            private set => _LCID = value;
         }
 
         #endregion
 
 
 
+        #region Class Implementation
+
 #if UNITY_EDITOR
 
-        /// <summary>Called from inspector when an ISO code changed.</summary>
+        /// <summary>
+        /// Called from inspector when an ISO code changed.
+        /// </summary>
         internal void OnISOChanged()
         {
             if (IsCustom)
                 return;
 
-            _LCID = LocalizationUtils.ToLCID(_language, _coutry);
-
-            if (_LCID == LCID.INVARIANT)
-            {
-                _code = _LCID.ToString();
-                _name = "Invariant Language";
-            }
-            else
-            {
-                _code = _language.ToString();
-                _name = LocalizationUtils.ISO639_Names[(int)_language];
-
-                if (_coutry != ISO3166_2.NONE)
-                {
-                    _code = StringUtils.Concat(
-                        _code, "-", _coutry.ToString()
-                    );
-                    _name = StringUtils.Concat(
-                        _name,
-                        " (", LocalizationUtils.ISO3166_Names[(int)_coutry], ")"
-                    );
-                }
-            }
+            LCID = LocalizationUtils.ToLCID(Language, Country);
+            SetDisblay();
         }
 
-        /// <summary>Called from inspector when LCID code changed.</summary>
+        /// <summary>
+        /// Called from inspector when LCID code changed.
+        /// </summary>
         internal void OnLCIDChanged()
         {
             if (IsCustom)
                 return;
 
-            _coutry = (ISO3166_2)LocalizationUtils.ToISO3166(_LCID);
-            _language = (ISO639_1)LocalizationUtils.ToISO639(_LCID);
-            var info = new CultureInfo((int)_LCID);
+            Country = (ISO3166_2)LocalizationUtils.ToISO3166(LCID);
+            Language = (ISO639_1)LocalizationUtils.ToISO639(LCID);
 
-            if (_LCID == LCID.INVARIANT)
+            SetDisblay();
+        }
+
+        /// <summary>
+        /// Called from inspector when the Region changes.
+        /// </summary>
+        internal void OnRegionChanged()
+        {
+            if (IsCustom)
+                return;
+
+            SetDisblay();
+        }
+
+        private void SetDisblay()
+        {
+            switch (LCID)
             {
-                _code = _LCID.ToString().ToUpper();
-                _name = "Invariant Language";
-            }
-            else
-            {
-                _code = info.Name.ToUpper();
-                _name = info.DisplayName;
+                case LCID.NONE:
+
+                    Code = Language.ToString();
+                    DisplayName = LocalizationUtils.ISO639_Names[(int)Language];
+
+                    if (Country != ISO3166_2.NONE)
+                    {
+                        Code = StringUtils.Concat(Code, "-", Country.ToString());
+                        DisplayName = StringUtils.Concat(
+                            DisplayName, " (",
+                            LocalizationUtils.ISO3166_Names[(int)Country]
+                        );
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(Region))
+                    {
+                        Code = StringUtils.Concat(Code, "-", Region.ToUpper());
+
+                        DisplayName = Country == ISO3166_2.NONE ?
+                            StringUtils.Concat(DisplayName, " (", Region, ")") :
+                            StringUtils.Concat(DisplayName, " - ", Region, ")");
+                    }
+
+                    else if(Country != ISO3166_2.NONE)
+                    {
+                        DisplayName = StringUtils.Concat(DisplayName, ")");
+                    }
+
+                    break;
+
+                case LCID.INVARIANT:
+
+                    Code = LCID.ToString();
+                    DisplayName = "Invariant Language";
+
+                    break;
+
+                default:
+
+                    var info = new CultureInfo((int)LCID);
+                    Code = info.Name.ToUpper();
+                    DisplayName = info.DisplayName;
+
+                    if (!string.IsNullOrWhiteSpace(Region))
+                    {
+                        Code = StringUtils.Concat(Code, "-", Region.ToUpper());
+
+                        if (DisplayName.Contains(")"))
+                        {
+                            DisplayName = DisplayName.Replace(")", string.Empty);
+                            DisplayName = StringUtils.Concat(
+                                DisplayName, " - ", Region, ")"
+                            );
+                        }
+                        else
+                        {
+                            DisplayName = StringUtils.Concat(
+                                DisplayName, " (", Region, ")"
+                            );
+                        }
+                    }
+
+                    break;
             }
         }
 
-        /// <summary>Called on is custom variable changes.</summary>
+        /// <summary>
+        /// Called on is custom variable changes.
+        /// </summary>
         internal void OnIsCustomChanged()
         {
-            _name = string.Empty;
-            _code = string.Empty;
-            _coutry = ISO3166_2.NONE;
-            _language = ISO639_1.NONE;
-            _LCID = LCID.NONE;
+            DisplayName = string.Empty;
+            Code = string.Empty;
+            Country = ISO3166_2.NONE;
+            Region = string.Empty;
+            Language = ISO639_1.NONE;
+            LCID = LCID.NONE;
         }
 
 #endif
-    }
 
-    [System.Serializable]
-    public struct LanguageSettings
-    {
-
-        [SerializeField]
-        private string _default;
-
-        [SerializeField, ListDrawerSettings(HideAddButton = true, DraggableItems = true), OnValueChanged("CategoriesChanged"), ReadOnly]
-        private List<LanguageCategory> _categories;
-
-        private string[] CategoriesCodes
-        {
-            get
-            {
-                var categoriesCodes = new string [_categories.Count];
-                for(int i = 0; i < categoriesCodes.Length; i++)
-                    categoriesCodes[i] = _categories[i].Code;
-
-                return categoriesCodes;
-            }
-        }
-
-        private void CategoriesChanged()
-        {
-            _default = _categories.Count >= 0 ? _categories[0].DisplayName : string.Empty;
-        }
-
-#if UNITY_EDITOR
-
-        [SerializeField, HideInInspector]
-        private bool _activateAddMenu;
-
-        [SerializeField, ShowIf("_activateAddMenu")]
-        private LanguageCategory _newCategory;
-
-        [Button("Add new Category"), HideIf("_activateAddMenu")]
-        private void ActivateCategoryButton()
-        {
-            _activateAddMenu = true;
-        }
-
-        [Button("Add"), ShowIf("_activateAddMenu")]
-        private void Add()
-        {
-            if(_newCategory.Equals(default(LanguageCategory)))
-            {
-                //  TODO: Add fancy pop up feedback.
-                return;
-            }
-
-            if(_categories.Contains(_newCategory))
-            {
-                //  TODO: Add fancy pop up feedback.
-                return;
-            }
-
-            _categories.Add(_newCategory);
-            CategoriesChanged();
-            Cancel();
-        }
-
-
-
-        [SerializeField, HideInInspector]
-        private bool _activateRemoveMenu;
-
-        [SerializeField, ShowIf("_activateRemoveMenu")]
-        [ValueDropdown("CategoriesCodes")]
-        private string _categoryToRemove;
-        
-        [Button("Remove Category"), HideIf("_activateRemoveMenu")]
-        private void ActivateRemoveMenu()
-        {
-            _activateRemoveMenu = true;
-        }
-
-        [Button("Remove"), ShowIf("_activateRemoveMenu")]
-        private void Remove()
-        {
-            if(_categories.Count == 0)
-            {
-                //  TODO: Add fancy pop up feedback.
-                return;
-            }
-
-            var categoryToRemove = _categoryToRemove;
-            _categories.Remove(_categories.Find(c => c.Code == categoryToRemove));
-            Cancel();
-        }
-
-
-        [Button("Cancel")]
-        private void Cancel()
-        {
-            _activateAddMenu = false;
-            _newCategory = default(LanguageCategory);
-            _activateRemoveMenu = false;
-            _categoryToRemove = string.Empty;
-        }
-        
-#endif
-
-
-
-
+        #endregion
 
     }
 }
