@@ -79,9 +79,8 @@ namespace BricksBucket.Localization
 
         #region Menu
 
-        [PropertySpace, Title("Languages Categories Menu", bold: false)]
-
-        [Indent, Button("Add Category")]
+        [PropertySpace, Indent]
+        [Button("Add Category")]
         [HideIf("_activateAddMenu"), HideIf("_activateRemoveMenu")]
         internal void ActivateCategoryButton()
         {
@@ -91,7 +90,8 @@ namespace BricksBucket.Localization
         [SerializeField, HideInInspector]
         internal bool _activateAddMenu;
 
-        [Indent, Button("Remove Category")]
+        [Indent]
+        [Button("Remove Category")]
         [HideIf("_activateRemoveMenu"), HideIf("_activateAddMenu")]
         internal void ActivateRemoveMenu()
         {
@@ -105,12 +105,14 @@ namespace BricksBucket.Localization
 
         #region New Category
 
-        [PropertySpace, Title("New Category", bold: false)]
-
-        [Indent, SerializeField, ShowIf("_activateAddMenu")]
+        [PropertySpace, Indent]
+        [SerializeField]
+        [ShowIf("_activateAddMenu")]
         internal LanguageCategory _newCategory;
 
-        [Indent, Button("Add"), ShowIf("_activateAddMenu")]
+        [Indent]
+        [Button("Add")]
+        [ShowIf("_activateAddMenu")]
         internal void Add()
         {
             if (_newCategory.Equals(default(LanguageCategory)))
@@ -127,65 +129,62 @@ namespace BricksBucket.Localization
 
             _categories.Add(_newCategory);
             OnCategoriesChanged();
-            Cancel();
+            CancelAdd();
+        }
+
+        [Indent]
+        [Button("Cancel")]
+        [ShowIf("_activateAddMenu")]
+        internal void CancelAdd()
+        {
+            _activateAddMenu = false;
+            _newCategory = default;
         }
 
         #endregion
 
+        #region Remove Category
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-
-        [SerializeField, ShowIf("_activateRemoveMenu")]
-        [ValueDropdown("CategoriesCodes")]
+        [Indent]
+        [SerializeField, ValueDropdown("CategoriesCodes")]
+        [ShowIf("_activateRemoveMenu")]
         internal string _categoryToRemove;
-        
-        
 
-        [Button("Remove"), ShowIf("_activateRemoveMenu")]
+        [Indent]
+        [Button("Remove")]
+        [ShowIf("_activateRemoveMenu")]
         internal void Remove()
         {
-            if(_categories.Count == 0)
+            if (_categories.Count == 0)
             {
                 //  TODO: Add fancy pop up feedback.
                 return;
             }
 
             var categoryToRemove = _categoryToRemove;
-            _categories.Remove(_categories.Find(c => c.Code == categoryToRemove));
-            Cancel();
+            _categories.Remove(
+                _categories.Find(c => c.Code == categoryToRemove)
+            );
+            CancelRemove();
         }
 
-
-
-
-    */
+        [Indent]
         [Button("Cancel")]
-        internal void Cancel()
+        [ShowIf("_activateRemoveMenu")]
+        internal void CancelRemove()
         {
-            _activateAddMenu = false;
-            _newCategory = default;
             _activateRemoveMenu = false;
-            //_categoryToRemove = string.Empty;
+            _categoryToRemove = string.Empty;
         }
+
+        #endregion
+
 
         private void OnCategoriesChanged()
         {
-            Default = _categories.Count >= 0 ? _categories[0].DisplayName : string.Empty;
+            Default = _categories.Count >= 0 ?
+                _categories[0].DisplayName :
+                string.Empty;
         }
 
 #endif
