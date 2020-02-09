@@ -141,7 +141,7 @@ namespace BricksBucket.Localization
 
 
 
-        #region Class Implementation
+        #region Editor
 
 #if UNITY_EDITOR
 

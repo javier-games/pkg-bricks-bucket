@@ -46,7 +46,29 @@ namespace BricksBucket.Localization
         #region Properties
 
         /// <summary>
-        /// Collection of categories of languages.
+        /// Category by code.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public LanguageCategory this[string code]
+        {
+            get
+            {
+                var category = _categories.Find(c => c.Code == code);
+                return category;
+            }
+        }
+
+        /// <summary>
+        /// Default Language.
+        /// </summary>
+        public LanguageCategory Default
+        {
+            get => this[_default];
+        }
+
+        /// <summary>
+        /// Collection of codes of languages categories.
         /// </summary>
         public string[] CategoriesCodes
         {
@@ -61,12 +83,26 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Language to use as default.
+        /// Collection of display names of languages categories.
         /// </summary>
-        public string Default
+        public string[] CategoriesDisplayNames
         {
-            get => _default;
-            private set => _default = value;
+            get
+            {
+                var categoriesDisplayNames = new string[_categories.Count];
+                for (int i = 0; i < categoriesDisplayNames.Length; i++)
+                    categoriesDisplayNames[i] = _categories[i].DisplayName;
+
+                return categoriesDisplayNames;
+            }
+        }
+
+        /// <summary>
+        /// Collection of languages categories.
+        /// </summary>
+        public LanguageCategory[] Categories
+        {
+            get => _categories.ToArray();
         }
 
         #endregion
@@ -82,6 +118,7 @@ namespace BricksBucket.Localization
         [PropertySpace, Indent]
         [Button("Add Category")]
         [HideIf("_activateAddMenu"), HideIf("_activateRemoveMenu")]
+        [HideIf("_activateSetDefaultMenu")]
         internal void ActivateCategoryButton()
         {
             _activateAddMenu = true;
@@ -93,6 +130,7 @@ namespace BricksBucket.Localization
         [Indent]
         [Button("Remove Category")]
         [HideIf("_activateRemoveMenu"), HideIf("_activateAddMenu")]
+        [HideIf("_activateSetDefaultMenu"), DisableIf("_default", "")]
         internal void ActivateRemoveMenu()
         {
             _activateRemoveMenu = true;
@@ -101,6 +139,18 @@ namespace BricksBucket.Localization
         [SerializeField, HideInInspector]
         internal bool _activateRemoveMenu;
 
+        [Indent]
+        [Button("Set Default Category")]
+        [HideIf("_activateSetDefaultMenu"), HideIf("_activateRemoveMenu")]
+        [HideIf("_activateAddMenu"), DisableIf("_default", "")]
+        internal void ActivateSetDefault()
+        {
+            _activateSetDefaultMenu = true;
+        }
+
+        [SerializeField, HideInInspector]
+        internal bool _activateSetDefaultMenu;
+
         #endregion
 
         #region New Category
@@ -108,11 +158,15 @@ namespace BricksBucket.Localization
         [PropertySpace, Indent]
         [SerializeField]
         [ShowIf("_activateAddMenu")]
+        [OnValueChanged("NewCategoryChanged")]
         internal LanguageCategory _newCategory;
+
+        [SerializeField, HideInInspector]
+        internal bool _isValidNew;
 
         [Indent]
         [Button("Add")]
-        [ShowIf("_activateAddMenu")]
+        [ShowIf("_activateAddMenu"), EnableIf("_isValidNew")]
         internal void Add()
         {
             if (_newCategory.Equals(default(LanguageCategory)))
@@ -132,6 +186,13 @@ namespace BricksBucket.Localization
             CancelAdd();
         }
 
+        internal void NewCategoryChanged()
+        {
+            _isValidNew =
+                !_newCategory.Equals(default(LanguageCategory)) &&
+                !_categories.Contains(_newCategory);
+        }
+
         [Indent]
         [Button("Cancel")]
         [ShowIf("_activateAddMenu")]
@@ -139,6 +200,7 @@ namespace BricksBucket.Localization
         {
             _activateAddMenu = false;
             _newCategory = default;
+            NewCategoryChanged();
         }
 
         #endregion
@@ -152,7 +214,7 @@ namespace BricksBucket.Localization
 
         [Indent]
         [Button("Remove")]
-        [ShowIf("_activateRemoveMenu")]
+        [ShowIf("_activateRemoveMenu"), DisableIf("_categoryToRemove", "")]
         internal void Remove()
         {
             if (_categories.Count == 0)
@@ -165,6 +227,10 @@ namespace BricksBucket.Localization
             _categories.Remove(
                 _categories.Find(c => c.Code == categoryToRemove)
             );
+
+            if (_categories.Count == 0)
+                _default = string.Empty;
+
             CancelRemove();
         }
 
@@ -179,10 +245,49 @@ namespace BricksBucket.Localization
 
         #endregion
 
+        #region Set Default Category
+
+        [Indent]
+        [SerializeField, ValueDropdown("CategoriesCodes")]
+        [ShowIf("_activateSetDefaultMenu")]
+        internal string _newDefault;
+
+        [Indent]
+        [Button("Set")]
+        [ShowIf("_activateSetDefaultMenu"), DisableIf("_newDefault", "")]
+        internal void SetDefault()
+        {
+            if (_categories.Count == 0)
+            {
+                //  TODO: Add fancy pop up feedback.
+                return;
+            }
+
+            var tempDefault = _newDefault;
+            var newDefault = _categories.Find(c => c.Code == tempDefault);
+            _categories.Remove(newDefault);
+            _categories.Insert(0,newDefault);
+
+            _default = _newDefault;
+
+            CancelSetDefault();
+        }
+
+        [Indent]
+        [Button("Cancel")]
+        [ShowIf("_activateSetDefaultMenu")]
+        internal void CancelSetDefault()
+        {
+            _activateSetDefaultMenu = false;
+            _newDefault = string.Empty;
+        }
+
+        #endregion
+
 
         private void OnCategoriesChanged()
         {
-            Default = _categories.Count >= 0 ?
+            _default = _categories.Count >= 0 ?
                 _categories[0].DisplayName :
                 string.Empty;
         }
