@@ -31,18 +31,11 @@ namespace BricksBucket.Localization
         [Tooltip("Name of the Localization Project.")]
         private string _projectName;
 
-        [SerializeField, ReadOnly]
-        private string _defaultLanguage;
-
-        [SerializeField, ReadOnly]
-        private string[] _languages;
-
         /// <summary>
         /// Language settings for localization.
         /// </summary>
         [SerializeField]
         [BoxGroup("Language Settings"), HideLabel]
-        [OnValueChanged("LanguageSettingsChanged")]
         private LanguageSettings _languageSettings;
 
         #endregion
@@ -69,40 +62,7 @@ namespace BricksBucket.Localization
             private set => Instance._projectName = value;
         }
 
-        /// <summary>
-        /// Default Language of Localization Settings.
-        /// </summary>
-        public static string DefaultLanguage
-        {
-            get => Instance._defaultLanguage;
-            private set => Instance._defaultLanguage = value;
-        }
-
-        /// <summary>
-        /// Default Languages
-        /// </summary>
-        public static string[] Languages
-        {
-            get => Instance._languages;
-            private set => Instance._languages = value;
-        }
-
         #endregion
-
-
-
-        #region Editor
-
-        internal void LanguageSettingsChanged()
-        {
-            DefaultLanguage = LanguageSettings.Default.DisplayName;
-            Languages = LanguageSettings.CategoriesDisplayNames;
-        }
-
-
-        #endregion
-
-
 
     }
 }

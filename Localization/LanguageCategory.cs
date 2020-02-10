@@ -2,10 +2,28 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+
+#if UNITY_EDITOR
+
+using UnityEditor;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities.Editor;
+
+#endif
+
+
 namespace BricksBucket.Localization
 {
     /// <summary>
-    /// Structure for languages categorizing.
+    /// 
+    /// Language Category
+    ///
+    /// <para>
+    /// Structure to categorize languages.
+    /// </para>
+    /// 
+    /// <para> By Javier García | @jvrgms | 2020 </para>
+    /// 
     /// </summary>
     [System.Serializable]
     public struct LanguageCategory
@@ -18,46 +36,48 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Code to identify language category.
         /// </summary>
-        [SerializeField, EnableIf("_isCustom")]
+        [SerializeField]
         private string _code;
 
         /// <summary>
         /// Name for language category.
         /// </summary>
-        [Indent, SerializeField, EnableIf("_isCustom")]
+        [SerializeField]
         private string _name;
 
         /// <summary>
-        /// LCID code.
+        /// Windows Language Code ID.
         /// </summary>
-        [Indent, EnumPaging]
-        [SerializeField, HideIf("_isCustom"), OnValueChanged("OnLCIDChanged")]
+        [SerializeField, EnumPaging]
+        [OnValueChanged("OnLCIDChanged")]
         private LCID _LCID;
 
         /// <summary>
         /// Language ISO-639 code.
         /// </summary>
-        [Indent, EnumPaging]
-        [SerializeField, HideIf("_isCustom"), OnValueChanged("OnISOChanged")]
+        [SerializeField, EnumPaging]
+        [OnValueChanged("OnISOChanged")]
         private ISO639_1 _language;
 
         /// <summary>
         /// Country ISO-3166 code.
         /// </summary>
-        [Indent, EnumPaging]
-        [SerializeField, OnValueChanged("OnISOChanged")]
+        [SerializeField, EnumPaging]
+        [OnValueChanged("OnISOChanged")]
         private ISO3166_2 _country;
 
         /// <summary>
         /// Specifies a region for the language.
         /// </summary>
-        [Indent, SerializeField, OnValueChanged("OnRegionChanged")]
+        [SerializeField]
+        [OnValueChanged("OnRegionChanged")]
         private string _region;
 
         /// <summary>
         /// Whether this catecory is custom.
         /// </summary>
-        [Indent, SerializeField, OnValueChanged("OnIsCustomChanged")]
+        [SerializeField]
+        [OnValueChanged("OnIsCustomChanged")]
         private bool _isCustom;
 
         #endregion
@@ -140,7 +160,7 @@ namespace BricksBucket.Localization
         #endregion
 
 
-
+        
         #region Editor
 
 #if UNITY_EDITOR
@@ -182,6 +202,9 @@ namespace BricksBucket.Localization
             SetDisblay();
         }
 
+        /// <summary>
+        /// Sets the display name.
+        /// </summary>
         private void SetDisblay()
         {
             switch (LCID)
@@ -193,7 +216,7 @@ namespace BricksBucket.Localization
 
                     if (Country != ISO3166_2.NONE)
                     {
-                        Code = StringUtils.Concat(Code, "-", Country.ToString());
+                        Code = StringUtils.Concat(Code,"-", Country.ToString());
                         DisplayName = StringUtils.Concat(
                             DisplayName, " (",
                             LocalizationUtils.ISO3166_Names[(int)Country]
@@ -235,7 +258,7 @@ namespace BricksBucket.Localization
 
                         if (DisplayName.Contains(")"))
                         {
-                            DisplayName = DisplayName.Replace(")", string.Empty);
+                            DisplayName = DisplayName.Replace(")",string.Empty);
                             DisplayName = StringUtils.Concat(
                                 DisplayName, " - ", Region, ")"
                             );
@@ -263,6 +286,157 @@ namespace BricksBucket.Localization
             Region = string.Empty;
             Language = ISO639_1.NONE;
             LCID = LCID.NONE;
+        }
+
+
+
+        /// <summary>
+        /// Language Category Drawer Class.
+        /// </summary>
+        public class LanguageCategoryDrawer : OdinValueDrawer<LanguageCategory>
+        {
+
+
+
+            #region Fields
+
+            /// <summary>
+            /// Whether the foldout is visible.
+            /// </summary>
+            private bool _isVisible;
+
+            /// <summary>
+            /// Label for code.
+            /// </summary>
+            private readonly GUIContent _codeLabel = new GUIContent(
+                "Code", "Code to identify language category."
+            );
+
+            /// <summary>
+            /// Label for name.
+            /// </summary>
+            private readonly GUIContent _nameLabel = new GUIContent(
+                "Name", "Name for language category."
+            );
+
+            /// <summary>
+            /// Label for LCID.
+            /// </summary>
+            private readonly GUIContent _LCIDLabel = new GUIContent(
+                "LCID", "Windows Language code ID"
+            );
+
+            /// <summary>
+            /// Label for language.
+            /// </summary>
+            private readonly GUIContent _languageLabel = new GUIContent(
+                "Language", "Language ISO-639 code"
+            );
+
+            /// <summary>
+            /// Label for country.
+            /// </summary>
+            private readonly GUIContent _countryLabel = new GUIContent(
+                "Country", "Country ISO-3166 code."
+            );
+
+            /// <summary>
+            /// Label for region.
+            /// </summary>
+            private readonly GUIContent _regionLabel = new GUIContent(
+                "Region", "Specifies a region for the language."
+            );
+
+            /// <summary>
+            /// Label for is custom flag.
+            /// </summary>
+            private readonly GUIContent _isCustomLabel = new GUIContent(
+                "Is Custom", "Whether this catecory is custom."
+            );
+
+            #endregion
+
+
+
+            #region Override Methods
+
+            /// <summary>
+            /// Draws the property.
+            /// </summary>
+            /// <param name="label">Label of the property.</param>
+            protected override void DrawPropertyLayout(GUIContent label)
+            {
+                var value = ValueEntry.SmartValue;
+
+                if (label != null)
+                {
+                    label.text = string.IsNullOrEmpty(label.text) ?
+                        value.Code : label.text;
+                }
+                else
+                {
+                    label = new GUIContent(
+                        value.Code,
+                        string.Concat(
+                            "Code ID for " + value.DisplayName + "."
+                        )
+                    );
+                }
+
+                _isVisible = SirenixEditorGUI.Foldout(
+                    _isVisible,
+                    label,
+                    SirenixGUIStyles.Foldout
+                );
+
+                if (_isVisible)
+                {
+                    if (!value.IsCustom)
+                    {
+
+                        EditorGUI.indentLevel++;
+                        EditorGUI.indentLevel++;
+
+                        EditorGUILayout.LabelField(
+                            _nameLabel,
+                            new GUIContent(value.DisplayName),
+                            SirenixGUIStyles.BoldLabel
+                        );
+
+                        var children = ValueEntry.Property.Children;
+
+                        children.Get("_LCID").Draw(_LCIDLabel);
+                        children.Get("_language").Draw(_languageLabel);
+                        children.Get("_country").Draw(_countryLabel);
+                        children.Get("_region").Draw(_regionLabel);
+                        children.Get("_isCustom").Draw(_isCustomLabel);
+
+                        EditorGUI.indentLevel--;
+                        EditorGUI.indentLevel--;
+                    }
+
+                    else
+                    {
+                        EditorGUI.indentLevel++;
+                        EditorGUI.indentLevel++;
+
+                        var children = ValueEntry.Property.Children;
+
+                        children.Get("_code").Draw(_codeLabel);
+                        children.Get("_name").Draw(_nameLabel);
+                        children.Get("_country").Draw(_countryLabel);
+                        children.Get("_region").Draw(_regionLabel);
+                        children.Get("_isCustom").Draw(_isCustomLabel);
+
+                        EditorGUI.indentLevel--;
+                        EditorGUI.indentLevel--;
+                    }
+                }
+
+                ValueEntry.SmartValue = value;
+            }
+
+            #endregion
         }
 
 #endif
