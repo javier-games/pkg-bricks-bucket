@@ -209,6 +209,7 @@ namespace BricksBucket.Localization
         {
             switch (LCID)
             {
+                //  There is not matching LCID.
                 case LCID.NONE:
 
                     Code = Language.ToString();
@@ -239,6 +240,7 @@ namespace BricksBucket.Localization
 
                     break;
 
+                //  Language and country are invariant.
                 case LCID.INVARIANT:
 
                     Code = LCID.ToString();
@@ -246,6 +248,7 @@ namespace BricksBucket.Localization
 
                     break;
 
+                //  It has a match.
                 default:
 
                     var info = new CultureInfo((int)LCID);
@@ -368,6 +371,7 @@ namespace BricksBucket.Localization
             {
                 var value = ValueEntry.SmartValue;
 
+                //  Draws the label on Foldout.
                 if (label != null)
                 {
                     label.text = string.IsNullOrEmpty(label.text) ?
@@ -389,8 +393,10 @@ namespace BricksBucket.Localization
                     SirenixGUIStyles.Foldout
                 );
 
+                //  Draws content in fold out.
                 if (_isVisible)
                 {
+                    //  Draws LCID Options.
                     if (!value.IsCustom)
                     {
 
@@ -415,6 +421,7 @@ namespace BricksBucket.Localization
                         EditorGUI.indentLevel--;
                     }
 
+                    //  Draws Custom options.
                     else
                     {
                         EditorGUI.indentLevel++;

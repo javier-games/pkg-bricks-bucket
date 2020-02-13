@@ -35,7 +35,6 @@ namespace BricksBucket.Localization
         /// Language settings for localization.
         /// </summary>
         [SerializeField]
-        [BoxGroup("Language Settings"), HideLabel]
         private LanguageSettings _languageSettings;
 
         #endregion
