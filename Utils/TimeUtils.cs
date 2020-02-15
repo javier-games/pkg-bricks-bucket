@@ -33,7 +33,7 @@ namespace BricksBucket
         /// Starts or resume a test of time.
         /// </summary>
         /// <param name="title">Title of the test.</param>
-        /// <param name="useMilliseconds">Wether use milliseconds.</param>
+        /// <param name="useMilliseconds">Whether use milliseconds.</param>
         public static void
         StartTest (string title, bool useMilliseconds = false)
         {

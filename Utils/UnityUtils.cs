@@ -7,7 +7,7 @@ namespace BricksBucket
     /// Unity Utils.
     ///
     /// <para>
-    /// Usefull general unity tools.
+    /// Useful general unity tools.
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
@@ -44,7 +44,7 @@ namespace BricksBucket
         /// <returns>Color from string.</returns>
         public static Color ToColor (this string stringToConvert)
         {
-            ColorUtility.TryParseHtmlString (stringToConvert, out Color color);
+            ColorUtility.TryParseHtmlString (stringToConvert, out var color);
             return color;
         }
 
@@ -88,7 +88,7 @@ namespace BricksBucket
             var aspect = (float) width / height;
             var targetAspect = (float) targetWidth / targetHeight;
 
-            //  Determinates the factor and offset by aspect ratio.
+            //  Determines the factor and offset by aspect ratio.
             float factor;
             var offset = Vector2.zero;
             if (aspect > targetAspect)
@@ -104,7 +104,7 @@ namespace BricksBucket
                 offset.y = (int) ((height - width / targetAspect) * 0.5f);
             }
 
-            //  Convertion.
+            //  Conversion.
             var data = source.GetPixels32 ();
             var targetData = new Color32[targetWidth * targetHeight];
             for (int y = 0; y < targetHeight; y++)
@@ -124,7 +124,7 @@ namespace BricksBucket
                         x: Mathf.CeilToInt (p.x),
                         y: Mathf.CeilToInt (p.y)
                     );
-                    // Bilinear filtering.
+                    // Bi-linear filtering.
                     var c11 = data[floorToInt.x + width * floorToInt.y];
                     var c12 = data[floorToInt.x + width * ceilToInt.y];
                     var c21 = data[ceilToInt.x + width * floorToInt.y];
@@ -152,10 +152,10 @@ namespace BricksBucket
         public static Texture2D
         Crop (this Texture2D source, RectOffset offset)
         {
-            int x = offset.left + offset.right;
-            int y = offset.top + offset.bottom;
-            int diffWidth = source.width - x;
-            int diffHeight = source.height - y;
+            var x = offset.left + offset.right;
+            var y = offset.top + offset.bottom;
+            var diffWidth = source.width - x;
+            var diffHeight = source.height - y;
 
             var pixels = source.GetPixels (
                 x: offset.left,
@@ -164,7 +164,7 @@ namespace BricksBucket
                 blockHeight: diffHeight
             );
 
-            Texture2D result = new Texture2D (
+            var result = new Texture2D (
                 width: diffWidth,
                 height: diffHeight,
                 textureFormat: TextureFormat.RGB24,
