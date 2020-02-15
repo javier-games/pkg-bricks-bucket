@@ -73,7 +73,8 @@ namespace BricksBucket.Collections
         /// <summary>
         /// Flag to parent to local or global position.
         /// </summary>
-        [Tooltip ("Whether to use local or global position.")] [SerializeField]
+        [Tooltip ("Whether to use local or global position.")]
+        [SerializeField]
         private bool _useLocalPosition;
 
         /// <summary>
@@ -121,7 +122,8 @@ namespace BricksBucket.Collections
         /// All children components which coroutines and invokes will be
         /// stop on dispose.
         /// </summary>
-        [SerializeField, HideInInspector] private Component[] _components;
+        [SerializeField, HideInInspector]
+        private Component[] _components;
 
 
         #endregion

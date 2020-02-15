@@ -12,7 +12,7 @@ namespace BricksBucket
     /// StringUtils.
     ///
     /// <para>
-    /// Usefull utilities to work with strings.
+    /// Useful utilities to work with strings.
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
@@ -32,10 +32,10 @@ namespace BricksBucket
 
             /*
              * Encapsulation of string builder to not interact with other
-             * code and avoid unusal behaviour.
+             * code and avoid unusual behaviour.
             */
 
-            StringBuilder stringBuilder = new StringBuilder ();
+            var stringBuilder = new StringBuilder ();
             for (int i = 0; i < array.Length; i++)
                 stringBuilder.Append (array[i]);
             return stringBuilder.ToString ();
@@ -52,10 +52,10 @@ namespace BricksBucket
 
             /*
              * Encapsulation of string builder to not interact with other
-             * code and avoid unusal behaviour.
+             * code and avoid unusual behaviour.
             */
 
-            StringBuilder stringBuilder = new StringBuilder ();
+            var stringBuilder = new StringBuilder ();
             stringBuilder.AppendFormat (format, array);
             return stringBuilder.ToString ();
         }
@@ -73,8 +73,8 @@ namespace BricksBucket
         /// <param name="toConvert">String to convert.</param>
         public static Stream ToStream (this string toConvert)
         {
-            MemoryStream stream = new MemoryStream ();
-            StreamWriter writer = new StreamWriter (stream);
+            var stream = new MemoryStream ();
+            var writer = new StreamWriter (stream);
             writer.Write (toConvert);
             writer.Flush ();
             stream.Position = 0;
@@ -105,25 +105,16 @@ namespace BricksBucket
         /// </summary>
         /// <param name="message">Message to format.</param>
         /// <param name="color">Color to use.</param>
-        /// <returns>Formated RichText string.</returns>
+        /// <returns>Formatted RichText string.</returns>
         public static string RichTextColor(this string message, Color color) =>
             ConcatFormat(RichTextFormat.Color, message, color.HEX());
 
-		/// <summary>
-        /// Add RichText Color Tags to the message.
-        /// </summary>
-		/// <param name="message">Message to format.</param>
-		/// <param name="color">Color to use.</param>
-		/// <returns>Formated RichText string.</returns>
-		public static string RichTextColor (this string message, string color) =>
-            ConcatFormat (RichTextFormat.Color, message, color);
-
-		/// <summary>
+        /// <summary>
         /// Add RichText Size Tags to the message.
         /// </summary>
 		/// <param name="message">Message to format.</param>
 		/// <param name="size">Size to use.</param>
-		/// <returns>Formated RichText string.</returns>
+		/// <returns>Formatted RichText string.</returns>
 		public static string RichTextSize (this string message, int size) =>
             ConcatFormat (RichTextFormat.Size, message, size);
 
@@ -131,7 +122,7 @@ namespace BricksBucket
         /// Add RichText Bold Tags to the message.
         /// </summary>
 		/// <param name="message">Message to format.</param>
-		/// <returns>Formated RichText string.</returns>
+		/// <returns>Formatted RichText string.</returns>
 		public static string RichTextBold (this string message) =>
             ConcatFormat (RichTextFormat.Bold, message);
 
@@ -139,7 +130,7 @@ namespace BricksBucket
         /// Add RichText Italics Tags to the message.
         /// </summary>
 		/// <param name="message">Message to format.</param>
-		/// <returns>Formated RichText string.</returns>
+		/// <returns>Formatted RichText string.</returns>
 		public static string RichTextItalics (this string message) =>
             ConcatFormat (RichTextFormat.Italic, message);
 
@@ -161,7 +152,7 @@ namespace BricksBucket
                 @"(\P{Ll})(\P{Ll}\p{Ll})";
 
             /// <summary> Pattern from Camel Case. </summary>
-            public const string FromCamelCasePatternSecondSetep =
+            public const string FromCamelCasePatternSecondStep =
                 @"(\p{Ll})(\P{Ll})";
 
             /// <summary> Pattern for element identifier. </summary>
@@ -199,18 +190,17 @@ namespace BricksBucket
                     pattern: RegexPatterns.FromCamelCasePatternFirstStep,
                     replacement: RegexPatterns.Replacement2
                 ),
-                pattern: RegexPatterns.FromCamelCasePatternSecondSetep,
+                pattern: RegexPatterns.FromCamelCasePatternSecondStep,
                 replacement: RegexPatterns.Replacement2
             );
 
             string firstLetter = camelCase.Substring (0, 1).ToUpper ();
 
-            if (toConvert.Length > 1)
-            {
-                string rest = camelCase.Substring (1);
-                return firstLetter + rest;
-            }
-            return firstLetter;
+            if (toConvert.Length <= 1)
+                return firstLetter;
+            
+            string rest = camelCase.Substring (1);
+            return firstLetter + rest;
         }
 
 		/// <summary>
@@ -242,10 +232,10 @@ namespace BricksBucket
             Regex.IsMatch (toValidate, RegexPatterns.ElementIndex);
 
 		/// <summary>
-        /// Whether this is a member indentifier.
+        /// Whether this is a member identifier.
         /// </summary>
 		/// <param name="toValidate">String to validate.</param>
-		/// <returns>Whether this is a member indentifier or not.</returns>
+		/// <returns>Whether this is a member identifier or not.</returns>
 		public static bool IsMemberIdentifier (this string toValidate) =>
             Regex.IsMatch (toValidate, RegexPatterns.MemberIdentifier);
 
@@ -267,14 +257,14 @@ namespace BricksBucket
                 //  For element identifier.
                 if (key.IsElementIdentifier ())
                 {
-                    var subkeys = key.Split ('[', ']');
-                    yield return subkeys[0];
-                    foreach (var subkey in subkeys.Skip (1))
+                    var subKeys = key.Split ('[', ']');
+                    yield return subKeys[0];
+                    foreach (var subKey in subKeys.Skip (1))
                     {
-                        if (string.IsNullOrEmpty (subkey))
+                        if (string.IsNullOrEmpty (subKey))
                             continue;
 
-                        int index = int.Parse (subkey);
+                        int index = int.Parse (subKey);
                         yield return index;
                     }
 
@@ -285,13 +275,13 @@ namespace BricksBucket
                 //  For element index.
                 if (key.IsElementIndex ())
                 {
-                    var subkeys = key.Split ('[', ']');
-                    foreach (var subkey in subkeys)
+                    var subKeys = key.Split ('[', ']');
+                    foreach (var subKey in subKeys)
                     {
-                        if (string.IsNullOrEmpty (subkey))
+                        if (string.IsNullOrEmpty (subKey))
                             continue;
 
-                        int index = int.Parse (subkey);
+                        int index = int.Parse (subKey);
                         yield return index;
                     }
 

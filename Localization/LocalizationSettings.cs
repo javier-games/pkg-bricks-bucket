@@ -37,6 +37,9 @@ namespace BricksBucket.Localization
         [SerializeField]
         private LanguageSettings _languageSettings;
 
+        [SerializeField]
+        private BookSettings _bookSettings;
+
         #endregion
 
 

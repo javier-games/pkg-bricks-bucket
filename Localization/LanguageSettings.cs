@@ -35,7 +35,8 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Language to use as default.
         /// </summary>
-        [SerializeField] private string _default;
+        [SerializeField]
+        private string _default;
 
         /// <summary>
         /// Collection of categories of languages.
@@ -110,8 +111,6 @@ namespace BricksBucket.Localization
 
 
 #if UNITY_EDITOR
-        #pragma warning disable IDE0051 // Remove unused private members
-
         #region Editor
 
 
@@ -121,7 +120,8 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Whether to show or hide the add menu.
         /// </summary>
-        [SerializeField] private bool _addMenu;
+        [SerializeField]
+        private bool _addMenu;
 
         /// <summary>
         /// Shows Add Menu.
@@ -132,7 +132,8 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Whether to show or hide the Remove menu.
         /// </summary>
-        [SerializeField] private bool _removeMenu;
+        [SerializeField]
+        private bool _removeMenu;
 
         /// <summary>
         /// Shows Remove Menu.
@@ -143,7 +144,8 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Whether to show or hide the Set Default menu.
         /// </summary>
-        [SerializeField] private bool _setDefaultMenu;
+        [SerializeField]
+        private bool _setDefaultMenu;
 
         /// <summary>
         /// Shows Set Default Menu.
@@ -399,8 +401,6 @@ namespace BricksBucket.Localization
         #endregion
 
         #endregion
-
-        #pragma warning restore IDE0051 // Remove unused private members
 #endif
 
     }

@@ -11,6 +11,8 @@ using Sirenix.Utilities.Editor;
 
 #endif
 
+// ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+// ReSharper disable InconsistentNaming
 
 namespace BricksBucket.Localization
 {
@@ -37,18 +39,21 @@ namespace BricksBucket.Localization
         /// Code to identify language category.
         /// </summary>
         [SerializeField]
+        [Tooltip("Code to identify language category.")]
         private string _code;
 
         /// <summary>
         /// Name for language category.
         /// </summary>
         [SerializeField]
+        [Tooltip("Name for language category.")]
         private string _name;
 
         /// <summary>
         /// Windows Language Code ID.
         /// </summary>
         [SerializeField, EnumPaging]
+        [Tooltip("Windows Language Code ID.")]
         [OnValueChanged("OnLCIDChanged")]
         private LCID _LCID;
 
@@ -56,6 +61,7 @@ namespace BricksBucket.Localization
         /// Language ISO-639 code.
         /// </summary>
         [SerializeField, EnumPaging]
+        [Tooltip("Language ISO-639 code.")]
         [OnValueChanged("OnISOChanged")]
         private ISO639_1 _language;
 
@@ -63,6 +69,7 @@ namespace BricksBucket.Localization
         /// Country ISO-3166 code.
         /// </summary>
         [SerializeField, EnumPaging]
+        [Tooltip("Country ISO-3166 code.")]
         [OnValueChanged("OnISOChanged")]
         private ISO3166_2 _country;
 
@@ -70,13 +77,15 @@ namespace BricksBucket.Localization
         /// Specifies a region for the language.
         /// </summary>
         [SerializeField]
+        [Tooltip("Specifies a region for the language.")]
         [OnValueChanged("OnRegionChanged")]
         private string _region;
 
         /// <summary>
-        /// Whether this catecory is custom.
+        /// Whether this category is custom.
         /// </summary>
         [SerializeField]
+        [Tooltip("Whether this category is custom.")]
         [OnValueChanged("OnIsCustomChanged")]
         private bool _isCustom;
 
@@ -96,7 +105,7 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Whether this catecory is custom.
+        /// Whether this category is custom.
         /// </summary>
         public bool IsCustom
         {
@@ -109,12 +118,7 @@ namespace BricksBucket.Localization
         /// </summary>
         public ISO639_1 Language
         {
-            get
-            {
-                if (_isCustom)
-                    return ISO639_1.NONE;
-                return _language;
-            }
+            get => _isCustom ? ISO639_1.NONE : _language;
             private set => _language = value;
         }
 
@@ -123,12 +127,7 @@ namespace BricksBucket.Localization
         /// </summary>
         public ISO3166_2 Country
         {
-            get
-            {
-                if (_isCustom)
-                    return ISO3166_2.NONE;
-                return _country;
-            }
+            get => _isCustom ? ISO3166_2.NONE : _country;
             private set => _country = value;
         }
 
@@ -174,7 +173,7 @@ namespace BricksBucket.Localization
                 return;
 
             LCID = LocalizationUtils.ToLCID(Language, Country);
-            SetDisblay();
+            SetDisplay();
         }
 
         /// <summary>
@@ -188,7 +187,7 @@ namespace BricksBucket.Localization
             Country = (ISO3166_2)LocalizationUtils.ToISO3166(LCID);
             Language = (ISO639_1)LocalizationUtils.ToISO639(LCID);
 
-            SetDisblay();
+            SetDisplay();
         }
 
         /// <summary>
@@ -199,13 +198,13 @@ namespace BricksBucket.Localization
             if (IsCustom)
                 return;
 
-            SetDisblay();
+            SetDisplay();
         }
 
         /// <summary>
         /// Sets the display name.
         /// </summary>
-        private void SetDisblay()
+        private void SetDisplay()
         {
             switch (LCID)
             {
@@ -308,55 +307,6 @@ namespace BricksBucket.Localization
             /// </summary>
             private bool _isVisible;
 
-            /// <summary>
-            /// Label for code.
-            /// </summary>
-            private readonly GUIContent _codeLabel = new GUIContent(
-                "Code", "Code to identify language category."
-            );
-
-            /// <summary>
-            /// Label for name.
-            /// </summary>
-            private readonly GUIContent _nameLabel = new GUIContent(
-                "Name", "Name for language category."
-            );
-
-            /// <summary>
-            /// Label for LCID.
-            /// </summary>
-            private readonly GUIContent _LCIDLabel = new GUIContent(
-                "LCID", "Windows Language code ID"
-            );
-
-            /// <summary>
-            /// Label for language.
-            /// </summary>
-            private readonly GUIContent _languageLabel = new GUIContent(
-                "Language", "Language ISO-639 code"
-            );
-
-            /// <summary>
-            /// Label for country.
-            /// </summary>
-            private readonly GUIContent _countryLabel = new GUIContent(
-                "Country", "Country ISO-3166 code."
-            );
-
-            /// <summary>
-            /// Label for region.
-            /// </summary>
-            private readonly GUIContent _regionLabel = new GUIContent(
-                "Region", "Specifies a region for the language."
-            );
-
-            /// <summary>
-            /// Label for is custom flag.
-            /// </summary>
-            private readonly GUIContent _isCustomLabel = new GUIContent(
-                "Is Custom", "Whether this catecory is custom."
-            );
-
             #endregion
 
 
@@ -381,9 +331,7 @@ namespace BricksBucket.Localization
                 {
                     label = new GUIContent(
                         value.Code,
-                        string.Concat(
-                            "Code ID for " + value.DisplayName + "."
-                        )
+                        string.Concat("Code ID for " , value.DisplayName , ".")
                     );
                 }
 
@@ -404,18 +352,18 @@ namespace BricksBucket.Localization
                         EditorGUI.indentLevel++;
 
                         EditorGUILayout.LabelField(
-                            _nameLabel,
+                            new GUIContent("Name","Name of category."),
                             new GUIContent(value.DisplayName),
                             SirenixGUIStyles.BoldLabel
                         );
 
                         var children = ValueEntry.Property.Children;
 
-                        children.Get("_LCID").Draw(_LCIDLabel);
-                        children.Get("_language").Draw(_languageLabel);
-                        children.Get("_country").Draw(_countryLabel);
-                        children.Get("_region").Draw(_regionLabel);
-                        children.Get("_isCustom").Draw(_isCustomLabel);
+                        children.Get("_LCID").Draw();
+                        children.Get("_language").Draw();
+                        children.Get("_country").Draw();
+                        children.Get("_region").Draw();
+                        children.Get("_isCustom").Draw();
 
                         EditorGUI.indentLevel--;
                         EditorGUI.indentLevel--;
@@ -429,11 +377,11 @@ namespace BricksBucket.Localization
 
                         var children = ValueEntry.Property.Children;
 
-                        children.Get("_code").Draw(_codeLabel);
-                        children.Get("_name").Draw(_nameLabel);
-                        children.Get("_country").Draw(_countryLabel);
-                        children.Get("_region").Draw(_regionLabel);
-                        children.Get("_isCustom").Draw(_isCustomLabel);
+                        children.Get("_code").Draw();
+                        children.Get("_name").Draw();
+                        children.Get("_country").Draw();
+                        children.Get("_region").Draw();
+                        children.Get("_isCustom").Draw();
 
                         EditorGUI.indentLevel--;
                         EditorGUI.indentLevel--;

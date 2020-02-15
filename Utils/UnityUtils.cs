@@ -53,10 +53,11 @@ namespace BricksBucket
         /// <returns>HEX code of a color.</returns>
         public static string HEX (this Color color)
         {
-            return StringUtils.Concat (
-                "#",
-                ColorUtility.ToHtmlStringRGBA (color)
-            );
+            var colorString = color.a >= 1f
+                ? ColorUtility.ToHtmlStringRGBA (color)
+                : ColorUtility.ToHtmlStringRGB (color);
+
+            return StringUtils.Concat ("#", colorString);
         }
 
         #endregion
