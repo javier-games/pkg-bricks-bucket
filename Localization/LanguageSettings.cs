@@ -35,18 +35,15 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Language to use as default.
         /// </summary>
-        [SerializeField]
-        private string _default;
+        [SerializeField] private string _default;
 
-#pragma warning disable IDE0044 // Add readonly modifier
         /// <summary>
         /// Collection of categories of languages.
         /// </summary>
         [Space, SerializeField, ReadOnly]
-        [ListDrawerSettings(HideAddButton = true, NumberOfItemsPerPage = 4)]
-        [OnValueChanged("OnCategoriesChanged")]
+        [ListDrawerSettings (HideAddButton = true, NumberOfItemsPerPage = 4)]
+        [OnValueChanged ("OnCategoriesChanged")]
         private List<LanguageCategory> _categories;
-#pragma warning restore IDE0044 // Add readonly modifier
 
         #endregion
 
@@ -59,11 +56,11 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public LanguageCategory this[string code]
+        public LanguageCategory this [string code]
         {
             get
             {
-                var category = _categories.Find(c => c.Code == code);
+                var category = _categories.Find (c => c.Code == code);
                 return category;
             }
         }
@@ -71,10 +68,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Default Language.
         /// </summary>
-        public LanguageCategory Default
-        {
-            get => this[_default];
-        }
+        public LanguageCategory Default => this[_default];
 
         /// <summary>
         /// Collection of codes of languages categories.
@@ -109,17 +103,14 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Collection of languages categories.
         /// </summary>
-        public LanguageCategory[] Categories
-        {
-            get => _categories.ToArray();
-        }
+        public LanguageCategory[] Categories => _categories.ToArray ();
 
         #endregion
 
 
 
 #if UNITY_EDITOR
-#pragma warning disable IDE0051 // Remove unused private members
+        #pragma warning disable IDE0051 // Remove unused private members
 
         #region Editor
 
@@ -130,44 +121,41 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Whether to show or hide the add menu.
         /// </summary>
-        [SerializeField]
-        private bool _addMenu;
+        [SerializeField] private bool _addMenu;
 
         /// <summary>
         /// Shows Add Menu.
         /// </summary>
-        [Button("Add Category")]
-        private void ActivateCategoryButton() => _addMenu = true;
+        [Button ("Add Category")]
+        private void ActivateCategoryButton () => _addMenu = true;
 
         /// <summary>
         /// Whether to show or hide the Remove menu.
         /// </summary>
-        [SerializeField]
-        private bool _removeMenu;
+        [SerializeField] private bool _removeMenu;
 
         /// <summary>
         /// Shows Remove Menu.
         /// </summary>
-        [Button("Remove Category")]
-        private void ActivateRemoveMenu() => _removeMenu = true;
+        [Button ("Remove Category")]
+        private void ActivateRemoveMenu () => _removeMenu = true;
 
         /// <summary>
         /// Whether to show or hide the Set Default menu.
         /// </summary>
-        [SerializeField]
-        private bool _setDefaultMenu;
+        [SerializeField] private bool _setDefaultMenu;
 
         /// <summary>
         /// Shows Set Default Menu.
         /// </summary>
-        [Button("Set Default Category")]
-        private void ActivateSetDefault() => _setDefaultMenu = true;
+        [Button ("Set Default Category")]
+        private void ActivateSetDefault () => _setDefaultMenu = true;
 
         /// <summary>
         /// Hides all menus.
         /// </summary>
-        [Button("Cancel")]
-        private void Cancel()
+        [Button ("Cancel")]
+        private void Cancel ()
         {
             _addMenu = false;
             _categoryToAdd = default;
@@ -182,11 +170,11 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Called to set Default Tag.
         /// </summary>
-        private void OnCategoriesChanged()
+        private void OnCategoriesChanged ()
         {
-            _default = _categories.Count > 0 ?
-                _categories[0].DisplayName :
-                string.Empty;
+            _default = _categories.Count > 0
+                ? _categories[0].DisplayName
+                : string.Empty;
         }
 
         #endregion
@@ -198,18 +186,17 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Category to add.
         /// </summary>
-        [SerializeField]
-        private LanguageCategory _categoryToAdd;
+        [SerializeField] private LanguageCategory _categoryToAdd;
 
         /// <summary>
         /// Adds a new category.
         /// </summary>
-        [Button("Add")]
-        private void Add()
+        [Button ("Add")]
+        private void Add ()
         {
-            _categories.Add(_categoryToAdd);
-            OnCategoriesChanged();
-            Cancel();
+            _categories.Add (_categoryToAdd);
+            OnCategoriesChanged ();
+            Cancel ();
         }
 
         #endregion
@@ -221,25 +208,25 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Category to remove.
         /// </summary>
-        [SerializeField, ValueDropdown("CategoriesCodes")]
+        [SerializeField, ValueDropdown ("CategoriesCodes")]
         private string _categoryToRemove;
 
         /// <summary>
         /// Removes the indicated category.
         /// </summary>
-        [Button("Remove")]
-        private void Remove()
+        [Button ("Remove")]
+        private void Remove ()
         {
 
             var categoryToRemove = _categoryToRemove;
-            _categories.Remove(
-                _categories.Find(c => c.Code == categoryToRemove)
+            _categories.Remove (
+                _categories.Find (c => c.Code == categoryToRemove)
             );
 
             if (_categories.Count == 0)
                 _default = string.Empty;
 
-            Cancel();
+            Cancel ();
         }
 
         #endregion
@@ -251,24 +238,24 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Category to Set as Default.
         /// </summary>
-        [SerializeField, ValueDropdown("CategoriesCodes")]
+        [SerializeField, ValueDropdown ("CategoriesCodes")]
         private string _defaultCategory;
 
         /// <summary>
         /// Sets the default language category.
         /// </summary>
-        [Button("Set")]
-        private void SetDefault()
+        [Button ("Set")]
+        private void SetDefault ()
         {
 
             var tempDefault = _defaultCategory;
-            var newDefault = _categories.Find(c => c.Code == tempDefault);
-            _categories.Remove(newDefault);
-            _categories.Insert(0,newDefault);
+            var newDefault = _categories.Find (c => c.Code == tempDefault);
+            _categories.Remove (newDefault);
+            _categories.Insert (0, newDefault);
 
             _default = _defaultCategory;
 
-            Cancel();
+            Cancel ();
         }
 
         #endregion
@@ -290,14 +277,14 @@ namespace BricksBucket.Localization
             /// <summary>
             /// Label for code.
             /// </summary>
-            private readonly GUIContent _defaultLabel = new GUIContent(
+            private readonly GUIContent _defaultLabel = new GUIContent (
                 "Default Category", "Default language category."
             );
 
             /// <summary>
             /// Label for Categories.
             /// </summary>
-            private readonly GUIContent _categoriesLabel = new GUIContent(
+            private readonly GUIContent _categoriesLabel = new GUIContent (
                 "Categories", "Collection of categories of languages."
             );
 
@@ -311,35 +298,35 @@ namespace BricksBucket.Localization
             /// Draws the property.
             /// </summary>
             /// <param name="label">Label of the property.</param>
-            protected override void DrawPropertyLayout(GUIContent label)
+            protected override void DrawPropertyLayout (GUIContent label)
             {
                 var value = ValueEntry.SmartValue;
 
                 //  Draws the label on Foldout.
                 if (label == null)
                 {
-                    label = new GUIContent("Language Settings");
+                    label = new GUIContent ("Language Settings");
                 }
 
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField(
+                EditorGUILayout.Space ();
+                EditorGUILayout.LabelField (
                     label,
                     SirenixGUIStyles.BoldLabel
                 );
 
                 //  Draws default language category.
-                if (!string.IsNullOrEmpty(value._default))
-                    EditorGUILayout.LabelField(
+                if (!string.IsNullOrEmpty (value._default))
+                    EditorGUILayout.LabelField (
                         _defaultLabel,
-                        new GUIContent(StringUtils.Concat(
+                        new GUIContent (StringUtils.Concat (
                             value._default,
                             " [", value[value._default].DisplayName, "]"
                         ))
                     );
 
-                //  Draws list of categroies.
+                //  Draws list of categories.
                 var children = ValueEntry.Property.Children;
-                children.Get("_categories").Draw(_categoriesLabel);
+                children.Get ("_categories").Draw (_categoriesLabel);
 
                 //  Draws Menu.
                 var addMenu = value._addMenu;
@@ -348,12 +335,12 @@ namespace BricksBucket.Localization
 
                 if (!(addMenu || removeMenu || setDefaultMenu))
                 {
-                    children.Get("ActivateCategoryButton").Draw();
+                    children.Get ("ActivateCategoryButton").Draw ();
 
-                    GUI.enabled = !string.IsNullOrEmpty(value._default);
+                    GUI.enabled = !string.IsNullOrEmpty (value._default);
 
-                    children.Get("ActivateRemoveMenu").Draw();
-                    children.Get("ActivateSetDefault").Draw();
+                    children.Get ("ActivateRemoveMenu").Draw ();
+                    children.Get ("ActivateSetDefault").Draw ();
 
                     GUI.enabled = true;
 
@@ -362,52 +349,58 @@ namespace BricksBucket.Localization
                 //  Draws Add Menu.
                 if (addMenu)
                 {
-                    children.Get("_categoryToAdd").Draw();
+                    children.Get ("_categoryToAdd").Draw ();
 
                     GUI.enabled =
-                        !value._categoryToAdd.Equals(default(LanguageCategory))
-                        && !value._categories.Contains(value._categoryToAdd);
-                    children.Get("Add").Draw();
+                        !value._categoryToAdd.Equals (
+                            default (LanguageCategory))
+                        && !value._categories.Contains (value._categoryToAdd);
+                    children.Get ("Add").Draw ();
                     GUI.enabled = true;
 
-                    children.Get("Cancel").Draw();
+                    children.Get ("Cancel").Draw ();
                 }
 
                 //  Draws Remove Menu.
                 if (removeMenu)
                 {
-                    children.Get("_categoryToRemove").Draw();
+                    children.Get ("_categoryToRemove").Draw ();
 
-                    GUI.enabled = !string.IsNullOrEmpty(value._categoryToRemove);
-                    children.Get("Remove").Draw();
+                    GUI.enabled =
+                        !string.IsNullOrEmpty (value._categoryToRemove);
+                    children.Get ("Remove").Draw ();
                     GUI.enabled = true;
 
-                    children.Get("Cancel").Draw();
+                    children.Get ("Cancel").Draw ();
                 }
 
                 //  Draws Set Default Menu.
                 if (setDefaultMenu)
                 {
-                    children.Get("_defaultCategory").Draw();
+                    children.Get ("_defaultCategory").Draw ();
 
-                    GUI.enabled = !string.IsNullOrEmpty(value._defaultCategory);
-                    children.Get("SetDefault").Draw();
+                    GUI.enabled =
+                        !string.IsNullOrEmpty (value._defaultCategory);
+                    children.Get ("SetDefault").Draw ();
                     GUI.enabled = true;
 
-                    children.Get("Cancel").Draw();
+                    children.Get ("Cancel").Draw ();
                 }
 
-                value.OnCategoriesChanged();
+                value.OnCategoriesChanged ();
 
-                EditorGUILayout.Space();
+                EditorGUILayout.Space ();
             }
+
             #endregion
 
         }
-        #endregion
+
         #endregion
 
-#pragma warning restore IDE0051 // Remove unused private members
+        #endregion
+
+        #pragma warning restore IDE0051 // Remove unused private members
 #endif
 
     }
