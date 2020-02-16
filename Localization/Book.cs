@@ -74,13 +74,12 @@ namespace BricksBucket.Localization
 
 		internal void OnNameChanged ()
 		{
-			if (string.IsNullOrWhiteSpace (Name))
-			{
-				Code = string.Empty;
-				return;
-			}
+			if (string.IsNullOrWhiteSpace (Name)) Code = string.Empty;
 
-			Code = Name.ToUpper ();
+			Code = Name.RemoveDiacritics ().
+				ToUpper ().
+				Replace (' ', '_').
+				RemoveSpecialCharacters ('_');
 		}
 
 #endif
