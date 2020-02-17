@@ -353,9 +353,7 @@ namespace BricksBucket.Localization
                 {
                     label.text = string.IsNullOrEmpty (label.text)
                         ? StringUtils.ConcatFormat (
-                            _propertyLabel.text,
-                            value.Code,
-                            value.DisplayName)
+                            _propertyLabel.text, value.Code, value.DisplayName)
                         : label.text;
                 }
                 else

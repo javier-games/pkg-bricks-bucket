@@ -44,6 +44,7 @@ namespace BricksBucket.Localization
 		/// What does this book is for.
 		/// </summary>
 		[SerializeField]
+		[TextArea]
 		[Tooltip ("What does this book is for.")]
 		private string _description;
 
@@ -123,6 +124,20 @@ namespace BricksBucket.Localization
 			/// Whether the foldout is visible.
 			/// </summary>
 			private bool _isVisible;
+			
+			/// <summary>
+			/// Label and tooltip for property label.
+			/// </summary>
+			private readonly GUIContent _propertyLabel = new GUIContent (
+				"{0}", "Book of localizations."
+			);
+
+			/// <summary>
+			/// Label and tooltip for code label.
+			/// </summary>
+			private readonly GUIContent _codeLabel = new GUIContent (
+				"Code", "Code to identify the book."
+			);
 
 			#endregion
 
@@ -141,17 +156,15 @@ namespace BricksBucket.Localization
 				if (label != null)
 				{
 					label.text = string.IsNullOrEmpty (label.text)
-						? StringUtils.Concat (
-							value.Code,
-							" [", value.Name, "]"
-						)
+						? StringUtils.ConcatFormat (
+							_propertyLabel.text, value.Name)
 						: label.text;
 				}
 				else
 				{
-					label = new GUIContent (
-						value.Name,
-						tooltip: "Book of localizations."
+					label = _propertyLabel;
+					label.text = StringUtils.ConcatFormat (
+						label.text, value.Code
 					);
 				}
 				
@@ -168,8 +181,9 @@ namespace BricksBucket.Localization
 				var children = ValueEntry.Property.Children;
 					
 				EditorGUILayout.LabelField(
-					new GUIContent("Code", "Code to identify this Book"),
-					new GUIContent(value.Code)
+					_codeLabel,
+					new GUIContent(value.Code),
+					EditorStyles.textField
 				);
 					
 				children.Get("_name").Draw();
@@ -177,6 +191,7 @@ namespace BricksBucket.Localization
 					
 				EditorGUI.indentLevel--;
 
+				EditorGUILayout.Space ();
 			}
 
 			#endregion

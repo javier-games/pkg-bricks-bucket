@@ -195,7 +195,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Language Category Drawer Class.
         /// </summary>
-        public class LanguageSettingsDrawer : OdinValueDrawer<LanguageSettings>
+        private class LanguageSettingsDrawer : OdinValueDrawer<LanguageSettings>
         {
 
 
@@ -333,7 +333,6 @@ namespace BricksBucket.Localization
                     GUI.enabled = true;
 
                     EditorGUILayout.EndHorizontal ();
-                    ValueEntry.SmartValue = value;
                 }
 
                 // Draws the Menu to Add a new Category.
@@ -347,7 +346,9 @@ namespace BricksBucket.Localization
                     var categoryToAdd = value._toAdd;
                     GUI.enabled =
                         !categoryToAdd.Equals (default (LanguageCategory)) &&
-                        !value._categories.Contains (categoryToAdd) &&
+                        !value._categories.Exists (
+                            category => category.Code == categoryToAdd.Code
+                        ) &&
                         !string.IsNullOrWhiteSpace (categoryToAdd.Code);
 
                     if (GUILayout.Button (_addLabel))

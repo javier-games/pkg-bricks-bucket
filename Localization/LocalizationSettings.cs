@@ -40,6 +40,8 @@ namespace BricksBucket.Localization
         private LanguageSettings _languageSettings;
         
         [SerializeField]
+        [Space(), Title("Book Settings"), HideLabel()]
+        [Tooltip("Section to edit books of localizations.")]
         private BookSettings _bookSettings;
 
         #endregion
