@@ -35,8 +35,10 @@ namespace BricksBucket.Localization
         /// Language settings for localization.
         /// </summary>
         [SerializeField]
+        [Space(), Title("Language Settings"), HideLabel()]
+        [Tooltip("Section to edit language categories.")]
         private LanguageSettings _languageSettings;
-
+        
         [SerializeField]
         private BookSettings _bookSettings;
 
