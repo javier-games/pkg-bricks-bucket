@@ -1,7 +1,6 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-
 #if UNITY_EDITOR
 
 using UnityEditor;
@@ -25,7 +24,7 @@ namespace BricksBucket.Localization
 	/// 
 	/// </summary>
 	[System.Serializable]
-	public struct Book
+	public struct Book : System.IComparable
 	{
 
 
@@ -88,6 +87,25 @@ namespace BricksBucket.Localization
 			private set => _code = value;
 		}
 
+		#endregion
+
+
+
+		#region Methods
+		
+		/// <summary>
+		/// Compares to an object.
+		/// </summary>
+		/// <param name="obj">Object to compare.</param>
+		/// <returns>Value of comparision.</returns>
+		public int CompareTo (object obj)
+		{
+			var book = (Book) obj;
+			return string.Compare (
+				Code, book.Code,
+				System.StringComparison.InvariantCultureIgnoreCase
+			);
+		}
 		#endregion
 
 
@@ -174,7 +192,11 @@ namespace BricksBucket.Localization
 					SirenixGUIStyles.Foldout
 				);
 
-				if (!_isVisible) return;
+				if (!_isVisible)
+				{
+					//ValueEntry.SmartValue = value;
+					return;
+				}
 				
 				EditorGUI.indentLevel++;
 					
@@ -190,8 +212,9 @@ namespace BricksBucket.Localization
 				children.Get("_description").Draw();
 					
 				EditorGUI.indentLevel--;
-
 				EditorGUILayout.Space ();
+				
+				ValueEntry.SmartValue = value;
 			}
 
 			#endregion

@@ -327,7 +327,7 @@ namespace BricksBucket.Localization
             private readonly GUIContent _codeLabel = new GUIContent (
                 "Code", "Code to identify the category."
             );
-            
+
             /// <summary>
             /// Label and tooltip for name label.
             /// </summary>
@@ -371,53 +371,56 @@ namespace BricksBucket.Localization
                 );
 
                 //  Draws content in fold out.
-                if (_isVisible)
+                if (!_isVisible)
                 {
-                    EditorGUI.indentLevel++;
-                    EditorGUI.indentLevel++;
-
-                    //  Draws LCID Options.
-                    if (!value.IsCustom)
-                    {
-
-                        EditorGUILayout.LabelField (
-                            _codeLabel,
-                            new GUIContent (value.Code),
-                            EditorStyles.textField
-                        );
-
-                        EditorGUILayout.LabelField (
-                            _nameLabel,
-                            new GUIContent (value.DisplayName),
-                            EditorStyles.textField
-                        );
-
-                        var children = ValueEntry.Property.Children;
-
-                        children.Get ("_LCID").Draw ();
-                        children.Get ("_language").Draw ();
-                        children.Get ("_country").Draw ();
-                        children.Get ("_region").Draw ();
-                        children.Get ("_isCustom").Draw ();
-
-                    }
-
-                    //  Draws Custom options.
-                    else
-                    {
-                        var children = ValueEntry.Property.Children;
-
-                        children.Get ("_code").Draw ();
-                        children.Get ("_name").Draw ();
-                        children.Get ("_country").Draw ();
-                        children.Get ("_region").Draw ();
-                        children.Get ("_isCustom").Draw ();
-                    }
-
-                    EditorGUI.indentLevel--;
-                    EditorGUI.indentLevel--;
+                    //ValueEntry.SmartValue = value;
+                    return;
                 }
 
+                EditorGUI.indentLevel++;
+                EditorGUI.indentLevel++;
+
+                //  Draws LCID Options.
+                if (!value.IsCustom)
+                {
+
+                    EditorGUILayout.LabelField (
+                        _codeLabel,
+                        new GUIContent (value.Code),
+                        EditorStyles.textField
+                    );
+
+                    EditorGUILayout.LabelField (
+                        _nameLabel,
+                        new GUIContent (value.DisplayName),
+                        EditorStyles.textField
+                    );
+
+                    var children = ValueEntry.Property.Children;
+
+                    children.Get ("_LCID").Draw ();
+                    children.Get ("_language").Draw ();
+                    children.Get ("_country").Draw ();
+                    children.Get ("_region").Draw ();
+                    children.Get ("_isCustom").Draw ();
+
+                }
+
+                //  Draws Custom options.
+                else
+                {
+                    var children = ValueEntry.Property.Children;
+
+                    children.Get ("_code").Draw ();
+                    children.Get ("_name").Draw ();
+                    children.Get ("_country").Draw ();
+                    children.Get ("_region").Draw ();
+                    children.Get ("_isCustom").Draw ();
+                }
+
+                EditorGUI.indentLevel--;
+                EditorGUI.indentLevel--;
+                
                 ValueEntry.SmartValue = value;
             }
 

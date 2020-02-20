@@ -144,6 +144,7 @@ namespace BricksBucket.Localization
 		private void Add ()
 		{
 			_books.Add (_toAdd);
+			_books.Sort();
 			Cancel ();
 		}
 
@@ -154,6 +155,7 @@ namespace BricksBucket.Localization
 		{
 			var categoryToRemove = _toRemove;
 			_books.Remove (_books.Find (c => c.Code == categoryToRemove));
+			_books.Sort();
 			Cancel ();
 		}
 
@@ -306,12 +308,6 @@ namespace BricksBucket.Localization
 
 				EditorGUILayout.Space ();
 
-				// Update all values in smart value.
-				value._books.Sort ((x, y) => string.Compare (
-					x.Code, y.Code,
-					System.StringComparison.InvariantCultureIgnoreCase
-				));
-				
 				ValueEntry.SmartValue = value;
 			}
 
