@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
 
 using Exception = System.Exception;
 using Array = System.Array;
+using Random = UnityEngine.Random;
 
 namespace BricksBucket.Collections
 {
@@ -37,8 +38,7 @@ namespace BricksBucket.Collections
         /// <returns> Whether is a null or empty array. </returns>
         public static bool IsNullOrEmpty<T> (this T[] array)
         {
-            if (array == null)
-                return true;
+            if (array == null) return true;
             return array.Length == 0;
         }
 
@@ -50,6 +50,11 @@ namespace BricksBucket.Collections
         public static bool Contains<T> (this T[] array, T element) =>
             array.Find (element) >= 0;
 
+        public static bool Exists<T> (this T[] array, Predicate<T> predicate)
+        {
+            return Array.Exists (array, predicate);
+        }
+
         /// <summary> Finds an element in an array. </summary>
         /// <typeparam name="T"> Type of array. </typeparam>
         /// <param name="array"> Array collection. </param>
@@ -57,14 +62,25 @@ namespace BricksBucket.Collections
         /// <returns> -1 if an elements does not found. </returns>
         public static int Find<T> (this T[] array, T element)
         {
-            if (array.IsNullOrEmpty ())
-                return -1;
+            if (array.IsNullOrEmpty ()) return -1;
 
             for (int i = 0; i < array.Length; i++)
                 if (EqualityComparer<T>.Default.Equals (array[i], element))
                     return i;
 
             return -1;
+        }
+
+        /// <summary>
+        /// Finds an element in array.
+        /// </summary>
+        /// <param name="array">Array collection.</param>
+        /// <param name="predicate">Predicate to find an element.</param>
+        /// <typeparam name="T">Type of array.</typeparam>
+        /// <returns>-1 if an elements does not found.</returns>
+        public static int Find<T> (this T[] array, Predicate<T> predicate)
+        {
+            return array.Find (Array.Find (array, predicate));
         }
 
         /// <summary> Swaps the values of index A and index B </summary>
@@ -74,11 +90,9 @@ namespace BricksBucket.Collections
         /// <param name="b"> Index B. </param>
         public static void Swap<T> (this T[] array, int a, int b)
         {
-            if (!array.HasIndex (a))
-                throw IndexOutOfRangeException (array, a);
+            if (!array.HasIndex (a)) throw IndexOutOfRangeException (array, a);
 
-            if (!array.HasIndex (b))
-                throw IndexOutOfRangeException (array, b);
+            if (!array.HasIndex (b)) throw IndexOutOfRangeException (array, b);
 
             MathUtils.Swap (ref array[a], ref array[b]);
         }
@@ -111,13 +125,12 @@ namespace BricksBucket.Collections
         public static int[] GetIndexesSample<T> (
             this T[] array,
             int size,
-            bool random = false)
+            bool random = false
+        )
         {
-            if (size < 0)
-                throw IndexOutOfRangeException (array, size);
+            if (size < 0) throw IndexOutOfRangeException (array, size);
 
-            if (array.IsNullOrEmpty ())
-                return null;
+            if (array.IsNullOrEmpty ()) return null;
 
             var sample = new int[size];
 
@@ -128,8 +141,7 @@ namespace BricksBucket.Collections
                 for (int i = 0; i < size; i++)
                 {
                     int index = i;
-                    if (index >= array.Length)
-                        index %= array.Length;
+                    if (index >= array.Length) index %= array.Length;
                     sample[i] = index;
                 }
 
@@ -145,13 +157,12 @@ namespace BricksBucket.Collections
         public static T[] GetSample<T> (
             this T[] array,
             int size,
-            bool random = false)
+            bool random = false
+        )
         {
-            if (size < 0)
-                throw IndexOutOfRangeException (array, size);
+            if (size < 0) throw IndexOutOfRangeException (array, size);
 
-            if (array.IsNullOrEmpty ())
-                return null;
+            if (array.IsNullOrEmpty ()) return null;
 
             T[] sample = new T[size];
 
@@ -162,8 +173,7 @@ namespace BricksBucket.Collections
                 for (int i = 0; i < size; i++)
                 {
                     int index = i;
-                    if (index >= array.Length)
-                        index %= array.Length;
+                    if (index >= array.Length) index %= array.Length;
                     sample[i] = array[index];
                 }
 
@@ -179,10 +189,10 @@ namespace BricksBucket.Collections
         public static T Loop<T> (
             this T[] array,
             ref int index,
-            int increment = 1)
+            int increment = 1
+        )
         {
-            if (array.IsNullOrEmpty ())
-                throw NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ()) throw NullOrEmptyException (array);
 
             index = MathUtils.Loop (index, 0, array.Length - 1, increment);
             return array[index];
@@ -195,16 +205,13 @@ namespace BricksBucket.Collections
         /// <returns> Sequence of numbers. </returns>
         public static int[] GetSequence (int from, int to, bool random = false)
         {
-            if (to < from)
-                MathUtils.Swap (ref from, ref to);
+            if (to < from) MathUtils.Swap (ref from, ref to);
 
             int[] sequence = new int[to - from];
 
-            for (int i = 0; i < sequence.Length; i++)
-                sequence[i] = from + i;
+            for (int i = 0; i < sequence.Length; i++) sequence[i] = from + i;
 
-            if (random)
-                sequence.Shuffle ();
+            if (random) sequence.Shuffle ();
 
             return sequence;
         }
@@ -215,8 +222,7 @@ namespace BricksBucket.Collections
         /// <param name="index"> Index to remove from collection. </param>
         public static void RemoveAt<T> (ref T[] array, int index)
         {
-            if (array.IsNullOrEmpty ())
-                throw NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ()) throw NullOrEmptyException (array);
 
             if (!array.HasIndex (index))
                 throw IndexOutOfRangeException (array, index);
@@ -234,8 +240,7 @@ namespace BricksBucket.Collections
         /// <returns> Whether the value is not any more in the array. </returns>
         public static void Remove<T> (ref T[] array, T element)
         {
-            if (array.IsNullOrEmpty ())
-                throw NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ()) throw NullOrEmptyException (array);
 
             int index = array.Find (element);
             if (index >= 0)
@@ -251,8 +256,7 @@ namespace BricksBucket.Collections
         /// <param name="element"> Element to add. </param>
         public static void AddAt<T> (ref T[] array, int index, T element)
         {
-            if (array.IsNullOrEmpty ())
-                throw NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ()) throw NullOrEmptyException (array);
 
             if (!array.HasIndex (index))
                 throw IndexOutOfRangeException (array, index);
@@ -269,8 +273,7 @@ namespace BricksBucket.Collections
         /// <param name="element"> Element to add. </param>
         public static void Add<T> (ref T[] array, T element)
         {
-            if (array.IsNullOrEmpty ())
-                throw NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ()) throw NullOrEmptyException (array);
 
             Array.Resize (ref array, array.Length + 1);
             array[array.Length - 1] = element;
@@ -296,8 +299,7 @@ namespace BricksBucket.Collections
         /// <returns> Whether is a null or empty list. </returns>
         public static bool IsNullOrEmpty<T> (this IList<T> list)
         {
-            if (list == null)
-                return true;
+            if (list == null) return true;
             return list.Count == 0;
         }
 
@@ -308,11 +310,9 @@ namespace BricksBucket.Collections
         /// <param name="b"> Index B. </param>
         public static void Swap<T> (this IList<T> list, int a, int b)
         {
-            if (!list.HasIndex (a))
-                throw IndexOutOfRangeException (list, a);
+            if (!list.HasIndex (a)) throw IndexOutOfRangeException (list, a);
 
-            if (!list.HasIndex (b))
-                throw IndexOutOfRangeException (list, b);
+            if (!list.HasIndex (b)) throw IndexOutOfRangeException (list, b);
 
             T value = list[a];
             list[a] = list[b];
@@ -347,13 +347,12 @@ namespace BricksBucket.Collections
         public static int[] GetIndexesSample<T> (
             this IList<T> list,
             int size,
-            bool random = false)
+            bool random = false
+        )
         {
-            if (size < 0)
-                throw IndexOutOfRangeException (list, size);
+            if (size < 0) throw IndexOutOfRangeException (list, size);
 
-            if (list.IsNullOrEmpty ())
-                return null;
+            if (list.IsNullOrEmpty ()) return null;
 
             int[] sample = new int[size];
 
@@ -364,8 +363,7 @@ namespace BricksBucket.Collections
                 for (int i = 0; i < size; i++)
                 {
                     int index = i;
-                    if (index >= list.Count)
-                        index %= list.Count;
+                    if (index >= list.Count) index %= list.Count;
                     sample[i] = index;
                 }
 
@@ -381,11 +379,9 @@ namespace BricksBucket.Collections
         public static T[]
             GetSample<T> (this IList<T> list, int size, bool random = false)
         {
-            if (size < 0)
-                throw IndexOutOfRangeException (list, size);
+            if (size < 0) throw IndexOutOfRangeException (list, size);
 
-            if (list.IsNullOrEmpty ())
-                return null;
+            if (list.IsNullOrEmpty ()) return null;
 
             T[] sample = new T[size];
 
@@ -396,8 +392,7 @@ namespace BricksBucket.Collections
                 for (int i = 0; i < size; i++)
                 {
                     int index = i;
-                    if (index >= list.Count)
-                        index %= list.Count;
+                    if (index >= list.Count) index %= list.Count;
                     sample[i] = list[index];
                 }
 
@@ -413,8 +408,7 @@ namespace BricksBucket.Collections
         public static T
             Loop<T> (this List<T> list, ref int index, int increment = 1)
         {
-            if (list.IsNullOrEmpty ())
-                throw NullOrEmptyException (list);
+            if (list.IsNullOrEmpty ()) throw NullOrEmptyException (list);
 
             index = MathUtils.Loop (index, 0, list.Count - 1, increment);
             return list[index];
@@ -446,8 +440,7 @@ namespace BricksBucket.Collections
         /// <returns> Whether is a null or empty list. </returns>
         public static bool IsNullOrEmpty<T> (this IEnumerable<T> enumerable)
         {
-            if (enumerable == null)
-                return true;
+            if (enumerable == null) return true;
             return !enumerable.Any ();
         }
 
@@ -481,14 +474,12 @@ namespace BricksBucket.Collections
         public static int IndexOf<T> (this IEnumerable<T> enumerable, T item)
         {
             var @is = enumerable as T[] ?? enumerable.ToArray ();
-            if (@is.IsNullOrEmpty ())
-                return -1;
+            if (@is.IsNullOrEmpty ()) return -1;
 
             var index = 0;
             foreach (var i in @is)
             {
-                if (Equals (i, item))
-                    return index;
+                if (Equals (i, item)) return index;
                 ++index;
             }
 
@@ -502,7 +493,8 @@ namespace BricksBucket.Collections
         /// <returns> Whether two collections are the same. </returns>
         public static bool ContentsMatch<T> (
             this IEnumerable<T> enumerable,
-            IEnumerable<T> other)
+            IEnumerable<T> other
+        )
         {
             var elements = enumerable as T[] ?? enumerable.ToArray ();
             var enumerable1 = other as T[] ?? other.ToArray ();
@@ -535,8 +527,7 @@ namespace BricksBucket.Collections
         /// <param name="index">Index to remove.</param>
         public static void RemoveAt<T> (this Stack<T> stack, int index)
         {
-            if (stack.IsNullOrEmpty ())
-                throw NullOrEmptyException (stack);
+            if (stack.IsNullOrEmpty ()) throw NullOrEmptyException (stack);
 
             if (!stack.HasIndex (index))
                 throw IndexOutOfRangeException (stack, index);
@@ -544,13 +535,11 @@ namespace BricksBucket.Collections
             Stack<T> aux = new Stack<T> ();
             int times = stack.Count - index - 1;
 
-            for (int i = 0; i < times; i++)
-                aux.Push (stack.Pop ());
+            for (int i = 0; i < times; i++) aux.Push (stack.Pop ());
 
             stack.Pop ();
 
-            for (int i = 0; i < times; i++)
-                stack.Push (aux.Pop ());
+            for (int i = 0; i < times; i++) stack.Push (aux.Pop ());
         }
 
         /// <summary>
@@ -561,8 +550,7 @@ namespace BricksBucket.Collections
         /// <param name="element">Element to remove.</param>
         public static void Remove<T> (this Stack<T> stack, T element)
         {
-            if (stack.IsNullOrEmpty ())
-                throw NullOrEmptyException (stack);
+            if (stack.IsNullOrEmpty ()) throw NullOrEmptyException (stack);
 
             int index = stack.Find (element);
             if (index >= 0)
@@ -595,16 +583,13 @@ namespace BricksBucket.Collections
         /// <returns> Exception. </returns>
         public static Exception IndexOutOfRangeException (
             object collection,
-            int index)
+            int index
+        )
         {
             return new Exception (
                 StringUtils.ConcatFormat (
                     format: "The collection {0} does not contains index {1}.",
-                    array: new[]
-                    {
-                        collection,
-                        index
-                    }
+                    array: new[] {collection, index}
                 )
             );
         }
@@ -619,11 +604,7 @@ namespace BricksBucket.Collections
             return new Exception (
                 StringUtils.ConcatFormat (
                     format: "The collection {0} does not contains element {1}.",
-                    array: new[]
-                    {
-                        collection,
-                        element
-                    }
+                    array: new[] {collection, element}
                 )
             );
         }

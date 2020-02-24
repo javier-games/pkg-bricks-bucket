@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
@@ -141,55 +141,6 @@ namespace BricksBucket.Localization
 
 
 
-        #region Editor Methods
-
-        /// <summary>
-        /// Hides all menus.
-        /// </summary>
-        private void Cancel ()
-        {
-            _toAdd = default;
-            _toRemove = string.Empty;
-            _toDefault = string.Empty;
-        }
-
-        /// <summary>
-        /// Adds a new category.
-        /// </summary>
-        private void Add ()
-        {
-            _categories.Add (_toAdd);
-            Cancel ();
-        }
-
-        /// <summary>
-        /// Removes the indicated category.
-        /// </summary>
-        private void Remove ()
-        {
-            var categoryToRemove = _toRemove;
-            _categories.Remove (
-                _categories.Find (c => c.Code == categoryToRemove)
-            );
-            Cancel ();
-        }
-
-        /// <summary>
-        /// Sets the default language category.
-        /// </summary>
-        private void SetDefault ()
-        {
-            var tempDefault = _toDefault;
-            var newDefault = _categories.Find (c => c.Code == tempDefault);
-            _categories.Remove (newDefault);
-            _categories.Insert (0, newDefault);
-            Cancel ();
-        }
-
-        #endregion
-
-
-
         #region Drawer
 
         /// <summary>
@@ -298,17 +249,19 @@ namespace BricksBucket.Localization
 
                     if (GUILayout.Button (_setLabel))
                     {
-                        value.SetDefault ();
+                        var tempDefault = value._toDefault;
+                        var newDefault = value._categories.Find (
+                            c => c.Code == tempDefault
+                        );
+                        value._categories.Remove (newDefault);
+                        value._categories.Insert (0, newDefault);
                         _setDefaultMenu = false;
                     }
 
                     GUI.enabled = true;
 
                     if (GUILayout.Button (_cancelLabel))
-                    {
-                        value.Cancel ();
-                        _setDefaultMenu = false;
-                    }
+                        value = Cancel (value);
 
                     EditorGUILayout.EndHorizontal ();
                 }
@@ -353,17 +306,14 @@ namespace BricksBucket.Localization
 
                     if (GUILayout.Button (_addLabel))
                     {
-                        value.Add ();
+                        value._categories.Add (value._toAdd);
                         _addMenu = false;
                     }
 
                     GUI.enabled = true;
 
                     if (GUILayout.Button (_cancelLabel))
-                    {
-                        value.Cancel ();
-                        _addMenu = false;
-                    }
+                        value = Cancel (value);
 
                     EditorGUILayout.EndHorizontal ();
                 }
@@ -378,17 +328,19 @@ namespace BricksBucket.Localization
 
                     if (GUILayout.Button (_removeLabel))
                     {
-                        value.Remove ();
+                        var categoryToRemove = value._toRemove;
+                        value._categories.Remove (
+                            value._categories.Find (
+                                c => c.Code == categoryToRemove
+                            )
+                        );
                         _removeMenu = false;
                     }
 
                     GUI.enabled = true;
 
                     if (GUILayout.Button (_cancelLabel))
-                    {
-                        value.Cancel ();
-                        _removeMenu = false;
-                    }
+                        value = Cancel (value);
 
                     EditorGUILayout.EndHorizontal ();
                 }
@@ -400,6 +352,19 @@ namespace BricksBucket.Localization
             }
 
             #endregion
+
+            private LanguageSettings Cancel (LanguageSettings value)
+            {
+                value._toAdd = default;
+                value._toRemove = string.Empty;
+                value._toDefault = string.Empty;
+                
+                _removeMenu = false;
+                _addMenu = false;
+                _setDefaultMenu = false;
+
+                return value;
+            }
 
         }
 
