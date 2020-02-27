@@ -373,7 +373,7 @@ namespace BricksBucket.Localization
                 //  Draws content in fold out.
                 if (!_isVisible)
                 {
-                    //ValueEntry.SmartValue = value;
+                    ValueEntry.SmartValue = value;
                     return;
                 }
 
