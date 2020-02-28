@@ -38,7 +38,7 @@ namespace BricksBucket.Localization
         /// </summary>
         [SerializeField, ReadOnly]
         [ListDrawerSettings (HideAddButton = true, NumberOfItemsPerPage = 4)]
-        [Tooltip("Collection of categories of languages.")]
+        [Tooltip ("Collection of categories of languages.")]
         private List<LanguageCategory> _categories;
 
         #endregion
@@ -110,107 +110,108 @@ namespace BricksBucket.Localization
 
 #if UNITY_EDITOR
 
+        #region Editor Fields
+
         /// <summary>
         /// Shows Add Menu.
         /// </summary>
         [SerializeField]
         private bool _addMenu;
-        
+
         /// <summary>
         /// Whether to show or hide the Remove menu.
         /// </summary>
         [SerializeField]
         private bool _removeMenu;
-        
+
         /// <summary>
         /// Whether to show or hide the add menu.
         /// </summary>
         [SerializeField]
         private bool _setDefaultMenu;
-        
-        
 
-        #region New Category
-        
         /// <summary>
         /// Category to add.
         /// </summary>
         [SerializeField]
-        [LabelText("Category to Add")]
-        [Tooltip("Edit the fields of the category to add.")]
+        [LabelText ("Category to Add")]
+        [Tooltip ("Edit the fields of the category to add.")]
         private LanguageCategory _toAdd;
 
-
-        [Button("Add")]
-        private void Add()
-        {
-            _categories.Add(_toAdd);
-            Cancel();
-        }
-
-        #endregion
-
-        #region Remove Category
-        
         /// <summary>
         /// Category to remove.
         /// </summary>
         [SerializeField]
-        [LabelText("Category to Remove"), ValueDropdown ("CategoriesCodes")]
-        [Tooltip("Select the code of the category to remove.")]
+        [LabelText ("Category to Remove"), ValueDropdown ("CategoriesCodes")]
+        [Tooltip ("Select the code of the category to remove.")]
         private string _toRemove;
 
-        [Button("Remove")]
-        private void Remove()
-        {
-            var categoryToRemove = _toRemove;
-            _categories.Remove(
-                _categories.Find(c => c.Code == categoryToRemove)
-            );
-
-            Cancel();
-        }
-
-        #endregion
-
-        #region Set Default Category
-        
         /// <summary>
         /// Category to Set as Default.
         /// </summary>
         [SerializeField]
-        [LabelText("Default Category"), ValueDropdown ("CategoriesCodes")]
-        [Tooltip("Select the code of the category to set as default.")]
+        [LabelText ("Default Category"), ValueDropdown ("CategoriesCodes")]
+        [Tooltip ("Select the code of the category to set as default.")]
         private string _toDefault;
-        
-        [Button("Set")]
-        private void SetDefault()
-        {
-            var tempDefault = _toDefault;
-            var newDefault = _categories.Find(c => c.Code == tempDefault);
-            _categories.Remove(newDefault);
-            _categories.Insert(0,newDefault);
-
-            Cancel();
-        }
 
         #endregion
 
+        #region Editor Methods
 
-        [Button("Cancel")]
-        private void Cancel()
+        /// <summary>
+        /// Called by the editor to add a new category.
+        /// </summary>
+        [Button ("Add")]
+        private void Add ()
+        {
+            _categories.Add (_toAdd);
+            Cancel ();
+        }
+
+        /// <summary>
+        /// Called by editor to remove a category.
+        /// </summary>
+        [Button ("Remove")]
+        private void Remove ()
+        {
+            var categoryToRemove = _toRemove;
+            _categories.Remove (
+                _categories.Find (c => c.Code == categoryToRemove)
+            );
+
+            Cancel ();
+        }
+
+        /// <summary>
+        /// Called by editor to set the default language category.
+        /// </summary>
+        [Button ("Set")]
+        private void SetDefault ()
+        {
+            var tempDefault = _toDefault;
+            var newDefault = _categories.Find (c => c.Code == tempDefault);
+            _categories.Remove (newDefault);
+            _categories.Insert (0, newDefault);
+
+            Cancel ();
+        }
+
+        /// <summary>
+        /// Called by editor to cancel the current process.
+        /// </summary>
+        [Button ("Cancel")]
+        private void Cancel ()
         {
             _addMenu = false;
             _removeMenu = false;
             _setDefaultMenu = false;
-            
+
             _toRemove = string.Empty;
             _toAdd = default;
             _toDefault = string.Empty;
         }
-        
 
-
+        #endregion
 
         #region Drawer
 
@@ -219,21 +220,17 @@ namespace BricksBucket.Localization
         /// </summary>
         private class LanguageSettingsDrawer : OdinValueDrawer<LanguageSettings>
         {
-
-
-
+            
             #region Fields
 
             /// <summary>
             /// Label for code.
             /// </summary>
             private readonly GUIContent _defaultLabel = new GUIContent (
-                "Default Category", "Default language category."
+                "Default Category", "This is the Default language category."
             );
 
             #endregion
-
-
 
             #region Override Methods
 
@@ -278,14 +275,14 @@ namespace BricksBucket.Localization
 
                     EditorGUILayout.BeginHorizontal ();
                     GUI.enabled = !string.IsNullOrEmpty (value._toDefault);
-                    children.Get ("SetDefault").Draw();
+                    children.Get ("SetDefault").Draw ();
                     GUI.enabled = true;
-                    children.Get ("Cancel").Draw();
+                    children.Get ("Cancel").Draw ();
                     EditorGUILayout.EndHorizontal ();
                 }
 
                 // Draws list of categories.
-                EditorGUILayout.Space();
+                EditorGUILayout.Space ();
                 children.Get ("_categories").Draw ();
 
                 // Draws the plus and minus buttons to edit list.
@@ -346,16 +343,15 @@ namespace BricksBucket.Localization
                 ValueEntry.SmartValue = value;
                 ValueEntry.ApplyChanges ();
             }
-
+            
             #endregion
-
+            
         }
-
+        
         #endregion
-
+        
 #endif
-
+        
         #endregion
-
     }
 }

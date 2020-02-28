@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
@@ -26,6 +27,7 @@ namespace BricksBucket.Localization
     /// 
     /// </summary>
     [System.Serializable]
+    [SuppressMessage ("ReSharper", "InconsistentNaming")]
     public struct LanguageCategory
     {
 
@@ -162,10 +164,12 @@ namespace BricksBucket.Localization
 
 #if UNITY_EDITOR
 
+        #region Editor Methods
+
         /// <summary>
         /// Called from inspector when an ISO code changed.
         /// </summary>
-        internal void OnISOChanged ()
+        private void OnISOChanged ()
         {
             if (IsCustom) return;
 
@@ -176,7 +180,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Called from inspector when LCID code changed.
         /// </summary>
-        internal void OnLCIDChanged ()
+        private void OnLCIDChanged ()
         {
             if (IsCustom) return;
 
@@ -189,7 +193,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Called from inspector when the Region changes.
         /// </summary>
-        internal void OnRegionChanged ()
+        private void OnRegionChanged ()
         {
             if (IsCustom) return;
 
@@ -201,81 +205,67 @@ namespace BricksBucket.Localization
         /// </summary>
         private void SetDisplay ()
         {
-            switch (LCID)
+            // It has a match for an LCID.
+            if (LCID != LCID.NONE)
             {
-                //  There is not matching LCID.
-                case LCID.NONE:
-
-                    Code = Language.ToString ();
-                    DisplayName =
-                        LocalizationUtils.ISO639_Names[(int) Language];
-
-                    if (Country != ISO3166_2.NONE)
-                    {
-                        Code = StringUtils.Concat (Code, "_",
-                            Country.ToString ());
-                        DisplayName = StringUtils.Concat (
-                            DisplayName, " (",
-                            LocalizationUtils.ISO3166_Names[(int) Country]
-                        );
-                    }
-
-                    if (!string.IsNullOrWhiteSpace (Region))
-                    {
-                        Code = StringUtils.Concat (Code, "_",
-                            Region.ToUpper ());
-
-                        DisplayName = Country == ISO3166_2.NONE
-                            ? StringUtils.Concat (DisplayName, " (", Region,
-                                ")")
-                            : StringUtils.Concat (DisplayName, " - ", Region,
-                                ")");
-                    }
-
-                    else if (Country != ISO3166_2.NONE)
-                    {
-                        DisplayName = StringUtils.Concat (DisplayName, ")");
-                    }
-
-                    break;
-
-                //  Language and country are invariant.
-                case LCID.INVARIANT:
-
+                if (LCID == LCID.INVARIANT)
+                {
                     Code = LCID.ToString ();
                     DisplayName = "Invariant Language";
-
-                    break;
-
-                //  It has a match.
-                default:
-
+                }
+                else
+                {
                     var info = new CultureInfo ((int) LCID);
                     Code = info.Name.ToUpper ().Replace ("-", "_");
                     DisplayName = info.DisplayName;
 
-                    if (!string.IsNullOrWhiteSpace (Region))
+                    if (string.IsNullOrWhiteSpace (Region)) return;
+                    Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
+
+                    if (DisplayName.Contains (")"))
                     {
-                        Code = StringUtils.Concat (Code, "_",
-                            Region.ToUpper ());
-
-                        if (DisplayName.Contains (")"))
-                        {
-                            DisplayName =
-                                DisplayName.Replace (")", string.Empty);
-                            DisplayName = StringUtils.Concat (
-                                DisplayName, " - ", Region, ")"
-                            );
-                        }
-                        else
-                        {
-                            DisplayName = StringUtils.Concat (
-                                DisplayName, " (", Region, ")"
-                            );
-                        }
+                        DisplayName = DisplayName.Replace (")", string.Empty);
+                        DisplayName = StringUtils.Concat (
+                            DisplayName, " - ", Region, ")"
+                        );
                     }
+                    else
+                    {
+                        DisplayName = StringUtils.Concat (
+                            DisplayName, " (", Region, ")"
+                        );
+                    }
+                }
+            }
 
-                    break;
+            // It has not a match for language and country.
+            else
+            {
+                Code = Language.ToString ();
+                DisplayName = LocalizationUtils.ISO639_Names[(int) Language];
+
+                if (Country != ISO3166_2.NONE)
+                {
+                    Code = StringUtils.Concat (Code, "_", Country.ToString ());
+                    DisplayName = StringUtils.Concat (
+                        DisplayName, " (",
+                        LocalizationUtils.ISO3166_Names[(int) Country]
+                    );
+                }
+
+                if (!string.IsNullOrWhiteSpace (Region))
+                {
+                    Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
+
+                    DisplayName = Country == ISO3166_2.NONE
+                        ? StringUtils.Concat (DisplayName, " (", Region, ")")
+                        : StringUtils.Concat (DisplayName, " - ", Region, ")");
+                }
+
+                else if (Country != ISO3166_2.NONE)
+                {
+                    DisplayName = StringUtils.Concat (DisplayName, ")");
+                }
             }
         }
 
@@ -292,16 +282,16 @@ namespace BricksBucket.Localization
             LCID = LCID.NONE;
         }
 
+        #endregion
 
+        #region Drawer
 
         /// <summary>
         /// Language Category Drawer Class.
         /// </summary>
         public class LanguageCategoryDrawer : OdinValueDrawer<LanguageCategory>
         {
-
-
-
+            
             #region Fields
 
             /// <summary>
@@ -309,59 +299,8 @@ namespace BricksBucket.Localization
             /// </summary>
             private bool _isVisible;
 
-            /// <summary>
-            /// Label for code.
-            /// </summary>
-            private readonly GUIContent _codeLabel = new GUIContent (
-                "Code", "Code to identify language category."
-            );
-
-            /// <summary>
-            /// Label for name.
-            /// </summary>
-            private readonly GUIContent _nameLabel = new GUIContent (
-                "Name", "Name for language category."
-            );
-
-            /// <summary>
-            /// Label for LCID.
-            /// </summary>
-            private readonly GUIContent _LCIDLabel = new GUIContent (
-                "LCID", "Windows Language code ID"
-            );
-
-            /// <summary>
-            /// Label for language.
-            /// </summary>
-            private readonly GUIContent _languageLabel = new GUIContent (
-                "Language", "Language ISO-639 code"
-            );
-
-            /// <summary>
-            /// Label for country.
-            /// </summary>
-            private readonly GUIContent _countryLabel = new GUIContent (
-                "Country", "Country ISO-3166 code."
-            );
-
-            /// <summary>
-            /// Label for region.
-            /// </summary>
-            private readonly GUIContent _regionLabel = new GUIContent (
-                "Region", "Specifies a region for the language."
-            );
-
-            /// <summary>
-            /// Label for is custom flag.
-            /// </summary>
-            private readonly GUIContent _isCustomLabel = new GUIContent (
-                "Is Custom", "Whether this catecory is custom."
-            );
-
             #endregion
-
-
-
+            
             #region Override Methods
 
             /// <summary>
@@ -381,14 +320,10 @@ namespace BricksBucket.Localization
                 }
                 else
                 {
-                    label = new GUIContent (
-                        value.Code,
-                        string.Concat (
-                            "Code ID for " + value.DisplayName + "."
-                        )
-                    );
+                    label = new GUIContent (value.DisplayName, value.Code);
                 }
-
+                
+                // Draws the fold out.
                 _isVisible = SirenixEditorGUI.Foldout (
                     _isVisible,
                     label,
@@ -398,59 +333,62 @@ namespace BricksBucket.Localization
                 //  Draws content in fold out.
                 if (_isVisible)
                 {
+                    EditorGUI.indentLevel++;
+                    EditorGUI.indentLevel++;
+
+                    var children = ValueEntry.Property.Children;
+
                     //  Draws LCID Options.
                     if (!value.IsCustom)
                     {
-
-                        EditorGUI.indentLevel++;
-                        EditorGUI.indentLevel++;
-
                         EditorGUILayout.LabelField (
-                            _nameLabel,
+                            new GUIContent (
+                                "Code", "Code to Identify language category."
+                            ),
+                            new GUIContent (value.Code),
+                            SirenixGUIStyles.BoldLabel
+                        );
+                        
+                        EditorGUILayout.LabelField (
+                            new GUIContent (
+                                "Name", "Name for language category."
+                            ),
                             new GUIContent (value.DisplayName),
                             SirenixGUIStyles.BoldLabel
                         );
 
-                        var children = ValueEntry.Property.Children;
-
-                        children.Get ("_LCID").Draw (_LCIDLabel);
-                        children.Get ("_language").Draw (_languageLabel);
-                        children.Get ("_country").Draw (_countryLabel);
-                        children.Get ("_region").Draw (_regionLabel);
-                        children.Get ("_isCustom").Draw (_isCustomLabel);
-
-                        EditorGUI.indentLevel--;
-                        EditorGUI.indentLevel--;
+                        children.Get ("_LCID").Draw ();
+                        children.Get ("_language").Draw ();
+                        children.Get ("_country").Draw ();
+                        children.Get ("_region").Draw ();
+                        children.Get ("_isCustom").Draw ();
                     }
 
                     //  Draws Custom options.
                     else
                     {
-                        EditorGUI.indentLevel++;
-                        EditorGUI.indentLevel++;
-
-                        var children = ValueEntry.Property.Children;
-
-                        children.Get ("_code").Draw (_codeLabel);
-                        children.Get ("_name").Draw (_nameLabel);
-                        children.Get ("_country").Draw (_countryLabel);
-                        children.Get ("_region").Draw (_regionLabel);
-                        children.Get ("_isCustom").Draw (_isCustomLabel);
-
-                        EditorGUI.indentLevel--;
-                        EditorGUI.indentLevel--;
+                        children.Get ("_code").Draw ();
+                        children.Get ("_name").Draw ();
+                        children.Get ("_country").Draw ();
+                        children.Get ("_region").Draw ();
+                        children.Get ("_isCustom").Draw ();
                     }
+
+                    EditorGUI.indentLevel--;
+                    EditorGUI.indentLevel--;
                 }
 
                 ValueEntry.SmartValue = value;
             }
-
+            
             #endregion
+            
         }
-
-#endif
-
+        
         #endregion
-
+        
+#endif
+        
+        #endregion
     }
 }
