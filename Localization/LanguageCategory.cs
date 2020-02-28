@@ -40,6 +40,7 @@ namespace BricksBucket.Localization
         /// </summary>
         [SerializeField]
         [Tooltip ("Code to identify language category.")]
+        [OnValueChanged("OnCodeChanged")]
         private string _code;
 
         /// <summary>
@@ -199,6 +200,19 @@ namespace BricksBucket.Localization
 
             SetDisplay ();
         }
+        
+        /// <summary>
+        /// Called from inspector when the Code Changes.
+        /// </summary>
+        private void OnCodeChanged ()
+        {
+            if(!IsCustom) return;
+
+            Code = Code.RemoveDiacritics ().
+                ToUpper ().
+                Replace (' ', '_').
+                RemoveSpecialCharacters ('_');
+        }
 
         /// <summary>
         /// Sets the display name.
@@ -341,12 +355,13 @@ namespace BricksBucket.Localization
                     //  Draws LCID Options.
                     if (!value.IsCustom)
                     {
+                        GUI.enabled = false;
                         EditorGUILayout.LabelField (
                             new GUIContent (
                                 "Code", "Code to Identify language category."
                             ),
                             new GUIContent (value.Code),
-                            SirenixGUIStyles.BoldLabel
+                            EditorStyles.textField
                         );
                         
                         EditorGUILayout.LabelField (
@@ -354,8 +369,9 @@ namespace BricksBucket.Localization
                                 "Name", "Name for language category."
                             ),
                             new GUIContent (value.DisplayName),
-                            SirenixGUIStyles.BoldLabel
+                            EditorStyles.textField
                         );
+                        GUI.enabled = true;
 
                         children.Get ("_LCID").Draw ();
                         children.Get ("_language").Draw ();

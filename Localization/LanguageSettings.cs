@@ -291,12 +291,12 @@ namespace BricksBucket.Localization
                     EditorGUILayout.BeginHorizontal ();
                     EditorGUILayout.Space (0f, true);
 
-                    if (SirenixEditorGUI.IconButton (EditorIcons.Plus))
+                    if (SirenixEditorGUI.IconButton (EditorIcons.Plus, 14, 14))
                         value._addMenu = true;
 
                     GUI.enabled = !string.IsNullOrEmpty (value.Default.Code);
 
-                    if (SirenixEditorGUI.IconButton (EditorIcons.Minus))
+                    if (SirenixEditorGUI.IconButton (EditorIcons.Minus, 14, 14))
                         value._removeMenu = true;
 
                     GUI.enabled = true;
@@ -318,7 +318,8 @@ namespace BricksBucket.Localization
                         !value._categories.Exists (
                             category => category.Code == categoryToAdd.Code
                         ) &&
-                        !string.IsNullOrWhiteSpace (categoryToAdd.Code);
+                        !string.IsNullOrWhiteSpace (categoryToAdd.Code) &&
+                        !string.IsNullOrWhiteSpace (categoryToAdd.DisplayName);
                     children.Get ("Add").Draw ();
                     GUI.enabled = true;
                     children.Get ("Cancel").Draw ();

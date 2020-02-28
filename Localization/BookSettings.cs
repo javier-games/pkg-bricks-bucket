@@ -106,6 +106,18 @@ namespace BricksBucket.Localization
 #if UNITY_EDITOR
 
 		#region Editor Fields
+		
+		/// <summary>
+		/// Shows Add Menu.
+		/// </summary>
+		[SerializeField]
+		private bool _addMenu;
+
+		/// <summary>
+		/// Whether to show or hide the Remove menu.
+		/// </summary>
+		[SerializeField]
+		private bool _removeMenu;
 
 		/// <summary>
 		/// Book to add.
@@ -132,15 +144,20 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Hides all menus.
 		/// </summary>
+		[Button ("Cancel")]
 		private void Cancel ()
 		{
 			_toAdd = default;
 			_toRemove = string.Empty;
+			
+			_addMenu = false;
+			_removeMenu = false;
 		}
 
 		/// <summary>
 		/// Adds a new category.
 		/// </summary>
+		[Button ("Add")]
 		private void Add ()
 		{
 			_books.Add (_toAdd);
@@ -151,6 +168,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Removes the indicated category.
 		/// </summary>
+		[Button ("Remove")]
 		private void Remove ()
 		{
 			var categoryToRemove = _toRemove;
@@ -170,48 +188,6 @@ namespace BricksBucket.Localization
 		/// </summary>
 		private class BookSettingsDrawer : OdinValueDrawer<BookSettings>
 		{
-
-
-
-			#region Fields
-
-			/// <summary>
-			/// Whether to show the Add menu.
-			/// </summary>
-			private bool _addMenu;
-
-			/// <summary>
-			/// Whether to show the Remove menu.
-			/// </summary>
-			private bool _removeMenu;
-
-			/// <summary>
-			/// Label and tooltip for add button.
-			/// </summary>
-			private readonly GUIContent _addLabel = new GUIContent (
-				"Add", "Add a new book."
-			);
-
-			/// <summary>
-			/// Label and tooltip for remove button.
-			/// </summary>
-			private readonly GUIContent _removeLabel = new GUIContent (
-				"Remove", "Remove a book."
-			);
-
-			/// <summary>
-			/// Label and tooltip for cancel button.
-			/// </summary>
-			private readonly GUIContent _cancelLabel = new GUIContent (
-				"Cancel", "Cancel the current action."
-			);
-
-			#endregion
-
-
-
-			#region Override Methods
-
 			/// <summary>
 			/// Draws the property.
 			/// </summary>
@@ -222,6 +198,9 @@ namespace BricksBucket.Localization
 
 				var value = ValueEntry.SmartValue;
 				var children = ValueEntry.Property.Children;
+				
+				var addMenu = value._addMenu;
+				var removeMenu = value._removeMenu;
 
 				//  Draws the label on Foldout.
 				if (label != null) EditorGUILayout.LabelField (label);
@@ -230,18 +209,18 @@ namespace BricksBucket.Localization
 				children.Get ("_books").Draw ();
 
 				// Draws the plus and minus buttons to edit list.
-				if (!_addMenu && !_removeMenu)
+				if (!addMenu && !removeMenu)
 				{
 					EditorGUILayout.BeginHorizontal ();
 					EditorGUILayout.Space (0f, true);
 
-					if (SirenixEditorGUI.IconButton (EditorIcons.Plus))
-						_addMenu = true;
+					if (SirenixEditorGUI.IconButton (EditorIcons.Plus, 14, 14))
+						value._addMenu = true;
 
 					GUI.enabled = value.Books.Length > 0;
 
-					if (SirenixEditorGUI.IconButton (EditorIcons.Minus))
-						_removeMenu = true;
+					if (SirenixEditorGUI.IconButton (EditorIcons.Minus, 14, 14))
+						value._removeMenu = true;
 
 					GUI.enabled = true;
 
@@ -249,7 +228,7 @@ namespace BricksBucket.Localization
 				}
 
 				// Draws the Menu to Add a new book.
-				else if (_addMenu)
+				else if (addMenu)
 				{
 					SirenixEditorGUI.BeginBox ();
 					children.Get ("_toAdd").Draw ();
@@ -263,56 +242,31 @@ namespace BricksBucket.Localization
 							book => book.Code == bookToAdd.Code
 						) &&
 						!string.IsNullOrWhiteSpace (bookToAdd.Code);
-
-					if (GUILayout.Button (_addLabel))
-					{
-						value.Add ();
-						_addMenu = false;
-					}
-
+					children.Get ("Add").Draw();
 					GUI.enabled = true;
-
-					if (GUILayout.Button (_cancelLabel))
-					{
-						value.Cancel ();
-						_addMenu = false;
-					}
-
+					children.Get ("Cancel").Draw ();
 					EditorGUILayout.EndHorizontal ();
 				}
 
 				// Draws the Menu to remove a book.
-				else if (_removeMenu)
+				else
 				{
 
 					children.Get ("_toRemove").Draw ();
 					EditorGUILayout.BeginHorizontal ();
 					GUI.enabled = !string.IsNullOrEmpty (value._toRemove);
-
-					if (GUILayout.Button (_removeLabel))
-					{
-						value.Remove ();
-						_removeMenu = false;
-					}
-
+					children.Get ("Remove").Draw ();
 					GUI.enabled = true;
-
-					if (GUILayout.Button (_cancelLabel))
-					{
-						value.Cancel ();
-						_removeMenu = false;
-					}
-
+					children.Get ("Cancel").Draw ();
 					EditorGUILayout.EndHorizontal ();
 				}
 
 				EditorGUILayout.Space ();
-
+				
+				// Update all values in smart value.
 				ValueEntry.SmartValue = value;
+				ValueEntry.ApplyChanges ();
 			}
-
-			#endregion
-
 		}
 
 		#endregion

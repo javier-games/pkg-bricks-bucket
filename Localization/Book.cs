@@ -114,6 +114,8 @@ namespace BricksBucket.Localization
 
 #if UNITY_EDITOR
 
+		#region Editor Methods
+
 		/// <summary>
 		/// Called by inspector each time the name changes.
 		/// </summary>
@@ -127,6 +129,10 @@ namespace BricksBucket.Localization
 				RemoveSpecialCharacters ('_');
 		}
 		
+		#endregion
+
+		#region Drawer
+
 		/// <summary>
 		/// Book Drawer.
 		///
@@ -142,20 +148,6 @@ namespace BricksBucket.Localization
 			/// Whether the foldout is visible.
 			/// </summary>
 			private bool _isVisible;
-			
-			/// <summary>
-			/// Label and tooltip for property label.
-			/// </summary>
-			private readonly GUIContent _propertyLabel = new GUIContent (
-				"{0}", "Book of localizations."
-			);
-
-			/// <summary>
-			/// Label and tooltip for code label.
-			/// </summary>
-			private readonly GUIContent _codeLabel = new GUIContent (
-				"Code", "Code to identify the book."
-			);
 
 			#endregion
 
@@ -174,16 +166,12 @@ namespace BricksBucket.Localization
 				if (label != null)
 				{
 					label.text = string.IsNullOrEmpty (label.text)
-						? StringUtils.ConcatFormat (
-							_propertyLabel.text, value.Name)
+						? value.Code
 						: label.text;
 				}
 				else
 				{
-					label = _propertyLabel;
-					label.text = StringUtils.ConcatFormat (
-						label.text, value.Code
-					);
+					label = new GUIContent (value.Name, value.Code);
 				}
 				
 				_isVisible = SirenixEditorGUI.Foldout(
@@ -192,34 +180,35 @@ namespace BricksBucket.Localization
 					SirenixGUIStyles.Foldout
 				);
 
-				if (!_isVisible)
+				if (_isVisible)
 				{
-					//ValueEntry.SmartValue = value;
-					return;
+					EditorGUI.indentLevel++;
+
+					var children = ValueEntry.Property.Children;
+
+					GUI.enabled = false;
+					EditorGUILayout.LabelField (
+						new GUIContent(
+							"Code", "Code to Identify language category."
+						),
+						new GUIContent (value.Code),
+						EditorStyles.textField
+					);
+					GUI.enabled = true;
+					children.Get ("_name").Draw ();
+					children.Get ("_description").Draw ();
+					EditorGUI.indentLevel--;
+					EditorGUILayout.Space ();
 				}
-				
-				EditorGUI.indentLevel++;
-					
-				var children = ValueEntry.Property.Children;
-					
-				EditorGUILayout.LabelField(
-					_codeLabel,
-					new GUIContent(value.Code),
-					EditorStyles.textField
-				);
-					
-				children.Get("_name").Draw();
-				children.Get("_description").Draw();
-					
-				EditorGUI.indentLevel--;
-				EditorGUILayout.Space ();
-				
+
 				ValueEntry.SmartValue = value;
 			}
 
 			#endregion
 			
 		}
+		
+		#endregion
 		
 #endif
 

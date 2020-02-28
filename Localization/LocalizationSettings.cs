@@ -51,6 +51,15 @@ namespace BricksBucket.Localization
         #region Properties
 
         /// <summary>
+        /// Name of the Localization Project.
+        /// </summary>
+        public static string ProjectName
+        {
+            get => Instance._projectName;
+            private set => Instance._projectName = value;
+        }
+
+        /// <summary>
         /// Language settings for localization.
         /// </summary>
         public static LanguageSettings LanguageSettings
@@ -60,12 +69,12 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Name of the Localization Project.
+        /// Book settings for localizations.
         /// </summary>
-        public static string ProjectName
+        public static BookSettings BookSettings
         {
-            get => Instance._projectName;
-            private set => Instance._projectName = value;
+            get => Instance._bookSettings;
+            private set => Instance._bookSettings = value;
         }
 
         #endregion
