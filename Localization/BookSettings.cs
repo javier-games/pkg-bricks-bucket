@@ -4,11 +4,9 @@ using UnityEngine;
 
 
 #if UNITY_EDITOR
-
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
-
 #endif
 
 
@@ -57,7 +55,7 @@ namespace BricksBucket.Localization
 		{
 			get
 			{
-				var book = _books.Find (c => c.Code == code);
+				var book = Books.Find (c => c.Code == code);
 				return book;
 			}
 		}
@@ -69,9 +67,9 @@ namespace BricksBucket.Localization
 		{
 			get
 			{
-				var booksCodes = new string[_books.Count];
+				var booksCodes = new string[Books.Count];
 				for (int i = 0; i < booksCodes.Length; i++)
-					booksCodes[i] = _books[i].Code;
+					booksCodes[i] = Books[i].Code;
 
 				return booksCodes;
 			}
@@ -84,9 +82,9 @@ namespace BricksBucket.Localization
 		{
 			get
 			{
-				var booksNames = new string[_books.Count];
+				var booksNames = new string[Books.Count];
 				for (int i = 0; i < booksNames.Length; i++)
-					booksNames[i] = _books[i].Name;
+					booksNames[i] = Books[i].Name;
 
 				return booksNames;
 			}
@@ -95,7 +93,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Collection of books of localizations.
 		/// </summary>
-		public Book[] Books => _books.ToArray ();
+		private List<Book> Books => _books ?? (_books = new List<Book> ());
 
 		#endregion
 
@@ -160,8 +158,8 @@ namespace BricksBucket.Localization
 		[Button ("Add")]
 		private void Add ()
 		{
-			_books.Add (_toAdd);
-			_books.Sort();
+			Books.Add (_toAdd);
+			Books.Sort();
 			Cancel ();
 		}
 
@@ -172,8 +170,8 @@ namespace BricksBucket.Localization
 		private void Remove ()
 		{
 			var categoryToRemove = _toRemove;
-			_books.Remove (_books.Find (c => c.Code == categoryToRemove));
-			_books.Sort();
+			Books.Remove (Books.Find (c => c.Code == categoryToRemove));
+			Books.Sort();
 			Cancel ();
 		}
 
@@ -217,7 +215,7 @@ namespace BricksBucket.Localization
 					if (SirenixEditorGUI.IconButton (EditorIcons.Plus, 14, 14))
 						value._addMenu = true;
 
-					GUI.enabled = value.Books.Length > 0;
+					GUI.enabled = value.Books.Count > 0;
 
 					if (SirenixEditorGUI.IconButton (EditorIcons.Minus, 14, 14))
 						value._removeMenu = true;
@@ -238,7 +236,7 @@ namespace BricksBucket.Localization
 					var bookToAdd = value._toAdd;
 					GUI.enabled =
 						!bookToAdd.Equals (default (Book)) &&
-						!value._books.Exists (
+						!value.Books.Exists (
 							book => book.Code == bookToAdd.Code
 						) &&
 						!string.IsNullOrWhiteSpace (bookToAdd.Code);

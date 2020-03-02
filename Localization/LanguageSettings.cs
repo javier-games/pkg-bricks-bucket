@@ -4,11 +4,9 @@ using Sirenix.OdinInspector;
 
 
 #if UNITY_EDITOR
-
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
-
 #endif
 
 
@@ -56,7 +54,7 @@ namespace BricksBucket.Localization
         {
             get
             {
-                var category = _categories.Find (c => c.Code == code);
+                var category = Categories.Find (c => c.Code == code);
                 return category;
             }
         }
@@ -65,7 +63,7 @@ namespace BricksBucket.Localization
         /// Default Language.
         /// </summary>
         public LanguageCategory Default =>
-            Categories.Length > 0 ? Categories[0] : default;
+            Categories.Count > 0 ? Categories[0] : default;
 
         /// <summary>
         /// Collection of codes of languages categories.
@@ -74,9 +72,9 @@ namespace BricksBucket.Localization
         {
             get
             {
-                var categoriesCodes = new string[_categories.Count];
+                var categoriesCodes = new string[Categories.Count];
                 for (int i = 0; i < categoriesCodes.Length; i++)
-                    categoriesCodes[i] = _categories[i].Code;
+                    categoriesCodes[i] = Categories[i].Code;
 
                 return categoriesCodes;
             }
@@ -89,9 +87,9 @@ namespace BricksBucket.Localization
         {
             get
             {
-                var categoriesDisplayNames = new string[_categories.Count];
+                var categoriesDisplayNames = new string[Categories.Count];
                 for (int i = 0; i < categoriesDisplayNames.Length; i++)
-                    categoriesDisplayNames[i] = _categories[i].DisplayName;
+                    categoriesDisplayNames[i] = Categories[i].DisplayName;
 
                 return categoriesDisplayNames;
             }
@@ -100,7 +98,9 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Collection of languages categories.
         /// </summary>
-        public LanguageCategory[] Categories => _categories.ToArray ();
+        private List<LanguageCategory> Categories =>
+            _categories ??
+            (_categories = new List<LanguageCategory> ());
 
         #endregion
 
@@ -164,7 +164,7 @@ namespace BricksBucket.Localization
         [Button ("Add")]
         private void Add ()
         {
-            _categories.Add (_toAdd);
+            Categories.Add (_toAdd);
             Cancel ();
         }
 
@@ -175,8 +175,8 @@ namespace BricksBucket.Localization
         private void Remove ()
         {
             var categoryToRemove = _toRemove;
-            _categories.Remove (
-                _categories.Find (c => c.Code == categoryToRemove)
+            Categories.Remove (
+                Categories.Find (c => c.Code == categoryToRemove)
             );
 
             Cancel ();
@@ -189,9 +189,9 @@ namespace BricksBucket.Localization
         private void SetDefault ()
         {
             var tempDefault = _toDefault;
-            var newDefault = _categories.Find (c => c.Code == tempDefault);
-            _categories.Remove (newDefault);
-            _categories.Insert (0, newDefault);
+            var newDefault = Categories.Find (c => c.Code == tempDefault);
+            Categories.Remove (newDefault);
+            Categories.Insert (0, newDefault);
 
             Cancel ();
         }
@@ -315,7 +315,7 @@ namespace BricksBucket.Localization
                     var categoryToAdd = value._toAdd;
                     GUI.enabled =
                         !categoryToAdd.Equals (default (LanguageCategory)) &&
-                        !value._categories.Exists (
+                        !value.Categories.Exists (
                             category => category.Code == categoryToAdd.Code
                         ) &&
                         !string.IsNullOrWhiteSpace (categoryToAdd.Code) &&

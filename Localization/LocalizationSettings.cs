@@ -2,6 +2,7 @@
 using BricksBucket.Generics;
 using Sirenix.OdinInspector;
 
+
 namespace BricksBucket.Localization
 {
     using ScriptableSingleton = ScriptableSingleton<LocalizationSettings>;
@@ -19,8 +20,8 @@ namespace BricksBucket.Localization
     /// </summary>
     public class LocalizationSettings : ScriptableSingleton
     {
-
-
+        
+        
 
         #region Fields
 
