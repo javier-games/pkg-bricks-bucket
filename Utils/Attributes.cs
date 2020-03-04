@@ -30,7 +30,7 @@ namespace Sirenix.OdinInspector
 
     /// <summary>
     ///
-    /// Defined Values Attribute.
+    /// Defined Localizations Attribute.
     ///
     /// <para>
     /// Creates Popup with predefined values for string, int or float property.
@@ -59,7 +59,7 @@ namespace Sirenix.OdinInspector
 
         #region Constructor
 
-        /// <summary> Creates new instance of Defined Values. </summary>
+        /// <summary> Creates new instance of Defined Localizations. </summary>
         /// <param name="definedValues"> Defined values to use. </param>
         public DefinedValuesAttribute (params object[] definedValues)
         {

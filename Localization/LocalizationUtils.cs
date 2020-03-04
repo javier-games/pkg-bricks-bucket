@@ -4,7 +4,7 @@ namespace BricksBucket.Localization
 {
     /// <summary>
     /// 
-    /// Localization Utils
+    /// LocalizedObject Utils
     ///
     /// <para>
     /// Static collection of methods and variables for localization.

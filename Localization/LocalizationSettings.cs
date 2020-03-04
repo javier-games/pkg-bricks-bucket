@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using BricksBucket.Generics;
 using Sirenix.OdinInspector;
 
@@ -9,10 +10,10 @@ namespace BricksBucket.Localization
 
     /// <summary>
     /// 
-    /// Localization Settings
+    /// LocalizedObject Settings
     ///
     /// <para>
-    /// Settings to set up the localization in the project.
+    /// Settings to set up the localizedObject in the project.
     /// </para>
     /// 
     /// <para> By Javier García | @jvrgms | 2020 </para>
@@ -26,14 +27,14 @@ namespace BricksBucket.Localization
         #region Fields
 
         /// <summary>
-        /// Name of the Localization Project.
+        /// Name of the LocalizedObject Project.
         /// </summary>
         [SerializeField]
-        [Tooltip("Name of the Localization Project.")]
+        [Tooltip("Name of the LocalizedObject Project.")]
         private string _projectName;
 
         /// <summary>
-        /// Language settings for localization.
+        /// Language settings for localizedObject.
         /// </summary>
         [SerializeField]
         [Space(), Title("Language Settings"), HideLabel()]
@@ -52,7 +53,7 @@ namespace BricksBucket.Localization
         #region Properties
 
         /// <summary>
-        /// Name of the Localization Project.
+        /// Name of the LocalizedObject Project.
         /// </summary>
         public static string ProjectName
         {
@@ -61,7 +62,7 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Language settings for localization.
+        /// Language settings for localizedObject.
         /// </summary>
         public static LanguageSettings LanguageSettings
         {
@@ -76,6 +77,39 @@ namespace BricksBucket.Localization
         {
             get => Instance._bookSettings;
             private set => Instance._bookSettings = value;
+        }
+
+        #endregion
+
+
+
+        #region Methods
+        
+        /// <summary>
+        /// Evaluates a localizedObject as complete.
+        /// </summary>
+        /// <param name="localizedObject">LocalizedObject to evaluate.</param>
+        /// <typeparam name="T">Type of localizedObject content.</typeparam>
+        /// <returns>Whether the localizedObject is complete.</returns>
+        public static bool IsComplete <T> (LocalizedObject<T> localizedObject)
+        {
+            var codes = BookSettings.BooksCodes;
+            var isComplete = codes.Aggregate (
+                seed: true,
+                (current, t) => current & localizedObject.ContainsLanguage (t)
+            );
+            return true;
+        }
+
+        /// <summary>
+        /// Evaluates if the language code is in settings.
+        /// </summary>
+        /// <param name="code">Language code to evaluate.</param>
+        /// <returns>Whether the language code is in settings.</returns>
+        public static bool ContainsLanguage (string code)
+        {
+            var languages = LanguageSettings.CategoriesCodes;
+            return languages.Contains (code);
         }
 
         #endregion

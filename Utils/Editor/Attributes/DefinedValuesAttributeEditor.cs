@@ -9,7 +9,7 @@ namespace BricksBucket.Editor
 {
     /// <summary>
     ///
-    /// Defined Values Attribute Drawer.
+    /// Defined Localizations Attribute Drawer.
     ///
     /// <para>
     /// Helps to draw a pop up of defined value on editor.
@@ -34,7 +34,7 @@ namespace BricksBucket.Editor
         /// <summary> Type of variable. </summary>
         private Type _variableType;
 
-        /// <summary> Values to show. </summary>
+        /// <summary> Localizations to show. </summary>
         private string[] _values;
 
         /// <summary> Index selected. </summary>
