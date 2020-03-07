@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BricksBucket.Collections
@@ -15,6 +15,7 @@ namespace BricksBucket.Collections
     /// <para> By Javier García | @jvrgms | 2019 </para>
     /// 
     /// </summary>
+    [Serializable]
     public abstract class SerializableDictionary<TKey, TValue> :
     Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
@@ -22,19 +23,19 @@ namespace BricksBucket.Collections
 
         /// <summary> List for keys, used just for serialization. </summary>
         [SerializeField, HideInInspector]
-        [SuppressMessage ("Style", "IDE0044:Add readonly modifier")]
         private List<TKey> _keyData = new List<TKey> ();
 
         /// <summary> List for values, used just for serialization. </summary>
         [SerializeField, HideInInspector]
-        [SuppressMessage ("Style", "IDE0044:Add readonly modifier")]
         private List<TValue> _valueData = new List<TValue> ();
 
         #endregion
 
         #region ISerializationCallbackReceiver Implementation
 
-        /// <summary> Callback After been deserialized. </summary>
+        /// <summary>
+        /// Callback After been deserialized.
+        /// </summary>
         void ISerializationCallbackReceiver.OnAfterDeserialize ()
         {
             Clear ();
@@ -42,7 +43,9 @@ namespace BricksBucket.Collections
                 this[_keyData[i]] = _valueData[i];
         }
 
-        /// <summary> Callback before been serialized. </summary>
+        /// <summary>
+        /// Callback before been serialized.
+        /// </summary>
         void ISerializationCallbackReceiver.OnBeforeSerialize ()
         {
             _keyData.Clear ();

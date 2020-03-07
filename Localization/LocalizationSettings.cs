@@ -55,51 +55,47 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Name of the LocalizedObject Project.
         /// </summary>
-        public static string ProjectName
-        {
-            get => Instance._projectName;
-            private set => Instance._projectName = value;
-        }
+        public static string ProjectName => Instance._projectName;
 
         /// <summary>
         /// Language settings for localizedObject.
         /// </summary>
-        public static LanguageSettings LanguageSettings
-        {
-            get => Instance._languageSettings;
-            private set => Instance._languageSettings = value;
-        }
-
+        private static LanguageSettings LanguageSettings =>
+            Instance._languageSettings;
+        
+        /// <summary>
+        /// Array with languages codes of this project.
+        /// </summary>
+        public static string[] LanguagesCodes =>
+            LanguageSettings.CategoriesCodes;
+        
+        /// <summary>
+        /// Array with languages names of this project.
+        /// </summary>
+        public static string[] LanguagesNames =>
+            LanguageSettings.CategoriesDisplayNames;
+        
         /// <summary>
         /// Book settings for localizations.
         /// </summary>
-        public static BookSettings BookSettings
-        {
-            get => Instance._bookSettings;
-            private set => Instance._bookSettings = value;
-        }
+        private static BookSettings BookSettings => Instance._bookSettings;
+        
+        /// <summary>
+        /// Array with books codes of this project.
+        /// </summary>
+        public static string[] BooksCodes => BookSettings.BooksCodes;
+        
+        /// <summary>
+        /// Array with books names of this project.
+        /// </summary>
+        public static string[] BooksNames => BookSettings.BooksNames;
+
 
         #endregion
 
 
 
         #region Methods
-        
-        /// <summary>
-        /// Evaluates a localizedObject as complete.
-        /// </summary>
-        /// <param name="localizedObject">LocalizedObject to evaluate.</param>
-        /// <typeparam name="T">Type of localizedObject content.</typeparam>
-        /// <returns>Whether the localizedObject is complete.</returns>
-        public static bool IsComplete <T> (LocalizedObject<T> localizedObject)
-        {
-            var codes = BookSettings.BooksCodes;
-            var isComplete = codes.Aggregate (
-                seed: true,
-                (current, t) => current & localizedObject.ContainsLanguage (t)
-            );
-            return true;
-        }
 
         /// <summary>
         /// Evaluates if the language code is in settings.
@@ -110,6 +106,16 @@ namespace BricksBucket.Localization
         {
             var languages = LanguageSettings.CategoriesCodes;
             return languages.Contains (code);
+        }
+        
+        /// <summary>
+        /// Resets the localization settings to its default.
+        /// </summary>
+        internal void ClearSettings ()
+        {
+            _projectName = string.Empty;
+            _languageSettings = default;
+            _bookSettings = default;
         }
 
         #endregion

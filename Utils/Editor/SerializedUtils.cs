@@ -172,7 +172,7 @@ namespace BricksBucket.Editor
             var assetPath = AssetDatabase.GetAssetPath (propertyAsset);
             var allSubassets = AssetDatabase.LoadAllAssetsAtPath (assetPath);
             var referencedSubassets = new HashSet<Object> ();
-            AssetsUtils.AddReferencedSubassets (
+            AssetsUtils.AddReferencedSubAssets (
                 referencedAssets: referencedSubassets,
                 allAssets: allSubassets,
                 property: property
@@ -188,7 +188,7 @@ namespace BricksBucket.Editor
         (this SerializedObject serializedObject, IEnumerable<Object> candidates)
         {
             var targetObject = serializedObject.targetObject;
-            targetObject.DestroyUnreferencedSubassets (candidates);
+            targetObject.DestroyUnreferencedSubAssets (candidates);
         }
 
         /// <summary> Returns wether has referenced subassets. </summary>
