@@ -42,10 +42,15 @@ namespace BricksBucket.Localization
         private LanguageSettings _languageSettings;
         
         [SerializeField]
-        [Space(), Title("Book Settings"), HideLabel()]
+        [Space(), Title("BookInfo Settings"), HideLabel()]
         [Tooltip("Section to edit books of localizations.")]
         private BookSettings _bookSettings;
 
+        [SerializeField]
+        private bool _useDefaultForEmptyLocalizations;
+
+        [SerializeField]
+        private Book _book;
         #endregion
 
 
@@ -76,7 +81,7 @@ namespace BricksBucket.Localization
             LanguageSettings.CategoriesDisplayNames;
         
         /// <summary>
-        /// Book settings for localizations.
+        /// BookInfo settings for localizations.
         /// </summary>
         private static BookSettings BookSettings => Instance._bookSettings;
         
@@ -119,6 +124,5 @@ namespace BricksBucket.Localization
         }
 
         #endregion
-
     }
 }

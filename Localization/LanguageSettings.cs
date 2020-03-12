@@ -37,7 +37,7 @@ namespace BricksBucket.Localization
         [SerializeField, ReadOnly]
         [ListDrawerSettings (HideAddButton = true, NumberOfItemsPerPage = 4)]
         [Tooltip ("Collection of categories of languages.")]
-        private List<LanguageCategory> _categories;
+        private List<LanguageInfo> _categories;
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public LanguageCategory this [string code]
+        public LanguageInfo this [string code]
         {
             get
             {
@@ -62,7 +62,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Default Language.
         /// </summary>
-        public LanguageCategory Default =>
+        public LanguageInfo Default =>
             Categories.Count > 0 ? Categories[0] : default;
 
         /// <summary>
@@ -98,9 +98,9 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Collection of languages categories.
         /// </summary>
-        private List<LanguageCategory> Categories =>
+        private List<LanguageInfo> Categories =>
             _categories ??
-            (_categories = new List<LanguageCategory> ());
+            (_categories = new List<LanguageInfo> ());
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace BricksBucket.Localization
         [SerializeField]
         [LabelText ("Category to Add")]
         [Tooltip ("Edit the fields of the category to add.")]
-        private LanguageCategory _toAdd;
+        private LanguageInfo _toAdd;
 
         /// <summary>
         /// Category to remove.
@@ -314,7 +314,7 @@ namespace BricksBucket.Localization
                     EditorGUILayout.BeginHorizontal ();
                     var categoryToAdd = value._toAdd;
                     GUI.enabled =
-                        !categoryToAdd.Equals (default (LanguageCategory)) &&
+                        !categoryToAdd.Equals (default (LanguageInfo)) &&
                         !value.Categories.Exists (
                             category => category.Code == categoryToAdd.Code
                         ) &&

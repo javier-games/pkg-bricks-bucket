@@ -28,7 +28,7 @@ namespace BricksBucket.Localization
     /// </summary>
     [System.Serializable]
     [SuppressMessage ("ReSharper", "InconsistentNaming")]
-    public struct LanguageCategory
+    public struct LanguageInfo
     {
 
 
@@ -303,7 +303,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Language Category Drawer Class.
         /// </summary>
-        public class LanguageCategoryDrawer : OdinValueDrawer<LanguageCategory>
+        public class LanguageCategoryDrawer : OdinValueDrawer<LanguageInfo>
         {
             
             #region Fields

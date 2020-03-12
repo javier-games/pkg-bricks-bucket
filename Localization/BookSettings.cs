@@ -14,7 +14,7 @@ namespace BricksBucket.Localization
 {
 	/// <summary>
 	/// 
-	/// Book Settings
+	/// BookInfo Settings
 	///
 	/// <para>
 	/// Struct to contain book settings.
@@ -38,7 +38,7 @@ namespace BricksBucket.Localization
 		[Space, ReadOnly]
 		[ListDrawerSettings (HideAddButton = true, NumberOfItemsPerPage = 4)]
 		[Tooltip ("Collection of books of localizations.")]
-		private List<Book> _books;
+		private List<BookInfo> _books;
 
 		#endregion
 
@@ -47,11 +47,11 @@ namespace BricksBucket.Localization
 		#region Properties
 
 		/// <summary>
-		/// Book by code.
+		/// BookInfo by code.
 		/// </summary>
 		/// <param name="code"></param>
 		/// <returns></returns>
-		public Book this [string code]
+		public BookInfo this [string code]
 		{
 			get
 			{
@@ -93,7 +93,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Collection of books of localizations.
 		/// </summary>
-		private List<Book> Books => _books ?? (_books = new List<Book> ());
+		private List<BookInfo> Books => _books ?? (_books = new List<BookInfo> ());
 
 		#endregion
 
@@ -118,18 +118,18 @@ namespace BricksBucket.Localization
 		private bool _removeMenu;
 
 		/// <summary>
-		/// Book to add.
+		/// BookInfo to add.
 		/// </summary>
 		[SerializeField]
-		[LabelText ("Book to Add")]
+		[LabelText ("BookInfo to Add")]
 		[Tooltip ("Edit the fields of the book to add.")]
-		private Book _toAdd;
+		private BookInfo _toAdd;
 
 		/// <summary>
 		/// Category to remove.
 		/// </summary>
 		[SerializeField]
-		[LabelText ("Book to Remove"), ValueDropdown ("BooksCodes")]
+		[LabelText ("BookInfo to Remove"), ValueDropdown ("BooksCodes")]
 		[Tooltip ("Select the code of the book to remove.")]
 		private string _toRemove;
 
@@ -235,7 +235,7 @@ namespace BricksBucket.Localization
 					EditorGUILayout.BeginHorizontal ();
 					var bookToAdd = value._toAdd;
 					GUI.enabled =
-						!bookToAdd.Equals (default (Book)) &&
+						!bookToAdd.Equals (default (BookInfo)) &&
 						!value.Books.Exists (
 							book => book.Code == bookToAdd.Code
 						) &&
