@@ -49,13 +49,13 @@ namespace BricksBucket.Localization
 		private string _description;
 
 		[SerializeField]
-		private LocalizedTextCollection _textLocalizations;
+		private TextGroup _textLocalizations;
 
 		[SerializeField]
-		private TextureLocalizations _textureLocalizations;
+		private TextureGroup _textureLocalizations;
 
 		[SerializeField]
-		private SpriteLocalizations _spriteLocalizations;
+		private SpriteGroup _spriteLocalizations;
 
 		[SerializeField]
 		private AudioLocalizations _audioLocalizations;
@@ -99,19 +99,19 @@ namespace BricksBucket.Localization
 			internal set => _code = value;
 		}
 
-		internal LocalizedTextCollection TextLocalizations
+		internal TextGroup TextLocalizations
 		{
 			get => _textLocalizations;
 			set => _textLocalizations = value;
 		}
 
-		internal TextureLocalizations TextureLocalization
+		internal TextureGroup TextureLocalization
 		{
 			get => _textureLocalizations;
 			set => _textureLocalizations = value;
 		}
 
-		internal SpriteLocalizations SpriteLocalizations
+		internal SpriteGroup SpriteLocalizations
 		{
 			get => _spriteLocalizations;
 			set => _spriteLocalizations = value;

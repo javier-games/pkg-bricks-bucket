@@ -1,6 +1,12 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Video;
 using BricksBucket.Collections;
+
+#if UNITY_EDITOR
+using UnityEditor;
+using Sirenix.Utilities.Editor;
+#endif
 
 // ReSharper disable UnusedMemberInSuper.Global
 namespace BricksBucket.Localization
@@ -17,19 +23,24 @@ namespace BricksBucket.Localization
 	/// <para> By Javier García | @jvrgms | 2020 </para>
 	/// 
 	/// </summary>
-	/// <typeparam name="T">Type of value of the localization.</typeparam>
-	internal interface ILocalizedObject<T>
+	/// <typeparam name="TValue">Type of value of the localization.</typeparam>
+	internal interface ILocalizedObject<TValue>
 	{
 		/// <summary>
 		/// Gets the localization value for the given culture.
 		/// </summary>
 		/// <param name="culture">Culture to look for.</param>
-		T this [string culture] { get; }
+		TValue this [string culture] { get; }
 
 		/// <summary>
 		/// Total count of localizations on this localized object.
 		/// </summary>
 		int Count { get; }
+		
+		/// <summary>
+		/// Array of all cultures in this localized object.
+		/// </summary>
+		string[] Cultures { get; }
 
 		/// <summary>
 		/// Defines whether for all this localized object cultures has a
@@ -37,6 +48,14 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
 		bool IsComplete ();
+		
+		/// <summary>
+		/// Defines whether the localization for the specified culture
+		/// is complete.
+		/// </summary>
+		/// <param name="culture">Culture to evaluate its localization.</param>
+		/// <returns><value>True</value> if is complete.</returns>
+		bool IsComplete (string culture);
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -52,7 +71,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Name of the culture.</param>
 		/// <param name="localization">Value of the localization.</param>
-		void Add (string culture, T localization);
+		void Add (string culture, TValue localization);
 
 		/// <summary>
 		/// Removes an existing culture.
@@ -65,10 +84,10 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Gets the localization value in an existing culture.
 		/// </summary>
-		/// <param name="culture">Name of the culture to look for..</param>
+		/// <param name="culture">Name of the culture to look for.</param>
 		/// <returns>Value of the localization if the element is successfully
 		/// found otherwise, default value.</returns>
-		T Get (string culture);
+		TValue Get (string culture);
 
 		/// <summary>
 		/// Gets the localization value in an existing culture.
@@ -77,7 +96,7 @@ namespace BricksBucket.Localization
 		/// <param name="localization">Value of the localization.</param>
 		/// <returns><value>True</value> if the element is successfully found;
 		/// otherwise, <value>False</value>.</returns>
-		bool TryGet (string culture, out T localization);
+		bool TryGet (string culture, out TValue localization);
 
 		/// <summary>
 		/// Sets the localization value in an existing culture.
@@ -86,7 +105,7 @@ namespace BricksBucket.Localization
 		/// <param name="localization">The new value for localization.</param>
 		/// <returns><value>True</value> if the element is successfully found
 		/// and set; otherwise, <value>False</value>.</returns>
-		bool Set (string culture, T localization);
+		bool Set (string culture, TValue localization);
 
 		/// <summary>
 		/// Sets the localization value in an existing culture.
@@ -96,6 +115,15 @@ namespace BricksBucket.Localization
 		/// <returns><value>True</value> if the element is successfully found
 		/// and set; otherwise, <value>False</value>.</returns>
 		bool TrySet (string culture, object localization);
+
+#if UNITY_EDITOR
+		/// <summary>
+		/// Draws the field for the specified culture.
+		/// </summary>
+		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="options">Options for GUI.</param>
+		void DrawField (string culture, GUILayoutOption [] options);
+#endif
 	}
 
 	/// <summary>
@@ -116,6 +144,11 @@ namespace BricksBucket.Localization
 		ILocalizedObject<string>
 	{
 		/// <summary>
+		/// Array of all codes in this collection.
+		/// </summary>
+		public string[] Cultures => Keys.ToArray ();
+		
+		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from string empty or null.
 		/// </summary>
@@ -123,6 +156,15 @@ namespace BricksBucket.Localization
 		public bool IsComplete () =>
 			!ContainsValue (string.Empty) &&
 			!ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether the localization for the specified culture
+		/// is complete.
+		/// </summary>
+		/// <param name="culture">Culture to evaluate its localization.</param>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete (string culture) =>
+			!string.IsNullOrEmpty (this[culture]);
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -135,7 +177,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Gets the localization value in an existing culture.
 		/// </summary>
-		/// <param name="culture">Name of the culture to look for..</param>
+		/// <param name="culture">Name of the culture to look for.</param>
 		/// <returns>Value of the localization if the element is successfully
 		/// found otherwise an empty string.</returns>
 		public string Get (string culture) =>
@@ -191,6 +233,21 @@ namespace BricksBucket.Localization
 			this[culture] = value;
 			return true;
 		}
+
+#if UNITY_EDITOR
+		/// <summary>
+		/// Draws the field for the specified culture.
+		/// </summary>
+		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="options">Options for GUI.</param>
+		public void DrawField (string culture, GUILayoutOption[] options)
+		{
+			Set (
+				culture,
+				EditorGUILayout.DelayedTextField (this[culture], options)
+			);
+		}
+#endif
 	}
 
 	/// <summary>
@@ -211,11 +268,24 @@ namespace BricksBucket.Localization
 		ILocalizedObject<Texture>
 	{
 		/// <summary>
+		/// Array of all codes in this collection.
+		/// </summary>
+		public string[] Cultures => Keys.ToArray ();
+		
+		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
 		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether the localization for the specified culture
+		/// is complete.
+		/// </summary>
+		/// <param name="culture">Culture to evaluate its localization.</param>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -228,7 +298,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Gets the localization value in an existing culture.
 		/// </summary>
-		/// <param name="culture">Name of the culture to look for..</param>
+		/// <param name="culture">Name of the culture to look for.</param>
 		/// <returns>Value of the localization if the element is successfully
 		/// found otherwise, null.</returns>
 		public Texture Get (string culture) =>
@@ -284,6 +354,26 @@ namespace BricksBucket.Localization
 			this[culture] = value;
 			return true;
 		}
+
+#if UNITY_EDITOR
+		/// <summary>
+		/// Draws the field for the specified culture.
+		/// </summary>
+		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="options">Options for GUI.</param>
+		public void DrawField (string culture, GUILayoutOption[] options)
+		{
+			Set (
+				culture,
+				SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Texture),
+					allowSceneObjects: false,
+					options
+				) as Texture
+			);
+		}
+#endif
 	}
 
 	/// <summary>
@@ -304,11 +394,24 @@ namespace BricksBucket.Localization
 		ILocalizedObject<Sprite>
 	{
 		/// <summary>
+		/// Array of all codes in this collection.
+		/// </summary>
+		public string[] Cultures => Keys.ToArray ();
+		
+		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
 		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether the localization for the specified culture
+		/// is complete.
+		/// </summary>
+		/// <param name="culture">Culture to evaluate its localization.</param>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -321,7 +424,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Gets the localization value in an existing culture.
 		/// </summary>
-		/// <param name="culture">Name of the culture to look for..</param>
+		/// <param name="culture">Name of the culture to look for.</param>
 		/// <returns>Value of the localization if the element is successfully
 		/// found otherwise, null.</returns>
 		public Sprite Get (string culture) =>
@@ -377,6 +480,26 @@ namespace BricksBucket.Localization
 			this[culture] = value;
 			return true;
 		}
+
+#if UNITY_EDITOR
+		/// <summary>
+		/// Draws the field for the specified culture.
+		/// </summary>
+		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="options">Options for GUI.</param>
+		public void DrawField (string culture, GUILayoutOption[] options)
+		{
+			Set (
+				culture,
+				SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Sprite),
+					allowSceneObjects: false,
+					options
+				) as Sprite
+			);
+		}
+#endif
 	}
 
 	/// <summary>
@@ -397,11 +520,24 @@ namespace BricksBucket.Localization
 		ILocalizedObject<AudioClip>
 	{
 		/// <summary>
+		/// Array of all codes in this collection.
+		/// </summary>
+		public string[] Cultures => Keys.ToArray ();
+		
+		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
 		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether the localization for the specified culture
+		/// is complete.
+		/// </summary>
+		/// <param name="culture">Culture to evaluate its localization.</param>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -414,7 +550,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Gets the localization value in an existing culture.
 		/// </summary>
-		/// <param name="culture">Name of the culture to look for..</param>
+		/// <param name="culture">Name of the culture to look for.</param>
 		/// <returns>Value of the localization if the element is successfully
 		/// found otherwise, null.</returns>
 		public AudioClip Get (string culture) =>
@@ -470,6 +606,26 @@ namespace BricksBucket.Localization
 			this[culture] = value;
 			return true;
 		}
+
+#if UNITY_EDITOR
+		/// <summary>
+		/// Draws the field for the specified culture.
+		/// </summary>
+		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="options">Options for GUI.</param>
+		public void DrawField (string culture, GUILayoutOption[] options)
+		{
+			Set (
+				culture,
+				SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (AudioClip),
+					allowSceneObjects: false,
+					options
+				) as AudioClip
+			);
+		}
+#endif
 	}
 
 	/// <summary>
@@ -490,11 +646,24 @@ namespace BricksBucket.Localization
 		ILocalizedObject<VideoClip>
 	{
 		/// <summary>
+		/// Array of all codes in this collection.
+		/// </summary>
+		public string[] Cultures => Keys.ToArray ();
+		
+		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
 		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether the localization for the specified culture
+		/// is complete.
+		/// </summary>
+		/// <param name="culture">Culture to evaluate its localization.</param>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -507,7 +676,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Gets the localization value in an existing culture.
 		/// </summary>
-		/// <param name="culture">Name of the culture to look for..</param>
+		/// <param name="culture">Name of the culture to look for.</param>
 		/// <returns>Value of the localization if the element is successfully
 		/// found otherwise, null.</returns>
 		public VideoClip Get (string culture) =>
@@ -563,6 +732,26 @@ namespace BricksBucket.Localization
 			this[culture] = value;
 			return true;
 		}
+
+#if UNITY_EDITOR
+		/// <summary>
+		/// Draws the field for the specified culture.
+		/// </summary>
+		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="options">Options for GUI.</param>
+		public void DrawField (string culture, GUILayoutOption[] options)
+		{
+			Set (
+				culture,
+				SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (VideoClip),
+					allowSceneObjects: false,
+					options
+				) as VideoClip
+			);
+		}
+#endif
 	}
 
 	/// <summary>
@@ -583,11 +772,24 @@ namespace BricksBucket.Localization
 		ILocalizedObject<Object>
 	{
 		/// <summary>
+		/// Array of all codes in this collection.
+		/// </summary>
+		public string[] Cultures => Keys.ToArray ();
+		
+		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
 		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether the localization for the specified culture
+		/// is complete.
+		/// </summary>
+		/// <param name="culture">Culture to evaluate its localization.</param>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -600,7 +802,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Gets the localization value in an existing culture.
 		/// </summary>
-		/// <param name="culture">Name of the culture to look for..</param>
+		/// <param name="culture">Name of the culture to look for.</param>
 		/// <returns>Value of the localization if the element is successfully
 		/// found otherwise, null.</returns>
 		public Object Get (string culture) =>
@@ -656,5 +858,25 @@ namespace BricksBucket.Localization
 			this[culture] = value;
 			return true;
 		}
+
+#if UNITY_EDITOR
+		/// <summary>
+		/// Draws the field for the specified culture.
+		/// </summary>
+		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="options">Options for GUI.</param>
+		public void DrawField (string culture, GUILayoutOption[] options)
+		{
+			Set (
+				culture,
+				SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Object),
+					allowSceneObjects: false,
+					options
+				)
+			);
+		}
+#endif
 	}
 }

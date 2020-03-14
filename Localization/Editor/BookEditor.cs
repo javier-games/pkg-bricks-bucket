@@ -1,7 +1,5 @@
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Video;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 
@@ -48,25 +46,40 @@ namespace BricksBucket.Localization.Editor
 				horizontalLine: true
 			);
 
+			/*
+			if (GUILayout.Button (".."))
+			{
+				book.AudioLocalizations.Add ("APP", new LocalizedAudio ());
+				book.AudioLocalizations["APP"].Add ("A", null);;
+				book.AudioLocalizations["APP"].Add ("B", null);
+			}
+			*/
+
 			if (book != null)
 			{
 				if (book.TextLocalizations.Count > 0)
-					DrawTextLocalization (ref _textVisible);
+					DrawLocalizationGroup (ref _textVisible,
+						book.TextLocalizations, "Texts");
 
 				if (book.TextureLocalization.Count > 0)
-					DrawTextureLocalization (ref _textureVisible);
+					DrawLocalizationGroup (ref _textureVisible,
+						book.TextureLocalization, "Textures");
 
 				if (book.SpriteLocalizations.Count > 0)
-					DrawSpriteLocalization (ref _spriteVisible);
+					DrawLocalizationGroup (ref _spriteVisible,
+						book.SpriteLocalizations, "Sprites");
 
 				if (book.AudioLocalizations.Count > 0)
-					DrawAudioLocalization (ref _audioVisible);
+					DrawLocalizationGroup (ref _audioVisible,
+						book.AudioLocalizations, "Audio Clips");
 
 				if (book.VideoLocalizations.Count > 0)
-					DrawVideoLocalization (ref _videoVisible);
+					DrawLocalizationGroup (ref _videoVisible,
+						book.VideoLocalizations, "Video Clips");
 
 				if (book.UnityObjectLocalizations.Count > 0)
-					DrawUnityObjectLocalization (ref _objectVisible);
+					DrawLocalizationGroup (ref _objectVisible,
+						book.UnityObjectLocalizations, "Objects");
 			}
 
 			InspectorUtilities.EndDrawPropertyTree (tree);
@@ -110,390 +123,91 @@ namespace BricksBucket.Localization.Editor
 		/// </summary>
 		private const int IconHeight = 20;
 
-		private static void DrawSeparator ()
-		{
-			//	Draws an horizontal line separator.
-			SirenixEditorGUI.HorizontalLineSeparator (
-				SirenixGUIStyles.LightBorderColor
-			);
-		}
-
-		private static bool BeginDrawCode<TLocalized, TValue> (
-			ILocalizedCollection<TLocalized, TValue> collection,
-			string code
-		) where TLocalized : ILocalizedObject<TValue>
-		{
-			//	Code Label.
-			EditorGUILayout.BeginHorizontal ();
-			if (GUILayout.Button (
-				EditorIcons.X.Inactive,
-				SirenixGUIStyles.Title,
-				GUILayout.Width (RemoveIconWidth),
-				GUILayout.Height (IconHeight)
-			))
-			{
-				collection.Remove (code);
-				return false;
-			}
-
-			EditorGUILayout.LabelField (
-				new GUIContent (code, code),
-				CodeLayout
-			);
-			EditorGUILayout.BeginVertical ();
-
-			return true;
-		}
-
-		private static void BeginDrawCulture (string culture)
-		{
-
-			EditorGUILayout.BeginHorizontal ();
-
-			//	Culture Code Label.
-			EditorGUILayout.LabelField (
-				new GUIContent (culture, culture),
-				CodeLayout
-			);
-		}
-
-		private static void DrawWarning (string culture)
-		{
-			/* TODO: Add tooltip for default culture.
-				var isDefault = culture == 
-					LocalizationSettings.Default;
-			*/
-			GUILayout.Button (
-				EditorIcons.UnityWarningIcon,
-				SirenixGUIStyles.Title,
-				GUILayout.Width (WarningIconWidth),
-				GUILayout.Height (IconHeight)
-			);
-		}
-
-		private static void EndDrawCulture ()
-		{
-			EditorGUILayout.EndHorizontal ();
-		}
-
-		private static void EndDrawCode ()
-		{
-			EditorGUILayout.EndVertical ();
-			EditorGUILayout.EndHorizontal ();
-			EditorGUILayout.Space ();
-		}
-
-		/// <summary>
-		/// Draws a list of texts localizations.
-		/// </summary>
-		/// <param name="isActive">Foldout control.</param>
-		private void DrawTextLocalization (ref bool isActive)
+		private void DrawLocalizationGroup<T> (
+			ref bool isActive, ILocalizationGroup<T> group, string groupName
+		)
 		{
 			var book = this.target as Book;
 			if (book == null) return;
-			var localization = book.TextLocalizations;
 
 			//	Draws the foldout list.
 			SirenixEditorGUI.BeginBox (GUILayout.Width (Width));
-			isActive = EditorGUILayout.Foldout (isActive, "Texts");
+			isActive = EditorGUILayout.Foldout (isActive, groupName);
 			if (isActive)
 			{
-				DrawSeparator ();
+				//	Draws an horizontal line separator.
+				SirenixEditorGUI.HorizontalLineSeparator (
+					SirenixGUIStyles.LightBorderColor
+				);
 
 				//	Draws for each localized object.
-				var codes = localization.Keys.ToArray ();
-				foreach (string code in codes)
+				foreach (string code in group.Codes)
 				{
 
-					if (!BeginDrawCode (localization, code)) continue;
+					//	Code Label.
+					EditorGUILayout.BeginHorizontal ();
+					if (GUILayout.Button (
+						EditorIcons.X.Inactive,
+						SirenixGUIStyles.Title,
+						GUILayout.Width (RemoveIconWidth),
+						GUILayout.Height (IconHeight)
+					))
+					{
+						group.Remove (code);
+						continue;
+					}
+
+					EditorGUILayout.LabelField (
+						new GUIContent (code, code),
+						CodeLayout
+					);
+					EditorGUILayout.BeginVertical ();
 
 					//	Draws each culture and its value for localization.
-					var cultures = localization[code].Keys.ToArray ();
-					foreach (string culture in cultures)
+					foreach (string culture in group[code].Cultures)
 					{
-						BeginDrawCulture (culture);
+						EditorGUILayout.BeginHorizontal ();
 
-						//	Value Field.
-						var value = localization[code][culture];
-						localization[code][culture] =
-							EditorGUILayout.DelayedTextField (
-								value,
-								FieldLayout
+						//	Culture Code Label.
+						EditorGUILayout.LabelField (
+							new GUIContent (culture, culture),
+							CodeLayout
+						);
+
+						group[code].DrawField (culture,new []{FieldLayout});
+
+						//	Drawing status mark.
+						if (!group[code].IsComplete (culture))
+						{
+							/* TODO: Add tooltip for default culture.
+								var isDefault = culture == 
+									LocalizationSettings.Default;
+							*/
+							GUILayout.Button (
+								EditorIcons.UnityWarningIcon,
+								SirenixGUIStyles.Title,
+								GUILayout.Width (WarningIconWidth),
+								GUILayout.Height (IconHeight)
 							);
-
-						//	Drawing status mark.
-						if (string.IsNullOrWhiteSpace (value))
-							DrawWarning (culture);
-
-						EndDrawCulture ();
-					}
-
-					EndDrawCode ();
-				}
-
-				EditorGUILayout.Space ();
-			}
-
-			SirenixEditorGUI.EndBox ();
-		}
-
-		private void DrawTextureLocalization (ref bool isActive)
-		{
-			var book = this.target as Book;
-			if (book == null) return;
-			var localization = book.TextureLocalization;
-
-			SirenixEditorGUI.BeginBox (GUILayout.Width (Width));
-			isActive = EditorGUILayout.Foldout (isActive, "Textures");
-			if (isActive)
-			{
-				DrawSeparator ();
-
-				//	Draws for each localized object.
-				var codes = localization.Keys.ToArray ();
-				foreach (string code in codes)
-				{
-
-					if (!BeginDrawCode (localization, code)) continue;
-
-					//	Draws each culture and its value for localization.
-					var cultures = localization[code].Keys.ToArray ();
-					foreach (string culture in cultures)
-					{
-						BeginDrawCulture (culture);
-
-						//	Value Field.
-						var value = localization[code][culture];
-						localization[code][culture] =
-							SirenixEditorFields.UnityObjectField (
-								value,
-								typeof (Texture),
-								allowSceneObjects: false,
-								options: FieldLayout
-							) as Texture;
-
-						//	Drawing status mark.
-						if (localization[code][culture] == null)
-							DrawWarning (culture);
-
-						EndDrawCulture ();
-					}
-
-					EndDrawCode ();
-				}
-
-				EditorGUILayout.Space ();
-			}
-
-			SirenixEditorGUI.EndBox ();
-		}
-
-		private void DrawSpriteLocalization (ref bool isActive)
-		{
-			var book = this.target as Book;
-			if (book == null) return;
-			var localization = book.SpriteLocalizations;
-
-			SirenixEditorGUI.BeginBox (GUILayout.Width (Width));
-			isActive = EditorGUILayout.Foldout (isActive, "Sprites");
-			if (isActive)
-			{
-
-				DrawSeparator ();
-
-				//	Draws for each localized object.
-				var codes = localization.Keys.ToArray ();
-				foreach (string code in codes)
-				{
-					//	Code Label.
-					if (!BeginDrawCode (localization, code)) continue;
-
-					//	Draws each culture and its value for localization.
-					var cultures = localization[code].Keys.ToArray ();
-					foreach (string culture in cultures)
-					{
-						BeginDrawCulture (culture);
-
-						//	Value Field.
-						var value = localization[code][culture];
-						localization[code][culture] =
-							SirenixEditorFields.UnityObjectField (
-								value,
-								typeof (Sprite),
-								allowSceneObjects: false,
-								options: FieldLayout
-							) as Sprite;
-
-						//	Drawing status mark.
-						if (localization[code][culture] == null)
-							DrawWarning (culture);
-
-						EndDrawCulture ();
-					}
-
-					EndDrawCode ();
-				}
-
-				EditorGUILayout.Space ();
-			}
-
-			SirenixEditorGUI.EndBox ();
-		}
-
-		private void DrawAudioLocalization (ref bool isActive)
-		{
-			var book = this.target as Book;
-			if (book == null) return;
-			var localization = book.AudioLocalizations;
-
-			SirenixEditorGUI.BeginBox (GUILayout.Width (Width));
-			isActive = EditorGUILayout.Foldout (isActive, "Audio Clips");
-			if (isActive)
-			{
-
-				DrawSeparator ();
-
-				//	Draws for each localized object.
-				var codes = localization.Keys.ToArray ();
-				foreach (string code in codes)
-				{
-					//	Code Label.
-					if (!BeginDrawCode (localization, code)) continue;
-
-					//	Draws each culture and its value for localization.
-					var cultures = localization[code].Keys.ToArray ();
-					foreach (string culture in cultures)
-					{
-						BeginDrawCulture (culture);
-
-						//	Value Field.
-						var value = localization[code][culture];
-						localization[code][culture] =
-							SirenixEditorFields.UnityObjectField (
-								value,
-								typeof (AudioClip),
-								allowSceneObjects: false,
-								options: FieldLayout
-							) as AudioClip;
-
-						//	Drawing status mark.
-						if (localization[code][culture] == null)
-							DrawWarning (culture);
-
-						EndDrawCulture ();
-					}
-
-					EndDrawCode ();
-				}
-
-				EditorGUILayout.Space ();
-			}
-
-			SirenixEditorGUI.EndBox ();
-		}
-
-		private void DrawVideoLocalization (ref bool isActive)
-		{
-			var book = this.target as Book;
-			if (book == null) return;
-			var localization = book.VideoLocalizations;
-
-			SirenixEditorGUI.BeginBox (GUILayout.Width (Width));
-			isActive = EditorGUILayout.Foldout (isActive, "Video Clips");
-			if (isActive)
-			{
-
-				DrawSeparator ();
-
-				//	Draws for each localized object.
-				var codes = localization.Keys.ToArray ();
-				foreach (string code in codes)
-				{
-					//	Code Label.
-					if (!BeginDrawCode (localization, code)) continue;
-
-					//	Draws each culture and its value for localization.
-					var cultures = localization[code].Keys.ToArray ();
-					foreach (string culture in cultures)
-					{
-						BeginDrawCulture (culture);
-
-						//	Value Field.
-						var value = localization[code][culture];
-						localization[code][culture] =
-							SirenixEditorFields.UnityObjectField (
-								value,
-								typeof (VideoClip),
-								allowSceneObjects: false,
-								options: FieldLayout
-							) as VideoClip;
-
-						//	Drawing status mark.
-						if (localization[code][culture] == null)
-							DrawWarning (culture);
-
-						EndDrawCulture ();
-					}
-
-					EndDrawCode ();
-				}
-
-				EditorGUILayout.Space ();
-			}
-
-			SirenixEditorGUI.EndBox ();
-		}
-
-		private void DrawUnityObjectLocalization (ref bool isActive)
-		{
-			var book = this.target as Book;
-			if (book == null) return;
-			var localization = book.UnityObjectLocalizations;
-
-			SirenixEditorGUI.BeginBox (GUILayout.Width (Width));
-			isActive = EditorGUILayout.Foldout (isActive, "Unity Objects");
-			if (isActive)
-			{
-
-				DrawSeparator ();
-
-				//	Draws for each localized object.
-				var codes = localization.Keys.ToArray ();
-				foreach (string code in codes)
-				{
-					//	Code Label.
-					if (!BeginDrawCode (localization, code)) continue;
-
-					//	Draws each culture and its value for localization.
-					var cultures = localization[code].Keys.ToArray ();
-					foreach (string culture in cultures)
-					{
-						BeginDrawCulture (culture);
-
-						//	Value Field.
-						var value = localization[code][culture];
-						localization[code][culture] =
-							SirenixEditorFields.UnityObjectField (
-								value,
-								typeof (Object),
-								allowSceneObjects: false,
-								options: FieldLayout
-							);
-
-						//	Drawing status mark.
-						if (localization[code][culture] == null)
-							DrawWarning (culture);
+						}
 
 						EditorGUILayout.EndHorizontal ();
 					}
 
-					EndDrawCode ();
+					EditorGUILayout.EndVertical ();
+					EditorGUILayout.EndHorizontal ();
+					EditorGUILayout.Space ();
 				}
 
 				EditorGUILayout.Space ();
 			}
 
 			SirenixEditorGUI.EndBox ();
+			
+			if (GUI.changed)
+			{
+				EditorUtility.SetDirty(book);
+			}
 		}
 
 		#endregion
