@@ -2,15 +2,109 @@ using UnityEngine;
 using UnityEngine.Video;
 using BricksBucket.Collections;
 
+// ReSharper disable UnusedMemberInSuper.Global
 namespace BricksBucket.Localization
 {
+	/// <summary>
+	/// 
+	/// ILocalizedObject.
+	/// 
+	/// <para>
+	/// Interface with fundamental methods for a Localized Object with a
+	/// localized value for each different culture in the object.
+	/// </para>
+	/// 
+	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// 
+	/// </summary>
+	/// <typeparam name="T">Type of value of the localization.</typeparam>
+	internal interface ILocalizedObject<T>
+	{
+		/// <summary>
+		/// Gets the localization value for the given culture.
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		T this [string culture] { get; }
+
+		/// <summary>
+		/// Total count of localizations on this localized object.
+		/// </summary>
+		int Count { get; }
+
+		/// <summary>
+		/// Defines whether for all this localized object cultures has a
+		/// localization different from the default value.
+		/// </summary>
+		/// <returns><value>True</value> if is complete.</returns>
+		bool IsComplete ();
+
+		/// <summary>
+		/// Defines whether this localized object has a localization for the
+		/// given culture. 
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		/// <returns><value>True</value> if has the given culture.</returns>
+		bool ContainsCulture (string culture);
+
+		/// <summary>
+		/// Adds a new localization for the given culture to the localized
+		/// object.
+		/// </summary>
+		/// <param name="culture">Name of the culture.</param>
+		/// <param name="localization">Value of the localization.</param>
+		void Add (string culture, T localization);
+
+		/// <summary>
+		/// Removes an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to remove.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and removed; otherwise, <value>False</value>.</returns>
+		bool Remove (string culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for..</param>
+		/// <returns>Value of the localization if the element is successfully
+		/// found otherwise, default value.</returns>
+		T Get (string culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for.</param>
+		/// <param name="localization">Value of the localization.</param>
+		/// <returns><value>True</value> if the element is successfully found;
+		/// otherwise, <value>False</value>.</returns>
+		bool TryGet (string culture, out T localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		bool Set (string culture, T localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		bool TrySet (string culture, object localization);
+	}
 
 	/// <summary>
 	/// 
-	/// Localized Unity Object.
+	/// LocalizedText.
 	/// 
 	/// <para>
-	/// Dictionary with localizations for texts.
+	/// Localized Object with a localized string values for each different
+	/// culture in the object.
 	/// </para>
 	/// 
 	/// <para> By Javier García | @jvrgms | 2020 </para>
@@ -18,25 +112,94 @@ namespace BricksBucket.Localization
 	/// </summary>
 	[System.Serializable]
 	internal class LocalizedText :
-		SerializableDictionary<string, string>
+		SerializableDictionary<string, string>,
+		ILocalizedObject<string>
 	{
 		/// <summary>
-		/// Defines if the localized object has a localization for
-		/// each culture.
+		/// Defines whether for all this localized object cultures has a
+		/// localization different from string empty or null.
 		/// </summary>
-		/// <returns>True if the localized object is complete.</returns>
-		public bool IsComplete ()
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete () =>
+			!ContainsValue (string.Empty) &&
+			!ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether this localized object has a localization for the
+		/// given culture. 
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		/// <returns><value>True</value> if has the given culture.</returns>
+		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for..</param>
+		/// <returns>Value of the localization if the element is successfully
+		/// found otherwise an empty string.</returns>
+		public string Get (string culture) =>
+			ContainsKey (culture)
+				? this[culture]
+				: string.Empty;
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for.</param>
+		/// <param name="localization">Value of the localization.</param>
+		/// <returns><value>True</value> if the element is successfully found;
+		/// otherwise, <value>False</value>.</returns>
+		public bool TryGet (string culture, out string localization) =>
+			TryGetValue (culture, out localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool Set (string culture, string localization)
 		{
-			return !ContainsValue (string.Empty) && !ContainsValue (null);
+			if (!ContainsKey (culture)) return false;
+			this[culture] = localization;
+			return true;
 		}
-	};
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool TrySet (string culture, object localization)
+		{
+			if (!ContainsKey (culture)) return false;
+
+			string value;
+			try
+			{
+				value = (string) localization;
+			}
+			catch
+			{
+				return false;
+			}
+
+			this[culture] = value;
+			return true;
+		}
+	}
 
 	/// <summary>
 	/// 
-	/// Localized Unity Object.
+	/// LocalizedTexture.
 	/// 
 	/// <para>
-	/// Dictionary with localizations for Unity Objects.
+	/// Localized Object with a localized texture values for each different
+	/// culture in the object.
 	/// </para>
 	/// 
 	/// <para> By Javier García | @jvrgms | 2020 </para>
@@ -44,14 +207,92 @@ namespace BricksBucket.Localization
 	/// </summary>
 	[System.Serializable]
 	internal class LocalizedTexture :
-		SerializableDictionary<string, Texture> { };
+		SerializableDictionary<string, Texture>,
+		ILocalizedObject<Texture>
+	{
+		/// <summary>
+		/// Defines whether for all this localized object cultures has a
+		/// localization different from the null.
+		/// </summary>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether this localized object has a localization for the
+		/// given culture. 
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		/// <returns><value>True</value> if has the given culture.</returns>
+		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for..</param>
+		/// <returns>Value of the localization if the element is successfully
+		/// found otherwise, null.</returns>
+		public Texture Get (string culture) =>
+			ContainsKey (culture)
+				? this[culture]
+				: null;
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for.</param>
+		/// <param name="localization">Value of the localization.</param>
+		/// <returns><value>True</value> if the element is successfully found;
+		/// otherwise, <value>False</value>.</returns>
+		public bool TryGet (string culture, out Texture localization) =>
+			TryGetValue (culture, out localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool Set (string culture, Texture localization)
+		{
+			if (!ContainsKey (culture)) return false;
+			this[culture] = localization;
+			return true;
+		}
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool TrySet (string culture, object localization)
+		{
+			if (!ContainsKey (culture)) return false;
+
+			Texture value;
+			try
+			{
+				value = (Texture) localization;
+			}
+			catch
+			{
+				return false;
+			}
+
+			this[culture] = value;
+			return true;
+		}
+	}
 
 	/// <summary>
 	/// 
-	/// Localized Unity Object.
+	/// LocalizedSprite.
 	/// 
 	/// <para>
-	/// Dictionary with localizations for Unity Objects.
+	/// Localized Object with a localized sprite values for each different
+	/// culture in the object.
 	/// </para>
 	/// 
 	/// <para> By Javier García | @jvrgms | 2020 </para>
@@ -59,14 +300,92 @@ namespace BricksBucket.Localization
 	/// </summary>
 	[System.Serializable]
 	internal class LocalizedSprite :
-		SerializableDictionary<string, Sprite> { };
+		SerializableDictionary<string, Sprite>,
+		ILocalizedObject<Sprite>
+	{
+		/// <summary>
+		/// Defines whether for all this localized object cultures has a
+		/// localization different from the null.
+		/// </summary>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether this localized object has a localization for the
+		/// given culture. 
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		/// <returns><value>True</value> if has the given culture.</returns>
+		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for..</param>
+		/// <returns>Value of the localization if the element is successfully
+		/// found otherwise, null.</returns>
+		public Sprite Get (string culture) =>
+			ContainsKey (culture)
+				? this[culture]
+				: null;
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for.</param>
+		/// <param name="localization">Value of the localization.</param>
+		/// <returns><value>True</value> if the element is successfully found;
+		/// otherwise, <value>False</value>.</returns>
+		public bool TryGet (string culture, out Sprite localization) =>
+			TryGetValue (culture, out localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool Set (string culture, Sprite localization)
+		{
+			if (!ContainsKey (culture)) return false;
+			this[culture] = localization;
+			return true;
+		}
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool TrySet (string culture, object localization)
+		{
+			if (!ContainsKey (culture)) return false;
+
+			Sprite value;
+			try
+			{
+				value = (Sprite) localization;
+			}
+			catch
+			{
+				return false;
+			}
+
+			this[culture] = value;
+			return true;
+		}
+	}
 
 	/// <summary>
 	/// 
-	/// Localized Unity Object.
+	/// LocalizedAudio.
 	/// 
 	/// <para>
-	/// Dictionary with localizations for Unity Objects.
+	/// Localized Object with a localized audio clip values for each different
+	/// culture in the object.
 	/// </para>
 	/// 
 	/// <para> By Javier García | @jvrgms | 2020 </para>
@@ -74,14 +393,92 @@ namespace BricksBucket.Localization
 	/// </summary>
 	[System.Serializable]
 	internal class LocalizedAudio :
-		SerializableDictionary<string, AudioClip> { };
+		SerializableDictionary<string, AudioClip>,
+		ILocalizedObject<AudioClip>
+	{
+		/// <summary>
+		/// Defines whether for all this localized object cultures has a
+		/// localization different from the null.
+		/// </summary>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether this localized object has a localization for the
+		/// given culture. 
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		/// <returns><value>True</value> if has the given culture.</returns>
+		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for..</param>
+		/// <returns>Value of the localization if the element is successfully
+		/// found otherwise, null.</returns>
+		public AudioClip Get (string culture) =>
+			ContainsKey (culture)
+				? this[culture]
+				: null;
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for.</param>
+		/// <param name="localization">Value of the localization.</param>
+		/// <returns><value>True</value> if the element is successfully found;
+		/// otherwise, <value>False</value>.</returns>
+		public bool TryGet (string culture, out AudioClip localization) =>
+			TryGetValue (culture, out localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool Set (string culture, AudioClip localization)
+		{
+			if (!ContainsKey (culture)) return false;
+			this[culture] = localization;
+			return true;
+		}
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool TrySet (string culture, object localization)
+		{
+			if (!ContainsKey (culture)) return false;
+
+			AudioClip value;
+			try
+			{
+				value = (AudioClip) localization;
+			}
+			catch
+			{
+				return false;
+			}
+
+			this[culture] = value;
+			return true;
+		}
+	}
 
 	/// <summary>
 	/// 
-	/// Localized Unity Object.
+	/// LocalizedVideo.
 	/// 
 	/// <para>
-	/// Dictionary with localizations for Unity Objects.
+	/// Localized Object with a localized video clip values for each different
+	/// culture in the object.
 	/// </para>
 	/// 
 	/// <para> By Javier García | @jvrgms | 2020 </para>
@@ -89,14 +486,92 @@ namespace BricksBucket.Localization
 	/// </summary>
 	[System.Serializable]
 	internal class LocalizedVideo :
-		SerializableDictionary<string, VideoClip> { };
+		SerializableDictionary<string, VideoClip>,
+		ILocalizedObject<VideoClip>
+	{
+		/// <summary>
+		/// Defines whether for all this localized object cultures has a
+		/// localization different from the null.
+		/// </summary>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether this localized object has a localization for the
+		/// given culture. 
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		/// <returns><value>True</value> if has the given culture.</returns>
+		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for..</param>
+		/// <returns>Value of the localization if the element is successfully
+		/// found otherwise, null.</returns>
+		public VideoClip Get (string culture) =>
+			ContainsKey (culture)
+				? this[culture]
+				: null;
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for.</param>
+		/// <param name="localization">Value of the localization.</param>
+		/// <returns><value>True</value> if the element is successfully found;
+		/// otherwise, <value>False</value>.</returns>
+		public bool TryGet (string culture, out VideoClip localization) =>
+			TryGetValue (culture, out localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool Set (string culture, VideoClip localization)
+		{
+			if (!ContainsKey (culture)) return false;
+			this[culture] = localization;
+			return true;
+		}
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool TrySet (string culture, object localization)
+		{
+			if (!ContainsKey (culture)) return false;
+
+			VideoClip value;
+			try
+			{
+				value = (VideoClip) localization;
+			}
+			catch
+			{
+				return false;
+			}
+
+			this[culture] = value;
+			return true;
+		}
+	}
 
 	/// <summary>
 	/// 
-	/// Localized Unity Object.
+	/// LocalizedObject.
 	/// 
 	/// <para>
-	/// Dictionary with localizations for Unity Objects.
+	/// Localized Object with a localized Unity.Object value for each different
+	/// culture in the object.
 	/// </para>
 	/// 
 	/// <para> By Javier García | @jvrgms | 2020 </para>
@@ -104,108 +579,82 @@ namespace BricksBucket.Localization
 	/// </summary>
 	[System.Serializable]
 	internal class LocalizedUnityObject :
-		SerializableDictionary<string, Object> { };
-
-	/// <summary>
-	/// 
-	/// Text Localizations.
-	/// 
-	/// <para>
-	/// Dictionary of localized texts.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
-	/// </summary>
-	[System.Serializable]
-	internal class TextLocalizations :
-		SerializableDictionary<string, LocalizedText>
+		SerializableDictionary<string, Object>,
+		ILocalizedObject<Object>
 	{
-		public bool IsComplete ()
+		/// <summary>
+		/// Defines whether for all this localized object cultures has a
+		/// localization different from the null.
+		/// </summary>
+		/// <returns><value>True</value> if is complete.</returns>
+		public bool IsComplete () => !ContainsValue (null);
+
+		/// <summary>
+		/// Defines whether this localized object has a localization for the
+		/// given culture. 
+		/// </summary>
+		/// <param name="culture">Culture to look for.</param>
+		/// <returns><value>True</value> if has the given culture.</returns>
+		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for..</param>
+		/// <returns>Value of the localization if the element is successfully
+		/// found otherwise, null.</returns>
+		public Object Get (string culture) =>
+			ContainsKey (culture)
+				? this[culture]
+				: null;
+
+		/// <summary>
+		/// Gets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to look for.</param>
+		/// <param name="localization">Value of the localization.</param>
+		/// <returns><value>True</value> if the element is successfully found;
+		/// otherwise, <value>False</value>.</returns>
+		public bool TryGet (string culture, out Object localization) =>
+			TryGetValue (culture, out localization);
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool Set (string culture, Object localization)
 		{
-			bool isComplete = true;
-			foreach (var keyValuePair in this)
+			if (!ContainsKey (culture)) return false;
+			this[culture] = localization;
+			return true;
+		}
+
+		/// <summary>
+		/// Sets the localization value in an existing culture.
+		/// </summary>
+		/// <param name="culture">Name of the culture to set its value.</param>
+		/// <param name="localization">The new value for localization.</param>
+		/// <returns><value>True</value> if the element is successfully found
+		/// and set; otherwise, <value>False</value>.</returns>
+		public bool TrySet (string culture, object localization)
+		{
+			if (!ContainsKey (culture)) return false;
+
+			Object value;
+			try
 			{
-				if (!keyValuePair.Value.IsComplete ())
-					isComplete = false;
+				value = (Object) localization;
 			}
-			return isComplete;
+			catch
+			{
+				return false;
+			}
+
+			this[culture] = value;
+			return true;
 		}
 	}
-
-	/// <summary>
-	/// 
-	/// Texture Localizations.
-	/// 
-	/// <para>
-	/// Dictionary of localized textures.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
-	/// </summary>
-	[System.Serializable]
-	internal class TextureLocalizations :
-		SerializableDictionary<string, LocalizedTexture> { }
-
-	/// <summary>
-	/// 
-	/// Sprite Localizations.
-	/// 
-	/// <para>
-	/// Dictionary of localized sprites.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
-	/// </summary>
-	[System.Serializable]
-	internal class SpriteLocalizations :
-		SerializableDictionary<string, LocalizedSprite> { }
-
-	/// <summary>
-	/// 
-	/// Audio Localizations.
-	/// 
-	/// <para>
-	/// Dictionary of localized Audio Clips.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
-	/// </summary>
-	[System.Serializable]
-	internal class AudioLocalizations :
-		SerializableDictionary<string, LocalizedAudio> { }
-
-	/// <summary>
-	/// 
-	/// Video Localizations.
-	/// 
-	/// <para>
-	/// Dictionary of localized video clips.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
-	/// </summary>
-	[System.Serializable]
-	internal class VideoLocalizations :
-		SerializableDictionary<string, LocalizedVideo> { }
-
-	/// <summary>
-	/// 
-	/// Unity Object Localizations.
-	/// 
-	/// <para>
-	/// Dictionary of localized Unity Objects.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
-	/// </summary>
-	[System.Serializable]
-	internal class UnityObjectLocalizations :
-		SerializableDictionary<string, LocalizedUnityObject> { }
-
 }

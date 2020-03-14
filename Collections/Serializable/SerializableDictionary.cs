@@ -17,7 +17,7 @@ namespace BricksBucket.Collections
     /// </summary>
     [Serializable]
     public abstract class SerializableDictionary<TKey, TValue> :
-    Dictionary<TKey, TValue>, ISerializationCallbackReceiver
+        Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
         #region Class Properties
 
