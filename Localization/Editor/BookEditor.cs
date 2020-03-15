@@ -7,27 +7,36 @@ namespace BricksBucket.Localization.Editor
 {
 	/// <summary>
 	/// 
-	/// Book Editor.
-	///
-	/// Draws the book nicely.
+	/// BookEditor.
+	/// 
+	/// <para>
+	/// Custom editor for the scriptable object book.
+	/// </para>
+	/// 
+	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// 
 	/// </summary>
 	[CustomEditor (typeof (Book))]
 	public class BookEditor : OdinEditor
 	{
-		private bool _textVisible;
-		private bool _textureVisible;
-		private bool _spriteVisible;
-		private bool _audioVisible;
-		private bool _videoVisible;
-		private bool _objectVisible;
+		private static bool _textVisible;
+		private static bool _textureVisible;
+		private static bool _spriteVisible;
+		private static bool _audioVisible;
+		private static bool _videoVisible;
+		private static bool _objectVisible;
 
 		#region Override Methods
-
+		
+		/// <summary>
+		/// Called on inspector GUI.
+		/// </summary>
 		public override void OnInspectorGUI ()
 		{
 			// Like this.serializedObject.
 			var tree = this.Tree;
 			var book = this.target as Book;
+			if (book == null) return;
 
 			InspectorUtilities.BeginDrawPropertyTree (tree, true);
 
@@ -37,6 +46,42 @@ namespace BricksBucket.Localization.Editor
 			EditorGUILayout.Space ();
 			tree.GetPropertyAtPath ("_name").Draw ();
 			tree.GetPropertyAtPath ("_description").Draw ();
+			
+			
+			EditorGUILayout.Space ();
+			
+			EditorGUILayout.BeginHorizontal ();
+
+			var isCompleted =
+				book.TextLocalizations.IncompleteCount +
+				book.TextureLocalization.IncompleteCount +
+				book.SpriteLocalizations.IncompleteCount +
+				book.AudioLocalizations.IncompleteCount +
+				book.VideoLocalizations.IncompleteCount +
+				book.UnityObjectLocalizations.IncompleteCount;
+
+			var status = "Completed";
+			var statusIcon = EditorIcons.TestPassed;
+			var statusTooltip = "All localizations are setup";
+			if (isCompleted > 0)
+			{
+				status = "Uncompleted";
+				statusIcon = EditorIcons.UnityWarningIcon;
+				statusTooltip = StringUtils.Concat (
+					isCompleted, " localizations left."
+				);
+			}
+			
+			EditorGUILayout.LabelField (
+				"Status", status,
+				SirenixGUIStyles.BoldLabel,
+				GUILayout.Width (EditorGUIUtility.currentViewWidth - 50)
+			);
+			EditorGUILayout.LabelField (
+				new GUIContent(statusIcon, statusTooltip),
+				GUILayout.Width (18)
+			);
+			EditorGUILayout.EndHorizontal ();
 
 			EditorGUILayout.Space ();
 			SirenixEditorGUI.Title (
@@ -55,6 +100,8 @@ namespace BricksBucket.Localization.Editor
 			}
 			*/
 
+			EditorGUILayout.Space ();
+			
 			if (book != null)
 			{
 				if (book.TextLocalizations.Count > 0)
@@ -82,57 +129,57 @@ namespace BricksBucket.Localization.Editor
 						book.UnityObjectLocalizations, "Objects");
 			}
 
+			if (GUI.changed) EditorUtility.SetDirty (book);
+			
 			InspectorUtilities.EndDrawPropertyTree (tree);
 			Tree.UpdateTree ();
+			
+			EditorGUILayout.Space ();
 		}
 
 		#endregion
 
 
-		#region List Drawers
-
-		/// <summary>
-		/// Boxed Width
-		/// </summary>
-		private static float Width => EditorGUIUtility.currentViewWidth - 23;
-
-		/// <summary>
-		/// GUI Layout option for code label fields.
-		/// </summary>
-		private static GUILayoutOption CodeLayout =>
-			GUILayout.Width (((Width - 20) * 0.3f) - WarningIconWidth);
-
-		/// <summary>
-		/// GUI Layout option for object fields.
-		/// </summary>
-		private static GUILayoutOption FieldLayout =>
-			GUILayout.Width ((Width - 20) * 0.4f);
-
-		/// <summary>
-		/// Warning Button Icon Width.
-		/// </summary>
-		private const int WarningIconWidth = 18;
-
-		/// <summary>
-		/// Remove Button Icon Width
-		/// </summary>
-		private const int RemoveIconWidth = 14;
-
-		/// <summary>
-		/// General Icon Height.
-		/// </summary>
-		private const int IconHeight = 20;
-
+		#region Class Implementation
+		
 		private void DrawLocalizationGroup<T> (
 			ref bool isActive, ILocalizationGroup<T> group, string groupName
 		)
 		{
+			//	Definition of layout.
+			const int warningIconWidth = 18;
+			const int removeIconWidth = 14;
+			const int iconHeight = 20;
+			
+			var boxWidth = EditorGUIUtility.currentViewWidth - 24;
+			var width = boxWidth - warningIconWidth - removeIconWidth - 28;
+			var codeLayout = GUILayout.Width (width * 0.4f);
+			var cultureLayout = GUILayout.Width (width * 0.2f);
+			var fieldLayout = GUILayout.Width (width * 0.4f);
+
+			//	Getting the reference from the target.
 			var book = this.target as Book;
 			if (book == null) return;
-
+			
 			//	Draws the foldout list.
-			SirenixEditorGUI.BeginBox (GUILayout.Width (Width));
+			SirenixEditorGUI.BeginBox (GUILayout.Width (boxWidth));
+			
+			EditorGUILayout.BeginHorizontal ();
 			isActive = EditorGUILayout.Foldout (isActive, groupName);
+
+			
+			var completedText = group.IncompleteCount > 0
+				? StringUtils.Concat (group.IncompleteCount, " Left")
+				: "Complete";
+			
+			EditorGUILayout.LabelField (
+				new GUIContent(completedText),
+				SirenixGUIStyles.RightAlignedGreyMiniLabel
+			);
+			EditorGUILayout.EndHorizontal ();
+			
+			
+			//	If is true draws the list.
 			if (isActive)
 			{
 				//	Draws an horizontal line separator.
@@ -149,8 +196,8 @@ namespace BricksBucket.Localization.Editor
 					if (GUILayout.Button (
 						EditorIcons.X.Inactive,
 						SirenixGUIStyles.Title,
-						GUILayout.Width (RemoveIconWidth),
-						GUILayout.Height (IconHeight)
+						GUILayout.Width (removeIconWidth),
+						GUILayout.Height (iconHeight)
 					))
 					{
 						group.Remove (code);
@@ -159,7 +206,7 @@ namespace BricksBucket.Localization.Editor
 
 					EditorGUILayout.LabelField (
 						new GUIContent (code, code),
-						CodeLayout
+						codeLayout
 					);
 					EditorGUILayout.BeginVertical ();
 
@@ -171,10 +218,10 @@ namespace BricksBucket.Localization.Editor
 						//	Culture Code Label.
 						EditorGUILayout.LabelField (
 							new GUIContent (culture, culture),
-							CodeLayout
+							cultureLayout
 						);
 
-						group[code].DrawField (culture,new []{FieldLayout});
+						group[code].DrawField (culture, new[] {fieldLayout});
 
 						//	Drawing status mark.
 						if (!group[code].IsComplete (culture))
@@ -183,11 +230,17 @@ namespace BricksBucket.Localization.Editor
 								var isDefault = culture == 
 									LocalizationSettings.Default;
 							*/
+							
+							var warningButtonContent = new GUIContent(
+								image: EditorIcons.UnityWarningIcon,
+								tooltip: string.Empty
+							);
+							
 							GUILayout.Button (
-								EditorIcons.UnityWarningIcon,
+								warningButtonContent,
 								SirenixGUIStyles.Title,
-								GUILayout.Width (WarningIconWidth),
-								GUILayout.Height (IconHeight)
+								GUILayout.Width (warningIconWidth),
+								GUILayout.Height (iconHeight)
 							);
 						}
 
@@ -196,18 +249,13 @@ namespace BricksBucket.Localization.Editor
 
 					EditorGUILayout.EndVertical ();
 					EditorGUILayout.EndHorizontal ();
-					EditorGUILayout.Space ();
 				}
 
 				EditorGUILayout.Space ();
 			}
 
+
 			SirenixEditorGUI.EndBox ();
-			
-			if (GUI.changed)
-			{
-				EditorUtility.SetDirty(book);
-			}
 		}
 
 		#endregion

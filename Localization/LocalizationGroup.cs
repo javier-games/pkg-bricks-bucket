@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using BricksBucket.Collections;
 
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 // ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable UnusedMemberInSuper.Global
 namespace BricksBucket.Localization
@@ -32,6 +33,11 @@ namespace BricksBucket.Localization
 		/// Total count of localized objects in the group.
 		/// </summary>
 		int Count { get; }
+		
+		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		int IncompleteCount { get; }
 
 		/// <summary>
 		/// Array of all codes in this collection.
@@ -89,6 +95,21 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
 		public new ILocalizedObject<string> this [string code] => base[code];
+
+		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var codes = Codes;
+				for (int i = 0; i < codes.Length; i++)
+					incompleteCount += this[codes[i]].IncompleteCount;
+				return incompleteCount;
+			}
+		}
 
 		/// <summary>
 		/// Array of all codes in this collection.
@@ -149,6 +170,21 @@ namespace BricksBucket.Localization
 		public new ILocalizedObject<Texture> this [string code] => base[code];
 
 		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var codes = Codes;
+				for (int i = 0; i < codes.Length; i++)
+					incompleteCount += this[codes[i]].IncompleteCount;
+				return incompleteCount;
+			}
+		}
+
+		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Codes => Keys.ToArray ();
@@ -207,6 +243,21 @@ namespace BricksBucket.Localization
 		public new ILocalizedObject<Sprite> this [string code] => base[code];
 
 		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var codes = Codes;
+				for (int i = 0; i < codes.Length; i++)
+					incompleteCount += this[codes[i]].IncompleteCount;
+				return incompleteCount;
+			}
+		}
+
+		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Codes => Keys.ToArray ();
@@ -263,6 +314,21 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
 		public new ILocalizedObject<AudioClip> this [string code] => base[code];
+
+		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var codes = Codes;
+				for (int i = 0; i < codes.Length; i++)
+					incompleteCount += this[codes[i]].IncompleteCount;
+				return incompleteCount;
+			}
+		}
 
 		/// <summary>
 		/// Array of all codes in this collection.
@@ -324,6 +390,21 @@ namespace BricksBucket.Localization
 		public new ILocalizedObject<VideoClip> this [string code] => base[code];
 
 		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var codes = Codes;
+				for (int i = 0; i < codes.Length; i++)
+					incompleteCount += this[codes[i]].IncompleteCount;
+				return incompleteCount;
+			}
+		}
+
+		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Codes => Keys.ToArray ();
@@ -381,6 +462,21 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
 		public new ILocalizedObject<Object> this [string code] => base[code];
+
+		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var codes = Codes;
+				for (int i = 0; i < codes.Length; i++)
+					incompleteCount += this[codes[i]].IncompleteCount;
+				return incompleteCount;
+			}
+		}
 
 		/// <summary>
 		/// Array of all codes in this collection.

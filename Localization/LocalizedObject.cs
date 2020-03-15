@@ -6,6 +6,7 @@ using BricksBucket.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 using Sirenix.Utilities.Editor;
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 #endif
 
 // ReSharper disable UnusedMemberInSuper.Global
@@ -36,6 +37,11 @@ namespace BricksBucket.Localization
 		/// Total count of localizations on this localized object.
 		/// </summary>
 		int Count { get; }
+		
+		/// <summary>
+		/// Total count of cultures with a default value for it's localization.
+		/// </summary>
+		int IncompleteCount { get; }
 		
 		/// <summary>
 		/// Array of all cultures in this localized object.
@@ -143,6 +149,21 @@ namespace BricksBucket.Localization
 		SerializableDictionary<string, string>,
 		ILocalizedObject<string>
 	{
+		/// <summary>
+		/// Total count of cultures with a default value for it's localization.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var cultures = Cultures;
+				for (int i = 0; i < cultures.Length; i++)
+					if (!IsComplete (cultures[i])) incompleteCount++;
+				return incompleteCount;
+			}
+		}
+
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
@@ -267,6 +288,21 @@ namespace BricksBucket.Localization
 		SerializableDictionary<string, Texture>,
 		ILocalizedObject<Texture>
 	{
+		/// <summary>
+		/// Total count of cultures with a default value for it's localization.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var cultures = Cultures;
+				for (int i = 0; i < cultures.Length; i++)
+					if (!IsComplete (cultures[i])) incompleteCount++;
+				return incompleteCount;
+			}
+		}
+		
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
@@ -394,6 +430,21 @@ namespace BricksBucket.Localization
 		ILocalizedObject<Sprite>
 	{
 		/// <summary>
+		/// Total count of cultures with a default value for it's localization.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var cultures = Cultures;
+				for (int i = 0; i < cultures.Length; i++)
+					if (!IsComplete (cultures[i])) incompleteCount++;
+				return incompleteCount;
+			}
+		}
+		
+		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
@@ -519,6 +570,21 @@ namespace BricksBucket.Localization
 		SerializableDictionary<string, AudioClip>,
 		ILocalizedObject<AudioClip>
 	{
+		/// <summary>
+		/// Total count of cultures with a default value for it's localization.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var cultures = Cultures;
+				for (int i = 0; i < cultures.Length; i++)
+					if (!IsComplete (cultures[i])) incompleteCount++;
+				return incompleteCount;
+			}
+		}
+		
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
@@ -646,6 +712,21 @@ namespace BricksBucket.Localization
 		ILocalizedObject<VideoClip>
 	{
 		/// <summary>
+		/// Total count of cultures with a default value for it's localization.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var cultures = Cultures;
+				for (int i = 0; i < cultures.Length; i++)
+					if (!IsComplete (cultures[i])) incompleteCount++;
+				return incompleteCount;
+			}
+		}
+		
+		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
@@ -771,6 +852,21 @@ namespace BricksBucket.Localization
 		SerializableDictionary<string, Object>,
 		ILocalizedObject<Object>
 	{
+		/// <summary>
+		/// Total count of cultures with a default value for it's localization.
+		/// </summary>
+		public int IncompleteCount
+		{
+			get
+			{
+				int incompleteCount = 0;
+				var cultures = Cultures;
+				for (int i = 0; i < cultures.Length; i++)
+					if (!IsComplete (cultures[i])) incompleteCount++;
+				return incompleteCount;
+			}
+		}
+		
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
