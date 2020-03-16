@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable StringLiteralTypo
 namespace BricksBucket.Localization
 {
     /// <summary>
@@ -24,30 +26,30 @@ namespace BricksBucket.Localization
         /// Converts ISO639 Language and ISO3166 Country to Language Code ID.
         /// </summary>
         /// <param name="language">Language to convert.</param>
-        /// <param name="coutry">Conutry reference.</param>
+        /// <param name="country">Country reference.</param>
         /// <returns>Language Code Identifier.</returns>
-        public static LCID ToLCID (ISO639_1 language, ISO3166_2 coutry)
+        public static LCID ToLCID (ISO639_1 language, ISO3166_2 country)
         {
             if (language == ISO639_1.NONE) return LCID.INVARIANT;
 
             var textCode = language.ToString ();
 
-            if (coutry != ISO3166_2.NONE)
-                textCode = StringUtils.Concat (textCode, "_", coutry);
+            if (country != ISO3166_2.NONE)
+                textCode = StringUtils.Concat (textCode, "_", country);
 
-            if (System.Enum.TryParse (textCode, out LCID lcid)) return lcid;
-
-            return LCID.NONE;
+            return System.Enum.TryParse (textCode, out LCID lcid)
+                ? lcid
+                : LCID.NONE;
         }
 
         /// <summary>
         /// Converts ISO639 Language and ISO3166 Country to Language Code ID.
         /// </summary>
         /// <param name="language">Language to convert.</param>
-        /// <param name="coutry">Conutry reference.</param>
+        /// <param name="country">Country reference.</param>
         /// <returns>Language Code Identifier.</returns>
-        public static LCID ToLCID (int language, int coutry) =>
-            ToLCID ((ISO639_1) language, (ISO3166_2) coutry);
+        public static LCID ToLCID (int language, int country) =>
+            ToLCID ((ISO639_1) language, (ISO3166_2) country);
 
         /// <summary>
         /// Converts LCID to ISO-639 Language numeric code.
@@ -56,10 +58,10 @@ namespace BricksBucket.Localization
         /// <returns>Numeric code.</returns>
         public static int ToISO639 (LCID lcid)
         {
-            var splittedLCID = lcid.ToString ().Split ('_');
-            if (splittedLCID.Length == 0) return 0;
+            var dividedLCID = lcid.ToString ().Split ('_');
+            if (dividedLCID.Length == 0) return 0;
 
-            var language = splittedLCID[0];
+            var language = dividedLCID[0];
             if (System.Enum.TryParse (language, out ISO639_1 iso))
                 return (int) iso;
 
@@ -67,21 +69,37 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Converts LCID to ISO-3166 coutry numeric code.
+        /// Converts LCID to ISO-3166 country numeric code.
         /// </summary>
         /// <param name="lcid">Language code identifier.</param>
         /// <returns>Numeric code.</returns>
         public static int ToISO3166 (LCID lcid)
         {
-            var splittedLCID = lcid.ToString ().Split ('_');
+            var dividedLCID = lcid.ToString ().Split ('_');
 
-            if (splittedLCID.Length == 0 || splittedLCID.Length == 1) return 0;
+            if (dividedLCID.Length == 0 || dividedLCID.Length == 1) return 0;
 
-            var country = splittedLCID[1];
+            var country = dividedLCID[1];
             if (System.Enum.TryParse (country, out ISO3166_2 iso))
                 return (int) iso;
 
             return 0;
+        }
+        
+        /// <summary>
+        /// Converts a regular string to a code formatted string.
+        /// </summary>
+        /// <param name="unformattedCode">string to convert.</param>
+        /// <returns>Formatted string.</returns>
+        public static string ToCodeFormat (this string unformattedCode)
+        {
+            if (string.IsNullOrWhiteSpace (unformattedCode))
+                return string.Empty;
+
+            return unformattedCode.RemoveDiacritics ().
+                ToUpper ().
+                Replace (' ', '_').
+                RemoveSpecialCharacters ('_');
         }
 
         #endregion

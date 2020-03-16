@@ -41,7 +41,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
-		int IncompleteCount { get; }
+		int UncompletedCount { get; }
 		
 		/// <summary>
 		/// Array of all cultures in this localized object.
@@ -152,7 +152,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
@@ -265,7 +265,7 @@ namespace BricksBucket.Localization
 		{
 			Set (
 				culture,
-				EditorGUILayout.DelayedTextField (this[culture], options)
+				EditorGUILayout.DelayedTextField (culture, this[culture], options)
 			);
 		}
 #endif
@@ -291,7 +291,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
@@ -402,6 +402,7 @@ namespace BricksBucket.Localization
 			Set (
 				culture,
 				SirenixEditorFields.UnityObjectField (
+					culture,
 					this[culture],
 					typeof (Texture),
 					allowSceneObjects: false,
@@ -432,7 +433,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
@@ -543,6 +544,7 @@ namespace BricksBucket.Localization
 			Set (
 				culture,
 				SirenixEditorFields.UnityObjectField (
+					culture,
 					this[culture],
 					typeof (Sprite),
 					allowSceneObjects: false,
@@ -573,7 +575,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
@@ -684,6 +686,7 @@ namespace BricksBucket.Localization
 			Set (
 				culture,
 				SirenixEditorFields.UnityObjectField (
+					culture,
 					this[culture],
 					typeof (AudioClip),
 					allowSceneObjects: false,
@@ -714,7 +717,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
@@ -825,6 +828,7 @@ namespace BricksBucket.Localization
 			Set (
 				culture,
 				SirenixEditorFields.UnityObjectField (
+					culture,
 					this[culture],
 					typeof (VideoClip),
 					allowSceneObjects: false,
@@ -855,7 +859,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
@@ -966,6 +970,7 @@ namespace BricksBucket.Localization
 			Set (
 				culture,
 				SirenixEditorFields.UnityObjectField (
+					culture,
 					this[culture],
 					typeof (Object),
 					allowSceneObjects: false,

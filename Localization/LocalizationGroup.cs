@@ -37,7 +37,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
-		int IncompleteCount { get; }
+		int UncompletedCount { get; }
 
 		/// <summary>
 		/// Array of all codes in this collection.
@@ -99,14 +99,14 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
 				int incompleteCount = 0;
 				var codes = Codes;
 				for (int i = 0; i < codes.Length; i++)
-					incompleteCount += this[codes[i]].IncompleteCount;
+					incompleteCount += this[codes[i]].UncompletedCount;
 				return incompleteCount;
 			}
 		}
@@ -172,14 +172,14 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
 				int incompleteCount = 0;
 				var codes = Codes;
 				for (int i = 0; i < codes.Length; i++)
-					incompleteCount += this[codes[i]].IncompleteCount;
+					incompleteCount += this[codes[i]].UncompletedCount;
 				return incompleteCount;
 			}
 		}
@@ -245,14 +245,14 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
 				int incompleteCount = 0;
 				var codes = Codes;
 				for (int i = 0; i < codes.Length; i++)
-					incompleteCount += this[codes[i]].IncompleteCount;
+					incompleteCount += this[codes[i]].UncompletedCount;
 				return incompleteCount;
 			}
 		}
@@ -318,14 +318,14 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
 				int incompleteCount = 0;
 				var codes = Codes;
 				for (int i = 0; i < codes.Length; i++)
-					incompleteCount += this[codes[i]].IncompleteCount;
+					incompleteCount += this[codes[i]].UncompletedCount;
 				return incompleteCount;
 			}
 		}
@@ -392,14 +392,14 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
 				int incompleteCount = 0;
 				var codes = Codes;
 				for (int i = 0; i < codes.Length; i++)
-					incompleteCount += this[codes[i]].IncompleteCount;
+					incompleteCount += this[codes[i]].UncompletedCount;
 				return incompleteCount;
 			}
 		}
@@ -466,14 +466,14 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
-		public int IncompleteCount
+		public int UncompletedCount
 		{
 			get
 			{
 				int incompleteCount = 0;
 				var codes = Codes;
 				for (int i = 0; i < codes.Length; i++)
-					incompleteCount += this[codes[i]].IncompleteCount;
+					incompleteCount += this[codes[i]].UncompletedCount;
 				return incompleteCount;
 			}
 		}

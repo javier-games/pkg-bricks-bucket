@@ -155,6 +155,22 @@ namespace BricksBucket.Localization
 			);
 		}
 
+		/// <summary>
+		/// Determines whether this group has a localized object of
+		/// the given code.
+		/// </summary>
+		/// <returns><value>True</value> if exists.</returns>
+		public bool ContainsLocalizedObject (string code)
+		{
+			if (string.IsNullOrWhiteSpace (code)) return false;
+			return _textLocalizations.ContainsKey (code) ||
+				_textureLocalizations.ContainsKey (code) ||
+				_spriteLocalizations.ContainsKey (code) ||
+				_audioLocalizations.ContainsKey (code) ||
+				_videoLocalizations.ContainsKey (code) ||
+				_unityObjectLocalizations.ContainsKey (code);
+		}
+
 		#endregion
 
 
