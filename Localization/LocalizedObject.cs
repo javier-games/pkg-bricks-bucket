@@ -53,7 +53,7 @@ namespace BricksBucket.Localization
 		/// localization different from the default value.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		bool IsComplete ();
+		bool IsCompleted ();
 		
 		/// <summary>
 		/// Defines whether the localization for the specified culture
@@ -61,7 +61,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture to evaluate its localization.</param>
 		/// <returns><value>True</value> if is complete.</returns>
-		bool IsComplete (string culture);
+		bool IsCompleted (string culture);
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -78,6 +78,14 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Name of the culture.</param>
 		/// <param name="localization">Value of the localization.</param>
 		void Add (string culture, TValue localization);
+		
+		/// <summary>
+		/// Adds a new localization to the localized object. 
+		/// </summary>
+		/// <param name="culture">Culture to add.</param>
+		/// <returns><value>True</value> if the culture has
+		/// been added.</returns>
+		bool AddEmpty (string culture);
 
 		/// <summary>
 		/// Removes an existing culture.
@@ -159,7 +167,7 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsComplete (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i])) incompleteCount++;
 				return incompleteCount;
 			}
 		}
@@ -174,7 +182,7 @@ namespace BricksBucket.Localization
 		/// localization different from string empty or null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete () =>
+		public bool IsCompleted () =>
 			!ContainsValue (string.Empty) &&
 			!ContainsValue (null);
 
@@ -184,7 +192,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture to evaluate its localization.</param>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete (string culture) =>
+		public bool IsCompleted (string culture) =>
 			!string.IsNullOrEmpty (this[culture]);
 
 		/// <summary>
@@ -194,6 +202,19 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Culture to look for.</param>
 		/// <returns><value>True</value> if has the given culture.</returns>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Adds a new localization to the localized object with empty value. 
+		/// </summary>
+		/// <param name="culture">Culture to add.</param>
+		/// <returns><value>True</value> if the culture has
+		/// been added.</returns>
+		public bool AddEmpty (string culture)
+		{
+			if (ContainsKey (culture)) return false;
+			Add (culture, string.Empty);
+			return true;
+		}
 
 		/// <summary>
 		/// Gets the localization value in an existing culture.
@@ -298,7 +319,7 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsComplete (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i])) incompleteCount++;
 				return incompleteCount;
 			}
 		}
@@ -313,7 +334,7 @@ namespace BricksBucket.Localization
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete () => !ContainsValue (null);
+		public bool IsCompleted () => !ContainsValue (null);
 
 		/// <summary>
 		/// Defines whether the localization for the specified culture
@@ -321,7 +342,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture to evaluate its localization.</param>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete (string culture) => this[culture] != null;
+		public bool IsCompleted (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -330,6 +351,19 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Culture to look for.</param>
 		/// <returns><value>True</value> if has the given culture.</returns>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Adds a new localization to the localized object with null value. 
+		/// </summary>
+		/// <param name="culture">Culture to add.</param>
+		/// <returns><value>True</value> if the culture has
+		/// been added.</returns>
+		public bool AddEmpty (string culture)
+		{
+			if (ContainsKey (culture)) return false;
+			Add (culture, null);
+			return true;
+		}
 
 		/// <summary>
 		/// Gets the localization value in an existing culture.
@@ -440,7 +474,7 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsComplete (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i])) incompleteCount++;
 				return incompleteCount;
 			}
 		}
@@ -455,7 +489,7 @@ namespace BricksBucket.Localization
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete () => !ContainsValue (null);
+		public bool IsCompleted () => !ContainsValue (null);
 
 		/// <summary>
 		/// Defines whether the localization for the specified culture
@@ -463,7 +497,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture to evaluate its localization.</param>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete (string culture) => this[culture] != null;
+		public bool IsCompleted (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -472,6 +506,19 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Culture to look for.</param>
 		/// <returns><value>True</value> if has the given culture.</returns>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Adds a new localization to the localized object with null value. 
+		/// </summary>
+		/// <param name="culture">Culture to add.</param>
+		/// <returns><value>True</value> if the culture has
+		/// been added.</returns>
+		public bool AddEmpty (string culture)
+		{
+			if (ContainsKey (culture)) return false;
+			Add (culture, null);
+			return true;
+		}
 
 		/// <summary>
 		/// Gets the localization value in an existing culture.
@@ -582,7 +629,7 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsComplete (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i])) incompleteCount++;
 				return incompleteCount;
 			}
 		}
@@ -597,7 +644,7 @@ namespace BricksBucket.Localization
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete () => !ContainsValue (null);
+		public bool IsCompleted () => !ContainsValue (null);
 
 		/// <summary>
 		/// Defines whether the localization for the specified culture
@@ -605,7 +652,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture to evaluate its localization.</param>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete (string culture) => this[culture] != null;
+		public bool IsCompleted (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -614,6 +661,19 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Culture to look for.</param>
 		/// <returns><value>True</value> if has the given culture.</returns>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Adds a new localization to the localized object with null value. 
+		/// </summary>
+		/// <param name="culture">Culture to add.</param>
+		/// <returns><value>True</value> if the culture has
+		/// been added.</returns>
+		public bool AddEmpty (string culture)
+		{
+			if (ContainsKey (culture)) return false;
+			Add (culture, null);
+			return true;
+		}
 
 		/// <summary>
 		/// Gets the localization value in an existing culture.
@@ -724,7 +784,7 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsComplete (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i])) incompleteCount++;
 				return incompleteCount;
 			}
 		}
@@ -739,7 +799,7 @@ namespace BricksBucket.Localization
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete () => !ContainsValue (null);
+		public bool IsCompleted () => !ContainsValue (null);
 
 		/// <summary>
 		/// Defines whether the localization for the specified culture
@@ -747,7 +807,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture to evaluate its localization.</param>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete (string culture) => this[culture] != null;
+		public bool IsCompleted (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -756,6 +816,19 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Culture to look for.</param>
 		/// <returns><value>True</value> if has the given culture.</returns>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Adds a new localization to the localized object with null value. 
+		/// </summary>
+		/// <param name="culture">Culture to add.</param>
+		/// <returns><value>True</value> if the culture has
+		/// been added.</returns>
+		public bool AddEmpty (string culture)
+		{
+			if (ContainsKey (culture)) return false;
+			Add (culture, null);
+			return true;
+		}
 
 		/// <summary>
 		/// Gets the localization value in an existing culture.
@@ -866,7 +939,7 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsComplete (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i])) incompleteCount++;
 				return incompleteCount;
 			}
 		}
@@ -881,7 +954,7 @@ namespace BricksBucket.Localization
 		/// localization different from the null.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete () => !ContainsValue (null);
+		public bool IsCompleted () => !ContainsValue (null);
 
 		/// <summary>
 		/// Defines whether the localization for the specified culture
@@ -889,7 +962,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture to evaluate its localization.</param>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete (string culture) => this[culture] != null;
+		public bool IsCompleted (string culture) => this[culture] != null;
 
 		/// <summary>
 		/// Defines whether this localized object has a localization for the
@@ -898,6 +971,19 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Culture to look for.</param>
 		/// <returns><value>True</value> if has the given culture.</returns>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
+
+		/// <summary>
+		/// Adds a new localization to the localized object with null value. 
+		/// </summary>
+		/// <param name="culture">Culture to add.</param>
+		/// <returns><value>True</value> if the culture has
+		/// been added.</returns>
+		public bool AddEmpty (string culture)
+		{
+			if (ContainsKey (culture)) return false;
+			Add (culture, null);
+			return true;
+		}
 
 		/// <summary>
 		/// Gets the localization value in an existing culture.

@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector.Editor;
@@ -20,17 +19,92 @@ namespace BricksBucket.Localization.Editor
 	[CustomEditor (typeof (Book))]
 	public class BookEditor : OdinEditor
 	{
-		private static bool _textVisible;
-		private static bool _textureVisible;
-		private static bool _spriteVisible;
-		private static bool _audioVisible;
-		private static bool _videoVisible;
-		private static bool _objectVisible;
 
+
+
+		#region Add Menu
+
+		/// <summary>
+		/// Whether to show the Add Menu.
+		/// </summary>
 		private static bool _showAddMenu;
-		private LocalizationType _type;
-		private string _code;
 
+		/// <summary>
+		/// Code of the new localization to add.
+		/// </summary>
+		private string _localizationToAddCode;
+
+		/// <summary>
+		/// Type of the new localization to add.
+		/// </summary>
+		private LocalizationType _localizationToAddType;
+
+		#endregion
+
+
+		#region MyRegion
+		
+		/// <summary>
+		/// Code to modify from localized object.
+		/// </summary>
+		private static string _codeToModify;
+		
+		/// <summary>
+		/// Name of the new localization object to add.
+		/// </summary>
+		private static string _newCodeName;
+
+		#endregion
+
+		
+		
+		#region GUI Content
+		
+		/// <summary>
+		/// Value of the status completed.
+		/// </summary>
+		private const string StatusCompleted = "Completed";
+		
+		/// <summary>
+		/// Value of the status uncompleted.
+		/// </summary>
+		private const string StatusUncompleted = "Uncompleted";
+		
+		/// <summary>
+		/// Status Completed Tooltip message.
+		/// </summary>
+		private const string StatusCompletedTooltip =
+			"All localizations are setup.";
+
+		/// <summary>
+		/// Status uncompleted Tooltip message.
+		/// </summary>
+		private const string StatusUncompletedTooltip =
+			"{0} localizations left to be completed.";
+		
+		/// <summary>
+		/// GUI Content status label.
+		/// </summary>
+		private readonly GUIContent _statusLabel = new GUIContent (
+			"Status", "Whether there is book is completed."
+		);
+		
+		/// <summary>
+		/// GUI Content status value.
+		/// </summary>
+		private readonly GUIContent _statusValue = new GUIContent (
+			"Completed", "All localizations are setup."
+		);
+		
+		/// <summary>
+		/// GUI Content status icon.
+		/// </summary>
+		private readonly GUIContent _statusIcon = new GUIContent ();
+
+		#endregion
+
+
+		
 		#region Override Methods
 
 		/// <summary>
@@ -38,56 +112,52 @@ namespace BricksBucket.Localization.Editor
 		/// </summary>
 		public override void OnInspectorGUI ()
 		{
-			// Like this.serializedObject.
+			// Getting the target.
 			var tree = this.Tree;
 			var book = this.target as Book;
 			if (book == null) return;
-
 			InspectorUtilities.BeginDrawPropertyTree (tree, true);
 
+
+			//	Draws the Book Info.
 			EditorGUILayout.Space ();
 			tree.GetPropertyAtPath ("_code").Draw ();
-
 			EditorGUILayout.Space ();
 			tree.GetPropertyAtPath ("_name").Draw ();
 			tree.GetPropertyAtPath ("_description").Draw ();
-
-
 			EditorGUILayout.Space ();
 
+
+			//	Draws the Status.
 			EditorGUILayout.BeginHorizontal ();
-
-			var isCompleted =
-				book.TextLocalizations.UncompletedCount +
-				book.TextureLocalization.UncompletedCount +
-				book.SpriteLocalizations.UncompletedCount +
-				book.AudioLocalizations.UncompletedCount +
-				book.VideoLocalizations.UncompletedCount +
-				book.UnityObjectLocalizations.UncompletedCount;
-
-			var status = "Completed";
-			var statusIcon = EditorIcons.TestPassed;
-			var statusTooltip = "All localizations are setup";
-			if (isCompleted > 0)
+			if (book.IsCompleted ())
 			{
-				status = "Uncompleted";
-				statusIcon = EditorIcons.UnityWarningIcon;
-				statusTooltip = StringUtils.Concat (
-					isCompleted, " localizations left."
+				_statusIcon.image = EditorIcons.TestPassed;
+				_statusIcon.tooltip = StatusCompletedTooltip;
+				_statusValue.text = StatusCompleted;
+				_statusValue.tooltip = StatusCompletedTooltip;
+			}
+			else
+			{
+				var statusTooltip = StringUtils.ConcatFormat (
+					StatusUncompletedTooltip, book.UncompletedCount
 				);
+				_statusIcon.image = EditorIcons.UnityWarningIcon;
+				_statusIcon.tooltip = statusTooltip;
+				_statusValue.text = StatusUncompleted;
+				_statusValue.tooltip = statusTooltip;
 			}
 
 			EditorGUILayout.LabelField (
-				"Status", status,
+				_statusLabel, _statusValue,
 				SirenixGUIStyles.BoldLabel,
 				GUILayout.Width (EditorGUIUtility.currentViewWidth - 50)
 			);
-			EditorGUILayout.LabelField (
-				new GUIContent (statusIcon, statusTooltip),
-				GUILayout.Width (18)
-			);
+			EditorGUILayout.LabelField (_statusIcon, GUILayout.Width (18));
 			EditorGUILayout.EndHorizontal ();
 
+
+			//	Draws the title.
 			EditorGUILayout.Space ();
 			SirenixEditorGUI.Title (
 				title: "Localizations",
@@ -95,78 +165,71 @@ namespace BricksBucket.Localization.Editor
 				TextAlignment.Left,
 				horizontalLine: true
 			);
-			
-			
+
+
+			//	Draws the Add Menu.
 			if (_showAddMenu)
 			{
 				EditorGUILayout.Space ();
-				_code = SirenixEditorFields.TextField ("Code", _code).ToCodeFormat ();
-				_type = (LocalizationType) SirenixEditorFields.EnumDropdown (
-					"Type", _type
-				);
-
+				_localizationToAddCode = SirenixEditorFields.
+					TextField ("Code", _localizationToAddCode).ToCodeFormat ();
+				_localizationToAddType =
+					(LocalizationType) SirenixEditorFields.EnumDropdown (
+						"Type", _localizationToAddType
+					);
 				EditorGUILayout.BeginHorizontal ();
 				GUI.enabled =
-					!book.ContainsLocalizedObject (_code) &&
-					!string.IsNullOrWhiteSpace (_code);
-				var cultures = LocalizationSettings.LanguagesCodes;
+					!book.ContainsLocalizedObject (_localizationToAddCode) &&
+					!string.IsNullOrWhiteSpace (_localizationToAddCode);
 				if (GUILayout.Button ("Add"))
 				{
-					switch (_type)
+					switch (_localizationToAddType)
 					{
 						case LocalizationType.TEXT:
-							var localizedText = new LocalizedText ();
-							foreach (var culture in cultures)
-								localizedText.Add (culture, string.Empty);
-							book.TextLocalizations.Add (_code, localizedText);
+							book.TextLocalizations.AddEmpty (
+								_localizationToAddCode);
 							break;
 						case LocalizationType.TEXTURE:
-							var localizedTexture = new LocalizedTexture ();
-							foreach (var culture in cultures)
-								localizedTexture.Add (culture, null);
-							book.TextureLocalization.Add (_code, localizedTexture);
+							book.TextureLocalization.AddEmpty (
+								_localizationToAddCode);
 							break;
 						case LocalizationType.SPRITE:
-							var localizedSprite = new LocalizedSprite ();
-							foreach (var culture in cultures)
-								localizedSprite.Add (culture, null);
-							book.SpriteLocalizations.Add (_code, localizedSprite);
+							book.SpriteLocalizations.AddEmpty (
+								_localizationToAddCode);
 							break;
 						case LocalizationType.AUDIO:
-							var localizedAudio = new LocalizedAudio ();
-							foreach (var culture in cultures)
-								localizedAudio.Add (culture, null);
-							book.AudioLocalizations.Add (_code, localizedAudio);
+							book.AudioLocalizations.AddEmpty (
+								_localizationToAddCode);
 							break;
 						case LocalizationType.VIDEO:
-							var localizedVideo = new LocalizedVideo ();
-							foreach (var culture in cultures)
-								localizedVideo.Add (culture, null);
-							book.VideoLocalizations.Add (_code, localizedVideo);
+							book.VideoLocalizations.AddEmpty (
+								_localizationToAddCode);
 							break;
 						case LocalizationType.OBJECT:
-							var localizedObject = new LocalizedUnityObject ();
-							foreach (var culture in cultures)
-								localizedObject.Add (culture, null);
-							book.UnityObjectLocalizations.Add (_code, localizedObject);
+							book.UnityObjectLocalizations.AddEmpty (
+								_localizationToAddCode);
 							break;
 					}
 
-					_code = string.Empty;
+					_localizationToAddCode = string.Empty;
 				}
+
 				GUI.enabled = true;
-				
 				if (GUILayout.Button ("Cancel"))
 				{
-					_code = string.Empty;
+					_localizationToAddCode = string.Empty;
 					_showAddMenu = false;
 				}
+
 				EditorGUILayout.EndHorizontal ();
 				EditorGUILayout.Space ();
 				SirenixEditorGUI.HorizontalLineSeparator (
 					SirenixGUIStyles.LightBorderColor
 				);
 			}
+			
+			
+			//	Draws icon to add.
 			else
 			{
 				EditorGUILayout.BeginHorizontal ();
@@ -176,38 +239,38 @@ namespace BricksBucket.Localization.Editor
 				);
 				EditorGUILayout.EndHorizontal ();
 			}
-			
-			EditorGUILayout.Space ();
 
+
+			//	Draws the lists.
+			EditorGUILayout.Space ();
 			if (book != null)
 			{
 				if (book.TextLocalizations.Count > 0)
-					DrawLocalizationGroup (ref _textVisible,
-						book.TextLocalizations, "Texts");
+					DrawLocalizationGroup (book.TextLocalizations, "Texts");
 
 				if (book.TextureLocalization.Count > 0)
-					DrawLocalizationGroup (ref _textureVisible,
-						book.TextureLocalization, "Textures");
+					DrawLocalizationGroup (book.TextureLocalization,
+						"Textures");
 
 				if (book.SpriteLocalizations.Count > 0)
-					DrawLocalizationGroup (ref _spriteVisible,
-						book.SpriteLocalizations, "Sprites");
+					DrawLocalizationGroup (book.SpriteLocalizations, "Sprites");
 
 				if (book.AudioLocalizations.Count > 0)
-					DrawLocalizationGroup (ref _audioVisible,
-						book.AudioLocalizations, "Audio Clips");
+					DrawLocalizationGroup (book.AudioLocalizations,
+						"Audio Clips");
 
 				if (book.VideoLocalizations.Count > 0)
-					DrawLocalizationGroup (ref _videoVisible,
-						book.VideoLocalizations, "Video Clips");
+					DrawLocalizationGroup (book.VideoLocalizations,
+						"Video Clips");
 
 				if (book.UnityObjectLocalizations.Count > 0)
-					DrawLocalizationGroup (ref _objectVisible,
-						book.UnityObjectLocalizations, "Objects");
+					DrawLocalizationGroup (book.UnityObjectLocalizations,
+						"Objects");
 			}
 
+			
+			//	End drawing.
 			if (GUI.changed) EditorUtility.SetDirty (book);
-
 			InspectorUtilities.EndDrawPropertyTree (tree);
 			Tree.UpdateTree ();
 
@@ -219,15 +282,13 @@ namespace BricksBucket.Localization.Editor
 
 		#region Class Implementation
 
-		private static string _codeToModify;
-		private static string _newCodeName;
+		
 
 		private void DrawLocalizationGroup<T> (
-			ref bool isActive, ILocalizationGroup<T> group, string groupName
+			ILocalizationGroup<T> group, string groupName
 		)
 		{
 			//	Definition of layout.
-			const int warningIconWidth = 18;
 			const int codeIconWidth = 14;
 			const int iconHeight = 20;
 
@@ -351,39 +412,15 @@ namespace BricksBucket.Localization.Editor
 
 					EditorGUI.indentLevel++;
 					group[code].DrawField (culture, null);
-
-					/*
-					//	Drawing status mark.
-					if (!group[code].IsComplete (culture))
-					{
-						// TODO: Add tooltip for default culture.
-							var isDefault = culture == 
-								LocalizationSettings.Default;
-						/
-
-						var warningButtonContent = new GUIContent (
-							image: EditorIcons.UnityWarningIcon,
-							tooltip: string.Empty
-						);
-
-						GUILayout.Button (
-							warningButtonContent,
-							SirenixGUIStyles.Title,
-							GUILayout.Width (warningIconWidth),
-							GUILayout.Height (iconHeight)
-						);
-					}
-					*/
-
 					EditorGUI.indentLevel--;
 					EditorGUILayout.EndHorizontal ();
-					
+
 				}
 			}
+
 			EditorGUI.indentLevel--;
 			SirenixEditorGUI.EndLegendBox ();
-			EditorGUILayout.Space();
-
+			EditorGUILayout.Space ();
 		}
 
 		#endregion

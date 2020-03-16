@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using BricksBucket.Collections;
@@ -48,7 +49,7 @@ namespace BricksBucket.Localization
 		/// Defines whether all localized objects are complete.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		bool IsComplete ();
+		bool IsCompleted ();
 
 		/// <summary>
 		/// Determines whether this group has a localized object for the
@@ -64,6 +65,14 @@ namespace BricksBucket.Localization
 		/// <param name="code">Localized Object Code to use.</param>
 		/// <param name="localizedObject">Localized Object to add.</param>
 		void Add (string code, ILocalizedObject<T> localizedObject);
+
+		/// <summary>
+		/// Adds a new localized object with empty localizations to
+		/// the given codes.
+		/// </summary>
+		/// <param name="code">Code of the localized object to add.</param>
+		/// <param name="cultures">Cultures to add.</param>
+		string[] AddEmpty (string code, params string[] cultures);
 
 		/// <summary>
 		/// Removes an existing localized object.
@@ -120,11 +129,11 @@ namespace BricksBucket.Localization
 		/// Defines whether all localized objects are complete.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete ()
+		public bool IsCompleted ()
 		{
 			bool isComplete = true;
 			foreach (var keyValuePair in this)
-				if (!keyValuePair.Value.IsComplete ())
+				if (!keyValuePair.Value.IsCompleted ())
 					isComplete = false;
 			return isComplete;
 		}
@@ -145,6 +154,23 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<string> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedText);
+		
+		/// <summary>
+		/// Adds a new localized object with empty localizations to
+		/// the given codes.
+		/// </summary>
+		/// <param name="code">Code of the localized object to add.</param>
+		/// <param name="cultures">Cultures to add.</param>
+		public string[] AddEmpty (string code, params string[] cultures)
+		{
+			List<string> missingCultures = new List<string> ();
+			var localizedObject = new LocalizedText ();
+			foreach (var culture in cultures)
+				if(!localizedObject.AddEmpty (culture))
+					missingCultures.Add (culture);
+			Add (code, localizedObject);
+			return missingCultures.ToArray ();
+		}
 	}
 
 	/// <summary>
@@ -193,11 +219,11 @@ namespace BricksBucket.Localization
 		/// Defines whether all localized objects are complete.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete ()
+		public bool IsCompleted ()
 		{
 			bool isComplete = true;
 			foreach (var keyValuePair in this)
-				if (!keyValuePair.Value.IsComplete ())
+				if (!keyValuePair.Value.IsCompleted ())
 					isComplete = false;
 			return isComplete;
 		}
@@ -218,6 +244,23 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<Texture> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedTexture);
+		
+		/// <summary>
+		/// Adds a new localized object with empty localizations to
+		/// the given codes.
+		/// </summary>
+		/// <param name="code">Code of the localized object to add.</param>
+		/// <param name="cultures">Cultures to add.</param>
+		public string[] AddEmpty (string code, params string[] cultures)
+		{
+			List<string> missingCultures = new List<string> ();
+			var localizedObject = new LocalizedTexture ();
+			foreach (var culture in cultures)
+				if(!localizedObject.AddEmpty (culture))
+					missingCultures.Add (culture);
+			Add (code, localizedObject);
+			return missingCultures.ToArray ();
+		}
 	}
 
 	/// <summary>
@@ -266,11 +309,11 @@ namespace BricksBucket.Localization
 		/// Defines whether all localized objects are complete.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete ()
+		public bool IsCompleted ()
 		{
 			bool isComplete = true;
 			foreach (var keyValuePair in this)
-				if (!keyValuePair.Value.IsComplete ())
+				if (!keyValuePair.Value.IsCompleted ())
 					isComplete = false;
 			return isComplete;
 		}
@@ -291,6 +334,23 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<Sprite> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedSprite);
+		
+		/// <summary>
+		/// Adds a new localized object with empty localizations to
+		/// the given codes.
+		/// </summary>
+		/// <param name="code">Code of the localized object to add.</param>
+		/// <param name="cultures">Cultures to add.</param>
+		public string[] AddEmpty (string code, params string[] cultures)
+		{
+			List<string> missingCultures = new List<string> ();
+			var localizedObject = new LocalizedSprite ();
+			foreach (var culture in cultures)
+				if(!localizedObject.AddEmpty (culture))
+					missingCultures.Add (culture);
+			Add (code, localizedObject);
+			return missingCultures.ToArray ();
+		}
 	}
 
 	/// <summary>
@@ -339,11 +399,11 @@ namespace BricksBucket.Localization
 		/// Defines whether all localized objects are complete.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete ()
+		public bool IsCompleted ()
 		{
 			bool isComplete = true;
 			foreach (var keyValuePair in this)
-				if (!keyValuePair.Value.IsComplete ())
+				if (!keyValuePair.Value.IsCompleted ())
 					isComplete = false;
 			return isComplete;
 		}
@@ -365,6 +425,23 @@ namespace BricksBucket.Localization
 			string code, ILocalizedObject<AudioClip> localizedObject
 		) =>
 			base.Add (code, localizedObject as LocalizedAudio);
+		
+		/// <summary>
+		/// Adds a new localized object with empty localizations to
+		/// the given codes.
+		/// </summary>
+		/// <param name="code">Code of the localized object to add.</param>
+		/// <param name="cultures">Cultures to add.</param>
+		public string[] AddEmpty (string code, params string[] cultures)
+		{
+			List<string> missingCultures = new List<string> ();
+			var localizedObject = new LocalizedAudio ();
+			foreach (var culture in cultures)
+				if(!localizedObject.AddEmpty (culture))
+					missingCultures.Add (culture);
+			Add (code, localizedObject);
+			return missingCultures.ToArray ();
+		}
 	}
 
 	/// <summary>
@@ -413,11 +490,11 @@ namespace BricksBucket.Localization
 		/// Defines whether all localized objects are complete.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete ()
+		public bool IsCompleted ()
 		{
 			bool isComplete = true;
 			foreach (var keyValuePair in this)
-				if (!keyValuePair.Value.IsComplete ())
+				if (!keyValuePair.Value.IsCompleted ())
 					isComplete = false;
 			return isComplete;
 		}
@@ -439,6 +516,23 @@ namespace BricksBucket.Localization
 			string code, ILocalizedObject<VideoClip> localizedObject
 		) =>
 			base.Add (code, localizedObject as LocalizedVideo);
+		
+		/// <summary>
+		/// Adds a new localized object with empty localizations to
+		/// the given codes.
+		/// </summary>
+		/// <param name="code">Code of the localized object to add.</param>
+		/// <param name="cultures">Cultures to add.</param>
+		public string[] AddEmpty (string code, params string[] cultures)
+		{
+			List<string> missingCultures = new List<string> ();
+			var localizedObject = new LocalizedVideo ();
+			foreach (var culture in cultures)
+				if(!localizedObject.AddEmpty (culture))
+					missingCultures.Add (culture);
+			Add (code, localizedObject);
+			return missingCultures.ToArray ();
+		}
 	}
 
 	/// <summary>
@@ -487,11 +581,11 @@ namespace BricksBucket.Localization
 		/// Defines whether all localized objects are complete.
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
-		public bool IsComplete ()
+		public bool IsCompleted ()
 		{
 			bool isComplete = true;
 			foreach (var keyValuePair in this)
-				if (!keyValuePair.Value.IsComplete ())
+				if (!keyValuePair.Value.IsCompleted ())
 					isComplete = false;
 			return isComplete;
 		}
@@ -512,5 +606,22 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<Object> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedUnityObject);
+		
+		/// <summary>
+		/// Adds a new localized object with empty localizations to
+		/// the given codes.
+		/// </summary>
+		/// <param name="code">Code of the localized object to add.</param>
+		/// <param name="cultures">Cultures to add.</param>
+		public string[] AddEmpty (string code, params string[] cultures)
+		{
+			List<string> missingCultures = new List<string> ();
+			var localizedObject = new LocalizedUnityObject ();
+			foreach (var culture in cultures)
+				if(!localizedObject.AddEmpty (culture))
+					missingCultures.Add (culture);
+			Add (code, localizedObject);
+			return missingCultures.ToArray ();
+		}
 	}
 }

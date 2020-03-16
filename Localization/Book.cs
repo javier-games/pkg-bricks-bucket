@@ -98,6 +98,28 @@ namespace BricksBucket.Localization
 			get => _code;
 			internal set => _code = value;
 		}
+		
+		/// <summary>
+		/// Count of localized objects in book.
+		/// </summary>
+		public int Count =>
+			TextLocalizations.Count +
+			TextureLocalization.Count +
+			SpriteLocalizations.Count +
+			AudioLocalizations.Count +
+			VideoLocalizations.Count +
+			UnityObjectLocalizations.Count;
+		
+		/// <summary>
+		/// Total count of localized object that are incomplete.
+		/// </summary>
+		public int UncompletedCount =>
+			TextLocalizations.UncompletedCount +
+			TextureLocalization.UncompletedCount +
+			SpriteLocalizations.UncompletedCount +
+			AudioLocalizations.UncompletedCount +
+			VideoLocalizations.UncompletedCount +
+			UnityObjectLocalizations.UncompletedCount;
 
 		internal TextGroup TextLocalizations
 		{
@@ -156,6 +178,21 @@ namespace BricksBucket.Localization
 		}
 
 		/// <summary>
+		/// Defines whether this book has all the collections with all the
+		/// localizations different from the default value.
+		/// </summary>
+		/// <returns></returns>
+		public bool IsCompleted ()
+		{
+			return TextLocalizations.IsCompleted () &&
+				TextureLocalization.IsCompleted () &&
+				SpriteLocalizations.IsCompleted () &&
+				AudioLocalizations.IsCompleted () &&
+				VideoLocalizations.IsCompleted () &&
+				UnityObjectLocalizations.IsCompleted ();
+		}
+
+		/// <summary>
 		/// Determines whether this group has a localized object of
 		/// the given code.
 		/// </summary>
@@ -191,6 +228,7 @@ namespace BricksBucket.Localization
 				RemoveSpecialCharacters ('_');
 		}
 #endif
+
 		#endregion
 
 	}
