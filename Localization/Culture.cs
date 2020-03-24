@@ -1,23 +1,21 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+﻿using System.Globalization;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
 
 #if UNITY_EDITOR
-
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
-
 #endif
 
 
+// ReSharper disable InconsistentNaming
 namespace BricksBucket.Localization
 {
     /// <summary>
     /// 
-    /// Language Category
+    /// Culture.
     ///
     /// <para>
     /// Structure to categorize languages.
@@ -27,8 +25,7 @@ namespace BricksBucket.Localization
     /// 
     /// </summary>
     [System.Serializable]
-    [SuppressMessage ("ReSharper", "InconsistentNaming")]
-    public struct LanguageInfo
+    public struct Culture
     {
 
 
@@ -36,15 +33,15 @@ namespace BricksBucket.Localization
         #region Fields
 
         /// <summary>
-        /// Code to identify language category.
+        /// Code to identify culture.
         /// </summary>
         [SerializeField]
         [Tooltip ("Code to identify language category.")]
-        [OnValueChanged("OnCodeChanged")]
+        [OnValueChanged ("OnCodeChanged")]
         private string _code;
 
         /// <summary>
-        /// Name for language category.
+        /// Name for culture.
         /// </summary>
         [SerializeField]
         [Tooltip ("Name for language category.")]
@@ -75,7 +72,7 @@ namespace BricksBucket.Localization
         private ISO3166_2 _country;
 
         /// <summary>
-        /// Specifies a region for the language.
+        /// Specifies a region for the culture.
         /// </summary>
         [SerializeField]
         [Tooltip ("Specifies a region for the language.")]
@@ -83,7 +80,7 @@ namespace BricksBucket.Localization
         private string _region;
 
         /// <summary>
-        /// Whether this category is custom.
+        /// Whether this culture is custom.
         /// </summary>
         [SerializeField]
         [Tooltip ("Whether this category is custom.")]
@@ -97,21 +94,30 @@ namespace BricksBucket.Localization
         #region Properties
 
         /// <summary>
-        /// Name to display nicely.
+        /// Code of the culture.
         /// </summary>
-        public string DisplayName
+        public string Code
+        {
+            get => _code;
+            private set => _code = value;
+        }
+
+        /// <summary>
+        /// Name to display.
+        /// </summary>
+        public string Name
         {
             get => _name;
             private set => _name = value;
         }
 
         /// <summary>
-        /// Whether this category is custom.
+        /// Windows Language Code Identifier.
         /// </summary>
-        public bool IsCustom
+        public LCID LCID
         {
-            get => _isCustom;
-            private set => _isCustom = value;
+            get => _LCID;
+            private set => _LCID = value;
         }
 
         /// <summary>
@@ -128,11 +134,13 @@ namespace BricksBucket.Localization
         /// </summary>
         public ISO3166_2 Country
         {
-            get => _isCustom ? ISO3166_2.NONE : _country;
+            get => _country;
             private set => _country = value;
         }
 
-
+        /// <summary>
+        /// Region of the culture.
+        /// </summary>
         public string Region
         {
             get => _region;
@@ -140,32 +148,19 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Code of the language.
+        /// Whether this culture is custom.
         /// </summary>
-        public string Code
+        public bool IsCustom
         {
-            get => _code;
-            private set => _code = value;
-        }
-
-        /// <summary>
-        /// Windows Language Code Identifier.
-        /// </summary>
-        public LCID LCID
-        {
-            get => _LCID;
-            private set => _LCID = value;
+            get => _isCustom;
+            private set => _isCustom = value;
         }
 
         #endregion
 
 
 
-        #region Editor
-
-#if UNITY_EDITOR
-
-        #region Editor Methods
+        #region Methods
 
         /// <summary>
         /// Called from inspector when an ISO code changed.
@@ -175,7 +170,7 @@ namespace BricksBucket.Localization
             if (IsCustom) return;
 
             LCID = LocalizationUtils.ToLCID (Language, Country);
-            SetDisplay ();
+            UpdateData ();
         }
 
         /// <summary>
@@ -187,8 +182,7 @@ namespace BricksBucket.Localization
 
             Country = (ISO3166_2) LocalizationUtils.ToISO3166 (LCID);
             Language = (ISO639_1) LocalizationUtils.ToISO639 (LCID);
-
-            SetDisplay ();
+            UpdateData ();
         }
 
         /// <summary>
@@ -197,27 +191,31 @@ namespace BricksBucket.Localization
         private void OnRegionChanged ()
         {
             if (IsCustom) return;
-
-            SetDisplay ();
+            UpdateData ();
         }
-        
+
         /// <summary>
         /// Called from inspector when the Code Changes.
         /// </summary>
-        private void OnCodeChanged ()
-        {
-            if(!IsCustom) return;
+        private void OnCodeChanged () => Code = Code.ToCodeFormat ();
 
-            Code = Code.RemoveDiacritics ().
-                ToUpper ().
-                Replace (' ', '_').
-                RemoveSpecialCharacters ('_');
+        /// <summary>
+        /// Called on is custom variable changes.
+        /// </summary>
+        private void OnIsCustomChanged ()
+        {
+            Name = string.Empty;
+            Code = string.Empty;
+            Country = ISO3166_2.NONE;
+            Region = string.Empty;
+            Language = ISO639_1.NONE;
+            LCID = LCID.NONE;
         }
 
         /// <summary>
-        /// Sets the display name.
+        /// Fetch all data.
         /// </summary>
-        private void SetDisplay ()
+        private void UpdateData ()
         {
             // It has a match for an LCID.
             if (LCID != LCID.NONE)
@@ -225,28 +223,28 @@ namespace BricksBucket.Localization
                 if (LCID == LCID.INVARIANT)
                 {
                     Code = LCID.ToString ();
-                    DisplayName = "Invariant Language";
+                    Name = "Invariant Language";
                 }
                 else
                 {
                     var info = new CultureInfo ((int) LCID);
                     Code = info.Name.ToUpper ().Replace ("-", "_");
-                    DisplayName = info.DisplayName;
+                    Name = info.DisplayName;
 
                     if (string.IsNullOrWhiteSpace (Region)) return;
                     Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
 
-                    if (DisplayName.Contains (")"))
+                    if (Name.Contains (")"))
                     {
-                        DisplayName = DisplayName.Replace (")", string.Empty);
-                        DisplayName = StringUtils.Concat (
-                            DisplayName, " - ", Region, ")"
+                        Name = Name.Replace (")", string.Empty);
+                        Name = StringUtils.Concat (
+                            Name, " - ", Region, ")"
                         );
                     }
                     else
                     {
-                        DisplayName = StringUtils.Concat (
-                            DisplayName, " (", Region, ")"
+                        Name = StringUtils.Concat (
+                            Name, " (", Region, ")"
                         );
                     }
                 }
@@ -256,13 +254,13 @@ namespace BricksBucket.Localization
             else
             {
                 Code = Language.ToString ();
-                DisplayName = LocalizationUtils.ISO639_Names[(int) Language];
+                Name = LocalizationUtils.ISO639_Names[(int) Language];
 
                 if (Country != ISO3166_2.NONE)
                 {
                     Code = StringUtils.Concat (Code, "_", Country.ToString ());
-                    DisplayName = StringUtils.Concat (
-                        DisplayName, " (",
+                    Name = StringUtils.Concat (
+                        Name, " (",
                         LocalizationUtils.ISO3166_Names[(int) Country]
                     );
                 }
@@ -271,41 +269,34 @@ namespace BricksBucket.Localization
                 {
                     Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
 
-                    DisplayName = Country == ISO3166_2.NONE
-                        ? StringUtils.Concat (DisplayName, " (", Region, ")")
-                        : StringUtils.Concat (DisplayName, " - ", Region, ")");
+                    Name = Country == ISO3166_2.NONE
+                        ? StringUtils.Concat (Name, " (", Region, ")")
+                        : StringUtils.Concat (Name, " - ", Region, ")");
                 }
 
                 else if (Country != ISO3166_2.NONE)
                 {
-                    DisplayName = StringUtils.Concat (DisplayName, ")");
+                    Name = StringUtils.Concat (Name, ")");
                 }
             }
         }
 
-        /// <summary>
-        /// Called on is custom variable changes.
-        /// </summary>
-        internal void OnIsCustomChanged ()
-        {
-            DisplayName = string.Empty;
-            Code = string.Empty;
-            Country = ISO3166_2.NONE;
-            Region = string.Empty;
-            Language = ISO639_1.NONE;
-            LCID = LCID.NONE;
-        }
-
         #endregion
+
+
+
+        #region Editor
+
+#if UNITY_EDITOR
 
         #region Drawer
 
         /// <summary>
         /// Language Category Drawer Class.
         /// </summary>
-        public class LanguageCategoryDrawer : OdinValueDrawer<LanguageInfo>
+        public class LanguageCategoryDrawer : OdinValueDrawer<Culture>
         {
-            
+
             #region Fields
 
             /// <summary>
@@ -314,7 +305,7 @@ namespace BricksBucket.Localization
             private bool _isVisible;
 
             #endregion
-            
+
             #region Override Methods
 
             /// <summary>
@@ -334,9 +325,9 @@ namespace BricksBucket.Localization
                 }
                 else
                 {
-                    label = new GUIContent (value.DisplayName, value.Code);
+                    label = new GUIContent (value.Name, value.Code);
                 }
-                
+
                 // Draws the fold out.
                 _isVisible = SirenixEditorGUI.Foldout (
                     _isVisible,
@@ -363,12 +354,12 @@ namespace BricksBucket.Localization
                             new GUIContent (value.Code),
                             EditorStyles.textField
                         );
-                        
+
                         EditorGUILayout.LabelField (
                             new GUIContent (
                                 "Name", "Name for language category."
                             ),
-                            new GUIContent (value.DisplayName),
+                            new GUIContent (value.Name),
                             EditorStyles.textField
                         );
                         GUI.enabled = true;
@@ -396,15 +387,112 @@ namespace BricksBucket.Localization
 
                 ValueEntry.SmartValue = value;
             }
-            
+
             #endregion
-            
         }
-        
+
+        /// <summary>
+        /// Draws a Culture in the editor.
+        /// </summary>
+        /// <param name="culture">Culture to Draw.</param>
+        /// <returns>Returns the edited culture value.</returns>
+        public static Culture DrawEditorField (Culture culture)
+        {
+            if (!culture.IsCustom)
+            {
+                GUI.enabled = false;
+                EditorGUILayout.LabelField (
+                    new GUIContent (
+                        "Code", "Code to Identify language category."
+                    ),
+                    new GUIContent (culture.Code),
+                    EditorStyles.label
+                );
+
+                EditorGUILayout.LabelField (
+                    new GUIContent (
+                        "Name", "Name for language category."
+                    ),
+                    new GUIContent (culture.Name),
+                    EditorStyles.label
+                );
+                GUI.enabled = true;
+
+                EditorGUI.BeginChangeCheck ();
+                culture.LCID = (LCID) SirenixEditorFields.EnumDropdown (
+                    label: "LCID",
+                    selected: culture.LCID
+                );
+                if (EditorGUI.EndChangeCheck ()) culture.OnLCIDChanged ();
+
+                EditorGUI.BeginChangeCheck ();
+                culture.Language = (ISO639_1) SirenixEditorFields.EnumDropdown (
+                    label: "Language",
+                    selected: culture.Language
+                );
+                if (EditorGUI.EndChangeCheck ()) culture.OnISOChanged ();
+
+                EditorGUI.BeginChangeCheck ();
+                culture.Country = (ISO3166_2) SirenixEditorFields.EnumDropdown (
+                    label: "Country",
+                    selected: culture.Country
+                );
+                if (EditorGUI.EndChangeCheck ()) culture.OnISOChanged ();
+
+                EditorGUI.BeginChangeCheck ();
+                culture.Region = SirenixEditorFields.TextField (
+                    label: "Region",
+                    value: culture.Region
+                );
+                if (EditorGUI.EndChangeCheck ()) culture.OnRegionChanged ();
+
+                EditorGUI.BeginChangeCheck ();
+                culture.IsCustom = EditorGUILayout.Toggle (
+                    label: "Is Custom",
+                    value: culture.IsCustom
+                );
+                if (EditorGUI.EndChangeCheck ()) culture.OnIsCustomChanged ();
+
+            }
+
+            //  Draws Custom options.
+            else
+            {
+                EditorGUI.BeginChangeCheck ();
+                culture.Code = SirenixEditorFields.TextField (
+                    label: "Code",
+                    value: culture.Code
+                );
+                if (EditorGUI.EndChangeCheck ()) culture.OnCodeChanged ();
+
+                culture.Name = SirenixEditorFields.TextField (
+                    label: "Name",
+                    value: culture.Name
+                );
+
+                culture.Country = (ISO3166_2) SirenixEditorFields.EnumDropdown (
+                    label: "Country",
+                    selected: culture.Country
+                );
+
+                culture.Region = SirenixEditorFields.TextField (
+                    label: "Region",
+                    value: culture.Region
+                );
+
+                culture.IsCustom = EditorGUILayout.Toggle (
+                    label: "Is Custom",
+                    value: culture.IsCustom
+                );
+            }
+
+            return culture;
+        }
+
         #endregion
-        
+
 #endif
-        
+
         #endregion
     }
 }

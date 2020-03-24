@@ -1,13 +1,13 @@
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Video;
 using BricksBucket.Collections;
 
-// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+
 // ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable UnusedMemberInSuper.Global
-namespace BricksBucket.Localization
+namespace BricksBucket.Localization.Internal
 {
 	/// <summary>
 	/// 
@@ -34,7 +34,7 @@ namespace BricksBucket.Localization
 		/// Total count of localized objects in the group.
 		/// </summary>
 		int Count { get; }
-		
+
 		/// <summary>
 		/// Total count of localized object that are incomplete.
 		/// </summary>
@@ -154,7 +154,7 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<string> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedText);
-		
+
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
 		/// the given codes.
@@ -166,7 +166,7 @@ namespace BricksBucket.Localization
 			List<string> missingCultures = new List<string> ();
 			var localizedObject = new LocalizedText ();
 			foreach (var culture in cultures)
-				if(!localizedObject.AddEmpty (culture))
+				if (!localizedObject.AddEmpty (culture))
 					missingCultures.Add (culture);
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
@@ -244,7 +244,7 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<Texture> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedTexture);
-		
+
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
 		/// the given codes.
@@ -256,7 +256,7 @@ namespace BricksBucket.Localization
 			List<string> missingCultures = new List<string> ();
 			var localizedObject = new LocalizedTexture ();
 			foreach (var culture in cultures)
-				if(!localizedObject.AddEmpty (culture))
+				if (!localizedObject.AddEmpty (culture))
 					missingCultures.Add (culture);
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
@@ -334,7 +334,7 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<Sprite> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedSprite);
-		
+
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
 		/// the given codes.
@@ -346,7 +346,7 @@ namespace BricksBucket.Localization
 			List<string> missingCultures = new List<string> ();
 			var localizedObject = new LocalizedSprite ();
 			foreach (var culture in cultures)
-				if(!localizedObject.AddEmpty (culture))
+				if (!localizedObject.AddEmpty (culture))
 					missingCultures.Add (culture);
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
@@ -425,7 +425,7 @@ namespace BricksBucket.Localization
 			string code, ILocalizedObject<AudioClip> localizedObject
 		) =>
 			base.Add (code, localizedObject as LocalizedAudio);
-		
+
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
 		/// the given codes.
@@ -437,7 +437,7 @@ namespace BricksBucket.Localization
 			List<string> missingCultures = new List<string> ();
 			var localizedObject = new LocalizedAudio ();
 			foreach (var culture in cultures)
-				if(!localizedObject.AddEmpty (culture))
+				if (!localizedObject.AddEmpty (culture))
 					missingCultures.Add (culture);
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
@@ -516,7 +516,7 @@ namespace BricksBucket.Localization
 			string code, ILocalizedObject<VideoClip> localizedObject
 		) =>
 			base.Add (code, localizedObject as LocalizedVideo);
-		
+
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
 		/// the given codes.
@@ -528,7 +528,7 @@ namespace BricksBucket.Localization
 			List<string> missingCultures = new List<string> ();
 			var localizedObject = new LocalizedVideo ();
 			foreach (var culture in cultures)
-				if(!localizedObject.AddEmpty (culture))
+				if (!localizedObject.AddEmpty (culture))
 					missingCultures.Add (culture);
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
@@ -606,7 +606,7 @@ namespace BricksBucket.Localization
 		public void
 			Add (string code, ILocalizedObject<Object> localizedObject) =>
 			base.Add (code, localizedObject as LocalizedUnityObject);
-		
+
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
 		/// the given codes.
@@ -618,7 +618,7 @@ namespace BricksBucket.Localization
 			List<string> missingCultures = new List<string> ();
 			var localizedObject = new LocalizedUnityObject ();
 			foreach (var culture in cultures)
-				if(!localizedObject.AddEmpty (culture))
+				if (!localizedObject.AddEmpty (culture))
 					missingCultures.Add (culture);
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();

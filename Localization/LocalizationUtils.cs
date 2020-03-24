@@ -85,7 +85,7 @@ namespace BricksBucket.Localization
 
             return 0;
         }
-        
+
         /// <summary>
         /// Converts a regular string to a code formatted string.
         /// </summary>
@@ -563,6 +563,29 @@ namespace BricksBucket.Localization
                 {894, "Zambia"},
                 {716, "Zimbabwe"},
             };
+    }
+
+    #endregion
+
+
+
+    #region Exceptions
+
+    /// <summary>
+    /// 
+    /// Localization Not Found Exception
+    ///
+    /// <para>
+    /// Exception class for localizations not found.
+    /// </para>
+    /// 
+    /// <para> By Javier García | @jvrgms | 2020 </para>
+    /// 
+    /// </summary>
+    public class LocalizationNotFoundException : System.Exception
+    {
+        public LocalizationNotFoundException (string message) :
+            base (message) { }
     }
 
     #endregion

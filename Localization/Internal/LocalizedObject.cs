@@ -6,11 +6,11 @@ using BricksBucket.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 using Sirenix.Utilities.Editor;
-// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 #endif
 
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 // ReSharper disable UnusedMemberInSuper.Global
-namespace BricksBucket.Localization
+namespace BricksBucket.Localization.Internal
 {
 	/// <summary>
 	/// 
@@ -37,12 +37,12 @@ namespace BricksBucket.Localization
 		/// Total count of localizations on this localized object.
 		/// </summary>
 		int Count { get; }
-		
+
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
 		/// </summary>
 		int UncompletedCount { get; }
-		
+
 		/// <summary>
 		/// Array of all cultures in this localized object.
 		/// </summary>
@@ -54,7 +54,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <returns><value>True</value> if is complete.</returns>
 		bool IsCompleted ();
-		
+
 		/// <summary>
 		/// Defines whether the localization for the specified culture
 		/// is complete.
@@ -78,7 +78,7 @@ namespace BricksBucket.Localization
 		/// <param name="culture">Name of the culture.</param>
 		/// <param name="localization">Value of the localization.</param>
 		void Add (string culture, TValue localization);
-		
+
 		/// <summary>
 		/// Adds a new localization to the localized object. 
 		/// </summary>
@@ -136,7 +136,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <param name="culture">Culture Localization to draw.</param>
 		/// <param name="options">Options for GUI.</param>
-		void DrawField (string culture, GUILayoutOption [] options);
+		void DrawField (string culture, GUILayoutOption[] options);
 #endif
 	}
 
@@ -167,7 +167,8 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsCompleted (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i]))
+						incompleteCount++;
 				return incompleteCount;
 			}
 		}
@@ -176,7 +177,7 @@ namespace BricksBucket.Localization
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
-		
+
 		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from string empty or null.
@@ -286,7 +287,8 @@ namespace BricksBucket.Localization
 		{
 			Set (
 				culture,
-				EditorGUILayout.DelayedTextField (culture, this[culture], options)
+				EditorGUILayout.DelayedTextField (culture, this[culture],
+					options)
 			);
 		}
 #endif
@@ -319,16 +321,17 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsCompleted (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i]))
+						incompleteCount++;
 				return incompleteCount;
 			}
 		}
-		
+
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
-		
+
 		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
@@ -474,16 +477,17 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsCompleted (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i]))
+						incompleteCount++;
 				return incompleteCount;
 			}
 		}
-		
+
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
-		
+
 		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
@@ -629,16 +633,17 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsCompleted (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i]))
+						incompleteCount++;
 				return incompleteCount;
 			}
 		}
-		
+
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
-		
+
 		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
@@ -784,16 +789,17 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsCompleted (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i]))
+						incompleteCount++;
 				return incompleteCount;
 			}
 		}
-		
+
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
-		
+
 		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.
@@ -939,16 +945,17 @@ namespace BricksBucket.Localization
 				int incompleteCount = 0;
 				var cultures = Cultures;
 				for (int i = 0; i < cultures.Length; i++)
-					if (!IsCompleted (cultures[i])) incompleteCount++;
+					if (!IsCompleted (cultures[i]))
+						incompleteCount++;
 				return incompleteCount;
 			}
 		}
-		
+
 		/// <summary>
 		/// Array of all codes in this collection.
 		/// </summary>
 		public string[] Cultures => Keys.ToArray ();
-		
+
 		/// <summary>
 		/// Defines whether for all this localized object cultures has a
 		/// localization different from the null.

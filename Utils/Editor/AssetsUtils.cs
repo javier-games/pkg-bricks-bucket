@@ -76,6 +76,8 @@ namespace BricksBucket.Editor
             Debug.Assert (assetPath != null);
             AssetDatabase.AddObjectToAsset (subAsset, assetPath);
             AssetDatabase.ImportAsset (assetPath);
+            AssetDatabase.SaveAssets ();
+            AssetDatabase.Refresh ();
         }
 
         /// <summary> Try to destroy this immediately. </summary>

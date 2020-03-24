@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
+using BricksBucket.Localization.Internal;
 
 namespace BricksBucket.Localization.Editor
 {
@@ -43,12 +44,12 @@ namespace BricksBucket.Localization.Editor
 
 
 		#region MyRegion
-		
+
 		/// <summary>
 		/// Code to modify from localized object.
 		/// </summary>
 		private static string _codeToModify;
-		
+
 		/// <summary>
 		/// Name of the new localization object to add.
 		/// </summary>
@@ -56,20 +57,20 @@ namespace BricksBucket.Localization.Editor
 
 		#endregion
 
-		
-		
+
+
 		#region GUI Content
-		
+
 		/// <summary>
 		/// Value of the status completed.
 		/// </summary>
 		private const string StatusCompleted = "Completed";
-		
+
 		/// <summary>
 		/// Value of the status uncompleted.
 		/// </summary>
 		private const string StatusUncompleted = "Uncompleted";
-		
+
 		/// <summary>
 		/// Status Completed Tooltip message.
 		/// </summary>
@@ -81,21 +82,28 @@ namespace BricksBucket.Localization.Editor
 		/// </summary>
 		private const string StatusUncompletedTooltip =
 			"{0} localizations left to be completed.";
-		
+
+		/// <summary>
+		/// GUI content label for Name of the book.
+		/// </summary>
+		private readonly GUIContent _nameLabel = new GUIContent (
+			"Name", "Name of the book."
+		);
+
 		/// <summary>
 		/// GUI Content status label.
 		/// </summary>
 		private readonly GUIContent _statusLabel = new GUIContent (
 			"Status", "Whether there is book is completed."
 		);
-		
+
 		/// <summary>
 		/// GUI Content status value.
 		/// </summary>
 		private readonly GUIContent _statusValue = new GUIContent (
 			"Completed", "All localizations are setup."
 		);
-		
+
 		/// <summary>
 		/// GUI Content status icon.
 		/// </summary>
@@ -104,7 +112,7 @@ namespace BricksBucket.Localization.Editor
 		#endregion
 
 
-		
+
 		#region Override Methods
 
 		/// <summary>
@@ -123,14 +131,40 @@ namespace BricksBucket.Localization.Editor
 			EditorGUILayout.Space ();
 			tree.GetPropertyAtPath ("_code").Draw ();
 			EditorGUILayout.Space ();
-			tree.GetPropertyAtPath ("_name").Draw ();
+			EditorGUI.BeginChangeCheck ();
+			var nameAttempt = SirenixEditorFields.DelayedTextField (
+				label: _nameLabel,
+				value: book.Name
+			);
+			var codeAttempt = nameAttempt.ToCodeFormat ();
+			var isValidName =
+				!string.IsNullOrWhiteSpace (codeAttempt) &&
+				!LocalizationSettings.ContainsBook (codeAttempt);
+			if (isValidName) book.Name = nameAttempt;
+			if (EditorGUI.EndChangeCheck () && isValidName)
+			{
+				LocalizationSettings.RemoveBook (book.Code);
+				book.name = nameAttempt;
+				book.Name = nameAttempt;
+				book.Code = codeAttempt;
+				LocalizationSettings.AddBook (book.Code, book);
+
+				if (GUI.changed) EditorUtility.SetDirty (book);
+				InspectorUtilities.EndDrawPropertyTree (tree);
+				Tree.UpdateTree ();
+
+				AssetDatabase.SaveAssets ();
+				AssetDatabase.Refresh ();
+				return;
+			}
+
 			tree.GetPropertyAtPath ("_description").Draw ();
 			EditorGUILayout.Space ();
 
 
 			//	Draws the Status.
 			EditorGUILayout.BeginHorizontal ();
-			if (book.IsCompleted ())
+			if (book.IsCompleted)
 			{
 				_statusIcon.image = EditorIcons.TestPassed;
 				_statusIcon.tooltip = StatusCompletedTooltip;
@@ -168,9 +202,11 @@ namespace BricksBucket.Localization.Editor
 
 
 			//	Draws the Add Menu.
+
 			if (_showAddMenu)
 			{
 				EditorGUILayout.Space ();
+				SirenixEditorGUI.BeginBox ();
 				_localizationToAddCode = SirenixEditorFields.
 					TextField ("Code", _localizationToAddCode).ToCodeFormat ();
 				_localizationToAddType =
@@ -186,28 +222,40 @@ namespace BricksBucket.Localization.Editor
 					switch (_localizationToAddType)
 					{
 						case LocalizationType.TEXT:
-							book.TextLocalizations.AddEmpty (
-								_localizationToAddCode);
+							book.TextGroup.AddEmpty (
+								_localizationToAddCode,
+								LocalizationSettings.CulturesCodes
+							);
 							break;
 						case LocalizationType.TEXTURE:
-							book.TextureLocalization.AddEmpty (
-								_localizationToAddCode);
+							book.TextureGroup.AddEmpty (
+								_localizationToAddCode,
+								LocalizationSettings.CulturesCodes
+							);
 							break;
 						case LocalizationType.SPRITE:
-							book.SpriteLocalizations.AddEmpty (
-								_localizationToAddCode);
+							book.SpriteGroup.AddEmpty (
+								_localizationToAddCode,
+								LocalizationSettings.CulturesCodes
+							);
 							break;
 						case LocalizationType.AUDIO:
-							book.AudioLocalizations.AddEmpty (
-								_localizationToAddCode);
+							book.AudioGroup.AddEmpty (
+								_localizationToAddCode,
+								LocalizationSettings.CulturesCodes
+							);
 							break;
 						case LocalizationType.VIDEO:
-							book.VideoLocalizations.AddEmpty (
-								_localizationToAddCode);
+							book.VideoGroup.AddEmpty (
+								_localizationToAddCode,
+								LocalizationSettings.CulturesCodes
+							);
 							break;
 						case LocalizationType.OBJECT:
-							book.UnityObjectLocalizations.AddEmpty (
-								_localizationToAddCode);
+							book.UnityObjectGroup.AddEmpty (
+								_localizationToAddCode,
+								LocalizationSettings.CulturesCodes
+							);
 							break;
 					}
 
@@ -222,13 +270,10 @@ namespace BricksBucket.Localization.Editor
 				}
 
 				EditorGUILayout.EndHorizontal ();
-				EditorGUILayout.Space ();
-				SirenixEditorGUI.HorizontalLineSeparator (
-					SirenixGUIStyles.LightBorderColor
-				);
+				SirenixEditorGUI.EndBox ();
 			}
-			
-			
+
+
 			//	Draws icon to add.
 			else
 			{
@@ -245,30 +290,30 @@ namespace BricksBucket.Localization.Editor
 			EditorGUILayout.Space ();
 			if (book != null)
 			{
-				if (book.TextLocalizations.Count > 0)
-					DrawLocalizationGroup (book.TextLocalizations, "Texts");
+				if (book.TextGroup.Count > 0)
+					DrawLocalizationGroup (book.TextGroup, "Texts");
 
-				if (book.TextureLocalization.Count > 0)
-					DrawLocalizationGroup (book.TextureLocalization,
+				if (book.TextureGroup.Count > 0)
+					DrawLocalizationGroup (book.TextureGroup,
 						"Textures");
 
-				if (book.SpriteLocalizations.Count > 0)
-					DrawLocalizationGroup (book.SpriteLocalizations, "Sprites");
+				if (book.SpriteGroup.Count > 0)
+					DrawLocalizationGroup (book.SpriteGroup, "Sprites");
 
-				if (book.AudioLocalizations.Count > 0)
-					DrawLocalizationGroup (book.AudioLocalizations,
+				if (book.AudioGroup.Count > 0)
+					DrawLocalizationGroup (book.AudioGroup,
 						"Audio Clips");
 
-				if (book.VideoLocalizations.Count > 0)
-					DrawLocalizationGroup (book.VideoLocalizations,
+				if (book.VideoGroup.Count > 0)
+					DrawLocalizationGroup (book.VideoGroup,
 						"Video Clips");
 
-				if (book.UnityObjectLocalizations.Count > 0)
-					DrawLocalizationGroup (book.UnityObjectLocalizations,
+				if (book.UnityObjectGroup.Count > 0)
+					DrawLocalizationGroup (book.UnityObjectGroup,
 						"Objects");
 			}
 
-			
+
 			//	End drawing.
 			if (GUI.changed) EditorUtility.SetDirty (book);
 			InspectorUtilities.EndDrawPropertyTree (tree);
@@ -282,7 +327,7 @@ namespace BricksBucket.Localization.Editor
 
 		#region Class Implementation
 
-		
+
 
 		private void DrawLocalizationGroup<T> (
 			ILocalizationGroup<T> group, string groupName
@@ -324,8 +369,8 @@ namespace BricksBucket.Localization.Editor
 			);
 
 
-			EditorGUI.indentLevel++;
 			//	Drawing codes.
+			EditorGUI.indentLevel++;
 			foreach (var code in group.Codes)
 			{
 				//	Unmodifiable Code Label.
@@ -337,7 +382,7 @@ namespace BricksBucket.Localization.Editor
 						GUILayout.Width (codeWidth)
 					);
 					if (SirenixEditorGUI.IconButton (
-						EditorIcons.SettingsCog, codeIconWidth
+						EditorIcons.Pen, codeIconWidth
 					))
 					{
 						_codeToModify = _newCodeName = code;
@@ -421,6 +466,56 @@ namespace BricksBucket.Localization.Editor
 			EditorGUI.indentLevel--;
 			SirenixEditorGUI.EndLegendBox ();
 			EditorGUILayout.Space ();
+		}
+
+		#endregion
+
+
+
+		#region Sub Structures
+
+		/// <summary>
+		///
+		/// Localization Type.
+		/// 
+		/// <para>
+		/// Definition of types for a localization.
+		/// </para>
+		/// 
+		/// <para> By Javier García | @jvrgms | 2020 </para>
+		/// 
+		/// </summary>
+		public enum LocalizationType
+		{
+			/// <summary>
+			/// String value.
+			/// </summary>
+			TEXT = 0,
+
+			/// <summary>
+			/// Texture reference.
+			/// </summary>
+			TEXTURE = 1,
+
+			/// <summary>
+			/// Sprite reference..
+			/// </summary>
+			SPRITE = 2,
+
+			/// <summary>
+			/// Audio Clip reference.
+			/// </summary>
+			AUDIO = 3,
+
+			/// <summary>
+			/// Video Clip reference.
+			/// </summary>
+			VIDEO = 4,
+
+			/// <summary>
+			/// Generic System.Object.
+			/// </summary>
+			OBJECT = 5
 		}
 
 		#endregion
