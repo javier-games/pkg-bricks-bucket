@@ -13,7 +13,7 @@ namespace BricksBucket.Localization.Internal
 {
 	/// <summary>
 	/// 
-	/// ILocalizedObject.
+	/// ILocalized.
 	/// 
 	/// <para>
 	/// Interface with fundamental methods for a Localized Object with a
@@ -24,7 +24,7 @@ namespace BricksBucket.Localization.Internal
 	/// 
 	/// </summary>
 	/// <typeparam name="TValue">Type of value of the localization.</typeparam>
-	internal interface ILocalizedObject<TValue>
+	internal interface ILocalized<TValue>
 	{
 		/// <summary>
 		/// Gets the localization value for the given culture.
@@ -154,7 +154,7 @@ namespace BricksBucket.Localization.Internal
 	[System.Serializable]
 	internal class LocalizedText :
 		SerializableDictionary<string, string>,
-		ILocalizedObject<string>
+		ILocalized<string>
 	{
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
@@ -307,7 +307,7 @@ namespace BricksBucket.Localization.Internal
 	[System.Serializable]
 	internal class LocalizedTexture :
 		SerializableDictionary<string, Texture>,
-		ILocalizedObject<Texture>
+		ILocalized<Texture>
 	{
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
@@ -463,7 +463,7 @@ namespace BricksBucket.Localization.Internal
 	[System.Serializable]
 	internal class LocalizedSprite :
 		SerializableDictionary<string, Sprite>,
-		ILocalizedObject<Sprite>
+		ILocalized<Sprite>
 	{
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
@@ -619,7 +619,7 @@ namespace BricksBucket.Localization.Internal
 	[System.Serializable]
 	internal class LocalizedAudio :
 		SerializableDictionary<string, AudioClip>,
-		ILocalizedObject<AudioClip>
+		ILocalized<AudioClip>
 	{
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
@@ -775,7 +775,7 @@ namespace BricksBucket.Localization.Internal
 	[System.Serializable]
 	internal class LocalizedVideo :
 		SerializableDictionary<string, VideoClip>,
-		ILocalizedObject<VideoClip>
+		ILocalized<VideoClip>
 	{
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.
@@ -931,7 +931,7 @@ namespace BricksBucket.Localization.Internal
 	[System.Serializable]
 	internal class LocalizedUnityObject :
 		SerializableDictionary<string, Object>,
-		ILocalizedObject<Object>
+		ILocalized<Object>
 	{
 		/// <summary>
 		/// Total count of cultures with a default value for it's localization.

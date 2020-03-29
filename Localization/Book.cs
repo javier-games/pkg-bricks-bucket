@@ -27,7 +27,9 @@ namespace BricksBucket.Localization
 		#region Fields
 
 		/// <summary>
-		/// Code to identify this book.
+		/// Code to identify the book in the books collection of
+		/// <see cref="BricksBucket.Localization.LocalizationSettings">
+		/// Localizations Settings</see>. Only editable on inspector.
 		/// </summary>
 		[SerializeField]
 		[DisplayAsString]
@@ -35,7 +37,8 @@ namespace BricksBucket.Localization
 		private string _code;
 
 		/// <summary>
-		/// Name of the book.
+		/// Name of the book useful to displays the book instead of the code.
+		/// Only editable on inspector.
 		/// </summary>
 		[SerializeField]
 		[Tooltip ("Name of the book.")]
@@ -43,7 +46,8 @@ namespace BricksBucket.Localization
 		private string _name;
 
 		/// <summary>
-		/// What does this book is for.
+		/// Documented summary of what does this book is for.
+		/// Only editable on inspector.
 		/// </summary>
 		[SerializeField]
 		[Multiline (3)]
@@ -51,37 +55,40 @@ namespace BricksBucket.Localization
 		private string _description;
 
 		/// <summary>
-		/// Group of text localizations.
+		/// Group of localizations of <see cref="System.string"/> values.
 		/// </summary>
 		[SerializeField]
 		private TextGroup _textGroup;
 
 		/// <summary>
-		/// Group of texture localizations.
+		/// Group of localizations of <see cref="UnityEngine.Texture"/>
+		/// values.
 		/// </summary>
 		[SerializeField]
 		private TextureGroup _textureGroup;
 
 		/// <summary>
-		/// Group of sprite localizations.
+		/// Group of localizations of <see cref="UnityEngine.Sprite"/> values.
 		/// </summary>
 		[SerializeField]
 		private SpriteGroup _spriteGroup;
 
 		/// <summary>
-		/// Group of audio localizations.
+		/// Group of localizations of <see cref="UnityEngine.AudioClip"/>
+		/// values.
 		/// </summary>
 		[SerializeField]
 		private AudioLocalizations _audioGroup;
 
 		/// <summary>
-		/// Group of video localizations.
+		/// Group of localizations of <see cref="UnityEngine.Video.VideoClip"/>
+		/// values.
 		/// </summary>
 		[SerializeField]
 		private VideoLocalizations _videoGroup;
 
 		/// <summary>
-		/// Group of object localizations.
+		/// Group of localizations of <see cref="UnityEngine.Object"/> values.
 		/// </summary>
 		[SerializeField]
 		private UnityObjectLocalizations _unityObjectGroup;
@@ -93,8 +100,10 @@ namespace BricksBucket.Localization
 		#region Properties
 
 		/// <summary>
-		/// Name of the book.
+		/// Name of the book useful to displays the book instead of the code.
+		/// Only editable on inspector.
 		/// </summary>
+		/// <returns>Name of the book.</returns>
 		public string Name
 		{
 			get => _name;
@@ -102,8 +111,10 @@ namespace BricksBucket.Localization
 		}
 
 		/// <summary>
-		/// What this book is about.
+		/// Documented summary of what does this book is for.
+		/// Only editable from inspector.
 		/// </summary>
+		/// <returns>Description of the book.</returns>
 		public string Description
 		{
 			get => _description;
@@ -111,8 +122,12 @@ namespace BricksBucket.Localization
 		}
 
 		/// <summary>
-		/// Code to identify this book.
+		/// Code to identify the book in the books collection of
+		/// <see cref="BricksBucket.Localization.LocalizationSettings">
+		/// Localizations Settings</see>. Only editable from inspector.
 		/// </summary>
+		/// <returns>Code of the book in <c>UPPER_SNAKE</c> case
+		/// format.</returns>
 		public string Code
 		{
 			get => _code;
@@ -120,8 +135,9 @@ namespace BricksBucket.Localization
 		}
 
 		/// <summary>
-		/// Count of localized objects in book.
+		/// Count of localized objects in the book.
 		/// </summary>
+		/// <returns>Count of localized objects.</returns>
 		public int Count =>
 			TextGroup.Count +
 			TextureGroup.Count +
@@ -131,8 +147,26 @@ namespace BricksBucket.Localization
 			UnityObjectGroup.Count;
 
 		/// <summary>
-		/// Whether this book is complete.
+		/// Count of localized objects that are
+		/// uncompleted in the book.
 		/// </summary>
+		/// <returns>Count of uncompleted localized objects.</returns>
+		public int UncompletedCount =>
+			TextGroup.UncompletedCount +
+			TextureGroup.UncompletedCount +
+			SpriteGroup.UncompletedCount +
+			AudioGroup.UncompletedCount +
+			VideoGroup.UncompletedCount +
+			UnityObjectGroup.UncompletedCount;
+
+		/// <summary>
+		/// Whether each localized object in this book has a value different
+		/// from the default value for each cultures in
+		/// <see cref="BricksBucket.Localization.LocalizationSettings">
+		/// Localizations Settings</see>.
+		/// </summary>
+		/// <returns><value>True</value> if this book has a non default value
+		/// for each culture in each localized object.</returns>
 		public bool IsCompleted =>
 			TextGroup.IsCompleted () &&
 			TextureGroup.IsCompleted () &&
@@ -142,18 +176,7 @@ namespace BricksBucket.Localization
 			UnityObjectGroup.IsCompleted ();
 
 		/// <summary>
-		/// Total count of localized object that are incomplete.
-		/// </summary>
-		internal int UncompletedCount =>
-			TextGroup.UncompletedCount +
-			TextureGroup.UncompletedCount +
-			SpriteGroup.UncompletedCount +
-			AudioGroup.UncompletedCount +
-			VideoGroup.UncompletedCount +
-			UnityObjectGroup.UncompletedCount;
-
-		/// <summary>
-		/// 
+		/// Group of localizations of <see cref="System.string"/> values.
 		/// </summary>
 		internal TextGroup TextGroup
 		{
@@ -161,30 +184,48 @@ namespace BricksBucket.Localization
 			set => _textGroup = value;
 		}
 
+		/// <summary>
+		/// Group of localizations of <see cref="UnityEngine.Texture"/>
+		/// values.
+		/// </summary>
 		internal TextureGroup TextureGroup
 		{
 			get => _textureGroup ?? new TextureGroup ();
 			set => _textureGroup = value;
 		}
 
+		/// <summary>
+		/// Group of localizations of <see cref="UnityEngine.Sprite"/> values.
+		/// </summary>
 		internal SpriteGroup SpriteGroup
 		{
 			get => _spriteGroup ?? new SpriteGroup ();
 			set => _spriteGroup = value;
 		}
 
+		/// <summary>
+		/// Group of localizations of <see cref="UnityEngine.AudioClip"/>
+		/// values.
+		/// </summary>
 		internal AudioLocalizations AudioGroup
 		{
 			get => _audioGroup ?? new AudioLocalizations ();
 			set => _audioGroup = value;
 		}
 
+		/// <summary>
+		/// Group of localizations of <see cref="UnityEngine.Video.VideoClip"/>
+		/// values.
+		/// </summary>
 		internal VideoLocalizations VideoGroup
 		{
 			get => _videoGroup ?? new VideoLocalizations ();
 			set => _videoGroup = value;
 		}
 
+		/// <summary>
+		/// Group of localizations of <see cref="UnityEngine.Object"/> values.
+		/// </summary>
 		internal UnityObjectLocalizations UnityObjectGroup
 		{
 			get => _unityObjectGroup ?? new UnityObjectLocalizations ();
@@ -198,11 +239,11 @@ namespace BricksBucket.Localization
 		#region Methods
 
 		/// <summary>
-		/// Determines whether this group has a localized object of
+		/// Determines whether this group has a localized object for
 		/// the given code.
 		/// </summary>
-		/// <returns><value>True</value> if exists.</returns>
-		public bool ContainsLocalizedObject (string code)
+		/// <returns><value>True</value> if  exists.</returns>
+		internal bool ContainsLocalizedObject (string code)
 		{
 			if (string.IsNullOrWhiteSpace (code)) return false;
 			return _textGroup.ContainsKey (code) ||
@@ -211,20 +252,6 @@ namespace BricksBucket.Localization
 				_audioGroup.ContainsKey (code) ||
 				_videoGroup.ContainsKey (code) ||
 				_unityObjectGroup.ContainsKey (code);
-		}
-
-		/// <summary>
-		/// Compares to an object.
-		/// </summary>
-		/// <param name="obj">Object to compare.</param>
-		/// <returns>Value of comparision.</returns>
-		public int CompareTo (object obj)
-		{
-			var book = (Book) obj;
-			return string.Compare (
-				Code, book.Code,
-				System.StringComparison.InvariantCultureIgnoreCase
-			);
 		}
 
 		/// <summary>
@@ -274,7 +301,7 @@ namespace BricksBucket.Localization
 		}
 
 		/// <summary>
-		/// Updates the code of a culture.
+		/// Updates the code of a culture for a new one.
 		/// </summary>
 		/// <param name="oldCode">Old code to update.</param>
 		/// <param name="newCode">Code of the new culture.</param>
@@ -286,30 +313,35 @@ namespace BricksBucket.Localization
 				localized.Add (newCode, localized[oldCode]);
 				localized.Remove (oldCode);
 			}
+
 			foreach (var localized in TextureGroup.Values)
 			{
 				if (!localized.ContainsCulture (oldCode)) continue;
 				localized.Add (newCode, localized[oldCode]);
 				localized.Remove (oldCode);
 			}
+
 			foreach (var localized in SpriteGroup.Values)
 			{
 				if (!localized.ContainsCulture (oldCode)) continue;
 				localized.Add (newCode, localized[oldCode]);
 				localized.Remove (oldCode);
 			}
+
 			foreach (var localized in AudioGroup.Values)
 			{
 				if (!localized.ContainsCulture (oldCode)) continue;
 				localized.Add (newCode, localized[oldCode]);
 				localized.Remove (oldCode);
 			}
+
 			foreach (var localized in VideoGroup.Values)
 			{
 				if (!localized.ContainsCulture (oldCode)) continue;
 				localized.Add (newCode, localized[oldCode]);
 				localized.Remove (oldCode);
 			}
+
 			foreach (var localized in UnityObjectGroup.Values)
 			{
 				if (!localized.ContainsCulture (oldCode)) continue;

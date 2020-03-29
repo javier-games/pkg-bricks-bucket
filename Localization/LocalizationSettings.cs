@@ -20,7 +20,7 @@ namespace BricksBucket.Localization
     /// LocalizedObject Settings
     ///
     /// <para>
-    /// Settings to set up the localizedObject in the project.
+    /// Settings to set up the localized objects in the project.
     /// </para>
     /// 
     /// <para> By Javier García | @jvrgms | 2020 </para>
@@ -360,6 +360,22 @@ namespace BricksBucket.Localization
 
 
         #region Static Methods
+
+        /// <summary>
+        /// Gets the book of the specified code.
+        /// </summary>
+        /// <param name="code">Code of the book to look for.</param>
+        /// <returns>Book found in settings.</returns>
+        /// <exception cref="LocalizationNotFoundException">
+        /// Thrown when the code does not exists in the books collection.
+        /// </exception>
+        public static Book GetBook (string code)
+        {
+            if(!Instance.ContainsBook (code))
+                throw Exception ("Book " + code + " not found.");
+
+            return Instance.BooksDictionary[code];
+        }
 
         /// <summary>
         /// Gets the text localization.

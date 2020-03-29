@@ -28,7 +28,7 @@ namespace BricksBucket.Localization.Internal
 		/// Gets the localization object for the given code.
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
-		ILocalizedObject<T> this [string code] { get; }
+		ILocalized<T> this [string code] { get; }
 
 		/// <summary>
 		/// Total count of localized objects in the group.
@@ -63,8 +63,8 @@ namespace BricksBucket.Localization.Internal
 		/// Adds a new localized object with the given code.
 		/// </summary>
 		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localizedObject">Localized Object to add.</param>
-		void Add (string code, ILocalizedObject<T> localizedObject);
+		/// <param name="localized">Localized Object to add.</param>
+		void Add (string code, ILocalized<T> localized);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
@@ -103,7 +103,7 @@ namespace BricksBucket.Localization.Internal
 		/// Gets the localization object for the given code.
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
-		public new ILocalizedObject<string> this [string code] => base[code];
+		public new ILocalized<string> this [string code] => base[code];
 
 		/// <summary>
 		/// Total count of localized object that are incomplete.
@@ -150,10 +150,10 @@ namespace BricksBucket.Localization.Internal
 		/// Adds a new localized object with the given code.
 		/// </summary>
 		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localizedObject">Localized Object to add.</param>
+		/// <param name="localized">Localized Object to add.</param>
 		public void
-			Add (string code, ILocalizedObject<string> localizedObject) =>
-			base.Add (code, localizedObject as LocalizedText);
+			Add (string code, ILocalized<string> localized) =>
+			base.Add (code, localized as LocalizedText);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
@@ -193,7 +193,7 @@ namespace BricksBucket.Localization.Internal
 		/// Gets the localization object for the given code.
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
-		public new ILocalizedObject<Texture> this [string code] => base[code];
+		public new ILocalized<Texture> this [string code] => base[code];
 
 		/// <summary>
 		/// Total count of localized object that are incomplete.
@@ -240,10 +240,10 @@ namespace BricksBucket.Localization.Internal
 		/// Adds a new localized object with the given code.
 		/// </summary>
 		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localizedObject">Localized Object to add.</param>
+		/// <param name="localized">Localized Object to add.</param>
 		public void
-			Add (string code, ILocalizedObject<Texture> localizedObject) =>
-			base.Add (code, localizedObject as LocalizedTexture);
+			Add (string code, ILocalized<Texture> localized) =>
+			base.Add (code, localized as LocalizedTexture);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
@@ -283,7 +283,7 @@ namespace BricksBucket.Localization.Internal
 		/// Gets the localization object for the given code.
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
-		public new ILocalizedObject<Sprite> this [string code] => base[code];
+		public new ILocalized<Sprite> this [string code] => base[code];
 
 		/// <summary>
 		/// Total count of localized object that are incomplete.
@@ -330,10 +330,10 @@ namespace BricksBucket.Localization.Internal
 		/// Adds a new localized object with the given code.
 		/// </summary>
 		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localizedObject">Localized Object to add.</param>
+		/// <param name="localized">Localized Object to add.</param>
 		public void
-			Add (string code, ILocalizedObject<Sprite> localizedObject) =>
-			base.Add (code, localizedObject as LocalizedSprite);
+			Add (string code, ILocalized<Sprite> localized) =>
+			base.Add (code, localized as LocalizedSprite);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
@@ -373,7 +373,7 @@ namespace BricksBucket.Localization.Internal
 		/// Gets the localization object for the given code.
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
-		public new ILocalizedObject<AudioClip> this [string code] => base[code];
+		public new ILocalized<AudioClip> this [string code] => base[code];
 
 		/// <summary>
 		/// Total count of localized object that are incomplete.
@@ -420,11 +420,11 @@ namespace BricksBucket.Localization.Internal
 		/// Adds a new localized object with the given code.
 		/// </summary>
 		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localizedObject">Localized Object to add.</param>
+		/// <param name="localized">Localized Object to add.</param>
 		public void Add (
-			string code, ILocalizedObject<AudioClip> localizedObject
+			string code, ILocalized<AudioClip> localized
 		) =>
-			base.Add (code, localizedObject as LocalizedAudio);
+			base.Add (code, localized as LocalizedAudio);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
@@ -464,7 +464,7 @@ namespace BricksBucket.Localization.Internal
 		/// Gets the localization object for the given code.
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
-		public new ILocalizedObject<VideoClip> this [string code] => base[code];
+		public new ILocalized<VideoClip> this [string code] => base[code];
 
 		/// <summary>
 		/// Total count of localized object that are incomplete.
@@ -511,11 +511,11 @@ namespace BricksBucket.Localization.Internal
 		/// Adds a new localized object with the given code.
 		/// </summary>
 		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localizedObject">Localized Object to add.</param>
+		/// <param name="localized">Localized Object to add.</param>
 		public void Add (
-			string code, ILocalizedObject<VideoClip> localizedObject
+			string code, ILocalized<VideoClip> localized
 		) =>
-			base.Add (code, localizedObject as LocalizedVideo);
+			base.Add (code, localized as LocalizedVideo);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
@@ -555,7 +555,7 @@ namespace BricksBucket.Localization.Internal
 		/// Gets the localization object for the given code.
 		/// </summary>
 		/// <param name="code">Code of the localized object.</param>
-		public new ILocalizedObject<Object> this [string code] => base[code];
+		public new ILocalized<Object> this [string code] => base[code];
 
 		/// <summary>
 		/// Total count of localized object that are incomplete.
@@ -602,10 +602,10 @@ namespace BricksBucket.Localization.Internal
 		/// Adds a new localized object with the given code.
 		/// </summary>
 		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localizedObject">Localized Object to add.</param>
+		/// <param name="localized">Localized Object to add.</param>
 		public void
-			Add (string code, ILocalizedObject<Object> localizedObject) =>
-			base.Add (code, localizedObject as LocalizedUnityObject);
+			Add (string code, ILocalized<Object> localized) =>
+			base.Add (code, localized as LocalizedUnityObject);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
