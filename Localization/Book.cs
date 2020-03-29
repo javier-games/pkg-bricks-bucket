@@ -273,6 +273,51 @@ namespace BricksBucket.Localization
 					localizedObject.Remove (code);
 		}
 
+		/// <summary>
+		/// Updates the code of a culture.
+		/// </summary>
+		/// <param name="oldCode">Old code to update.</param>
+		/// <param name="newCode">Code of the new culture.</param>
+		internal void UpdateCulture (string oldCode, string newCode)
+		{
+			foreach (var localized in TextGroup.Values)
+			{
+				if (!localized.ContainsCulture (oldCode)) continue;
+				localized.Add (newCode, localized[oldCode]);
+				localized.Remove (oldCode);
+			}
+			foreach (var localized in TextureGroup.Values)
+			{
+				if (!localized.ContainsCulture (oldCode)) continue;
+				localized.Add (newCode, localized[oldCode]);
+				localized.Remove (oldCode);
+			}
+			foreach (var localized in SpriteGroup.Values)
+			{
+				if (!localized.ContainsCulture (oldCode)) continue;
+				localized.Add (newCode, localized[oldCode]);
+				localized.Remove (oldCode);
+			}
+			foreach (var localized in AudioGroup.Values)
+			{
+				if (!localized.ContainsCulture (oldCode)) continue;
+				localized.Add (newCode, localized[oldCode]);
+				localized.Remove (oldCode);
+			}
+			foreach (var localized in VideoGroup.Values)
+			{
+				if (!localized.ContainsCulture (oldCode)) continue;
+				localized.Add (newCode, localized[oldCode]);
+				localized.Remove (oldCode);
+			}
+			foreach (var localized in UnityObjectGroup.Values)
+			{
+				if (!localized.ContainsCulture (oldCode)) continue;
+				localized.Add (newCode, localized[oldCode]);
+				localized.Remove (oldCode);
+			}
+		}
+
 		#endregion
 
 
@@ -286,11 +331,7 @@ namespace BricksBucket.Localization
 		internal void OnNameChanged ()
 		{
 			if (string.IsNullOrWhiteSpace (Name)) Code = string.Empty;
-
-			Code = Name.RemoveDiacritics ().
-				ToUpper ().
-				Replace (' ', '_').
-				RemoveSpecialCharacters ('_');
+			Code = Name.ToCodeFormat ();
 		}
 #endif
 

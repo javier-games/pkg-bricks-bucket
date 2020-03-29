@@ -139,15 +139,15 @@ namespace BricksBucket.Localization.Editor
 			var codeAttempt = nameAttempt.ToCodeFormat ();
 			var isValidName =
 				!string.IsNullOrWhiteSpace (codeAttempt) &&
-				!LocalizationSettings.ContainsBook (codeAttempt);
+				!LocalizationSettings.Instance.ContainsBook (codeAttempt);
 			if (isValidName) book.Name = nameAttempt;
 			if (EditorGUI.EndChangeCheck () && isValidName)
 			{
-				LocalizationSettings.RemoveBook (book.Code);
+				LocalizationSettings.Instance.RemoveBook (book.Code);
 				book.name = nameAttempt;
 				book.Name = nameAttempt;
 				book.Code = codeAttempt;
-				LocalizationSettings.AddBook (book.Code, book);
+				LocalizationSettings.Instance.AddBook (book.Code, book);
 
 				if (GUI.changed) EditorUtility.SetDirty (book);
 				InspectorUtilities.EndDrawPropertyTree (tree);

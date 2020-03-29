@@ -4,7 +4,6 @@ using UnityEngine.Video;
 using BricksBucket.Collections;
 
 #if UNITY_EDITOR
-using UnityEditor;
 using Sirenix.Utilities.Editor;
 #endif
 
@@ -287,8 +286,7 @@ namespace BricksBucket.Localization.Internal
 		{
 			Set (
 				culture,
-				EditorGUILayout.DelayedTextField (culture, this[culture],
-					options)
+				SirenixEditorFields.TextField (culture, this[culture], options)
 			);
 		}
 #endif

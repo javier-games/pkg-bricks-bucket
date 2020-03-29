@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Video;
 using BricksBucket.Generics;
 using BricksBucket.Localization.Internal;
 using Sirenix.OdinInspector;
 
+#if UNITY_EDITOR
+using BricksBucket.Editor;
+#endif
 
+// ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable TailRecursiveCall
 namespace BricksBucket.Localization
 {
@@ -55,6 +58,22 @@ namespace BricksBucket.Localization
         private List<Culture> _cultures;
 
         /// <summary>
+        /// Names of cultures in the cultures collection. Serialized Field
+        /// dedicated for the culture names to avoid garbage collection and
+        /// speed up the process to get an array of names.
+        /// </summary>
+        [SerializeField, HideInInspector]
+        private string[] _culturesNames;
+
+        /// <summary>
+        /// Codes of cultures in the cultures collection. Serialized Field
+        /// dedicated for the culture codes to avoid garbage collection and
+        /// speed up the process to get an array of codes.
+        /// </summary>
+        [SerializeField, HideInInspector]
+        private string[] _culturesCodes;
+
+        /// <summary>
         /// Dictionary of books by codes.
         /// </summary>
         [SerializeField, ReadOnly]
@@ -63,16 +82,33 @@ namespace BricksBucket.Localization
         [Tooltip ("Collection of books")]
         private BooksDictionary _books;
 
+        /// <summary>
+        /// Names of books in the books dictionary. Serialized Field
+        /// dedicated for the books names to avoid garbage collection and
+        /// speed up the process to get an array of names.
+        /// </summary>
+        [SerializeField, HideInInspector]
+        private string[] _booksNames;
+        
+        /// <summary>
+        /// Codes of books in the books dictionary. Serialized Field
+        /// dedicated for the books codes to avoid garbage collection and
+        /// speed up the process to get an array of codes.
+        /// </summary>
+        [SerializeField, HideInInspector]
+        private string[] _booksCodes;
+
+
         #endregion
 
 
 
-        #region Properties
+        #region Instance Properties
 
         /// <summary>
         /// List of cultures categories.
         /// </summary>
-        internal List<Culture> CulturesList =>
+        private List<Culture> CulturesList =>
             _cultures ??
             (_cultures = new List<Culture> ());
 
@@ -102,7 +138,7 @@ namespace BricksBucket.Localization
         /// Default Language.
         /// </summary>
         public static Culture DefaultCulture =>
-            Instance.CulturesList.Count > 0 ? Cultures[0] : default;
+            Instance._cultures.Count > 0 ? Instance._cultures[0] : default;
 
         /// <summary>
         /// Returns the array of cultures.
@@ -114,14 +150,8 @@ namespace BricksBucket.Localization
         /// </summary>
         public static string[] CulturesNames
         {
-            get
-            {
-                var cultures = Cultures;
-                var culturesNames = new string[cultures.Length];
-                for (int i = 0; i < cultures.Length; i++)
-                    culturesNames[i] = Cultures[i].Name;
-                return culturesNames;
-            }
+            get => Instance._culturesNames;
+            private set => Instance._culturesNames = value;
         }
 
         /// <summary>
@@ -129,34 +159,17 @@ namespace BricksBucket.Localization
         /// </summary>
         public static string[] CulturesCodes
         {
-            get
-            {
-                var cultures = Cultures;
-                var culturesCodes = new string[cultures.Length];
-                for (int i = 0; i < cultures.Length; i++)
-                    culturesCodes[i] = Cultures[i].Code;
-                return culturesCodes;
-            }
+            get => Instance._culturesCodes;
+            private set => Instance._culturesCodes = value;
         }
-
-        /// <summary>
-        /// Collection of books.
-        /// </summary>
-        public static Book[] Books => Instance._books.Values.ToArray ();
 
         /// <summary>
         /// Name of books.
         /// </summary>
         public static string[] BooksNames
         {
-            get
-            {
-                var books = Books;
-                var booksNames = new string[Books.Length];
-                for (int i = 0; i < books.Length; i++)
-                    booksNames[i] = books[i].Name;
-                return booksNames;
-            }
+            get => Instance._booksNames;
+            private set => Instance._booksNames = value;
         }
 
         /// <summary>
@@ -164,14 +177,182 @@ namespace BricksBucket.Localization
         /// </summary>
         public static string[] BooksCodes
         {
-            get
+            get => Instance._booksCodes;
+            private set => Instance._booksCodes = value;
+        }
+
+        #endregion
+
+
+
+        #region Instance Methods
+        
+        /// <summary>
+        /// Evaluates if the language code is in settings.
+        /// </summary>
+        /// <param name="code">Language code to evaluate.</param>
+        /// <returns>Whether the language code is in settings.</returns>
+        public bool ContainsCulture (string code) =>
+            CulturesList.Exists (culture => culture.Code == code);
+
+        /// <summary>
+        /// Returns the count of cultures in settings.
+        /// </summary>
+        /// <returns></returns>
+        public int GetCulturesCount () => CulturesList.Count;
+        
+        /// <summary>
+        /// Gets the culture at the given index.
+        /// </summary>
+        /// <param name="index">Index of the culture to return.</param>
+        /// <param name="culture">Culture found at the given index.</param>
+        /// <returns>Whether a culture was found.</returns>
+        public bool GetCulture (int index, out Culture culture)
+        {
+            if (index >= CulturesList.Count || index < 0)
             {
-                var books = Books;
-                var booksCodes = new string[Books.Length];
-                for (int i = 0; i < books.Length; i++)
-                    booksCodes[i] = books[i].Code;
-                return booksCodes;
+                culture = new Culture ();
+                return false;
             }
+
+            culture = CulturesList[index];
+            return true;
+        }
+
+        /// <summary>
+        /// Sets an existing culture by the new one.
+        /// </summary>
+        /// <param name="index">Index of the culture to set.</param>
+        /// <param name="culture">Updated culture.</param>
+        internal void SetCulture (int index, Culture culture)
+        {
+            if (index >= CulturesList.Count || index < 0) return;
+            var oldCode = CulturesList[index].Code;
+            CulturesList.RemoveAt (index);
+            CulturesList.Insert (index, culture);
+
+            foreach (var book in BooksDictionary.Values)
+                book.UpdateCulture (oldCode, culture.Code);
+
+            UpdateCultureArrays ();
+        }
+
+        /// <summary>
+        /// Adds a new culture to the list of cultures.
+        /// </summary>
+        /// <param name="culture">Culture to Add.</param>
+        internal void AddCulture (Culture culture)
+        {
+            CulturesList.Add (culture);
+            foreach (var book in BooksDictionary.Values)
+                book.AddCulture (culture.Code);
+            UpdateCultureArrays ();
+        }
+
+        /// <summary>
+        /// Removes a culture by its index.
+        /// </summary>
+        /// <param name="index">Index of the culture to remove.</param>
+        internal void RemoveCulture (int index)
+        {
+            var culture = CulturesList[index];
+            CulturesList.RemoveAt (index);
+            foreach (var book in BooksDictionary.Values)
+                book.RemoveCulture (culture.Code);
+            UpdateCultureArrays ();
+        }
+
+        /// <summary>
+        /// Sets the default culture.
+        /// </summary>
+        /// <param name="index">Index of the new default culture.</param>
+        internal void SetDefaultCulture (int index)
+        {
+            var newOne = CulturesList[index];
+            CulturesList.Remove (newOne);
+            CulturesList.Insert (0, newOne);
+            UpdateCultureArrays ();
+        }
+
+        /// <summary>
+        /// Updates Culture Serialized Arrays.
+        /// </summary>
+        internal void UpdateCultureArrays ()
+        {
+            var cultures = CulturesList;
+
+            var culturesNames = new string[cultures.Count];
+            var culturesCodes = new string[cultures.Count];
+
+            for (int i = 0; i < cultures.Count; i++)
+            {
+                culturesNames[i] = cultures[i].Name;
+                culturesCodes[i] = cultures[i].Code;
+            }
+
+            CulturesNames = culturesNames;
+            CulturesCodes = culturesCodes;
+        }
+
+        /// <summary>
+        /// Gets the count of books in books dictionary.
+        /// </summary>
+        /// <returns>Count of books in books dictionary.</returns>
+        public int GetBooksCount () => BooksDictionary.Count;
+
+        /// <summary>
+        /// Evaluates if the dictionary of books contains the key code.
+        /// </summary>
+        /// <param name="code">Code to look for.</param>
+        /// <returns>Whether the dictionary contains the book code.</returns>
+        public bool ContainsBook (string code) =>
+            BooksDictionary.ContainsKey (code);
+
+        /// <summary>
+        /// Adds a new book by code.
+        /// </summary>
+        /// <param name="code">Code where to add book.</param>
+        /// <param name="book">Book to add.</param>
+        internal void AddBook (string code, Book book)
+        {
+            BooksDictionary.Add (code, book);
+            UpdateBooksArrays ();
+        }
+
+        /// <summary>
+        /// Removes a book by code.
+        /// </summary>
+        /// <param name="code">Code of the book to remove.</param>
+        internal void RemoveBook (string code)
+        {
+            var book = BooksDictionary[code];
+            BooksDictionary.Remove (code);
+#if UNITY_EDITOR
+            book.TryDestroyImmediate ();
+#endif
+            UpdateBooksArrays ();
+        }
+        
+        /// <summary>
+        /// Updates Books Serialized Arrays.
+        /// </summary>
+        internal void UpdateBooksArrays ()
+        {
+            var books = BooksDictionary;
+
+            var culturesNames = new string[books.Count];
+            var culturesCodes = new string[books.Count];
+
+            var i = 0;
+            foreach (var key in BooksDictionary.Keys)
+            {
+                culturesNames[i] = books[key].Name;
+                culturesCodes[i] = books[key].Code;
+                i++;
+            }
+
+            BooksNames = culturesNames;
+            BooksCodes = culturesCodes;
         }
 
         #endregion
@@ -226,7 +407,9 @@ namespace BricksBucket.Localization
         /// <param name="code">Code of the localization.</param>
         /// <param name="culture">Culture of the localization.</param>
         /// <returns>Localization texture in the specified location.</returns>
-        public static Texture GetTexture (string book, string code, string culture)
+        public static Texture GetTexture (
+            string book, string code, string culture
+        )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
                 throw Exception ("Book " + book + " not found.");
@@ -265,7 +448,9 @@ namespace BricksBucket.Localization
         /// <param name="code">Code of the localization.</param>
         /// <param name="culture">Culture of the localization.</param>
         /// <returns>Localization sprite in the specified location.</returns>
-        public static Sprite GetSprite (string book, string code, string culture)
+        public static Sprite GetSprite (
+            string book, string code, string culture
+        )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
                 throw Exception ("Book " + book + " not found.");
@@ -304,7 +489,9 @@ namespace BricksBucket.Localization
         /// <param name="code">Code of the localization.</param>
         /// <param name="culture">Culture of the localization.</param>
         /// <returns>Localization audio in the specified location.</returns>
-        public static AudioClip GetAudio (string book, string code, string culture)
+        public static AudioClip GetAudio (
+            string book, string code, string culture
+        )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
                 throw Exception ("Book " + book + " not found.");
@@ -343,7 +530,9 @@ namespace BricksBucket.Localization
         /// <param name="code">Code of the localization.</param>
         /// <param name="culture">Culture of the localization.</param>
         /// <returns>Localization video in the specified location.</returns>
-        public static VideoClip GetVideo (string book, string code, string culture)
+        public static VideoClip GetVideo (
+            string book, string code, string culture
+        )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
                 throw Exception ("Book " + book + " not found.");
@@ -382,7 +571,9 @@ namespace BricksBucket.Localization
         /// <param name="code">Code of the localization.</param>
         /// <param name="culture">Culture of the localization.</param>
         /// <returns>Localization object in the specified location.</returns>
-        public static Object GetObject (string book, string code, string culture)
+        public static Object GetObject (
+            string book, string code, string culture
+        )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
                 throw Exception ("Book " + book + " not found.");
@@ -413,37 +604,6 @@ namespace BricksBucket.Localization
                 ? GetObject (book, code, DefaultCulture.Code)
                 : o;
         }
-
-        /// <summary>
-        /// Evaluates if the language code is in settings.
-        /// </summary>
-        /// <param name="code">Language code to evaluate.</param>
-        /// <returns>Whether the language code is in settings.</returns>
-        public static bool ContainsCulture (string code) =>
-            Instance.CulturesList.Exists (culture => culture.Code == code);
-
-        /// <summary>
-        /// Evaluates if the dictionary of books contains the key code.
-        /// </summary>
-        /// <param name="code">Code to look for.</param>
-        /// <returns>Whether the dictionary contains the book code.</returns>
-        public static bool ContainsBook (string code) =>
-            Instance.BooksDictionary.ContainsKey (code);
-
-        /// <summary>
-        /// Adds a new book by code.
-        /// </summary>
-        /// <param name="code">Code where to add book.</param>
-        /// <param name="book">Book to add.</param>
-        internal static void AddBook (string code, Book book) =>
-            Instance.BooksDictionary.Add (code, book);
-
-        /// <summary>
-        /// Removes a book by code.
-        /// </summary>
-        /// <param name="code">Code of the book to remove.</param>
-        internal static void RemoveBook (string code) =>
-            Instance.BooksDictionary.Remove (code);
 
         /// <summary>
         /// Returns an exception for a localization not found.

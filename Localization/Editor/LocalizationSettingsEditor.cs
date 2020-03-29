@@ -228,12 +228,10 @@ namespace BricksBucket.Localization.Editor
 				EditorGUILayout.BeginHorizontal ();
 				GUI.enabled =
 					_cultureToDefaultIndex >= 0 &&
-					_cultureToDefaultIndex < settings.CulturesList.Count;
+					_cultureToDefaultIndex < settings.GetCulturesCount ();
 				if (GUILayout.Button (_cultureToDefaultButton))
 				{
-					var newOne = settings.CulturesList[_cultureToDefaultIndex];
-					settings.CulturesList.Remove (newOne);
-					settings.CulturesList.Insert (0, newOne);
+					settings.SetDefaultCulture (_cultureToDefaultIndex);
 					ResetCultureFields ();
 				}
 
@@ -278,16 +276,12 @@ namespace BricksBucket.Localization.Editor
 				EditorGUILayout.BeginHorizontal ();
 				GUI.enabled =
 					!_cultureToAdd.Equals (default (Culture)) &&
-					!settings.CulturesList.Exists (
-						category => category.Code == _cultureToAdd.Code
-					) &&
+					!settings.ContainsCulture (_cultureToAdd.Code) &&
 					!string.IsNullOrWhiteSpace (_cultureToAdd.Code) &&
 					!string.IsNullOrWhiteSpace (_cultureToAdd.Name);
 				if (GUILayout.Button (_cultureToAddButton))
 				{
-					settings.CulturesList.Add (_cultureToAdd);
-					foreach (var book in settings.BooksDictionary.Values)
-						book.AddCulture (_cultureToAdd.Code);
+					settings.AddCulture (_cultureToAdd);
 					ResetCultureFields ();
 				}
 
@@ -308,13 +302,10 @@ namespace BricksBucket.Localization.Editor
 				);
 				EditorGUILayout.BeginHorizontal ();
 				GUI.enabled = _cultureToRemoveIndex >= 0 &&
-					_cultureToRemoveIndex < settings.CulturesList.Count;
+					_cultureToRemoveIndex < settings.GetCulturesCount ();
 				if (GUILayout.Button (_cultureToRemoveButton))
 				{
-					var culture = settings.CulturesList[_cultureToRemoveIndex];
-					settings.CulturesList.RemoveAt (_cultureToRemoveIndex);
-					foreach (var book in settings.BooksDictionary.Values)
-						book.RemoveCulture (culture.Code);
+					settings.RemoveCulture (_cultureToRemoveIndex);
 					ResetCultureFields ();
 				}
 
@@ -335,7 +326,11 @@ namespace BricksBucket.Localization.Editor
 					options: LocalizationSettings.CulturesNames
 				);
 				if (EditorGUI.EndChangeCheck ())
-					_cultureToAdd = settings.CulturesList[_cultureToEditIndex];
+				{
+					settings.GetCulture (_cultureToEditIndex,
+						out var cultureToAdd);
+					_cultureToAdd = cultureToAdd;
+				}
 
 				if (_cultureToEditIndex != -1)
 					_cultureToAdd = Culture.DrawEditorField (_cultureToAdd);
@@ -343,19 +338,12 @@ namespace BricksBucket.Localization.Editor
 				EditorGUILayout.BeginHorizontal ();
 				GUI.enabled =
 					!_cultureToAdd.Equals (default (Culture)) &&
-					!settings.CulturesList.Exists (
-						category => category.Code == _cultureToAdd.Code
-					) &&
+					!settings.ContainsCulture (_cultureToAdd.Code) &&
 					!string.IsNullOrWhiteSpace (_cultureToAdd.Code) &&
 					!string.IsNullOrWhiteSpace (_cultureToAdd.Name);
 				if (GUILayout.Button (_cultureToEditButton))
 				{
-					settings.CulturesList.RemoveAt (_cultureToEditIndex);
-					settings.CulturesList.Insert (
-						index: _cultureToEditIndex,
-						item: _cultureToAdd
-					);
-					// TODO: Apply changes on localizations.
+					settings.SetCulture (_cultureToEditIndex, _cultureToAdd);
 					ResetCultureFields ();
 				}
 
@@ -484,7 +472,7 @@ namespace BricksBucket.Localization.Editor
 				EditorGUILayout.Space (0, true);
 				if (DrawIconButton (_addIcon, IconSize))
 					_showAddBookMenu = true;
-				GUI.enabled = settings.BooksDictionary.Count > 0;
+				GUI.enabled = settings.GetBooksCount () > 0;
 				if (DrawIconButton (_removeIcon, IconSize))
 					_showRemoveBookMenu = true;
 				GUI.enabled = true;
@@ -514,7 +502,7 @@ namespace BricksBucket.Localization.Editor
 				var code = _bookToAddName.ToCodeFormat ();
 				GUI.enabled =
 					!string.IsNullOrWhiteSpace (code) &&
-					!settings.BooksDictionary.ContainsKey (code);
+					!settings.ContainsBook (code);
 				if (GUILayout.Button (_bookToAddButton))
 				{
 					var book = ScriptableObject.CreateInstance<Book> ();
@@ -523,10 +511,9 @@ namespace BricksBucket.Localization.Editor
 					book.Name = _bookToAddName;
 					book.Description = _bookToAddDescription;
 					settings.AddSubAsset (book);
-					settings.BooksDictionary.Add (
+					settings.AddBook (
 						code ?? throw new System.ArgumentNullException (),
-						book
-					);
+						book);
 					ResetBookFields ();
 				}
 
@@ -547,12 +534,12 @@ namespace BricksBucket.Localization.Editor
 				);
 				EditorGUILayout.BeginHorizontal ();
 				GUI.enabled = _bookToRemoveIndex >= 0 &&
-					_bookToRemoveIndex < settings.BooksDictionary.Count;
+					_bookToRemoveIndex < settings.GetBooksCount ();
 				if (GUILayout.Button (_bookToRemoveButton))
 				{
-					var book = LocalizationSettings.Books[_bookToRemoveIndex];
-					LocalizationSettings.RemoveBook (book.Code);
-					book.TryDestroyImmediate ();
+					var bookCode =
+						LocalizationSettings.BooksCodes[_bookToRemoveIndex];
+					settings.RemoveBook (bookCode);
 					ResetBookFields ();
 
 					if (GUI.changed) EditorUtility.SetDirty (settings);
