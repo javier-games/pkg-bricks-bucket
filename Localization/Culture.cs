@@ -49,7 +49,7 @@ namespace BricksBucket.Localization
         private string _name;
 
         /// <summary>
-        ///Windows Language Code Identifier. Defines the language and country
+        /// Windows Language Code Identifier. Defines the language and country
         /// of a culture using an standard available in all versions of Windows.
         /// More related information on <seealso href=
         /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
@@ -115,7 +115,7 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        ///Name of culture, useful to displays the culture instead fo its code.
+        /// Name of culture, useful to displays the culture instead fo its code.
         /// </summary>
         /// <returns>Name of the culture in the
         /// <c>Language (Country, Region)</c> format.</returns>

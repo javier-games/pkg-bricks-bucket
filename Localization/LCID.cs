@@ -5,13 +5,17 @@ namespace BricksBucket.Localization
 {
     /// <summary>
     /// 
-    /// LCID
+    /// <!-- LCID -->
     ///
-    /// <para>
-    /// Enumeration for Windows Language Codes Identifiers.
-    /// </para>
+    /// Describes localizable information in Windows. <see href=
+    /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
+    /// Lists all Language Code Identifiers (LCIDs)</see> available in all
+    /// versions of Windows.
     /// 
-    /// <para> By Javier García | @jvrgms | 2020 </para>
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    /// 
+    /// <!-- Note: The code of the members of the enum have been generated with
+    /// the following table: https://bit.ly/bb-localization-lcid -->
     /// 
     /// </summary>
     public enum LCID
@@ -30,9 +34,6 @@ namespace BricksBucket.Localization
 
         /// <summary> Catalan LCID. </summary>
         CA = 3,
-
-        /// <summary> Chinese (Simplified) LCID. </summary>
-        ZH_HANS = 4,
 
         /// <summary> Chinese (Simplified) Legacy LCID. </summary>
         ZH_CHS = 4,

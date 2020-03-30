@@ -4,7 +4,21 @@
 namespace BricksBucket.Localization
 {
     /// <summary>
-    /// Enumeration for languages according to the ISO 639-1 standard. 
+    /// 
+    /// <!-- ISO639_1 -->
+    /// 
+    /// Defines two letters codes for the names of languages according to
+    /// the <see href="https://en.wikipedia.org/wiki/ISO_639-1">ISO 639-1
+    /// </see> standard, is the first part of the  <see href=
+    /// "https://www.iso.org/iso-639-language-codes.html">ISO 639</see>
+    /// series published by the <see href="https://www.iso.org/home.html">
+    /// International Organization for Standardization</see>.
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    /// 
+    /// <!-- Note: The code of the members of the enum have been generated with
+    /// the following table: https://bit.ly/bb-localization-iso639 -->
+    /// 
     /// </summary>
     public enum ISO639_1
     {
@@ -568,7 +582,21 @@ namespace BricksBucket.Localization
     }
 
     /// <summary>
-    /// Enumeration for languages according to the ISO 639-2/T standard. 
+    /// 
+    /// <!-- ISO639_2T -->
+    /// 
+    /// Defines three letters codes for the names of languages according to
+    /// the <see href="https://en.wikipedia.org/wiki/ISO_639-2">ISO 639-2/T
+    /// </see> terminological standard, is the second part of the <see href=
+    /// "https://www.iso.org/iso-639-language-codes.html">ISO 639</see>
+    /// series published by the <see href="https://www.iso.org/home.html">
+    /// International Organization for Standardization</see>.
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    ///
+    /// <!-- Note: The code of the members of the enum have been generated with
+    /// the following table: https://bit.ly/bb-localization-iso639 -->
+    /// 
     /// </summary>
     public enum ISO639_2T
     {
@@ -1132,7 +1160,21 @@ namespace BricksBucket.Localization
     }
 
     /// <summary>
-    /// Enumeration for languages according to the ISO 639-2/B standard. 
+    /// 
+    /// <!-- ISO639_1B -->
+    /// 
+    /// Defines three letters codes for the names of languages according to
+    /// the <see href="https://en.wikipedia.org/wiki/ISO_639-2">ISO 639-2/B
+    /// </see> bibliographic standard, is the second part of the <see href=
+    /// "https://www.iso.org/iso-639-language-codes.html">ISO 639</see>
+    /// series published by the <see href="https://www.iso.org/home.html">
+    /// International Organization for Standardization</see>.
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    ///
+    /// <!-- Note: The code of the members of the enum have been generated with
+    /// the following table: https://bit.ly/bb-localization-iso639 -->
+    /// 
     /// </summary>
     public enum ISO639_2B
     {

@@ -4,7 +4,22 @@
 namespace BricksBucket.Localization
 {
     /// <summary>
-    /// Enumeration for countries according to the ISO 3166-2 standard. 
+    ///
+    /// <!-- ISO3166_2 -->
+    /// 
+    /// Defines two letters codes for the names of the principal subdivisions
+    /// according to the <see href=
+    /// "https://en.wikipedia.org/wiki/ISO_3166-2">ISO 3166-2</see> standard
+    /// derived from the <see href=
+    /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166</see>
+    /// standard published by the <see href="https://www.iso.org/home.html">
+    /// International Organization for Standardization</see>.
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    ///
+    /// <!-- Note: The code of the members of the enum have been generated with
+    /// the following table: https://bit.ly/bb-localization-iso3166 -->
+    /// 
     /// </summary>
     public enum ISO3166_2
     {
@@ -775,7 +790,22 @@ namespace BricksBucket.Localization
     }
 
     /// <summary>
-    /// Enumeration for conutries according to the ISO 3166-3 standard. 
+    /// 
+    /// <!-- ISO3166_3 -->
+    /// 
+    /// Defines three letters codes for the names of the principal subdivisions
+    /// according to the <see href=
+    /// "https://en.wikipedia.org/wiki/ISO_3166-3">ISO 3166-3</see> standard
+    /// derived from the <see href=
+    /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166</see>
+    /// standard published by the <see href="https://www.iso.org/home.html">
+    /// International Organization for Standardization</see>.
+    ///
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    ///
+    /// <!-- Note: The code of the members of the enum have been generated with
+    /// the following table: https://bit.ly/bb-localization-iso3166 -->
+    /// 
     /// </summary>
     public enum ISO3166_3
     {
