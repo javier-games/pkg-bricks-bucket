@@ -15,13 +15,14 @@ namespace BricksBucket.Localization
 {
     /// <summary>
     /// 
-    /// Culture.
+    /// <!-- Culture -->
     ///
-    /// <para>
-    /// Structure to categorize languages.
-    /// </para>
+    /// The Culture struct contains the basic information to categorize
+    /// localizations by its language, country and/or region with the facility
+    /// to use standards by the <see href="https://www.iso.org">
+    /// International Organization for Standardization</see>.
     /// 
-    /// <para> By Javier García | @jvrgms | 2020 </para>
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     /// 
     /// </summary>
     [System.Serializable]
@@ -33,7 +34,7 @@ namespace BricksBucket.Localization
         #region Fields
 
         /// <summary>
-        /// Code to identify culture.
+        /// Code to identify localizations related to this culture.
         /// </summary>
         [SerializeField]
         [Tooltip ("Code to identify language category.")]
@@ -41,22 +42,28 @@ namespace BricksBucket.Localization
         private string _code;
 
         /// <summary>
-        /// Name for culture.
+        /// Name of culture, useful to displays the culture instead fo its code.
         /// </summary>
         [SerializeField]
         [Tooltip ("Name for language category.")]
         private string _name;
 
         /// <summary>
-        /// Windows Language Code ID.
+        ///Windows Language Code Identifier. Defines the language and country
+        /// of a culture using an standard available in all versions of Windows.
+        /// More related information on <seealso href=
+        /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
+        /// MS-LCID</seealso> documentation.
         /// </summary>
         [SerializeField, EnumPaging]
-        [Tooltip ("Windows Language Code ID.")]
+        [Tooltip ("Windows Language Code Identifier.")]
         [OnValueChanged ("OnLCIDChanged")]
         private LCID _LCID;
 
         /// <summary>
-        /// Language ISO-639 code.
+        /// Language code from the <see href=
+        /// "https://www.iso.org/iso-639-language-codes.html">ISO 639-1</see>
+        /// standard.
         /// </summary>
         [SerializeField, EnumPaging]
         [Tooltip ("Language ISO-639 code.")]
@@ -64,7 +71,9 @@ namespace BricksBucket.Localization
         private ISO639_1 _language;
 
         /// <summary>
-        /// Country ISO-3166 code.
+        /// Country code from the <see href=
+        /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166-2
+        /// standard</see>.
         /// </summary>
         [SerializeField, EnumPaging]
         [Tooltip ("Country ISO-3166 code.")]
@@ -94,8 +103,11 @@ namespace BricksBucket.Localization
         #region Properties
 
         /// <summary>
-        /// Code of the culture.
+        /// Code to identify localizations related to this culture.
         /// </summary>
+        /// <returns>Code of the culture in <c>LANGUAGE_COUNTRY_REGION</c>
+        /// format. Examples:<c>EN</c>, <c>EN_US</c>, <c>EN_US_WEST_COAST</c>.
+        /// </returns>
         public string Code
         {
             get => _code;
@@ -103,8 +115,10 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Name to display.
+        ///Name of culture, useful to displays the culture instead fo its code.
         /// </summary>
+        /// <returns>Name of the culture in the
+        /// <c>Language (Country, Region)</c> format.</returns>
         public string Name
         {
             get => _name;
@@ -112,8 +126,15 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Windows Language Code Identifier.
+        /// Windows Language Code Identifier. Defines the language and country
+        /// of a culture using an standard available in all versions of Windows.
+        /// More related information on <seealso href=
+        /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
+        /// MS-LCID</seealso> documentation.
         /// </summary>
+        /// <returns>Best match for the identifier. <value><c>LCID.NONE</c>
+        /// </value> if there is not match for any LCID or is a custom culture.
+        /// </returns>
         public LCID LCID
         {
             get => _LCID;
@@ -121,8 +142,14 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Language ISO-639 code.
+        /// Language code from the <see href=
+        /// "https://www.iso.org/iso-639-language-codes.html">ISO 639-1</see>
+        /// standard. See also <seealso href=
+        /// "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes"> List of
+        /// ISO 639-1</seealso> codes.
         /// </summary>
+        /// <returns>Two letter code for languages. <value><c>ISO639_1.NONE
+        /// </c></value> if the culture has a custom language.</returns>
         public ISO639_1 Language
         {
             get => _isCustom ? ISO639_1.NONE : _language;
@@ -130,8 +157,13 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Country ISO-3166 code.
+        /// Country code from the <see href=
+        /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166-2
+        /// </see> standard. See also <seealso href=
+        /// "https://en.wikipedia.org/wiki/ISO_3166-2">List of ISO 3166-2
+        /// </seealso> codes.
         /// </summary>
+        /// <returns>Two letter code for countries.</returns>
         public ISO3166_2 Country
         {
             get => _country;
@@ -139,8 +171,10 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Region of the culture.
+        /// Region of the culture. An extra parameter when a deeper
+        /// classification is needed.
         /// </summary>
+        /// <returns>Free format optional <see cref="string"/>.</returns>
         public string Region
         {
             get => _region;
@@ -150,6 +184,8 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Whether this culture is custom.
         /// </summary>
+        /// <returns>Returns <value>true</value> if the culture is
+        /// custom.</returns>
         public bool IsCustom
         {
             get => _isCustom;
