@@ -29,8 +29,6 @@ namespace BricksBucket.Localization
     public class LocalizationSettings : ScriptableSingleton
     {
 
-
-
         #region Fields
 
         /// <summary>
@@ -99,8 +97,7 @@ namespace BricksBucket.Localization
 
         #endregion
 
-
-
+        
         #region Instance Properties
 
         /// <summary>
@@ -177,8 +174,7 @@ namespace BricksBucket.Localization
         }
 
         #endregion
-
-
+        
 
         #region Static Properties
 
@@ -241,8 +237,7 @@ namespace BricksBucket.Localization
 
         #endregion
 
-
-
+        
         #region Instance Methods
         
         /// <summary>
@@ -415,8 +410,7 @@ namespace BricksBucket.Localization
 
         #endregion
 
-
-
+        
         #region Static Methods
 
 #if UNITY_EDITOR
@@ -424,9 +418,12 @@ namespace BricksBucket.Localization
         /// Creates a new instances of the localization settings into the
         /// Resources folder.
         /// </summary>
-        [MenuItem("Tools/Bricks Bucket/Localization/Initialize")]
-        public static void InitializeLocalization () =>
-            Debug.Log (Instance + " has been created.", Instance);
+        [MenuItem ("Tools/Bricks Bucket/Localization/Initialize")]
+        public static void InitializeLocalization ()
+        {
+            if(instance == null)
+                Debug.Log (Instance + " has been created.", Instance);
+        }
 #endif
 
         /// <summary>
@@ -698,6 +695,5 @@ namespace BricksBucket.Localization
             new LocalizationNotFoundException (message);
 
         #endregion
-
     }
 }

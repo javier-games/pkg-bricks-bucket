@@ -35,14 +35,14 @@ namespace BricksBucket.Editor
          *  http://forum.unity3d.com/threads/93901-global-define/page2
          *
          */
-        const string CSharpPath = "Assets/csc.rsp";
-        const string EditorPath = "Assets/gmcs.rsp";
+        private const string CSharpPath = "Assets/csc.rsp";
+        private const string EditorPath = "Assets/gmcs.rsp";
 
-        const string AssetsFolder = "Assets";
-        const string CSharpExtension = "*.cs";
-        const string MetaExtension = ".meta";
-        const string DefineDeclaration = "-define:";
-        const char   SemicolonChar = ';';
+        private const string AssetsFolder = "Assets";
+        private const string CSharpExtension = "*.cs";
+        private const string MetaExtension = ".meta";
+        private const string DefineDeclaration = "-define:";
+        private const char   SemicolonChar = ';';
 
         #endregion
 

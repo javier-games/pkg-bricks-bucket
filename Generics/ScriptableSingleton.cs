@@ -44,7 +44,7 @@ namespace BricksBucket.Generics
         /// <summary>
         /// Scriptable Instance.
         /// </summary>
-        private static T _instance;
+        protected static T instance;
         
         #endregion
         
@@ -76,7 +76,7 @@ namespace BricksBucket.Generics
         /// <summary>
         /// Indicates whether an instance exists or not.
         /// </summary>
-        public static bool InstanceExist => _instance != null;
+        public static bool InstanceExist => instance != null;
 
         /// <summary>
         /// Returns the scriptable instance.
@@ -87,7 +87,7 @@ namespace BricksBucket.Generics
             get
             {
                 //  Returns the current instance if it exits.
-                if (InstanceExist) return _instance;
+                if (InstanceExist) return instance;
 
                 //  Try to find an instance on Resources Folder.
                 var instances = Resources.LoadAll ("", typeof (T));
@@ -96,17 +96,17 @@ namespace BricksBucket.Generics
                     if (instances.Length > 1)
                         Debug.LogWarning (
                             "There are more than one" + typeof (T));
-                    _instance = instances[0] as T;
+                    instance = instances[0] as T;
                 }
-                if (InstanceExist) return _instance;
+                if (InstanceExist) return instance;
 
                 // Creates a new asset in Resources folder.
-                _instance = ScriptableObject.CreateInstance<T> ();
+                instance = ScriptableObject.CreateInstance<T> ();
                 
 #if UNITY_EDITOR
-                var path = string.IsNullOrWhiteSpace (_instance.Path)
+                var path = string.IsNullOrWhiteSpace (instance.Path)
                     ? DefaultFolderPath
-                    : _instance.Path;
+                    : instance.Path;
                 if (!AssetDatabase.IsValidFolder (path))
                 {
                     
@@ -126,9 +126,9 @@ namespace BricksBucket.Generics
 
                     path = currentPath;
                 }
-                AssetDatabase.CreateAsset (_instance, path);
+                AssetDatabase.CreateAsset (instance, path);
 #endif
-                return _instance;
+                return instance;
             }
         }
         

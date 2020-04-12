@@ -30,8 +30,10 @@ namespace BricksBucket.Editor
         UEditor _editor;
         DefineSymbols _asset;
 
-        const string MenuPath = "Bricks Bucket/Scripting Define Symbol";
-        const string Title = "Define Symbol Editor";
+        private const string MenuPath =
+            "Tools/Bricks Bucket/Define Symbols Editor";
+        private const string Title =
+            "Define Symbol Editor";
 
         #endregion
 
