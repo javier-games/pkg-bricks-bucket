@@ -1,10 +1,8 @@
 using UnityEngine;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable VirtualMemberNeverOverridden.Global
@@ -25,8 +23,6 @@ namespace BricksBucket.Generics
     public abstract class ScriptableSingleton<T> : ScriptableObject
     where T : ScriptableSingleton<T>
     {
-
-        
         
         #region Constants
         
@@ -43,7 +39,6 @@ namespace BricksBucket.Generics
         #endregion
         
         
-        
         #region Fields
         
         /// <summary>
@@ -52,7 +47,6 @@ namespace BricksBucket.Generics
         private static T _instance;
         
         #endregion
-        
         
         
         #region Properties
@@ -104,12 +98,35 @@ namespace BricksBucket.Generics
                             "There are more than one" + typeof (T));
                     _instance = instances[0] as T;
                 }
-
-#if UNITY_EDITOR
-                // Creates a new asset in Resources folder.
                 if (InstanceExist) return _instance;
+
+                // Creates a new asset in Resources folder.
                 _instance = ScriptableObject.CreateInstance<T> ();
-                AssetDatabase.CreateAsset (_instance, Instance.Path);
+                
+#if UNITY_EDITOR
+                var path = string.IsNullOrWhiteSpace (_instance.Path)
+                    ? DefaultFolderPath
+                    : _instance.Path;
+                if (!AssetDatabase.IsValidFolder (path))
+                {
+                    
+                    var segments = path.Split ('/');
+                    var currentPath = segments[0];
+                    for (int i = 1; i < segments.Length; i++)
+                    {
+                        var wantedPath = currentPath + "/" + segments[i];
+                        if (AssetDatabase.IsValidFolder (wantedPath))
+                            continue;
+                        string guid = AssetDatabase.CreateFolder(
+                            parentFolder: currentPath,
+                            newFolderName: segments[i]
+                        );
+                        currentPath = AssetDatabase.GUIDToAssetPath(guid);
+                    }
+
+                    path = currentPath;
+                }
+                AssetDatabase.CreateAsset (_instance, path);
 #endif
                 return _instance;
             }

@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
-using BricksBucket.Generics;
-using BricksBucket.Localization.Internal;
 using Sirenix.OdinInspector;
+using BricksBucket.Localization.Internal;
 
 #if UNITY_EDITOR
 using BricksBucket.Editor;
+using UnityEditor;
 #endif
 
 // ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable TailRecursiveCall
 namespace BricksBucket.Localization
 {
-    using ScriptableSingleton = ScriptableSingleton<LocalizationSettings>;
+    using ScriptableSingleton = Generics.ScriptableSingleton<LocalizationSettings>;
 
     /// <summary>
     /// 
@@ -26,8 +26,6 @@ namespace BricksBucket.Localization
     /// <para> By Javier García | @jvrgms | 2020 </para>
     /// 
     /// </summary>
-    [CreateAssetMenu (fileName = "Localization Settings",
-        menuName = "Bricks Bucket/Localization Settings")]
     public class LocalizationSettings : ScriptableSingleton
     {
 
@@ -117,6 +115,66 @@ namespace BricksBucket.Localization
         /// </summary>
         internal BooksDictionary BooksDictionary =>
             _books ?? (_books = new BooksDictionary ());
+        
+        /// <summary>
+        /// Names of cultures in the cultures collection. Serialized Field
+        /// dedicated for the culture names to avoid garbage collection and
+        /// speed up the process to get an array of names.
+        /// </summary>
+        internal string[] CulturesNamesArray
+        {
+            get
+            {
+                if (_culturesNames == null) UpdateCultureArrays ();
+                return _culturesNames;
+            }
+            private set => _culturesNames = value;
+        }
+
+        /// <summary>
+        /// Codes of cultures in the cultures collection. Serialized Field
+        /// dedicated for the culture codes to avoid garbage collection and
+        /// speed up the process to get an array of codes.
+        /// </summary>
+        public string[] CulturesCodesArray
+        {
+            get
+            {
+                if(_culturesCodes == null) UpdateCultureArrays ();
+                return _culturesCodes;
+            }
+            private set => _culturesCodes = value;
+        }
+        
+        /// <summary>
+        /// Names of books in the books dictionary. Serialized Field
+        /// dedicated for the books names to avoid garbage collection and
+        /// speed up the process to get an array of names.
+        /// </summary>
+        public string[] BooksNamesArray
+        {
+            get
+            {
+                if(_booksNames == null) UpdateBooksArrays ();
+                return _booksNames;
+            }
+            private set => _booksNames = value;
+        }
+
+        /// <summary>
+        /// Codes of books in the books dictionary. Serialized Field
+        /// dedicated for the books codes to avoid garbage collection and
+        /// speed up the process to get an array of codes.
+        /// </summary>
+        public string[] BooksCodesArray
+        {
+            get
+            {
+                if(_booksCodes == null) UpdateBooksArrays ();
+                return _booksCodes;
+            }
+            private set => _booksCodes = value;
+        }
 
         #endregion
 
@@ -138,20 +196,20 @@ namespace BricksBucket.Localization
         /// Default Language.
         /// </summary>
         public static Culture DefaultCulture =>
-            Instance._cultures.Count > 0 ? Instance._cultures[0] : default;
+            Instance.CulturesList.Count > 0 ? Instance.CulturesList[0] : default;
 
         /// <summary>
         /// Returns the array of cultures.
         /// </summary>
-        public static Culture[] Cultures => Instance._cultures.ToArray ();
+        public static Culture[] Cultures => Instance.CulturesList.ToArray ();
 
         /// <summary>
         /// Collection of display names of languages categories.
         /// </summary>
         public static string[] CulturesNames
         {
-            get => Instance._culturesNames;
-            private set => Instance._culturesNames = value;
+            get => Instance.CulturesNamesArray;
+            private set => Instance.CulturesNamesArray = value;
         }
 
         /// <summary>
@@ -159,8 +217,8 @@ namespace BricksBucket.Localization
         /// </summary>
         public static string[] CulturesCodes
         {
-            get => Instance._culturesCodes;
-            private set => Instance._culturesCodes = value;
+            get => Instance.CulturesCodesArray;
+            private set => Instance.CulturesCodesArray = value;
         }
 
         /// <summary>
@@ -168,8 +226,8 @@ namespace BricksBucket.Localization
         /// </summary>
         public static string[] BooksNames
         {
-            get => Instance._booksNames;
-            private set => Instance._booksNames = value;
+            get => Instance.BooksNamesArray;
+            private set => Instance.BooksNamesArray = value;
         }
 
         /// <summary>
@@ -177,8 +235,8 @@ namespace BricksBucket.Localization
         /// </summary>
         public static string[] BooksCodes
         {
-            get => Instance._booksCodes;
-            private set => Instance._booksCodes = value;
+            get => Instance.BooksCodesArray;
+            private set => Instance.BooksCodesArray = value;
         }
 
         #endregion
@@ -360,6 +418,16 @@ namespace BricksBucket.Localization
 
 
         #region Static Methods
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Creates a new instances of the localization settings into the
+        /// Resources folder.
+        /// </summary>
+        [MenuItem("Tools/Bricks Bucket/Localization/Initialize")]
+        public static void InitializeLocalization () =>
+            Debug.Log (Instance + " has been created.", Instance);
+#endif
 
         /// <summary>
         /// Gets the book of the specified code.
