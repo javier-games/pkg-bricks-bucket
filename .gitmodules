@@ -1,0 +1,3 @@
+[submodule "source"]
+	path = source
+	url = https://jvrgms@bitbucket.org/monogum/bricks-bucket-package.git

@@ -4,13 +4,12 @@
       "src": [
         {
           "files": [
-            "src/**.csproj"
+            "source/**.cs"
           ]
         }
       ],
       "dest": "api",
-      "disableGitFeatures": false,
-      "disableDefaultFilter": false
+      "globalNamespaceId": "Global"
     }
   ],
   "build": {
@@ -52,7 +51,7 @@
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
-      "default"
+      "statictoc"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",
