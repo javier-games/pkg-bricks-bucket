@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace BricksBucket.Localization.Editor
 {
-	public class LocalizationsWindow: OdinEditorWindow
+	internal class LocalizationsWindow: OdinEditorWindow
 	{
 		private LocalizationType _dataType;
 

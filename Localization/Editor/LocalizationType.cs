@@ -11,7 +11,7 @@ namespace BricksBucket.Localization.Editor
 	/// <para> By Javier García | @jvrgms | 2020 </para>
 	/// 
 	/// </summary>
-	public enum LocalizationType
+	internal enum LocalizationType
 	{
 		/// <summary>
 		/// String value.

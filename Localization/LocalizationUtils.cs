@@ -582,7 +582,7 @@ namespace BricksBucket.Localization
     /// <para> By Javier García | @jvrgms | 2020 </para>
     /// 
     /// </summary>
-    public class LocalizationNotFoundException : System.Exception
+    internal class LocalizationNotFoundException : System.Exception
     {
         public LocalizationNotFoundException (string message) :
             base (message) { }

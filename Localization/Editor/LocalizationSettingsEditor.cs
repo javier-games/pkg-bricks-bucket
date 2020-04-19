@@ -18,7 +18,7 @@ namespace BricksBucket.Localization.Editor
 	/// 
 	/// </summary>
 	[CustomEditor (typeof (LocalizationSettings))]
-	public class LocalizationSettingsEditor : OdinEditor
+	internal class LocalizationSettingsEditor : OdinEditor
 	{
 
 
