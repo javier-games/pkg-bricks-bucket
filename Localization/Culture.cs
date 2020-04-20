@@ -2,7 +2,6 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
@@ -103,19 +102,8 @@ namespace BricksBucket.Localization
         #region Properties
 
         /// <summary>
-        /// Code to identify localizations related to this culture.
-        /// </summary>
-        /// <returns>Code of the culture in <c>LANGUAGE_COUNTRY_REGION</c>
-        /// format. Examples:<c>EN</c>, <c>EN_US</c>, <c>EN_US_WEST_COAST</c>.
-        /// </returns>
-        public string Code
-        {
-            get => _code;
-            private set => _code = value;
-        }
-
-        /// <summary>
         /// Name of culture, useful to displays the culture instead fo its code.
+        /// Only editable on inspector.
         /// </summary>
         /// <returns>Name of the culture in the
         /// <c>Language (Country, Region)</c> format.</returns>
@@ -126,8 +114,22 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
+        /// Code to identify localizations related to this culture.
+        /// Only editable on inspector.
+        /// </summary>
+        /// <returns>Code of the culture in <c>LANGUAGE_COUNTRY_REGION</c>
+        /// format (e.g.<c>EN</c>, <c>EN_US</c>, <c>EN_US_WEST_COAST</c>).
+        /// </returns>
+        public string Code
+        {
+            get => _code;
+            private set => _code = value;
+        }
+
+        /// <summary>
         /// Windows Language Code Identifier. Defines the language and country
         /// of a culture using an standard available in all versions of Windows.
+        /// Only editable on inspector.
         /// More related information on <seealso href=
         /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
         /// MS-LCID</seealso> documentation.
@@ -144,7 +146,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Language code from the <see href=
         /// "https://www.iso.org/iso-639-language-codes.html">ISO 639-1</see>
-        /// standard. See also <seealso href=
+        /// standard. Only editable on inspector. See also <seealso href=
         /// "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes"> List of
         /// ISO 639-1</seealso> codes.
         /// </summary>
@@ -159,7 +161,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Country code from the <see href=
         /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166-2
-        /// </see> standard. See also <seealso href=
+        /// </see> standard. Only editable on inspector. See also <seealso href=
         /// "https://en.wikipedia.org/wiki/ISO_3166-2">List of ISO 3166-2
         /// </seealso> codes.
         /// </summary>
@@ -172,9 +174,9 @@ namespace BricksBucket.Localization
 
         /// <summary>
         /// Region of the culture. An extra parameter when a deeper
-        /// classification is needed.
+        /// classification is needed. Only editable on inspector.
         /// </summary>
-        /// <returns>Free format optional <see cref="string"/>.</returns>
+        /// <returns>Free optional format <see cref="string"/>.</returns>
         public string Region
         {
             get => _region;
@@ -182,7 +184,8 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Whether this culture is custom.
+        /// Whether this culture is custom. When this property is true it is
+        /// possible to define freely the name and code of the culture.
         /// </summary>
         /// <returns>Returns <value>true</value> if the culture is
         /// custom.</returns>
@@ -324,7 +327,6 @@ namespace BricksBucket.Localization
         #region Editor
 
 #if UNITY_EDITOR
-
         #region Drawer
 
         /// <summary>
@@ -344,10 +346,7 @@ namespace BricksBucket.Localization
 
             #region Override Methods
 
-            /// <summary>
-            /// Draws the property.
-            /// </summary>
-            /// <param name="label">Label of the property.</param>
+            /// <inheritdoc cref="OdinDrawer.DrawPropertyLayout"/>
             protected override void DrawPropertyLayout (GUIContent label)
             {
                 var value = ValueEntry.SmartValue;
@@ -526,7 +525,6 @@ namespace BricksBucket.Localization
         }
 
         #endregion
-
 #endif
 
         #endregion

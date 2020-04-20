@@ -112,7 +112,7 @@ namespace BricksBucket.Localization
 
 		/// <summary>
 		/// Documented summary of what does this book is for.
-		/// Only editable from inspector.
+		/// Only editable on inspector.
 		/// </summary>
 		/// <returns>Description of the book.</returns>
 		public string Description
@@ -124,7 +124,7 @@ namespace BricksBucket.Localization
 		/// <summary>
 		/// Code to identify the book in the books collection of
 		/// <see cref="BricksBucket.Localization.LocalizationSettings">
-		/// Localizations Settings</see>. Only editable from inspector.
+		/// Localizations Settings</see>. Only editable on inspector.
 		/// </summary>
 		/// <returns>Code of the book in <c>UPPER_SNAKE</c> case
 		/// format.</returns>
@@ -135,7 +135,8 @@ namespace BricksBucket.Localization
 		}
 
 		/// <summary>
-		/// Count of localized objects in the book.
+		/// Count of localized objects in the book. This count includes all
+		/// text, media and object localizations.
 		/// </summary>
 		/// <returns>Count of localized objects.</returns>
 		public int Count =>
@@ -147,11 +148,11 @@ namespace BricksBucket.Localization
 			UnityObjectGroup.Count;
 
 		/// <summary>
-		/// Count of localized objects that are
-		/// uncompleted in the book.
+		/// Count of localized objects that are uncompleted in the book. This
+		/// count includes all text, media and object localizations.
 		/// </summary>
 		/// <returns>Count of uncompleted localized objects.</returns>
-		public int UncompletedCount =>
+		internal int UncompletedCount =>
 			TextGroup.UncompletedCount +
 			TextureGroup.UncompletedCount +
 			SpriteGroup.UncompletedCount +
@@ -167,7 +168,7 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <returns><value>True</value> if this book has a non default value
 		/// for each culture in each localized object.</returns>
-		public bool IsCompleted =>
+		internal bool IsCompleted =>
 			TextGroup.IsCompleted () &&
 			TextureGroup.IsCompleted () &&
 			SpriteGroup.IsCompleted () &&
@@ -355,7 +356,7 @@ namespace BricksBucket.Localization
 
 
 		#region Editor
-
+		
 #if UNITY_EDITOR
 		/// <summary>
 		/// Called by inspector each time the name changes.
@@ -366,8 +367,8 @@ namespace BricksBucket.Localization
 			Code = Name.ToCodeFormat ();
 		}
 #endif
-
+		
 		#endregion
-
+		
 	}
 }

@@ -9,21 +9,22 @@ using BricksBucket.Editor;
 using UnityEditor;
 #endif
 
+
 // ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable TailRecursiveCall
 namespace BricksBucket.Localization
 {
-    using ScriptableSingleton = Generics.ScriptableSingleton<LocalizationSettings>;
+    using ScriptableSingleton =
+        Generics.ScriptableSingleton<LocalizationSettings>;
 
     /// <summary>
     /// 
-    /// LocalizedObject Settings
+    /// <!-- LocalizationSettings -->
     ///
-    /// <para>
-    /// Settings to set up the localized objects in the project.
-    /// </para>
+    /// Class that administrates the cultures, books and its localizations
+    /// withing other settings related to the localizations for the project.
     /// 
-    /// <para> By Javier García | @jvrgms | 2020 </para>
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     /// 
     /// </summary>
     public class LocalizationSettings : ScriptableSingleton
@@ -32,7 +33,7 @@ namespace BricksBucket.Localization
         #region Fields
 
         /// <summary>
-        /// Name of the LocalizedObject Project.
+        /// Name of the Project.
         /// </summary>
         [SerializeField]
         [Tooltip ("Name of the LocalizedObject Project.")]
@@ -110,7 +111,7 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Dictionary of books.
         /// </summary>
-        internal BooksDictionary BooksDictionary =>
+        private BooksDictionary BooksDictionary =>
             _books ?? (_books = new BooksDictionary ());
         
         /// <summary>
@@ -133,7 +134,7 @@ namespace BricksBucket.Localization
         /// dedicated for the culture codes to avoid garbage collection and
         /// speed up the process to get an array of codes.
         /// </summary>
-        public string[] CulturesCodesArray
+        internal string[] CulturesCodesArray
         {
             get
             {
@@ -148,7 +149,7 @@ namespace BricksBucket.Localization
         /// dedicated for the books names to avoid garbage collection and
         /// speed up the process to get an array of names.
         /// </summary>
-        public string[] BooksNamesArray
+        internal string[] BooksNamesArray
         {
             get
             {
@@ -163,7 +164,7 @@ namespace BricksBucket.Localization
         /// dedicated for the books codes to avoid garbage collection and
         /// speed up the process to get an array of codes.
         /// </summary>
-        public string[] BooksCodesArray
+        internal string[] BooksCodesArray
         {
             get
             {
@@ -181,22 +182,42 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Name of the LocalizedObject Project.
         /// </summary>
+        /// <returns>Name of the project.</returns>
         public static string ProjectName => Instance._projectName;
 
         /// <summary>
-        /// Whether to use default culture for cultures not found.
+        /// If it is set to <value>true</value> then when a localization
+        /// is requested for a certain culture and the localization is
+        /// equals or equivalent to null then returns the value of the default
+        /// culture.
         /// </summary>
-        public static bool UseDefaultCulture => Instance._useDefaultCulture;
+        /// <returns>Whether to use default culture for localizations that are
+        /// equals or equivalent to null in a certain culture.
+        /// </returns>
+        public static bool UseDefaultCulture
+        {
+            get => Instance._useDefaultCulture;
+            set => Instance._useDefaultCulture = value;
+        }
 
         /// <summary>
-        /// Default Language.
+        /// Default culture to use for a localization instead of a culture with
+        /// an empty or null value for the localization.
         /// </summary>
+        /// <returns>Empty culture if the list of cultures is empty.</returns>
         public static Culture DefaultCulture =>
             Instance.CulturesList.Count > 0 ? Instance.CulturesList[0] : default;
 
         /// <summary>
-        /// Returns the array of cultures.
+        /// Array of the cultures registered in the project.
+        /// <div class="WARNING">
+        /// <h5>WARNING</h5>
+        /// <p>The usage of this property generates garbage collection. Consider
+        /// use the properties <see cref="CulturesNames"/> and <see cref=
+        /// "CulturesCodes"/> within the <see cref="GetCulture"/> method.</p>
+        /// </div>
         /// </summary>
+        /// <returns>Array of cultures.</returns>
         public static Culture[] Cultures => Instance.CulturesList.ToArray ();
 
         /// <summary>
@@ -245,14 +266,14 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <param name="code">Language code to evaluate.</param>
         /// <returns>Whether the language code is in settings.</returns>
-        public bool ContainsCulture (string code) =>
+        internal bool ContainsCulture (string code) =>
             CulturesList.Exists (culture => culture.Code == code);
 
         /// <summary>
         /// Returns the count of cultures in settings.
         /// </summary>
         /// <returns></returns>
-        public int GetCulturesCount () => CulturesList.Count;
+        internal int GetCulturesCount () => CulturesList.Count;
         
         /// <summary>
         /// Gets the culture at the given index.
@@ -260,7 +281,7 @@ namespace BricksBucket.Localization
         /// <param name="index">Index of the culture to return.</param>
         /// <param name="culture">Culture found at the given index.</param>
         /// <returns>Whether a culture was found.</returns>
-        public bool GetCulture (int index, out Culture culture)
+        internal bool GetCulture (int index, out Culture culture)
         {
             if (index >= CulturesList.Count || index < 0)
             {
@@ -351,7 +372,7 @@ namespace BricksBucket.Localization
         /// Gets the count of books in books dictionary.
         /// </summary>
         /// <returns>Count of books in books dictionary.</returns>
-        public int GetBooksCount () => BooksDictionary.Count;
+        internal int GetBooksCount () => BooksDictionary.Count;
 
         /// <summary>
         /// Evaluates if the dictionary of books contains the key code.

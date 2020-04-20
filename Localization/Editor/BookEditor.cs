@@ -8,13 +8,11 @@ namespace BricksBucket.Localization.Editor
 {
 	/// <summary>
 	/// 
-	/// BookEditor.
+	/// <!-- BookEditor -->
 	/// 
-	/// <para>
-	/// Custom editor for the scriptable object book.
-	/// </para>
+	/// Custom editor for the scriptable object <see cref="Book"/>.
 	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	/// 
 	/// </summary>
 	[CustomEditor (typeof (Book))]
@@ -115,9 +113,7 @@ namespace BricksBucket.Localization.Editor
 
 		#region Override Methods
 
-		/// <summary>
-		/// Called on inspector GUI.
-		/// </summary>
+		/// <inheritdoc cref="Editor.OnInspectorGUI"/>
 		public override void OnInspectorGUI ()
 		{
 			// Getting the target.
@@ -125,8 +121,7 @@ namespace BricksBucket.Localization.Editor
 			var book = this.target as Book;
 			if (book == null) return;
 			InspectorUtilities.BeginDrawPropertyTree (tree, true);
-
-
+			
 			//	Draws the Book Info.
 			EditorGUILayout.Space ();
 			tree.GetPropertyAtPath ("_code").Draw ();
@@ -160,8 +155,7 @@ namespace BricksBucket.Localization.Editor
 
 			tree.GetPropertyAtPath ("_description").Draw ();
 			EditorGUILayout.Space ();
-
-
+			
 			//	Draws the Status.
 			EditorGUILayout.BeginHorizontal ();
 			if (book.IsCompleted)
@@ -189,8 +183,7 @@ namespace BricksBucket.Localization.Editor
 			);
 			EditorGUILayout.LabelField (_statusIcon, GUILayout.Width (18));
 			EditorGUILayout.EndHorizontal ();
-
-
+			
 			//	Draws the title.
 			EditorGUILayout.Space ();
 			SirenixEditorGUI.Title (
@@ -199,10 +192,8 @@ namespace BricksBucket.Localization.Editor
 				TextAlignment.Left,
 				horizontalLine: true
 			);
-
-
+			
 			//	Draws the Add Menu.
-
 			if (_showAddMenu)
 			{
 				EditorGUILayout.Space ();
@@ -273,7 +264,6 @@ namespace BricksBucket.Localization.Editor
 				SirenixEditorGUI.EndBox ();
 			}
 
-
 			//	Draws icon to add.
 			else
 			{
@@ -284,8 +274,7 @@ namespace BricksBucket.Localization.Editor
 				);
 				EditorGUILayout.EndHorizontal ();
 			}
-
-
+			
 			//	Draws the lists.
 			EditorGUILayout.Space ();
 			if (book != null)
@@ -313,7 +302,6 @@ namespace BricksBucket.Localization.Editor
 						"Objects");
 			}
 
-
 			//	End drawing.
 			if (GUI.changed) EditorUtility.SetDirty (book);
 			InspectorUtilities.EndDrawPropertyTree (tree);
@@ -327,8 +315,12 @@ namespace BricksBucket.Localization.Editor
 
 		#region Class Implementation
 
-
-
+		/// <summary>
+		/// Draws a generic localization group of the T type on inspector.
+		/// </summary>
+		/// <param name="group">Group to Draw.</param>
+		/// <param name="groupName">Name of the group on inspector.</param>
+		/// <typeparam name="T">Type of the group.</typeparam>
 		private void DrawLocalizationGroup<T> (
 			ILocalizationGroup<T> group, string groupName
 		)
@@ -348,7 +340,6 @@ namespace BricksBucket.Localization.Editor
 			//	Draws the foldout list.
 			SirenixEditorGUI.BeginLegendBox (GUILayout.Width (boxWidth));
 
-
 			//	List Title and Status.
 			EditorGUILayout.BeginHorizontal ();
 			var completedText = group.UncompletedCount > 0
@@ -367,7 +358,6 @@ namespace BricksBucket.Localization.Editor
 			SirenixEditorGUI.HorizontalLineSeparator (
 				SirenixGUIStyles.BorderColor
 			);
-
 
 			//	Drawing codes.
 			EditorGUI.indentLevel++;
@@ -448,8 +438,7 @@ namespace BricksBucket.Localization.Editor
 						);
 					}
 				}
-
-
+				
 				//	Draws each culture and its value for localization.
 				foreach (string culture in group[code].Cultures)
 				{
@@ -469,6 +458,7 @@ namespace BricksBucket.Localization.Editor
 		}
 
 		#endregion
+		
 	}
 }
 
