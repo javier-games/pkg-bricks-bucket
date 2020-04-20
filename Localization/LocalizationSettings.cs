@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using Sirenix.OdinInspector;
@@ -466,7 +466,8 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Gets the culture for the given code.
         /// </summary>
-        /// <returns>Empty Culture if the code is not found.</returns>
+        /// <returns>Returns an empty Culture if the code is not found.
+        /// </returns>
         public static Culture GetCulture (string code)
         {
             for (int i = 0; i < Instance.CulturesList.Count; i++)
