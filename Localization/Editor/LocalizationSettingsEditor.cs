@@ -327,7 +327,7 @@ namespace BricksBucket.Localization.Editor
 				);
 				if (EditorGUI.EndChangeCheck ())
 				{
-					settings.GetCulture (_cultureToEditIndex,
+					settings.GetCultureByIndex (_cultureToEditIndex,
 						out var cultureToAdd);
 					_cultureToAdd = cultureToAdd;
 				}

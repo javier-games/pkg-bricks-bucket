@@ -281,7 +281,7 @@ namespace BricksBucket.Localization
         /// <param name="index">Index of the culture to return.</param>
         /// <param name="culture">Culture found at the given index.</param>
         /// <returns>Whether a culture was found.</returns>
-        internal bool GetCulture (int index, out Culture culture)
+        internal bool GetCultureByIndex (int index, out Culture culture)
         {
             if (index >= CulturesList.Count || index < 0)
             {
