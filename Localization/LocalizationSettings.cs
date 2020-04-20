@@ -464,6 +464,20 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
+        /// Gets the culture for the given code.
+        /// </summary>
+        /// <returns>Empty Culture if the code is not found.</returns>
+        public static Culture GetCulture (string code)
+        {
+            for (int i = 0; i < Instance.CulturesList.Count; i++)
+            {
+                if (Instance.CulturesList[i].Code == code)
+                    return Instance.CulturesList[i];
+            }
+            return default;
+        }
+
+        /// <summary>
         /// Gets the text localization.
         /// </summary>
         /// <param name="book">Code of book.</param>
