@@ -18,6 +18,11 @@ namespace BricksBucket.Localization
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	/// 
 	/// </summary>
+	/// <seealso href=
+	/// "https://docs.unity3d.com/ScriptReference/ScriptableObject.html">
+	/// ScriptableObject</seealso>
+	/// <seealso cref="BricksBucket.Localization.LocalizationSettings"/>
+	/// <seealso cref="BricksBucket.Localization.Culture"/>
 	[System.Serializable]
 	public class Book : ScriptableObject
 	{

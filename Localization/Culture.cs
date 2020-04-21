@@ -24,6 +24,8 @@ namespace BricksBucket.Localization
     /// <!-- By Javier García | @jvrgms | 2020 -->
     /// 
     /// </summary>
+    /// <seealso cref="BricksBucket.Localization.LocalizationSettings"/>
+    /// <seealso cref="BricksBucket.Localization.Book"/>
     [System.Serializable]
     public struct Culture
     {
@@ -130,13 +132,15 @@ namespace BricksBucket.Localization
         /// Windows Language Code Identifier. Defines the language and country
         /// of a culture using an standard available in all versions of Windows.
         /// Only editable on inspector.
-        /// More related information on <seealso href=
-        /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
-        /// MS-LCID</seealso> documentation.
         /// </summary>
         /// <returns>Best match for the identifier. <value><c>LCID.NONE</c>
         /// </value> if there is not match for any LCID or is a custom culture.
         /// </returns>
+        /// <seealso href="articles/localization/standard_lcid.html">
+        /// Bricks Bucket LCID Table</seealso>
+        /// <seealso href=
+        /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
+        /// Microsoft LCID Documentation</seealso>
         public LCID LCID
         {
             get => _LCID;
