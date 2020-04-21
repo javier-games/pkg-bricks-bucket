@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
-
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 // ReSharper disable StringLiteralTypo
 namespace BricksBucket.Localization
 {
     /// <summary>
     /// 
-    /// LocalizedObject Utils
+    /// <!-- LocalizationUtils -->
     ///
-    /// <para>
-    /// Static collection of methods and variables for localization.
-    /// </para>
+    /// Static collection of utilities (methods and extensions) for the
+    /// localization system.
     /// 
     /// </summary>
+    ///
+    /// <seealso cref="BricksBucket.Localization.LCID"/>
+    /// <seealso cref="BricksBucket.Localization.ISO639"/>
+    /// <seealso cref="BricksBucket.Localization.ISO3166"/>
     /// 
-    /// <para> By Javier García | @jvrgms | 2020 </para>
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     public static class LocalizationUtils
     {
 
@@ -23,12 +24,16 @@ namespace BricksBucket.Localization
         #region Convertion Methods
 
         /// <summary>
-        /// Converts ISO639 Language and ISO3166 Country to Language Code ID.
+        /// Converts a language in the ISO 639-1 standard and a country in the
+        /// ISO 3166-2 standard to the corresponding Language Code ID.
         /// </summary>
-        /// <param name="language">Language to convert.</param>
-        /// <param name="country">Country reference.</param>
-        /// <returns>Language Code Identifier.</returns>
-        public static LCID ToLCID (ISO639.Alpha1 language, ISO3166.Alpha2 country)
+        /// <param name="language">ISO 639-1 Language to convert.</param>
+        /// <param name="country">ISO 3166-2 Country reference.</param>
+        /// <returns>Language Code Identifier. Returns <value><c>LCID.NONE</c>
+        /// </value> if no match was found.</returns>
+        public static LCID ToLCID (
+            ISO639.Alpha1 language, ISO3166.Alpha2 country
+        )
         {
             if (language == ISO639.Alpha1.NONE) return LCID.INVARIANT;
 
@@ -43,19 +48,21 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Converts ISO639 Language and ISO3166 Country to Language Code ID.
+        /// Converts a language int value and a country int value to the
+        /// corresponding Language Code ID.
         /// </summary>
         /// <param name="language">Language to convert.</param>
         /// <param name="country">Country reference.</param>
-        /// <returns>Language Code Identifier.</returns>
+        /// <returns>Language Code Identifier. Returns <value><c>LCID.NONE</c>
+        /// </value> if no match was found.</returns>
         public static LCID ToLCID (int language, int country) =>
             ToLCID ((ISO639.Alpha1) language, (ISO3166.Alpha2) country);
 
         /// <summary>
-        /// Converts LCID to ISO-639 Language numeric code.
+        /// Converts a Language Code ID to a language ISO-639 numeric code.
         /// </summary>
-        /// <param name="lcid">Language code identifier.</param>
-        /// <returns>Numeric code.</returns>
+        /// <param name="lcid">Language code identifier to convert.</param>
+        /// <returns>Numeric representation of the ISO-639 standard.</returns>
         public static int ToISO639 (LCID lcid)
         {
             var dividedLCID = lcid.ToString ().Split ('_');
@@ -69,10 +76,10 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Converts LCID to ISO-3166 country numeric code.
+        /// Converts a Language Code ID to a country ISO-3166 numeric code.
         /// </summary>
-        /// <param name="lcid">Language code identifier.</param>
-        /// <returns>Numeric code.</returns>
+        /// <param name="lcid">Language code identifier to convert.</param>
+        /// <returns>Numeric representation of the ISO-3166 standard.</returns>
         public static int ToISO3166 (LCID lcid)
         {
             var dividedLCID = lcid.ToString ().Split ('_');
@@ -87,49 +94,24 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Converts a regular string to a code formatted string.
+        /// Converts a regular string to a code formatted string for
+        /// localization codes.
         /// </summary>
-        /// <param name="unformattedCode">string to convert.</param>
-        /// <returns>Formatted string.</returns>
+        /// <param name="unformattedCode">String to convert.</param>
+        /// <returns>String in <c>UPPER_SNAKE_CASE</c> format without any
+        /// diacritics and any special characters.</returns>
         public static string ToCodeFormat (this string unformattedCode)
         {
             if (string.IsNullOrWhiteSpace (unformattedCode))
                 return string.Empty;
 
-            return unformattedCode.RemoveDiacritics ().
+            return unformattedCode.
+                RemoveDiacritics ().
                 ToUpper ().
                 Replace (' ', '_').
                 RemoveSpecialCharacters ('_');
         }
 
         #endregion
-
-
-
-        #region Display Names
-
-        #endregion
     }
-
-
-    #region Exceptions
-
-    /// <summary>
-    /// 
-    /// Localization Not Found Exception
-    ///
-    /// <para>
-    /// Exception class for localizations not found.
-    /// </para>
-    /// 
-    /// <para> By Javier García | @jvrgms | 2020 </para>
-    /// 
-    /// </summary>
-    internal class LocalizationNotFoundException : System.Exception
-    {
-        public LocalizationNotFoundException (string message) :
-            base (message) { }
-    }
-
-    #endregion
 }
