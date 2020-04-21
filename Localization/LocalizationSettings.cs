@@ -22,11 +22,13 @@ namespace BricksBucket.Localization
     /// <!-- LocalizationSettings -->
     ///
     /// Class that administrates the cultures, books and its localizations
-    /// withing other settings related to the localizations for the project.
+    /// within settings related to the localizations. Access point for the
+    /// localizations values only editable on inspector.
     /// 
     /// <!-- By Javier García | @jvrgms | 2020 -->
     /// 
     /// </summary>
+    /// <seealso cref="BricksBucket.Localization.Book"/>
     public class LocalizationSettings : ScriptableSingleton
     {
 
@@ -206,7 +208,9 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <returns>Empty culture if the list of cultures is empty.</returns>
         public static Culture DefaultCulture =>
-            Instance.CulturesList.Count > 0 ? Instance.CulturesList[0] : default;
+            Instance.CulturesList.Count > 0
+                ? Instance.CulturesList[0]
+                : default;
 
         /// <summary>
         /// Array of the cultures registered in the project.
