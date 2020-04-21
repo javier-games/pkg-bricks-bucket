@@ -104,7 +104,7 @@ namespace BricksBucket.Localization
         #region Properties
 
         /// <summary>
-        /// Name of culture, useful to displays the culture instead fo its code.
+        /// Name of culture, useful to displays the culture instead of its code.
         /// Only editable on inspector.
         /// </summary>
         /// <returns>Name of the culture in the
@@ -133,10 +133,10 @@ namespace BricksBucket.Localization
         /// of a culture using an standard available in all versions of Windows.
         /// Only editable on inspector.
         /// </summary>
-        /// <returns>Best match for the identifier. <value><c>LCID.NONE</c>
-        /// </value> if there is not match for any LCID or is a custom culture.
-        /// </returns>
-        /// <seealso href="articles/localization/standard_lcid.html">
+        /// <returns>Best match for the identifier. Returns <value><c>
+        /// LCID.NONE</c></value> if there is not match for the language and
+        /// country or if it is a custom culture.</returns>
+        /// <seealso href="../articles/localization/standard_lcid.html">
         /// Bricks Bucket LCID Table</seealso>
         /// <seealso href=
         /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
@@ -150,12 +150,14 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Language code from the <see href=
         /// "https://www.iso.org/iso-639-language-codes.html">ISO 639-1</see>
-        /// standard. Only editable on inspector. See also <seealso href=
-        /// "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes"> List of
-        /// ISO 639-1</seealso> codes.
+        /// standard. Only editable on inspector.
         /// </summary>
-        /// <returns>Two letter code for languages. <value><c>ISO639_1.NONE
-        /// </c></value> if the culture has a custom language.</returns>
+        /// <returns>Two letter code for languages. Returns <value><c>
+        /// ISO639_1.NONE</c></value> if the culture has a custom language.
+        /// </returns>
+        /// <seealso href="../articles/localization/standard_iso639.html">
+        /// Bricks Bucket ISO 639 Table</seealso>
+        /// <!-- https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes -->
         public ISO639_1 Language
         {
             get => _isCustom ? ISO639_1.NONE : _language;
@@ -165,11 +167,12 @@ namespace BricksBucket.Localization
         /// <summary>
         /// Country code from the <see href=
         /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166-2
-        /// </see> standard. Only editable on inspector. See also <seealso href=
-        /// "https://en.wikipedia.org/wiki/ISO_3166-2">List of ISO 3166-2
-        /// </seealso> codes.
+        /// </see> standard. Only editable on inspector.
         /// </summary>
         /// <returns>Two letter code for countries.</returns>
+        /// <seealso href="../articles/localization/standard_iso3166.html">
+        /// Bricks Bucket ISO 3166 Table</seealso>
+        /// <!-- https://en.wikipedia.org/wiki/ISO_3166-2 -->
         public ISO3166_2 Country
         {
             get => _country;
