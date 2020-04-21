@@ -12,12 +12,12 @@ namespace BricksBucket.Localization
     /// Lists all Language Code Identifiers (LCIDs)</see> available in all
     /// versions of Windows.
     /// 
-    /// <!-- By Javier García | @jvrgms | 2020 -->
+    /// </summary>
     /// 
     /// <!-- Note: The code of the members of the enum have been generated with
     /// the following table: https://bit.ly/bb-localization-lcid -->
     /// 
-    /// </summary>
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     public enum LCID
     {
         /// <summary> No LCID. </summary>

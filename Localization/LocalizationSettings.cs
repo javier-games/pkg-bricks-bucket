@@ -25,15 +25,16 @@ namespace BricksBucket.Localization
     /// within settings related to them. Access point for the localizations
     /// values only editable on inspector.
     /// 
-    /// <!-- By Javier García | @jvrgms | 2020 -->
-    /// 
     /// </summary>
+    /// 
     /// <seealso href=
     /// "https://docs.unity3d.com/ScriptReference/ScriptableObject.html">
     /// Scriptable Object.</seealso>
     /// <seealso cref="BricksBucket.Generics.ScriptableSingleton{T}"/>
     /// <seealso cref="BricksBucket.Localization.Book"/>
     /// <see cref="BricksBucket.Localization.Culture"/>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     public class LocalizationSettings : ScriptableSingleton
     {
 

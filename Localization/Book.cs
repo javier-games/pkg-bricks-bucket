@@ -15,14 +15,15 @@ namespace BricksBucket.Localization
 	/// <see href="https://docs.unity3d.com/ScriptReference/Object.html">
 	/// UnityEngine.Object</see>, that means that can store custom assets.
 	/// 
-	/// <!-- By Javier García | @jvrgms | 2020 -->
-	/// 
 	/// </summary>
+	/// 
 	/// <seealso href=
 	/// "https://docs.unity3d.com/ScriptReference/ScriptableObject.html">
 	/// ScriptableObject</seealso>
 	/// <seealso cref="BricksBucket.Localization.LocalizationSettings"/>
 	/// <seealso cref="BricksBucket.Localization.Culture"/>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	public class Book : ScriptableObject
 	{

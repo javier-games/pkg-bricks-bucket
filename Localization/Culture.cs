@@ -21,11 +21,12 @@ namespace BricksBucket.Localization
     /// to use standards by the <see href="https://www.iso.org">
     /// International Organization for Standardization</see>.
     /// 
-    /// <!-- By Javier García | @jvrgms | 2020 -->
-    /// 
     /// </summary>
+    /// 
     /// <seealso cref="BricksBucket.Localization.LocalizationSettings"/>
     /// <seealso cref="BricksBucket.Localization.Book"/>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     [System.Serializable]
     public struct Culture
     {
@@ -69,7 +70,7 @@ namespace BricksBucket.Localization
         [SerializeField, EnumPaging]
         [Tooltip ("Language ISO-639 code.")]
         [OnValueChanged ("OnISOChanged")]
-        private ISO639_1 _language;
+        private ISO639.Alpha1 _language;
 
         /// <summary>
         /// Country code from the <see href=
@@ -79,7 +80,7 @@ namespace BricksBucket.Localization
         [SerializeField, EnumPaging]
         [Tooltip ("Country ISO-3166 code.")]
         [OnValueChanged ("OnISOChanged")]
-        private ISO3166_2 _country;
+        private ISO3166.Alpha2 _country;
 
         /// <summary>
         /// Specifies a region for the culture.
@@ -135,7 +136,7 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <returns>Best match for the identifier. Returns <value><c>
         /// LCID.NONE</c></value> if there is not match for the language and
-        /// country or if it is a custom culture.</returns>
+        /// country.</returns>
         /// <seealso href="../articles/localization/standard_lcid.html">
         /// Bricks Bucket LCID Table</seealso>
         /// <seealso href=
@@ -158,9 +159,9 @@ namespace BricksBucket.Localization
         /// <seealso href="../articles/localization/standard_iso639.html">
         /// Bricks Bucket ISO 639 Table</seealso>
         /// <!-- https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes -->
-        public ISO639_1 Language
+        public ISO639.Alpha1 Language
         {
-            get => _isCustom ? ISO639_1.NONE : _language;
+            get => _isCustom ? ISO639.Alpha1.NONE : _language;
             private set => _language = value;
         }
 
@@ -173,7 +174,7 @@ namespace BricksBucket.Localization
         /// <seealso href="../articles/localization/standard_iso3166.html">
         /// Bricks Bucket ISO 3166 Table</seealso>
         /// <!-- https://en.wikipedia.org/wiki/ISO_3166-2 -->
-        public ISO3166_2 Country
+        public ISO3166.Alpha2 Country
         {
             get => _country;
             private set => _country = value;
@@ -226,8 +227,8 @@ namespace BricksBucket.Localization
         {
             if (IsCustom) return;
 
-            Country = (ISO3166_2) LocalizationUtils.ToISO3166 (LCID);
-            Language = (ISO639_1) LocalizationUtils.ToISO639 (LCID);
+            Country = (ISO3166.Alpha2) LocalizationUtils.ToISO3166 (LCID);
+            Language = (ISO639.Alpha1) LocalizationUtils.ToISO639 (LCID);
             UpdateData ();
         }
 
@@ -252,9 +253,9 @@ namespace BricksBucket.Localization
         {
             Name = string.Empty;
             Code = string.Empty;
-            Country = ISO3166_2.NONE;
+            Country = ISO3166.Alpha2.NONE;
             Region = string.Empty;
-            Language = ISO639_1.NONE;
+            Language = ISO639.Alpha1.NONE;
             LCID = LCID.NONE;
         }
 
@@ -300,14 +301,14 @@ namespace BricksBucket.Localization
             else
             {
                 Code = Language.ToString ();
-                Name = LocalizationUtils.ISO639_Names[(int) Language];
+                Name = ISO639.Names[(int) Language];
 
-                if (Country != ISO3166_2.NONE)
+                if (Country != ISO3166.Alpha2.NONE)
                 {
                     Code = StringUtils.Concat (Code, "_", Country.ToString ());
                     Name = StringUtils.Concat (
                         Name, " (",
-                        LocalizationUtils.ISO3166_Names[(int) Country]
+                        ISO3166.Names[(int) Country]
                     );
                 }
 
@@ -315,12 +316,12 @@ namespace BricksBucket.Localization
                 {
                     Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
 
-                    Name = Country == ISO3166_2.NONE
+                    Name = Country == ISO3166.Alpha2.NONE
                         ? StringUtils.Concat (Name, " (", Region, ")")
                         : StringUtils.Concat (Name, " - ", Region, ")");
                 }
 
-                else if (Country != ISO3166_2.NONE)
+                else if (Country != ISO3166.Alpha2.NONE)
                 {
                     Name = StringUtils.Concat (Name, ")");
                 }
@@ -334,6 +335,7 @@ namespace BricksBucket.Localization
         #region Editor
 
 #if UNITY_EDITOR
+
         #region Drawer
 
         /// <summary>
@@ -468,17 +470,19 @@ namespace BricksBucket.Localization
                 if (EditorGUI.EndChangeCheck ()) culture.OnLCIDChanged ();
 
                 EditorGUI.BeginChangeCheck ();
-                culture.Language = (ISO639_1) SirenixEditorFields.EnumDropdown (
-                    label: "Language",
-                    selected: culture.Language
-                );
+                culture.Language =
+                    (ISO639.Alpha1) SirenixEditorFields.EnumDropdown (
+                        label: "Language",
+                        selected: culture.Language
+                    );
                 if (EditorGUI.EndChangeCheck ()) culture.OnISOChanged ();
 
                 EditorGUI.BeginChangeCheck ();
-                culture.Country = (ISO3166_2) SirenixEditorFields.EnumDropdown (
-                    label: "Country",
-                    selected: culture.Country
-                );
+                culture.Country =
+                    (ISO3166.Alpha2) SirenixEditorFields.EnumDropdown (
+                        label: "Country",
+                        selected: culture.Country
+                    );
                 if (EditorGUI.EndChangeCheck ()) culture.OnISOChanged ();
 
                 EditorGUI.BeginChangeCheck ();
@@ -512,10 +516,11 @@ namespace BricksBucket.Localization
                     value: culture.Name
                 );
 
-                culture.Country = (ISO3166_2) SirenixEditorFields.EnumDropdown (
-                    label: "Country",
-                    selected: culture.Country
-                );
+                culture.Country =
+                    (ISO3166.Alpha2) SirenixEditorFields.EnumDropdown (
+                        label: "Country",
+                        selected: culture.Country
+                    );
 
                 culture.Region = SirenixEditorFields.TextField (
                     label: "Region",
@@ -532,6 +537,7 @@ namespace BricksBucket.Localization
         }
 
         #endregion
+
 #endif
 
         #endregion
