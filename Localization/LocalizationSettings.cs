@@ -22,13 +22,18 @@ namespace BricksBucket.Localization
     /// <!-- LocalizationSettings -->
     ///
     /// Class that administrates the cultures, books and its localizations
-    /// within settings related to the localizations. Access point for the
-    /// localizations values only editable on inspector.
+    /// within settings related to them. Access point for the localizations
+    /// values only editable on inspector.
     /// 
     /// <!-- By Javier García | @jvrgms | 2020 -->
     /// 
     /// </summary>
+    /// <seealso href=
+    /// "https://docs.unity3d.com/ScriptReference/ScriptableObject.html">
+    /// Scriptable Object.</seealso>
+    /// <seealso cref="BricksBucket.Generics.ScriptableSingleton{T}"/>
     /// <seealso cref="BricksBucket.Localization.Book"/>
+    /// <see cref="BricksBucket.Localization.Culture"/>
     public class LocalizationSettings : ScriptableSingleton
     {
 
@@ -206,7 +211,8 @@ namespace BricksBucket.Localization
         /// Default culture to use for a localization instead of a culture with
         /// an empty or null value for the localization.
         /// </summary>
-        /// <returns>Empty culture if the list of cultures is empty.</returns>
+        /// <returns>Returns an empty culture if the list of cultures is
+        /// empty.</returns>
         public static Culture DefaultCulture =>
             Instance.CulturesList.Count > 0
                 ? Instance.CulturesList[0]
@@ -223,10 +229,21 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <returns>Array of cultures.</returns>
         public static Culture[] Cultures => Instance.CulturesList.ToArray ();
-
+        
         /// <summary>
-        /// Collection of display names of languages categories.
+        /// Array with the codes of the cultures in the localization settings.
         /// </summary>
+        /// <returns>Array of codes.</returns>
+        public static string[] CulturesCodes
+        {
+            get => Instance.CulturesCodesArray;
+            private set => Instance.CulturesCodesArray = value;
+        }
+        
+        /// <summary>
+        /// Array with the names of the cultures in the localization settings.
+        /// </summary>
+        /// <returns>Array of names.</returns>
         public static string[] CulturesNames
         {
             get => Instance.CulturesNamesArray;
@@ -234,30 +251,51 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
-        /// Collection of codes of languages categories.
+        /// Array of the books registered in the project.
+        /// <div class="WARNING">
+        /// <h5>WARNING</h5>
+        /// <p>The usage of this property generates garbage collection. Consider
+        /// use the properties <see cref="BooksNames"/> and <see cref=
+        /// "BooksCodes"/> within the <see cref="GetBook"/> method.</p>
+        /// </div>
         /// </summary>
-        public static string[] CulturesCodes
+        /// <returns>Array of cultures.</returns>
+        public static Book[] Books
         {
-            get => Instance.CulturesCodesArray;
-            private set => Instance.CulturesCodesArray = value;
+            get
+            {
+                var booksDictionary = Instance.BooksDictionary;
+                var books = new Book[booksDictionary.Count];
+
+                var i = 0;
+                foreach (var key in booksDictionary.Keys)
+                {
+                    books[i] = booksDictionary[key];
+                    i++;
+                }
+                
+                return books;
+            }
         }
 
         /// <summary>
-        /// Name of books.
+        /// Array with the codes of the books in the localization settings.
         /// </summary>
-        public static string[] BooksNames
-        {
-            get => Instance.BooksNamesArray;
-            private set => Instance.BooksNamesArray = value;
-        }
-
-        /// <summary>
-        /// Code of books.
-        /// </summary>
+        /// <returns>Array of codes.</returns>
         public static string[] BooksCodes
         {
             get => Instance.BooksCodesArray;
             private set => Instance.BooksCodesArray = value;
+        }
+
+        /// <summary>
+        /// Array with the names of the books in the localization settings.
+        /// </summary>
+        /// <returns>Array of names.</returns>
+        public static string[] BooksNames
+        {
+            get => Instance.BooksNamesArray;
+            private set => Instance.BooksNamesArray = value;
         }
 
         #endregion
@@ -383,7 +421,7 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <param name="code">Code to look for.</param>
         /// <returns>Whether the dictionary contains the book code.</returns>
-        public bool ContainsBook (string code) =>
+        internal bool ContainsBook (string code) =>
             BooksDictionary.ContainsKey (code);
 
         /// <summary>
@@ -452,62 +490,90 @@ namespace BricksBucket.Localization
 #endif
 
         /// <summary>
-        /// Gets the book of the specified code.
+        /// Gets the book with the specified code.
         /// </summary>
         /// <param name="code">Code of the book to look for.</param>
-        /// <returns>Book found in settings.</returns>
-        /// <exception cref="LocalizationNotFoundException">
-        /// Thrown when the code does not exists in the books collection.
-        /// </exception>
-        public static Book GetBook (string code)
+        /// <param name="book">Book found in settings. <value>Null</value>
+        ///  if the book was not found.</param>
+        /// <returns>Whether the book was found.</returns>
+        public static bool GetBook (string code, out Book book)
         {
-            if(!Instance.ContainsBook (code))
-                throw Exception ("Book " + code + " not found.");
-
-            return Instance.BooksDictionary[code];
+            if (!Instance.ContainsBook (code))
+            {
+                book = null;
+                return false;
+            }
+            
+            book = Instance.BooksDictionary[code];
+            return true;
         }
 
         /// <summary>
-        /// Gets the culture for the given code.
+        /// Gets the culture for the specified code.
         /// </summary>
-        /// <returns>Returns an empty Culture if the code is not found.
-        /// </returns>
-        public static Culture GetCulture (string code)
+        /// <param name="code">Code of the culture to look for.</param>
+        /// <param name="culture">Culture found in settings. <value>Default
+        /// </value> if the culture was not found.</param>
+        /// <returns>Whether the culture book was found.</returns>
+        public static bool GetCulture (string code, out Culture culture)
         {
             for (int i = 0; i < Instance.CulturesList.Count; i++)
             {
                 if (Instance.CulturesList[i].Code == code)
-                    return Instance.CulturesList[i];
+                {
+                    culture = Instance.CulturesList[i];
+                    return true;
+                }
             }
-            return default;
+
+            culture = default;
+            return false;
         }
 
         /// <summary>
         /// Gets the text localization.
         /// </summary>
-        /// <param name="book">Code of book.</param>
+        /// <param name="book">Code of book with the localization.</param>
         /// <param name="code">Code of the localization.</param>
-        /// <param name="culture">Culture of the localization.</param>
-        /// <returns>Localization text in the specified location.</returns>
-        public static string GetText (string book, string code, string culture)
+        /// <param name="culture">Culture for the localization.</param>
+        /// <param name="value">Value of the localization.</param>
+        /// <returns>Whether the localization was found.</returns>
+        public static bool GetLocalizationText (
+            string book, string code, string culture, out string value
+        )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
-                throw Exception ("Book " + book + " not found.");
+            {
+                value = string.Empty;
+                return false;
+            }
 
             var bookObject = Instance.BooksDictionary[book];
             if (bookObject == null)
-                throw Exception ("Book " + book + " is null");
+            {
+                value = string.Empty;
+                return false;
+            }
 
             var group = bookObject.TextGroup;
             if (!group.ContainsLocalizedObject (code))
-                throw Exception ("Localized object " + code + " not found.");
+            {
+                value = string.Empty;
+                return false;
+            }
 
             var localizedObject = group[code];
             if (localizedObject == null)
-                throw Exception ("Localized object " + code + " is null.");
+            {
+                value = string.Empty;
+                return false;
+            }
 
             if (!localizedObject.ContainsCulture (culture))
-                throw Exception ("Culture " + culture + " not found.");
+            {
+                value = string.Empty;
+                return false;
+            }
 
             var text = localizedObject[culture];
 
@@ -516,39 +582,59 @@ namespace BricksBucket.Localization
                 string.IsNullOrWhiteSpace (text) &&
                 UseDefaultCulture;
 
-            return returnDefault
-                ? GetText (book, code, DefaultCulture.Code)
-                : text;
+            if (returnDefault)
+                return GetLocalizationText (
+                    book, code, DefaultCulture.Code, out value
+                );
+
+            value = text;
+            return true;
         }
 
         /// <summary>
-        /// Gets the texture localization.
+        /// Gets the Texture localization.
         /// </summary>
-        /// <param name="book">Code of book.</param>
+        /// <param name="book">Code of book with the localization.</param>
         /// <param name="code">Code of the localization.</param>
-        /// <param name="culture">Culture of the localization.</param>
-        /// <returns>Localization texture in the specified location.</returns>
-        public static Texture GetTexture (
-            string book, string code, string culture
+        /// <param name="culture">Culture for the localization.</param>
+        /// <param name="value">Value of the localization.</param>
+        /// <returns>Whether the localization was found.</returns>
+        public static bool GetLocalizationTexture (
+            string book, string code, string culture, out Texture value
         )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
-                throw Exception ("Book " + book + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var bookObject = Instance.BooksDictionary[book];
             if (bookObject == null)
-                throw Exception ("Book " + book + " is null");
+            {
+                value = null;
+                return false;
+            }
 
             var group = bookObject.TextureGroup;
             if (!group.ContainsLocalizedObject (code))
-                throw Exception ("Localized object " + code + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var localizedObject = group[code];
             if (localizedObject == null)
-                throw Exception ("Localized object " + code + " is null.");
+            {
+                value = null;
+                return false;
+            }
 
             if (!localizedObject.ContainsCulture (culture))
-                throw Exception ("Culture " + culture + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var texture = localizedObject[culture];
 
@@ -557,39 +643,59 @@ namespace BricksBucket.Localization
                 texture == null &&
                 UseDefaultCulture;
 
-            return returnDefault
-                ? GetTexture (book, code, DefaultCulture.Code)
-                : texture;
+            if (returnDefault)
+                return GetLocalizationTexture (
+                    book, code, DefaultCulture.Code, out value
+                );
+
+            value = texture;
+            return true;
         }
 
         /// <summary>
-        /// Gets the sprite localization.
+        /// Gets the Sprite localization.
         /// </summary>
-        /// <param name="book">Code of book.</param>
+        /// <param name="book">Code of book with the localization.</param>
         /// <param name="code">Code of the localization.</param>
-        /// <param name="culture">Culture of the localization.</param>
-        /// <returns>Localization sprite in the specified location.</returns>
-        public static Sprite GetSprite (
-            string book, string code, string culture
+        /// <param name="culture">Culture for the localization.</param>
+        /// <param name="value">Value of the localization.</param>
+        /// <returns>Whether the localization was found.</returns>
+        public static bool GetLocalizationSprite (
+            string book, string code, string culture, out Sprite value
         )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
-                throw Exception ("Book " + book + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var bookObject = Instance.BooksDictionary[book];
             if (bookObject == null)
-                throw Exception ("Book " + book + " is null");
+            {
+                value = null;
+                return false;
+            }
 
             var group = bookObject.SpriteGroup;
             if (!group.ContainsLocalizedObject (code))
-                throw Exception ("Localized object " + code + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var localizedObject = group[code];
             if (localizedObject == null)
-                throw Exception ("Localized object " + code + " is null.");
+            {
+                value = null;
+                return false;
+            }
 
             if (!localizedObject.ContainsCulture (culture))
-                throw Exception ("Culture " + culture + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var sprite = localizedObject[culture];
 
@@ -598,39 +704,59 @@ namespace BricksBucket.Localization
                 sprite == null &&
                 UseDefaultCulture;
 
-            return returnDefault
-                ? GetSprite (book, code, DefaultCulture.Code)
-                : sprite;
+            if (returnDefault)
+                return GetLocalizationSprite (
+                    book, code, DefaultCulture.Code, out value
+                );
+
+            value = sprite;
+            return true;
         }
 
         /// <summary>
-        /// Gets the audio localization.
+        /// Gets the Audio Clip localization.
         /// </summary>
-        /// <param name="book">Code of book.</param>
+        /// <param name="book">Code of book with the localization.</param>
         /// <param name="code">Code of the localization.</param>
-        /// <param name="culture">Culture of the localization.</param>
-        /// <returns>Localization audio in the specified location.</returns>
-        public static AudioClip GetAudio (
-            string book, string code, string culture
+        /// <param name="culture">Culture for the localization.</param>
+        /// <param name="value">Value of the localization.</param>
+        /// <returns>Whether the localization was found.</returns>
+        public static bool GetLocalizationAudio (
+            string book, string code, string culture, out AudioClip value
         )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
-                throw Exception ("Book " + book + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var bookObject = Instance.BooksDictionary[book];
             if (bookObject == null)
-                throw Exception ("Book " + book + " is null");
+            {
+                value = null;
+                return false;
+            }
 
             var group = bookObject.AudioGroup;
             if (!group.ContainsLocalizedObject (code))
-                throw Exception ("Localized object " + code + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var localizedObject = group[code];
             if (localizedObject == null)
-                throw Exception ("Localized object " + code + " is null.");
+            {
+                value = null;
+                return false;
+            }
 
             if (!localizedObject.ContainsCulture (culture))
-                throw Exception ("Culture " + culture + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var audioClip = localizedObject[culture];
 
@@ -639,39 +765,59 @@ namespace BricksBucket.Localization
                 audioClip == null &&
                 UseDefaultCulture;
 
-            return returnDefault
-                ? GetAudio (book, code, DefaultCulture.Code)
-                : audioClip;
+            if (returnDefault)
+                return GetLocalizationAudio (
+                    book, code, DefaultCulture.Code, out value
+                );
+
+            value = audioClip;
+            return true;
         }
 
         /// <summary>
-        /// Gets the video localization.
+        /// Gets the Video Clip localization.
         /// </summary>
-        /// <param name="book">Code of book.</param>
+        /// <param name="book">Code of book with the localization.</param>
         /// <param name="code">Code of the localization.</param>
-        /// <param name="culture">Culture of the localization.</param>
-        /// <returns>Localization video in the specified location.</returns>
-        public static VideoClip GetVideo (
-            string book, string code, string culture
+        /// <param name="culture">Culture for the localization.</param>
+        /// <param name="value">Value of the localization.</param>
+        /// <returns>Whether the localization was found.</returns>
+        public static bool GetLocalizationVideo (
+            string book, string code, string culture, out VideoClip value
         )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
-                throw Exception ("Book " + book + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var bookObject = Instance.BooksDictionary[book];
             if (bookObject == null)
-                throw Exception ("Book " + book + " is null");
+            {
+                value = null;
+                return false;
+            }
 
             var group = bookObject.VideoGroup;
             if (!group.ContainsLocalizedObject (code))
-                throw Exception ("Localized object " + code + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var localizedObject = group[code];
             if (localizedObject == null)
-                throw Exception ("Localized object " + code + " is null.");
+            {
+                value = null;
+                return false;
+            }
 
             if (!localizedObject.ContainsCulture (culture))
-                throw Exception ("Culture " + culture + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var videoClip = localizedObject[culture];
 
@@ -680,39 +826,61 @@ namespace BricksBucket.Localization
                 videoClip == null &&
                 UseDefaultCulture;
 
-            return returnDefault
-                ? GetVideo (book, code, DefaultCulture.Code)
-                : videoClip;
+            if (returnDefault)
+                return GetLocalizationVideo (
+                    book, code, DefaultCulture.Code, out value
+                );
+
+            value = videoClip;
+            return true;
         }
 
         /// <summary>
-        /// Gets the object localization.
+        /// Gets the <see href=
+        /// "https://docs.unity3d.com/ScriptReference/Object.html">
+        /// Unity Object</see> localization.
         /// </summary>
-        /// <param name="book">Code of book.</param>
+        /// <param name="book">Code of book with the localization.</param>
         /// <param name="code">Code of the localization.</param>
-        /// <param name="culture">Culture of the localization.</param>
-        /// <returns>Localization object in the specified location.</returns>
-        public static Object GetObject (
-            string book, string code, string culture
+        /// <param name="culture">Culture for the localization.</param>
+        /// <param name="value">Value of the localization.</param>
+        /// <returns>Whether the localization was found.</returns>
+        public static bool GetLocalizationObject (
+            string book, string code, string culture, out Object value
         )
         {
             if (!Instance.BooksDictionary.ContainsKey (book))
-                throw Exception ("Book " + book + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var bookObject = Instance.BooksDictionary[book];
             if (bookObject == null)
-                throw Exception ("Book " + book + " is null");
+            {
+                value = null;
+                return false;
+            }
 
             var group = bookObject.UnityObjectGroup;
             if (!group.ContainsLocalizedObject (code))
-                throw Exception ("Localized object " + code + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var localizedObject = group[code];
             if (localizedObject == null)
-                throw Exception ("Localized object " + code + " is null.");
+            {
+                value = null;
+                return false;
+            }
 
             if (!localizedObject.ContainsCulture (culture))
-                throw Exception ("Culture " + culture + " not found.");
+            {
+                value = null;
+                return false;
+            }
 
             var o = localizedObject[culture];
 
@@ -721,18 +889,14 @@ namespace BricksBucket.Localization
                 o == null &&
                 UseDefaultCulture;
 
-            return returnDefault
-                ? GetObject (book, code, DefaultCulture.Code)
-                : o;
-        }
+            if (returnDefault)
+                return GetLocalizationObject (
+                    book, code, DefaultCulture.Code, out value
+                );
 
-        /// <summary>
-        /// Returns an exception for a localization not found.
-        /// </summary>
-        /// <param name="message">Message to display on console.</param>
-        /// <returns>Exception for a localization not found.</returns>
-        private static System.Exception Exception (string message) =>
-            new LocalizationNotFoundException (message);
+            value = o;
+            return true;
+        }
 
         #endregion
     }

@@ -91,8 +91,8 @@ namespace BricksBucket.Localization.Editor
 					_cultureCodes.Add (LocalizationSettings.CulturesCodes[i]);
 			
 			_localizationCodes.Clear ();
-			var bookCode = LocalizationSettings.BooksCodes[_activeTab];
-			var book = LocalizationSettings.GetBook (bookCode);
+			var bookCode = LocalizationSettings.BooksCodes[_activeTab]; 
+			LocalizationSettings.GetBook (bookCode, out var book);
 			string[] keys;
 			switch (_dataType)
 			{
