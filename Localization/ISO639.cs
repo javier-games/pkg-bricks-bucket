@@ -12,27 +12,30 @@ namespace BricksBucket.Localization
     /// <!-- ISO639 -->
     /// 
     /// <para>
-    /// "This ISO standard can be applied across many types of organization and
-    /// situations. It’s invaluable for bibliographic purposes, in libraries or
-    /// information management, including computerized systems, and for the
-    /// representation of different language versions on Websites.." - <see
+    /// <i>"This ISO standard can be applied across many types of organization
+    /// and situations. It’s invaluable for bibliographic purposes, in libraries
+    /// or information management, including computerized systems, and for the
+    /// representation of different language versions on Websites."</i> - <see
     /// href= "https://www.iso.org/iso-3166-country-codes.html">
     /// International Organization for Standardization</see>.
     /// </para>
     ///
-    /// <para>This class defines enums and methods to integrate the standard
-    /// ISO 639 for languages into the
-    /// <see href="../articles/localization/intro.html">
-    /// Bricks Bucket Localization System</see>.
+    /// <para>
+    /// This class integrates the standard ISO 639 for languages into the
+    /// <see href="../articles/localization">Bricks Bucket Localization System
+    /// </see>. The relation ship between the different part of the standard,
+    /// considered in the project, is shown in the <see href=
+    /// "../articles/localization/standard_iso639.html">ISO 639 Table</see>.
     /// </para>
     /// 
     /// </summary>
-    /// 
+    ///
+    /// <seealso cref="BricksBucket.Localization.ISO639.Alpha1"/>
+    /// <seealso cref="BricksBucket.Localization.ISO639.Alpha2T"/>
+    /// <seealso cref="BricksBucket.Localization.ISO639.Alpha2B"/>
     /// <seealso cref="BricksBucket.Localization.ISO3166"/>
     /// <seealso cref="BricksBucket.Localization.LCID"/>
     /// <seealso cref="BricksBucket.Localization.Culture"/>
-    /// <seealso href="../articles/localization/standard_iso639.html">
-    /// Bricks Bucket ISO 639 Table</seealso>
     /// 
     /// <!-- Note: The code of the members of the enum have been generated with
     /// the following table: https://bit.ly/bb-localization-iso639 -->
@@ -41,6 +44,7 @@ namespace BricksBucket.Localization
     public static class ISO639
     {
 
+        
 
         /// <summary>
         /// Collection of displays names for the ISO 639 standard.
@@ -248,9 +252,15 @@ namespace BricksBucket.Localization
         /// Defines two letters codes for the names of languages according to
         /// the <b>ISO 639-1</b> standard, is the first part of the  <see href=
         /// "https://www.iso.org/iso-639-language-codes.html">ISO 639</see>
-        /// series.
+        /// series. Its relation ship with the other parts of the standard
+        /// is shown in the <see href=
+        /// "../articles/localization/standard_iso639.html">ISO 639 Table</see>.
         /// 
         /// </summary>
+        /// 
+        /// <seealso cref="BricksBucket.Localization.ISO639"/>
+        /// <seealso cref="BricksBucket.Localization.ISO639.Alpha2T"/>
+        /// <seealso cref="BricksBucket.Localization.ISO639.Alpha2B"/>
         public enum Alpha1
         {
             /// <summary> No language. </summary>
@@ -814,6 +824,8 @@ namespace BricksBucket.Localization
             ZU = 184,
         }
 
+        
+        
         /// <summary>
         /// 
         /// <!-- Alpha2T -->
@@ -822,9 +834,15 @@ namespace BricksBucket.Localization
         /// the <b>ISO 639-2/T</b> terminological standard, is the second part
         /// of the <see href=
         /// "https://www.iso.org/iso-639-language-codes.html">ISO 639</see>
-        /// series.
+        /// series. Its relation ship with the other parts of the standard
+        /// is shown in the <see href=
+        /// "../articles/localization/standard_iso639.html">ISO 639 Table</see>.
         /// 
         /// </summary>
+        /// 
+        /// <seealso cref="BricksBucket.Localization.ISO639"/>
+        /// <seealso cref="BricksBucket.Localization.ISO639.Alpha1"/>
+        /// <seealso cref="BricksBucket.Localization.ISO639.Alpha2B"/>
         public enum Alpha2T
         {
             /// <summary> No language. </summary>
@@ -1388,6 +1406,8 @@ namespace BricksBucket.Localization
             ZUL = 184,
         }
 
+        
+        
         /// <summary>
         /// 
         /// <!-- Alpha2B -->
@@ -1396,9 +1416,15 @@ namespace BricksBucket.Localization
         /// the <b>ISO 639-2/B</b> bibliographic standard, is the second part
         /// of the <see href=
         /// "https://www.iso.org/iso-639-language-codes.html">ISO 639</see>
-        /// series.
+        /// series. Its relation ship with the other parts of the standard
+        /// is shown in the <see href=
+        /// "../articles/localization/standard_iso639.html">ISO 639 Table</see>.
         /// 
         /// </summary>
+        /// 
+        /// <seealso cref="BricksBucket.Localization.ISO639"/>
+        /// <seealso cref="BricksBucket.Localization.ISO639.Alpha2T"/>
+        /// <seealso cref="BricksBucket.Localization.ISO639.Alpha2B"/>
         public enum Alpha2B
         {
             /// <summary> No language. </summary>

@@ -12,25 +12,28 @@ namespace BricksBucket.Localization
     /// <!-- ISO3166 -->
     ///
     /// <para>
-    /// "The purpose of ISO 3166 is to define internationally recognized codes
-    /// of letters and/or numbers that we can use when we refer to countries
-    /// and their subdivisions." - <see href=
+    /// <i>"The purpose of ISO 3166 is to define internationally recognized
+    /// codes of letters and/or numbers that we can use when we refer to
+    /// countries and their subdivisions."</i> - <see href=
     /// "https://www.iso.org/iso-3166-country-codes.html">
     /// International Organization for Standardization</see>.
     /// </para>
     ///
-    /// <para>This class defines enums and methods to integrate the standard
-    /// ISO 3166 for countries into the
-    /// <see href="../articles/localization/intro.html">
-    /// Bricks Bucket Localization System</see>.
+    /// <para>
+    /// This class integrates the standard ISO 3166 for countries into the
+    /// <see href="../articles/localization">Bricks Bucket Localization System
+    /// </see>. The relation ship between the different part of the standard,
+    /// considered in the project, is shown in the <see href=
+    /// "../articles/localization/standard_iso3166.html">ISO 3166 Table</see>
     /// </para>
     /// 
     /// </summary>
+    ///
+    /// <seealso cref="BricksBucket.Localization.ISO3166.Alpha2"/>
+    /// <seealso cref="BricksBucket.Localization.ISO3166.Alpha3"/>
     /// <seealso cref="BricksBucket.Localization.ISO639"/>
     /// <seealso cref="BricksBucket.Localization.LCID"/>
     /// <seealso cref="BricksBucket.Localization.Culture"/>
-    /// <seealso href="../articles/localization/standard_iso3166.html">
-    /// Bricks Bucket ISO 3166 Table</seealso>
     ///
     /// <!-- Note: The code of the members of the enum have been generated with
     /// the following table: https://bit.ly/bb-localization-iso3166 -->
@@ -38,6 +41,7 @@ namespace BricksBucket.Localization
     /// <!-- By Javier García | @jvrgms | 2020 -->
     public static class ISO3166
     {
+        
         
         
         /// <summary>
@@ -309,9 +313,15 @@ namespace BricksBucket.Localization
         /// subdivisions according to the <b>ISO 3166-2</b> standard derived
         /// from the <see href=
         /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166</see>
-        /// standard.
+        /// standard. Its relation ship with the other parts of the standard
+        /// is shown in the <see href=
+        /// "../articles/localization/standard_iso3166.html">ISO 3166 Table
+        /// </see>
         /// 
         /// </summary>
+        ///
+        /// <seealso cref="BricksBucket.Localization.ISO3166"/>
+        /// <seealso cref="BricksBucket.Localization.ISO3166.Alpha3"/>
         public enum Alpha2
         {
             /// <summary> No country. </summary>
@@ -1085,6 +1095,7 @@ namespace BricksBucket.Localization
         }
 
 
+        
         /// <summary>
         /// 
         /// <!-- Alpha3 -->
@@ -1093,9 +1104,15 @@ namespace BricksBucket.Localization
         /// subdivisions according to the <b>ISO 3166-3</b> standard derived
         /// from the <see href=
         /// "https://www.iso.org/iso-3166-country-codes.html">ISO 3166</see>
-        /// standard.
+        /// standard. Its relation ship with the other parts of the standard
+        /// is shown in the <see href=
+        /// "../articles/localization/standard_iso3166.html">ISO 3166 Table
+        /// </see>
         /// 
         /// </summary>
+        ///
+        /// <seealso cref="BricksBucket.Localization.ISO3166"/>
+        /// <seealso cref="BricksBucket.Localization.ISO3166.Alpha2"/>
         public enum Alpha3
         {
             /// <summary> No country. </summary>
