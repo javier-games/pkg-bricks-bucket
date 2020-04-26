@@ -3,15 +3,13 @@
 // ReSharper disable InconsistentNaming
 namespace BricksBucket.Localization
 {
-    /// <summary>
-    /// 
     /// <!-- LCID -->
     ///
+    /// <summary>
     /// Describes localizable information in Windows. <see href=
     /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
     /// Lists all Language Code Identifiers (LCIDs)</see> available in all
     /// versions of Windows.
-    /// 
     /// </summary>
     /// 
     /// <!-- Note: The code of the members of the enum have been generated with

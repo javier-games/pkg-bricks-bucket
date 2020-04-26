@@ -12,15 +12,13 @@ using Sirenix.Utilities.Editor;
 // ReSharper disable InconsistentNaming
 namespace BricksBucket.Localization
 {
-    /// <summary>
-    /// 
     /// <!-- Culture -->
     ///
+    /// <summary>
     /// The Culture struct contains the basic information to categorize
     /// localizations by its language, country and/or region with the facility
     /// to use standards by the <see href="https://www.iso.org">
     /// International Organization for Standardization</see>.
-    /// 
     /// </summary>
     /// 
     /// <seealso cref="BricksBucket.Localization.LocalizationSettings"/>

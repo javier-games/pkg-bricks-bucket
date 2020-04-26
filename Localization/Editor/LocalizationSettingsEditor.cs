@@ -6,17 +6,13 @@ using BricksBucket.Editor;
 
 namespace BricksBucket.Localization.Editor
 {
+	/// <!-- LocalizationSettingsEditor -->
+	/// 
 	/// <summary>
-	/// 
-	/// Localization Settings Editor.
-	///
-	/// <para>
 	/// Custom editor to draw the localizations settings.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[CustomEditor (typeof (LocalizationSettings))]
 	internal class LocalizationSettingsEditor : OdinEditor
 	{

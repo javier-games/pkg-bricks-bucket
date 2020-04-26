@@ -16,15 +16,13 @@ namespace BricksBucket.Localization
 {
     using ScriptableSingleton =
         Generics.ScriptableSingleton<LocalizationSettings>;
-
-    /// <summary>
-    /// 
+    
     /// <!-- LocalizationSettings -->
-    ///
+    /// 
+    /// <summary>
     /// Class that administrates the cultures, books and its localizations
     /// within settings related to them. Access point for the localizations
     /// values only editable on inspector.
-    /// 
     /// </summary>
     /// 
     /// <seealso href=
@@ -38,6 +36,7 @@ namespace BricksBucket.Localization
     public class LocalizationSettings : ScriptableSingleton
     {
 
+        
         #region Fields
 
         /// <summary>
@@ -103,7 +102,26 @@ namespace BricksBucket.Localization
         [SerializeField, HideInInspector]
         private string[] _booksCodes;
 
+#if UNITY_EDITOR
+        /// <summary>
+        /// Mask for the Edit Localizations Window Filter.
+        /// </summary>
+        [SerializeField]
+        internal int _windowDataTypeMask = 1;
 
+        /// <summary>
+        /// Mask for the Edit Localizations Window Filter.
+        /// </summary>
+        [SerializeField]
+        internal int _windowCultureMask = ~0b0;
+
+        /// <summary>
+        /// Index of the Edit Localizations Window active Book.
+        /// </summary>
+        [SerializeField]
+        internal int _windowActiveBook;
+#endif
+        
         #endregion
 
         
@@ -127,14 +145,14 @@ namespace BricksBucket.Localization
         /// dedicated for the culture names to avoid garbage collection and
         /// speed up the process to get an array of names.
         /// </summary>
-        internal string[] CulturesNamesArray
+        private string[] CulturesNamesArray
         {
             get
             {
                 if (_culturesNames == null) UpdateCultureArrays ();
                 return _culturesNames;
             }
-            private set => _culturesNames = value;
+            set => _culturesNames = value;
         }
 
         /// <summary>
@@ -142,14 +160,14 @@ namespace BricksBucket.Localization
         /// dedicated for the culture codes to avoid garbage collection and
         /// speed up the process to get an array of codes.
         /// </summary>
-        internal string[] CulturesCodesArray
+        private string[] CulturesCodesArray
         {
             get
             {
                 if(_culturesCodes == null) UpdateCultureArrays ();
                 return _culturesCodes;
             }
-            private set => _culturesCodes = value;
+            set => _culturesCodes = value;
         }
         
         /// <summary>
@@ -157,14 +175,14 @@ namespace BricksBucket.Localization
         /// dedicated for the books names to avoid garbage collection and
         /// speed up the process to get an array of names.
         /// </summary>
-        internal string[] BooksNamesArray
+        private string[] BooksNamesArray
         {
             get
             {
                 if(_booksNames == null) UpdateBooksArrays ();
                 return _booksNames;
             }
-            private set => _booksNames = value;
+            set => _booksNames = value;
         }
 
         /// <summary>
@@ -172,14 +190,14 @@ namespace BricksBucket.Localization
         /// dedicated for the books codes to avoid garbage collection and
         /// speed up the process to get an array of codes.
         /// </summary>
-        internal string[] BooksCodesArray
+        private string[] BooksCodesArray
         {
             get
             {
                 if(_booksCodes == null) UpdateBooksArrays ();
                 return _booksCodes;
             }
-            private set => _booksCodes = value;
+            set => _booksCodes = value;
         }
 
         #endregion
@@ -298,7 +316,36 @@ namespace BricksBucket.Localization
             get => Instance.BooksNamesArray;
             private set => Instance.BooksNamesArray = value;
         }
+        
+#if UNITY_EDITOR
+        /// <summary>
+        /// Mask for the Edit Localizations Window Filter.
+        /// </summary>
+        internal static int WindowDataTypeMask
+        {
+            get => Instance._windowDataTypeMask;
+            set => Instance._windowDataTypeMask = value;
+        }
 
+        /// <summary>
+        /// Mask for the Edit Localizations Window Filter.
+        /// </summary>
+        internal static int WindowCultureMask
+        {
+            get => Instance._windowCultureMask;
+            set => Instance._windowCultureMask = value;
+        }
+
+        /// <summary>
+        /// Index of the Edit Localizations Window active Book.
+        /// </summary>
+        internal static int WindowActiveBook
+        {
+            get => Instance._windowActiveBook;
+            set => Instance._windowActiveBook = value;
+        }
+#endif
+        
         #endregion
 
         
@@ -362,7 +409,7 @@ namespace BricksBucket.Localization
         {
             CulturesList.Add (culture);
             foreach (var book in BooksDictionary.Values)
-                book.AddCulture (culture.Code);
+                book.AddNewCulture (culture.Code);
             UpdateCultureArrays ();
         }
 
@@ -445,7 +492,8 @@ namespace BricksBucket.Localization
             var book = BooksDictionary[code];
             BooksDictionary.Remove (code);
 #if UNITY_EDITOR
-            book.TryDestroyImmediate ();
+            if(!BooksDictionary.ContainsValue (book))
+                book.TryDestroyImmediate ();
 #endif
             UpdateBooksArrays ();
         }
@@ -485,8 +533,10 @@ namespace BricksBucket.Localization
         [MenuItem ("Tools/Bricks Bucket/Localization/Initialize")]
         public static void InitializeLocalization ()
         {
-            if(instance == null)
-                Debug.Log (Instance + " has been created.", Instance);
+            if (!InstanceExist)
+            {
+                Debug.Log (Instance);
+            }
         }
 #endif
 
@@ -532,6 +582,70 @@ namespace BricksBucket.Localization
         }
 
         /// <summary>
+        /// Tries to get the localization for the given parameters.
+        /// </summary>
+        /// <param name="book">Book where to look for.</param>
+        /// <param name="code">Code of the localized object.</param>
+        /// <param name="culture">Culture for the localization.</param>
+        /// <param name="type">Type of the localization value.</param>
+        /// <param name="value">Value of the localization.</param>
+        /// <returns>Whether the localization was found. Returns <value>
+        /// <c>NULL</c></value> if the localization was found.</returns>
+        private static bool GetLocalization (
+            string book, string code, string culture, LocalizationType type,
+            out object value
+        )
+        {
+            if (!Instance.BooksDictionary.ContainsKey (book))
+            {
+                value = null;
+                return false;
+            }
+
+            var bookObject = Instance.BooksDictionary[book];
+            if (bookObject == null)
+            {
+                value = null;
+                return false;
+            }
+
+            var group = bookObject.GroupsDictionary[type];
+            if (!group.ContainsLocalizedObject (code))
+            {
+                value = null;
+                return false;
+            }
+
+            var localizedObject = group.GetLocalized (code);
+            if (localizedObject == null)
+            {
+                value = null;
+                return false;
+            }
+
+            if (!localizedObject.ContainsCulture (culture))
+            {
+                value = null;
+                return false;
+            }
+            
+            var localization = localizedObject.GetLocalization (culture);
+
+            var returnDefault =
+                culture != DefaultCulture.Code &&
+                localization == null &&
+                UseDefaultCulture;
+
+            if (returnDefault)
+                return GetLocalization (
+                    book, code, DefaultCulture.Code, type, out value
+                );
+
+            value = localization;
+            return true;
+        }
+
+        /// <summary>
         /// Gets the text localization.
         /// </summary>
         /// <param name="book">Code of book with the localization.</param>
@@ -543,52 +657,16 @@ namespace BricksBucket.Localization
             string book, string code, string culture, out string value
         )
         {
-            if (!Instance.BooksDictionary.ContainsKey (book))
-            {
-                value = string.Empty;
-                return false;
-            }
-
-            var bookObject = Instance.BooksDictionary[book];
-            if (bookObject == null)
-            {
-                value = string.Empty;
-                return false;
-            }
-
-            var group = bookObject.TextGroup;
-            if (!group.ContainsLocalizedObject (code))
-            {
-                value = string.Empty;
-                return false;
-            }
-
-            var localizedObject = group[code];
-            if (localizedObject == null)
-            {
-                value = string.Empty;
-                return false;
-            }
-
-            if (!localizedObject.ContainsCulture (culture))
-            {
-                value = string.Empty;
-                return false;
-            }
-
-            var text = localizedObject[culture];
-
-            var returnDefault =
-                culture != DefaultCulture.Code &&
-                string.IsNullOrWhiteSpace (text) &&
-                UseDefaultCulture;
-
-            if (returnDefault)
-                return GetLocalizationText (
-                    book, code, DefaultCulture.Code, out value
-                );
-
-            value = text;
+            value = null;
+            var found = GetLocalization (
+                book,
+                code,
+                culture,
+                LocalizationType.TEXT,
+                out var tempValue
+            );
+            if (!found) return false;
+            value = (string) tempValue;
             return true;
         }
 
@@ -604,52 +682,16 @@ namespace BricksBucket.Localization
             string book, string code, string culture, out Texture value
         )
         {
-            if (!Instance.BooksDictionary.ContainsKey (book))
-            {
-                value = null;
-                return false;
-            }
-
-            var bookObject = Instance.BooksDictionary[book];
-            if (bookObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            var group = bookObject.TextureGroup;
-            if (!group.ContainsLocalizedObject (code))
-            {
-                value = null;
-                return false;
-            }
-
-            var localizedObject = group[code];
-            if (localizedObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            if (!localizedObject.ContainsCulture (culture))
-            {
-                value = null;
-                return false;
-            }
-
-            var texture = localizedObject[culture];
-
-            var returnDefault =
-                culture != DefaultCulture.Code &&
-                texture == null &&
-                UseDefaultCulture;
-
-            if (returnDefault)
-                return GetLocalizationTexture (
-                    book, code, DefaultCulture.Code, out value
-                );
-
-            value = texture;
+            value = null;
+            var found = GetLocalization (
+                book,
+                code,
+                culture,
+                LocalizationType.TEXTURE,
+                out var tempValue
+            );
+            if (!found) return false;
+            value = (Texture) tempValue;
             return true;
         }
 
@@ -665,52 +707,16 @@ namespace BricksBucket.Localization
             string book, string code, string culture, out Sprite value
         )
         {
-            if (!Instance.BooksDictionary.ContainsKey (book))
-            {
-                value = null;
-                return false;
-            }
-
-            var bookObject = Instance.BooksDictionary[book];
-            if (bookObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            var group = bookObject.SpriteGroup;
-            if (!group.ContainsLocalizedObject (code))
-            {
-                value = null;
-                return false;
-            }
-
-            var localizedObject = group[code];
-            if (localizedObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            if (!localizedObject.ContainsCulture (culture))
-            {
-                value = null;
-                return false;
-            }
-
-            var sprite = localizedObject[culture];
-
-            var returnDefault =
-                culture != DefaultCulture.Code &&
-                sprite == null &&
-                UseDefaultCulture;
-
-            if (returnDefault)
-                return GetLocalizationSprite (
-                    book, code, DefaultCulture.Code, out value
-                );
-
-            value = sprite;
+            value = null;
+            var found = GetLocalization (
+                book,
+                code,
+                culture,
+                LocalizationType.SPRITE,
+                out var tempValue
+            );
+            if (!found) return false;
+            value = (Sprite) tempValue;
             return true;
         }
 
@@ -726,52 +732,16 @@ namespace BricksBucket.Localization
             string book, string code, string culture, out AudioClip value
         )
         {
-            if (!Instance.BooksDictionary.ContainsKey (book))
-            {
-                value = null;
-                return false;
-            }
-
-            var bookObject = Instance.BooksDictionary[book];
-            if (bookObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            var group = bookObject.AudioGroup;
-            if (!group.ContainsLocalizedObject (code))
-            {
-                value = null;
-                return false;
-            }
-
-            var localizedObject = group[code];
-            if (localizedObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            if (!localizedObject.ContainsCulture (culture))
-            {
-                value = null;
-                return false;
-            }
-
-            var audioClip = localizedObject[culture];
-
-            var returnDefault =
-                culture != DefaultCulture.Code &&
-                audioClip == null &&
-                UseDefaultCulture;
-
-            if (returnDefault)
-                return GetLocalizationAudio (
-                    book, code, DefaultCulture.Code, out value
-                );
-
-            value = audioClip;
+            value = null;
+            var found = GetLocalization (
+                book,
+                code,
+                culture,
+                LocalizationType.AUDIO,
+                out var tempValue
+            );
+            if (!found) return false;
+            value = (AudioClip) tempValue;
             return true;
         }
 
@@ -787,52 +757,16 @@ namespace BricksBucket.Localization
             string book, string code, string culture, out VideoClip value
         )
         {
-            if (!Instance.BooksDictionary.ContainsKey (book))
-            {
-                value = null;
-                return false;
-            }
-
-            var bookObject = Instance.BooksDictionary[book];
-            if (bookObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            var group = bookObject.VideoGroup;
-            if (!group.ContainsLocalizedObject (code))
-            {
-                value = null;
-                return false;
-            }
-
-            var localizedObject = group[code];
-            if (localizedObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            if (!localizedObject.ContainsCulture (culture))
-            {
-                value = null;
-                return false;
-            }
-
-            var videoClip = localizedObject[culture];
-
-            var returnDefault =
-                culture != DefaultCulture.Code &&
-                videoClip == null &&
-                UseDefaultCulture;
-
-            if (returnDefault)
-                return GetLocalizationVideo (
-                    book, code, DefaultCulture.Code, out value
-                );
-
-            value = videoClip;
+            value = null;
+            var found = GetLocalization (
+                book,
+                code,
+                culture,
+                LocalizationType.VIDEO,
+                out var tempValue
+            );
+            if (!found) return false;
+            value = (VideoClip) tempValue;
             return true;
         }
 
@@ -850,52 +784,16 @@ namespace BricksBucket.Localization
             string book, string code, string culture, out Object value
         )
         {
-            if (!Instance.BooksDictionary.ContainsKey (book))
-            {
-                value = null;
-                return false;
-            }
-
-            var bookObject = Instance.BooksDictionary[book];
-            if (bookObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            var group = bookObject.UnityObjectGroup;
-            if (!group.ContainsLocalizedObject (code))
-            {
-                value = null;
-                return false;
-            }
-
-            var localizedObject = group[code];
-            if (localizedObject == null)
-            {
-                value = null;
-                return false;
-            }
-
-            if (!localizedObject.ContainsCulture (culture))
-            {
-                value = null;
-                return false;
-            }
-
-            var o = localizedObject[culture];
-
-            var returnDefault =
-                culture != DefaultCulture.Code &&
-                o == null &&
-                UseDefaultCulture;
-
-            if (returnDefault)
-                return GetLocalizationObject (
-                    book, code, DefaultCulture.Code, out value
-                );
-
-            value = o;
+            value = null;
+            var found = GetLocalization (
+                book,
+                code,
+                culture,
+                LocalizationType.OBJECT,
+                out var tempValue
+            );
+            if (!found) return false;
+            value = (Object) tempValue;
             return true;
         }
 

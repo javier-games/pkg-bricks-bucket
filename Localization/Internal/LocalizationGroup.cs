@@ -1,34 +1,32 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.Video;
 using BricksBucket.Collections;
 
 
-// ReSharper disable UnusedMethodReturnValue.Global
-// ReSharper disable UnusedMemberInSuper.Global
 namespace BricksBucket.Localization.Internal
 {
+	
+	/*
+	 * WARNING:
+	 * 
+	 * Technically should be better to create an abstract class to implement
+	 * some methods that are repeated in this script but the Unity
+	 * serialization system avoids to show on inspector serialized fields in
+	 * a class that inherits from an abstract class that inherits from a
+	 * dictionary.
+	 * 
+	 */
+	
+	/// <!-- ILocalizedGroup -->
+	/// 
 	/// <summary>
-	/// 
-	/// ILocalizationGroup.
-	/// 
-	/// <para>
 	/// Interface with fundamental methods for a group of Localized Objects
 	/// stored by its code.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
-	/// <typeparam name="T">Type of value of the localization.</typeparam>
-	internal interface ILocalizationGroup<T>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
+	internal interface ILocalizedGroup
 	{
-		/// <summary>
-		/// Gets the localization object for the given code.
-		/// </summary>
-		/// <param name="code">Code of the localized object.</param>
-		ILocalized<T> this [string code] { get; }
 
 		/// <summary>
 		/// Total count of localized objects in the group.
@@ -60,11 +58,11 @@ namespace BricksBucket.Localization.Internal
 		bool ContainsLocalizedObject (string code);
 
 		/// <summary>
-		/// Adds a new localized object with the given code.
+		/// Returns a localized object for the specific code.
 		/// </summary>
-		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localized">Localized Object to add.</param>
-		void Add (string code, ILocalized<T> localized);
+		/// <param name="code">Code of the localized object.</param>
+		/// <returns>Localized object at the specified code.</returns>
+		ILocalizedObject GetLocalized (string code);
 
 		/// <summary>
 		/// Adds a new localized object with empty localizations to
@@ -80,34 +78,48 @@ namespace BricksBucket.Localization.Internal
 		/// <param name="code">Localized Object Code to remove.</param>
 		/// <returns><value>True</value> if the element is successfully found
 		/// and removed; otherwise, <value>False</value>.</returns>
+		// ReSharper disable once UnusedMethodReturnValue.Global
 		bool Remove (string code);
+
+		/// <summary>
+		/// Updates the code for a localized in the localization group.
+		/// </summary>
+		/// <param name="oldCode">Old code to replace.</param>
+		/// <param name="newCode">New code for de localized object.</param>
+		void UpdateLocalizationCode (string oldCode, string newCode);
+
+		/// <summary>
+		/// Adds a new culture to each localized object in this group.
+		/// </summary>
+		/// <param name="code">Code of the culture to add.</param>
+		void AddNewCulture (string code);
+
+		/// <summary>
+		/// Removes a culture for all the localized objects in the group.
+		/// </summary>
+		/// <param name="code"></param>
+		void RemoveCulture (string code);
+
+		/// <summary>
+		/// Updates the culture to each localized object in the group.
+		/// </summary>
+		/// <param name="oldCode">Old code to change.</param>
+		/// <param name="newCode">New code for de value.</param>
+		void UpdateCulture (string oldCode, string newCode);
 	}
 
+	/// <!-- TextGroup -->
+	/// 
 	/// <summary>
-	/// 
-	/// TextGroup.
-	/// 
-	/// <para>
 	/// Group of localized string objects.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class TextGroup :
-		SerializableDictionary<string, LocalizedText>,
-		ILocalizationGroup<string>
+		SerializableDictionary<string, LocalizedText>, ILocalizedGroup
 	{
-		/// <summary>
-		/// Gets the localization object for the given code.
-		/// </summary>
-		/// <param name="code">Code of the localized object.</param>
-		public new ILocalized<string> this [string code] => base[code];
-
-		/// <summary>
-		/// Total count of localized object that are incomplete.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -120,15 +132,10 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.Codes"/>
 		public string[] Codes => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether all localized objects are complete.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.IsCompleted"/>
 		public bool IsCompleted ()
 		{
 			bool isComplete = true;
@@ -138,29 +145,14 @@ namespace BricksBucket.Localization.Internal
 			return isComplete;
 		}
 
-		/// <summary>
-		/// Determines whether this group has a localized object for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="code">Localized Object Code to look for.</param>
-		/// <returns><value>True</value> if has the given code.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.ContainsLocalizedObject"/>
 		public bool ContainsLocalizedObject (string code) => ContainsKey (code);
 
-		/// <summary>
-		/// Adds a new localized object with the given code.
-		/// </summary>
-		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localized">Localized Object to add.</param>
-		public void
-			Add (string code, ILocalized<string> localized) =>
-			base.Add (code, localized as LocalizedText);
+		/// <inheritdoc cref="ILocalizedGroup.GetLocalized"/>
+		public ILocalizedObject GetLocalized (string code) =>
+			ContainsLocalizedObject (code) ? this[code] : null;
 
-		/// <summary>
-		/// Adds a new localized object with empty localizations to
-		/// the given codes.
-		/// </summary>
-		/// <param name="code">Code of the localized object to add.</param>
-		/// <param name="cultures">Cultures to add.</param>
+		/// <inheritdoc cref="ILocalizedGroup.AddEmpty"/>
 		public string[] AddEmpty (string code, params string[] cultures)
 		{
 			List<string> missingCultures = new List<string> ();
@@ -171,33 +163,54 @@ namespace BricksBucket.Localization.Internal
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
 		}
+
+		///<inheritdoc cref="ILocalizedGroup.UpdateLocalizationCode"/>
+		public void UpdateLocalizationCode (string oldCode, string newCode)
+		{
+			var localizedObject = this[oldCode];
+			Remove (oldCode);
+			Add (newCode, localizedObject);
+		}
+
+		/// <inheritdoc cref="ILocalizedGroup.AddNewCulture"/>
+		public void AddNewCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				localizedObject.AddEmpty (code);
+		}
+
+		///<inheritdoc cref="ILocalizedGroup.RemoveCulture"/>
+		public void RemoveCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				if (localizedObject.ContainsKey (code))
+					localizedObject.Remove (code);
+		}
+		
+		///<inheritdoc cref="ILocalizedGroup.UpdateCulture"/>
+		public void UpdateCulture (string oldCode, string newCode)
+		{
+			foreach (var localizedObject in Values)
+			{
+				if (!localizedObject.ContainsCulture (oldCode)) continue;
+				localizedObject.Add (newCode, localizedObject[oldCode]);
+				localizedObject.Remove (oldCode);
+			}
+		}
 	}
 
+	/// <!-- TextureGroup -->
+	/// 
 	/// <summary>
-	/// 
-	/// TextureGroup.
-	/// 
-	/// <para>
 	/// Dictionary of localized textures.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class TextureGroup :
-		SerializableDictionary<string, LocalizedTexture>,
-		ILocalizationGroup<Texture>
+		SerializableDictionary<string, LocalizedTexture>, ILocalizedGroup
 	{
-		/// <summary>
-		/// Gets the localization object for the given code.
-		/// </summary>
-		/// <param name="code">Code of the localized object.</param>
-		public new ILocalized<Texture> this [string code] => base[code];
-
-		/// <summary>
-		/// Total count of localized object that are incomplete.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -210,15 +223,10 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.Codes"/>
 		public string[] Codes => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether all localized objects are complete.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.IsCompleted"/>
 		public bool IsCompleted ()
 		{
 			bool isComplete = true;
@@ -228,29 +236,14 @@ namespace BricksBucket.Localization.Internal
 			return isComplete;
 		}
 
-		/// <summary>
-		/// Determines whether this group has a localized object for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="code">Localized Object Code to look for.</param>
-		/// <returns><value>True</value> if has the given code.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.ContainsLocalizedObject"/>
 		public bool ContainsLocalizedObject (string code) => ContainsKey (code);
+		
+		/// <inheritdoc cref="ILocalizedGroup.GetLocalized"/>
+		public ILocalizedObject GetLocalized (string code) =>
+			ContainsLocalizedObject (code) ? this[code] : null;
 
-		/// <summary>
-		/// Adds a new localized object with the given code.
-		/// </summary>
-		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localized">Localized Object to add.</param>
-		public void
-			Add (string code, ILocalized<Texture> localized) =>
-			base.Add (code, localized as LocalizedTexture);
-
-		/// <summary>
-		/// Adds a new localized object with empty localizations to
-		/// the given codes.
-		/// </summary>
-		/// <param name="code">Code of the localized object to add.</param>
-		/// <param name="cultures">Cultures to add.</param>
+		/// <inheritdoc cref="ILocalizedGroup.AddEmpty"/>
 		public string[] AddEmpty (string code, params string[] cultures)
 		{
 			List<string> missingCultures = new List<string> ();
@@ -261,33 +254,54 @@ namespace BricksBucket.Localization.Internal
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
 		}
+
+		///<inheritdoc cref="ILocalizedGroup.UpdateLocalizationCode"/>
+		public void UpdateLocalizationCode (string oldCode, string newCode)
+		{
+			var localizedObject = this[oldCode];
+			Remove (oldCode);
+			Add (newCode, localizedObject);
+		}
+
+		/// <inheritdoc cref="ILocalizedGroup.AddNewCulture"/>
+		public void AddNewCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				localizedObject.AddEmpty (code);
+		}
+
+		///<inheritdoc cref="ILocalizedGroup.RemoveCulture"/>
+		public void RemoveCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				if (localizedObject.ContainsKey (code))
+					localizedObject.Remove (code);
+		}
+		
+		///<inheritdoc cref="ILocalizedGroup.UpdateCulture"/>
+		public void UpdateCulture (string oldCode, string newCode)
+		{
+			foreach (var localizedObject in Values)
+			{
+				if (!localizedObject.ContainsCulture (oldCode)) continue;
+				localizedObject.Add (newCode, localizedObject[oldCode]);
+				localizedObject.Remove (oldCode);
+			}
+		}
 	}
 
+	/// <!-- SpriteGroup -->
+	/// 
 	/// <summary>
-	/// 
-	/// Sprite Localizations.
-	/// 
-	/// <para>
 	/// Dictionary of localized sprites.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class SpriteGroup :
-		SerializableDictionary<string, LocalizedSprite>,
-		ILocalizationGroup<Sprite>
+		SerializableDictionary<string, LocalizedSprite>, ILocalizedGroup
 	{
-		/// <summary>
-		/// Gets the localization object for the given code.
-		/// </summary>
-		/// <param name="code">Code of the localized object.</param>
-		public new ILocalized<Sprite> this [string code] => base[code];
-
-		/// <summary>
-		/// Total count of localized object that are incomplete.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -300,15 +314,10 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.Codes"/>
 		public string[] Codes => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether all localized objects are complete.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.IsCompleted"/>
 		public bool IsCompleted ()
 		{
 			bool isComplete = true;
@@ -318,29 +327,14 @@ namespace BricksBucket.Localization.Internal
 			return isComplete;
 		}
 
-		/// <summary>
-		/// Determines whether this group has a localized object for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="code">Localized Object Code to look for.</param>
-		/// <returns><value>True</value> if has the given code.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.ContainsLocalizedObject"/>
 		public bool ContainsLocalizedObject (string code) => ContainsKey (code);
+		
+		/// <inheritdoc cref="ILocalizedGroup.GetLocalized"/>
+		public ILocalizedObject GetLocalized (string code) =>
+			ContainsLocalizedObject (code) ? this[code] : null;
 
-		/// <summary>
-		/// Adds a new localized object with the given code.
-		/// </summary>
-		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localized">Localized Object to add.</param>
-		public void
-			Add (string code, ILocalized<Sprite> localized) =>
-			base.Add (code, localized as LocalizedSprite);
-
-		/// <summary>
-		/// Adds a new localized object with empty localizations to
-		/// the given codes.
-		/// </summary>
-		/// <param name="code">Code of the localized object to add.</param>
-		/// <param name="cultures">Cultures to add.</param>
+		/// <inheritdoc cref="ILocalizedGroup.AddEmpty"/>
 		public string[] AddEmpty (string code, params string[] cultures)
 		{
 			List<string> missingCultures = new List<string> ();
@@ -351,33 +345,54 @@ namespace BricksBucket.Localization.Internal
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
 		}
+
+		///<inheritdoc cref="ILocalizedGroup.UpdateLocalizationCode"/>
+		public void UpdateLocalizationCode (string oldCode, string newCode)
+		{
+			var localizedObject = this[oldCode];
+			Remove (oldCode);
+			Add (newCode, localizedObject);
+		}
+
+		/// <inheritdoc cref="ILocalizedGroup.AddNewCulture"/>
+		public void AddNewCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				localizedObject.AddEmpty (code);
+		}
+
+		///<inheritdoc cref="ILocalizedGroup.RemoveCulture"/>
+		public void RemoveCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				if (localizedObject.ContainsKey (code))
+					localizedObject.Remove (code);
+		}
+		
+		///<inheritdoc cref="ILocalizedGroup.UpdateCulture"/>
+		public void UpdateCulture (string oldCode, string newCode)
+		{
+			foreach (var localizedObject in Values)
+			{
+				if (!localizedObject.ContainsCulture (oldCode)) continue;
+				localizedObject.Add (newCode, localizedObject[oldCode]);
+				localizedObject.Remove (oldCode);
+			}
+		}
 	}
 
+	/// <!-- AudioGroup -->
+	/// 
 	/// <summary>
-	/// 
-	/// Audio Localizations.
-	/// 
-	/// <para>
 	/// Dictionary of localized Audio Clips.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
-	internal class AudioLocalizations :
-		SerializableDictionary<string, LocalizedAudio>,
-		ILocalizationGroup<AudioClip>
+	internal class AudioGroup :
+		SerializableDictionary<string, LocalizedAudio>, ILocalizedGroup
 	{
-		/// <summary>
-		/// Gets the localization object for the given code.
-		/// </summary>
-		/// <param name="code">Code of the localized object.</param>
-		public new ILocalized<AudioClip> this [string code] => base[code];
-
-		/// <summary>
-		/// Total count of localized object that are incomplete.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -390,15 +405,10 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.Codes"/>
 		public string[] Codes => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether all localized objects are complete.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.IsCompleted"/>
 		public bool IsCompleted ()
 		{
 			bool isComplete = true;
@@ -408,30 +418,14 @@ namespace BricksBucket.Localization.Internal
 			return isComplete;
 		}
 
-		/// <summary>
-		/// Determines whether this group has a localized object for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="code">Localized Object Code to look for.</param>
-		/// <returns><value>True</value> if has the given code.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.ContainsLocalizedObject"/>
 		public bool ContainsLocalizedObject (string code) => ContainsKey (code);
+		
+		/// <inheritdoc cref="ILocalizedGroup.GetLocalized"/>
+		public ILocalizedObject GetLocalized (string code) =>
+			ContainsLocalizedObject (code) ? this[code] : null;
 
-		/// <summary>
-		/// Adds a new localized object with the given code.
-		/// </summary>
-		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localized">Localized Object to add.</param>
-		public void Add (
-			string code, ILocalized<AudioClip> localized
-		) =>
-			base.Add (code, localized as LocalizedAudio);
-
-		/// <summary>
-		/// Adds a new localized object with empty localizations to
-		/// the given codes.
-		/// </summary>
-		/// <param name="code">Code of the localized object to add.</param>
-		/// <param name="cultures">Cultures to add.</param>
+		/// <inheritdoc cref="ILocalizedGroup.AddEmpty"/>
 		public string[] AddEmpty (string code, params string[] cultures)
 		{
 			List<string> missingCultures = new List<string> ();
@@ -442,33 +436,54 @@ namespace BricksBucket.Localization.Internal
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
 		}
+		
+		///<inheritdoc cref="ILocalizedGroup.UpdateLocalizationCode"/>
+		public void UpdateLocalizationCode (string oldCode, string newCode)
+		{
+			var localizedObject = this[oldCode];
+			Remove (oldCode);
+			Add (newCode, localizedObject);
+		}
+		
+		/// <inheritdoc cref="ILocalizedGroup.AddNewCulture"/>
+		public void AddNewCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				localizedObject.AddEmpty (code);
+		}
+
+		///<inheritdoc cref="ILocalizedGroup.RemoveCulture"/>
+		public void RemoveCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				if (localizedObject.ContainsKey (code))
+					localizedObject.Remove (code);
+		}
+		
+		///<inheritdoc cref="ILocalizedGroup.UpdateCulture"/>
+		public void UpdateCulture (string oldCode, string newCode)
+		{
+			foreach (var localizedObject in Values)
+			{
+				if (!localizedObject.ContainsCulture (oldCode)) continue;
+				localizedObject.Add (newCode, localizedObject[oldCode]);
+				localizedObject.Remove (oldCode);
+			}
+		}
 	}
 
+	/// <!-- VideoGroup -->
+	/// 
 	/// <summary>
-	/// 
-	/// Video Localizations.
-	/// 
-	/// <para>
 	/// Dictionary of localized video clips.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
-	internal class VideoLocalizations :
-		SerializableDictionary<string, LocalizedVideo>,
-		ILocalizationGroup<VideoClip>
+	internal class VideoGroup :
+		SerializableDictionary<string, LocalizedVideo>, ILocalizedGroup
 	{
-		/// <summary>
-		/// Gets the localization object for the given code.
-		/// </summary>
-		/// <param name="code">Code of the localized object.</param>
-		public new ILocalized<VideoClip> this [string code] => base[code];
-
-		/// <summary>
-		/// Total count of localized object that are incomplete.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -481,15 +496,10 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.Codes"/>
 		public string[] Codes => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether all localized objects are complete.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.IsCompleted"/>
 		public bool IsCompleted ()
 		{
 			bool isComplete = true;
@@ -498,31 +508,15 @@ namespace BricksBucket.Localization.Internal
 					isComplete = false;
 			return isComplete;
 		}
-
-		/// <summary>
-		/// Determines whether this group has a localized object for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="code">Localized Object Code to look for.</param>
-		/// <returns><value>True</value> if has the given code.</returns>
+		
+		/// <inheritdoc cref="ILocalizedGroup.ContainsLocalizedObject"/>
 		public bool ContainsLocalizedObject (string code) => ContainsKey (code);
+		
+		/// <inheritdoc cref="ILocalizedGroup.GetLocalized"/>
+		public ILocalizedObject GetLocalized (string code) =>
+			ContainsLocalizedObject (code) ? this[code] : null;
 
-		/// <summary>
-		/// Adds a new localized object with the given code.
-		/// </summary>
-		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localized">Localized Object to add.</param>
-		public void Add (
-			string code, ILocalized<VideoClip> localized
-		) =>
-			base.Add (code, localized as LocalizedVideo);
-
-		/// <summary>
-		/// Adds a new localized object with empty localizations to
-		/// the given codes.
-		/// </summary>
-		/// <param name="code">Code of the localized object to add.</param>
-		/// <param name="cultures">Cultures to add.</param>
+		/// <inheritdoc cref="ILocalizedGroup.AddEmpty"/>
 		public string[] AddEmpty (string code, params string[] cultures)
 		{
 			List<string> missingCultures = new List<string> ();
@@ -533,33 +527,54 @@ namespace BricksBucket.Localization.Internal
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
 		}
+
+		///<inheritdoc cref="ILocalizedGroup.UpdateLocalizationCode"/>
+		public void UpdateLocalizationCode (string oldCode, string newCode)
+		{
+			var localizedObject = this[oldCode];
+			Remove (oldCode);
+			Add (newCode, localizedObject);
+		}
+
+		/// <inheritdoc cref="ILocalizedGroup.AddNewCulture"/>
+		public void AddNewCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				localizedObject.AddEmpty (code);
+		}
+
+		///<inheritdoc cref="ILocalizedGroup.RemoveCulture"/>
+		public void RemoveCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				if (localizedObject.ContainsKey (code))
+					localizedObject.Remove (code);
+		}
+		
+		///<inheritdoc cref="ILocalizedGroup.UpdateCulture"/>
+		public void UpdateCulture (string oldCode, string newCode)
+		{
+			foreach (var localizedObject in Values)
+			{
+				if (!localizedObject.ContainsCulture (oldCode)) continue;
+				localizedObject.Add (newCode, localizedObject[oldCode]);
+				localizedObject.Remove (oldCode);
+			}
+		}
 	}
 
+	/// <!-- UnityObjectGroup -->
+	/// 
 	/// <summary>
-	/// 
-	/// Unity Object Localizations.
-	/// 
-	/// <para>
 	/// Dictionary of localized Unity Objects.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
-	internal class UnityObjectLocalizations :
-		SerializableDictionary<string, LocalizedUnityObject>,
-		ILocalizationGroup<Object>
+	internal class UnityObjectGroup :
+		SerializableDictionary<string, LocalizedUnityObject>, ILocalizedGroup
 	{
-		/// <summary>
-		/// Gets the localization object for the given code.
-		/// </summary>
-		/// <param name="code">Code of the localized object.</param>
-		public new ILocalized<Object> this [string code] => base[code];
-
-		/// <summary>
-		/// Total count of localized object that are incomplete.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -572,15 +587,10 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedGroup.Codes"/>
 		public string[] Codes => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether all localized objects are complete.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.IsCompleted"/>
 		public bool IsCompleted ()
 		{
 			bool isComplete = true;
@@ -590,29 +600,14 @@ namespace BricksBucket.Localization.Internal
 			return isComplete;
 		}
 
-		/// <summary>
-		/// Determines whether this group has a localized object for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="code">Localized Object Code to look for.</param>
-		/// <returns><value>True</value> if has the given code.</returns>
+		/// <inheritdoc cref="ILocalizedGroup.ContainsLocalizedObject"/>
 		public bool ContainsLocalizedObject (string code) => ContainsKey (code);
+		
+		/// <inheritdoc cref="ILocalizedGroup.GetLocalized"/>
+		public ILocalizedObject GetLocalized (string code) =>
+			ContainsLocalizedObject (code) ? this[code] : null;
 
-		/// <summary>
-		/// Adds a new localized object with the given code.
-		/// </summary>
-		/// <param name="code">Localized Object Code to use.</param>
-		/// <param name="localized">Localized Object to add.</param>
-		public void
-			Add (string code, ILocalized<Object> localized) =>
-			base.Add (code, localized as LocalizedUnityObject);
-
-		/// <summary>
-		/// Adds a new localized object with empty localizations to
-		/// the given codes.
-		/// </summary>
-		/// <param name="code">Code of the localized object to add.</param>
-		/// <param name="cultures">Cultures to add.</param>
+		/// <inheritdoc cref="ILocalizedGroup.AddEmpty"/>
 		public string[] AddEmpty (string code, params string[] cultures)
 		{
 			List<string> missingCultures = new List<string> ();
@@ -622,6 +617,40 @@ namespace BricksBucket.Localization.Internal
 					missingCultures.Add (culture);
 			Add (code, localizedObject);
 			return missingCultures.ToArray ();
+		}
+
+		///<inheritdoc cref="ILocalizedGroup.UpdateLocalizationCode"/>
+		public void UpdateLocalizationCode (string oldCode, string newCode)
+		{
+			var localizedObject = this[oldCode];
+			Remove (oldCode);
+			Add (newCode, localizedObject);
+		}
+
+		/// <inheritdoc cref="ILocalizedGroup.AddNewCulture"/>
+		public void AddNewCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				localizedObject.AddEmpty (code);
+		}
+
+		///<inheritdoc cref="ILocalizedGroup.RemoveCulture"/>
+		public void RemoveCulture (string code)
+		{
+			foreach (var localizedObject in Values)
+				if (localizedObject.ContainsKey (code))
+					localizedObject.Remove (code);
+		}
+		
+		///<inheritdoc cref="ILocalizedGroup.UpdateCulture"/>
+		public void UpdateCulture (string oldCode, string newCode)
+		{
+			foreach (var localizedObject in Values)
+			{
+				if (!localizedObject.ContainsCulture (oldCode)) continue;
+				localizedObject.Add (newCode, localizedObject[oldCode]);
+				localizedObject.Remove (oldCode);
+			}
 		}
 	}
 }

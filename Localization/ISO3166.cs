@@ -7,9 +7,9 @@
 // ReSharper disable UnusedType.Global
 namespace BricksBucket.Localization
 {
-    /// <summary>
-    ///
     /// <!-- ISO3166 -->
+    ///
+    /// <summary>
     ///
     /// <para>
     /// <i>"The purpose of ISO 3166 is to define internationally recognized
@@ -305,10 +305,9 @@ namespace BricksBucket.Localization
 
         
         
-        /// <summary>
-        ///
         /// <!-- Alpha2 -->
-        /// 
+        ///
+        /// <summary>
         /// Defines two letters codes for the names of the principal
         /// subdivisions according to the <b>ISO 3166-2</b> standard derived
         /// from the <see href=
@@ -317,7 +316,6 @@ namespace BricksBucket.Localization
         /// is shown in the <see href=
         /// "../articles/localization/standard_iso3166.html">ISO 3166 Table
         /// </see>
-        /// 
         /// </summary>
         ///
         /// <seealso cref="BricksBucket.Localization.ISO3166"/>
@@ -1096,10 +1094,9 @@ namespace BricksBucket.Localization
 
 
         
-        /// <summary>
-        /// 
         /// <!-- Alpha3 -->
-        /// 
+        ///
+        /// <summary>
         /// Defines three letters codes for the names of the principal
         /// subdivisions according to the <b>ISO 3166-3</b> standard derived
         /// from the <see href=
@@ -1108,7 +1105,6 @@ namespace BricksBucket.Localization
         /// is shown in the <see href=
         /// "../articles/localization/standard_iso3166.html">ISO 3166 Table
         /// </see>
-        /// 
         /// </summary>
         ///
         /// <seealso cref="BricksBucket.Localization.ISO3166"/>

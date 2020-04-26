@@ -7,31 +7,34 @@ using BricksBucket.Collections;
 using Sirenix.Utilities.Editor;
 #endif
 
-// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+
 // ReSharper disable UnusedMemberInSuper.Global
 namespace BricksBucket.Localization.Internal
 {
+	
+	/*
+	 * WARNING:
+	 * 
+	 * Technically should be better to create an abstract class to implement
+	 * some methods that are repeated in this script but the Unity
+	 * serialization system avoids to show on inspector serialized fields in
+	 * a class that inherits from an abstract class that inherits from a
+	 * dictionary.
+	 * 
+	 */
+
 	/// <summary>
 	/// 
-	/// ILocalized.
+	/// <!-- ILocalizedObject -->
 	/// 
-	/// <para>
 	/// Interface with fundamental methods for a Localized Object with a
 	/// localized value for each different culture in the object.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
 	/// 
 	/// </summary>
-	/// <typeparam name="TValue">Type of value of the localization.</typeparam>
-	internal interface ILocalized<TValue>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
+	internal interface ILocalizedObject
 	{
-		/// <summary>
-		/// Gets the localization value for the given culture.
-		/// </summary>
-		/// <param name="culture">Culture to look for.</param>
-		TValue this [string culture] { get; }
-
 		/// <summary>
 		/// Total count of localizations on this localized object.
 		/// </summary>
@@ -63,20 +66,19 @@ namespace BricksBucket.Localization.Internal
 		bool IsCompleted (string culture);
 
 		/// <summary>
+		/// Gets a localization for the requested culture.
+		/// </summary>
+		/// <param name="culture">Code of the culture to retrieve.</param>
+		/// <returns>Localization value for the requested culture.</returns>
+		object GetLocalization (string culture);
+
+		/// <summary>
 		/// Defines whether this localized object has a localization for the
 		/// given culture. 
 		/// </summary>
 		/// <param name="culture">Culture to look for.</param>
 		/// <returns><value>True</value> if has the given culture.</returns>
 		bool ContainsCulture (string culture);
-
-		/// <summary>
-		/// Adds a new localization for the given culture to the localized
-		/// object.
-		/// </summary>
-		/// <param name="culture">Name of the culture.</param>
-		/// <param name="localization">Value of the localization.</param>
-		void Add (string culture, TValue localization);
 
 		/// <summary>
 		/// Adds a new localization to the localized object. 
@@ -94,71 +96,36 @@ namespace BricksBucket.Localization.Internal
 		/// and removed; otherwise, <value>False</value>.</returns>
 		bool Remove (string culture);
 
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <returns>Value of the localization if the element is successfully
-		/// found otherwise, default value.</returns>
-		TValue Get (string culture);
-
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <param name="localization">Value of the localization.</param>
-		/// <returns><value>True</value> if the element is successfully found;
-		/// otherwise, <value>False</value>.</returns>
-		bool TryGet (string culture, out TValue localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		bool Set (string culture, TValue localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		bool TrySet (string culture, object localization);
-
 #if UNITY_EDITOR
 		/// <summary>
 		/// Draws the field for the specified culture.
 		/// </summary>
 		/// <param name="culture">Culture Localization to draw.</param>
+		/// <param name="drawLabel">Whether to draw label.</param>
 		/// <param name="options">Options for GUI.</param>
-		void DrawField (string culture, GUILayoutOption[] options);
+		void DrawField (
+			string culture, bool drawLabel = true,
+			GUILayoutOption[] options = null
+		);
 #endif
 	}
 
 	/// <summary>
 	/// 
-	/// LocalizedText.
+	/// <!-- LocalizedText -->
 	/// 
-	/// <para>
-	/// Localized Object with a localized string values for each different
-	/// culture in the object.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// Localized Object with string values for each different culture
+	/// in the object.
 	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class LocalizedText :
 		SerializableDictionary<string, string>,
-		ILocalized<string>
+		ILocalizedObject
 	{
-		/// <summary>
-		/// Total count of cultures with a default value for it's localization.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedObject.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -172,43 +139,27 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedObject.Cultures"/>
 		public string[] Cultures => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether for all this localized object cultures has a
-		/// localization different from string empty or null.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted()"/>
 		public bool IsCompleted () =>
 			!ContainsValue (string.Empty) &&
 			!ContainsValue (null);
 
-		/// <summary>
-		/// Defines whether the localization for the specified culture
-		/// is complete.
-		/// </summary>
-		/// <param name="culture">Culture to evaluate its localization.</param>
-		/// <returns><value>True</value> if is complete.</returns>
+
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted(string)"/>
 		public bool IsCompleted (string culture) =>
 			!string.IsNullOrEmpty (this[culture]);
 
-		/// <summary>
-		/// Defines whether this localized object has a localization for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="culture">Culture to look for.</param>
-		/// <returns><value>True</value> if has the given culture.</returns>
+		/// <inheritdoc cref="ILocalizedObject.ContainsCulture(string)"/>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
 
-		/// <summary>
-		/// Adds a new localization to the localized object with empty value. 
-		/// </summary>
-		/// <param name="culture">Culture to add.</param>
-		/// <returns><value>True</value> if the culture has
-		/// been added.</returns>
+		///<inheritdoc cref="ILocalizedObject.GetLocalization"/>
+		public object GetLocalization (string culture) =>
+			!ContainsCulture (culture) ? null : this[culture];
+
+		/// <inheritdoc cref="ILocalizedObject.AddEmpty(string)"/>
 		public bool AddEmpty (string culture)
 		{
 			if (ContainsKey (culture)) return false;
@@ -216,102 +167,47 @@ namespace BricksBucket.Localization.Internal
 			return true;
 		}
 
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <returns>Value of the localization if the element is successfully
-		/// found otherwise an empty string.</returns>
-		public string Get (string culture) =>
-			ContainsKey (culture)
-				? this[culture]
-				: string.Empty;
-
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <param name="localization">Value of the localization.</param>
-		/// <returns><value>True</value> if the element is successfully found;
-		/// otherwise, <value>False</value>.</returns>
-		public bool TryGet (string culture, out string localization) =>
-			TryGetValue (culture, out localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool Set (string culture, string localization)
-		{
-			if (!ContainsKey (culture)) return false;
-			this[culture] = localization;
-			return true;
-		}
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool TrySet (string culture, object localization)
-		{
-			if (!ContainsKey (culture)) return false;
-
-			string value;
-			try
-			{
-				value = (string) localization;
-			}
-			catch
-			{
-				return false;
-			}
-
-			this[culture] = value;
-			return true;
-		}
-
 #if UNITY_EDITOR
-		/// <summary>
-		/// Draws the field for the specified culture.
-		/// </summary>
-		/// <param name="culture">Culture Localization to draw.</param>
-		/// <param name="options">Options for GUI.</param>
-		public void DrawField (string culture, GUILayoutOption[] options)
+		/// <inheritdoc cref=
+		/// "ILocalizedObject.DrawField(string, bool, GUILayoutOption[])"/>
+		public void DrawField (
+			string culture, bool drawLabel = true,
+			GUILayoutOption[] options = null
+		)
 		{
-			Set (
-				culture,
-				SirenixEditorFields.TextField (culture, this[culture], options)
-			);
+			if (!ContainsKey (culture)) return;
+			if (drawLabel)
+				this[culture] = SirenixEditorFields.TextField (
+					culture,
+					this[culture],
+					options
+				);
+			else
+				this[culture] = SirenixEditorFields.TextField (
+					this[culture],
+					options
+				);
 		}
 #endif
 	}
 
 	/// <summary>
 	/// 
-	/// LocalizedTexture.
+	/// <!-- LocalizedTexture -->
 	/// 
-	/// <para>
-	/// Localized Object with a localized texture values for each different
-	/// culture in the object.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// Localized Object with Texture values for each different culture
+	/// in the object.
 	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class LocalizedTexture :
 		SerializableDictionary<string, Texture>,
-		ILocalized<Texture>
+		ILocalizedObject
 	{
-		/// <summary>
-		/// Total count of cultures with a default value for it's localization.
-		/// </summary>
+
+		/// <inheritdoc cref="ILocalizedObject.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -325,40 +221,23 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedObject.Cultures"/>
 		public string[] Cultures => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether for all this localized object cultures has a
-		/// localization different from the null.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted()"/>
 		public bool IsCompleted () => !ContainsValue (null);
 
-		/// <summary>
-		/// Defines whether the localization for the specified culture
-		/// is complete.
-		/// </summary>
-		/// <param name="culture">Culture to evaluate its localization.</param>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted(string)"/>
 		public bool IsCompleted (string culture) => this[culture] != null;
 
-		/// <summary>
-		/// Defines whether this localized object has a localization for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="culture">Culture to look for.</param>
-		/// <returns><value>True</value> if has the given culture.</returns>
+		/// <inheritdoc cref="ILocalizedObject.ContainsCulture(string)"/>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
 
-		/// <summary>
-		/// Adds a new localization to the localized object with null value. 
-		/// </summary>
-		/// <param name="culture">Culture to add.</param>
-		/// <returns><value>True</value> if the culture has
-		/// been added.</returns>
+		///<inheritdoc cref="ILocalizedObject.GetLocalization"/>
+		public object GetLocalization (string culture) =>
+			!ContainsCulture (culture) ? null : this[culture];
+
+		/// <inheritdoc cref="ILocalizedObject.AddEmpty(string)"/>
 		public bool AddEmpty (string culture)
 		{
 			if (ContainsKey (culture)) return false;
@@ -366,108 +245,51 @@ namespace BricksBucket.Localization.Internal
 			return true;
 		}
 
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <returns>Value of the localization if the element is successfully
-		/// found otherwise, null.</returns>
-		public Texture Get (string culture) =>
-			ContainsKey (culture)
-				? this[culture]
-				: null;
-
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <param name="localization">Value of the localization.</param>
-		/// <returns><value>True</value> if the element is successfully found;
-		/// otherwise, <value>False</value>.</returns>
-		public bool TryGet (string culture, out Texture localization) =>
-			TryGetValue (culture, out localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool Set (string culture, Texture localization)
-		{
-			if (!ContainsKey (culture)) return false;
-			this[culture] = localization;
-			return true;
-		}
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool TrySet (string culture, object localization)
-		{
-			if (!ContainsKey (culture)) return false;
-
-			Texture value;
-			try
-			{
-				value = (Texture) localization;
-			}
-			catch
-			{
-				return false;
-			}
-
-			this[culture] = value;
-			return true;
-		}
-
 #if UNITY_EDITOR
-		/// <summary>
-		/// Draws the field for the specified culture.
-		/// </summary>
-		/// <param name="culture">Culture Localization to draw.</param>
-		/// <param name="options">Options for GUI.</param>
-		public void DrawField (string culture, GUILayoutOption[] options)
+		/// <inheritdoc cref=
+		/// "ILocalizedObject.DrawField(string, bool, GUILayoutOption[])"/>
+		public void DrawField (
+			string culture, bool drawLabel = true,
+			GUILayoutOption[] options = null
+		)
 		{
-			Set (
-				culture,
-				SirenixEditorFields.UnityObjectField (
+			if (!ContainsKey (culture)) return;
+			if (drawLabel)
+				this[culture] = SirenixEditorFields.UnityObjectField (
 					culture,
 					this[culture],
 					typeof (Texture),
 					allowSceneObjects: false,
 					options
-				) as Texture
-			);
+				) as Texture;
+			else
+				this[culture] = SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Texture),
+					allowSceneObjects: false,
+					options
+				) as Texture;
 		}
 #endif
 	}
 
 	/// <summary>
 	/// 
-	/// LocalizedSprite.
+	/// <!-- LocalizedSprite -->
 	/// 
-	/// <para>
-	/// Localized Object with a localized sprite values for each different
-	/// culture in the object.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// Localized Object with Sprite values for each different culture
+	/// in the object.
 	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class LocalizedSprite :
 		SerializableDictionary<string, Sprite>,
-		ILocalized<Sprite>
+		ILocalizedObject
 	{
-		/// <summary>
-		/// Total count of cultures with a default value for it's localization.
-		/// </summary>
+
+		/// <inheritdoc cref="ILocalizedObject.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -481,40 +303,23 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedObject.Cultures"/>
 		public string[] Cultures => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether for all this localized object cultures has a
-		/// localization different from the null.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted()"/>
 		public bool IsCompleted () => !ContainsValue (null);
 
-		/// <summary>
-		/// Defines whether the localization for the specified culture
-		/// is complete.
-		/// </summary>
-		/// <param name="culture">Culture to evaluate its localization.</param>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted(string)"/>
 		public bool IsCompleted (string culture) => this[culture] != null;
 
-		/// <summary>
-		/// Defines whether this localized object has a localization for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="culture">Culture to look for.</param>
-		/// <returns><value>True</value> if has the given culture.</returns>
+		/// <inheritdoc cref="ILocalizedObject.ContainsCulture(string)"/>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
 
-		/// <summary>
-		/// Adds a new localization to the localized object with null value. 
-		/// </summary>
-		/// <param name="culture">Culture to add.</param>
-		/// <returns><value>True</value> if the culture has
-		/// been added.</returns>
+		///<inheritdoc cref="ILocalizedObject.GetLocalization"/>
+		public object GetLocalization (string culture) =>
+			!ContainsCulture (culture) ? null : this[culture];
+
+		/// <inheritdoc cref="ILocalizedObject.AddEmpty(string)"/>
 		public bool AddEmpty (string culture)
 		{
 			if (ContainsKey (culture)) return false;
@@ -522,108 +327,52 @@ namespace BricksBucket.Localization.Internal
 			return true;
 		}
 
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <returns>Value of the localization if the element is successfully
-		/// found otherwise, null.</returns>
-		public Sprite Get (string culture) =>
-			ContainsKey (culture)
-				? this[culture]
-				: null;
-
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <param name="localization">Value of the localization.</param>
-		/// <returns><value>True</value> if the element is successfully found;
-		/// otherwise, <value>False</value>.</returns>
-		public bool TryGet (string culture, out Sprite localization) =>
-			TryGetValue (culture, out localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool Set (string culture, Sprite localization)
-		{
-			if (!ContainsKey (culture)) return false;
-			this[culture] = localization;
-			return true;
-		}
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool TrySet (string culture, object localization)
-		{
-			if (!ContainsKey (culture)) return false;
-
-			Sprite value;
-			try
-			{
-				value = (Sprite) localization;
-			}
-			catch
-			{
-				return false;
-			}
-
-			this[culture] = value;
-			return true;
-		}
-
 #if UNITY_EDITOR
-		/// <summary>
-		/// Draws the field for the specified culture.
-		/// </summary>
-		/// <param name="culture">Culture Localization to draw.</param>
-		/// <param name="options">Options for GUI.</param>
-		public void DrawField (string culture, GUILayoutOption[] options)
+		/// <inheritdoc cref=
+		/// "ILocalizedObject.DrawField(string, bool, GUILayoutOption[])"/>
+		public void DrawField (
+			string culture, bool drawLabel = true,
+			GUILayoutOption[] options = null
+		)
 		{
-			Set (
-				culture,
-				SirenixEditorFields.UnityObjectField (
+			if (!ContainsKey (culture)) return;
+			if (drawLabel)
+				this[culture] = SirenixEditorFields.UnityObjectField (
 					culture,
 					this[culture],
-					typeof (Sprite),
+					typeof (Texture),
 					allowSceneObjects: false,
 					options
-				) as Sprite
-			);
+				) as Sprite;
+			else
+				this[culture] = SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Texture),
+					allowSceneObjects: false,
+					options
+				) as Sprite;
+				
 		}
 #endif
 	}
 
 	/// <summary>
 	/// 
-	/// LocalizedAudio.
+	/// <!-- LocalizedAudio -->
 	/// 
-	/// <para>
-	/// Localized Object with a localized audio clip values for each different
-	/// culture in the object.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// Localized Object with Audio Clip values for each different culture
+	/// in the object.
 	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class LocalizedAudio :
 		SerializableDictionary<string, AudioClip>,
-		ILocalized<AudioClip>
+		ILocalizedObject
 	{
-		/// <summary>
-		/// Total count of cultures with a default value for it's localization.
-		/// </summary>
+
+		/// <inheritdoc cref="ILocalizedObject.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -637,40 +386,23 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedObject.Cultures"/>
 		public string[] Cultures => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether for all this localized object cultures has a
-		/// localization different from the null.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted()"/>
 		public bool IsCompleted () => !ContainsValue (null);
 
-		/// <summary>
-		/// Defines whether the localization for the specified culture
-		/// is complete.
-		/// </summary>
-		/// <param name="culture">Culture to evaluate its localization.</param>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted(string)"/>
 		public bool IsCompleted (string culture) => this[culture] != null;
 
-		/// <summary>
-		/// Defines whether this localized object has a localization for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="culture">Culture to look for.</param>
-		/// <returns><value>True</value> if has the given culture.</returns>
+		/// <inheritdoc cref="ILocalizedObject.ContainsCulture(string)"/>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
 
-		/// <summary>
-		/// Adds a new localization to the localized object with null value. 
-		/// </summary>
-		/// <param name="culture">Culture to add.</param>
-		/// <returns><value>True</value> if the culture has
-		/// been added.</returns>
+		///<inheritdoc cref="ILocalizedObject.GetLocalization"/>
+		public object GetLocalization (string culture) =>
+			!ContainsCulture (culture) ? null : this[culture];
+
+		/// <inheritdoc cref="ILocalizedObject.AddEmpty(string)"/>
 		public bool AddEmpty (string culture)
 		{
 			if (ContainsKey (culture)) return false;
@@ -678,108 +410,51 @@ namespace BricksBucket.Localization.Internal
 			return true;
 		}
 
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <returns>Value of the localization if the element is successfully
-		/// found otherwise, null.</returns>
-		public AudioClip Get (string culture) =>
-			ContainsKey (culture)
-				? this[culture]
-				: null;
-
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <param name="localization">Value of the localization.</param>
-		/// <returns><value>True</value> if the element is successfully found;
-		/// otherwise, <value>False</value>.</returns>
-		public bool TryGet (string culture, out AudioClip localization) =>
-			TryGetValue (culture, out localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool Set (string culture, AudioClip localization)
-		{
-			if (!ContainsKey (culture)) return false;
-			this[culture] = localization;
-			return true;
-		}
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool TrySet (string culture, object localization)
-		{
-			if (!ContainsKey (culture)) return false;
-
-			AudioClip value;
-			try
-			{
-				value = (AudioClip) localization;
-			}
-			catch
-			{
-				return false;
-			}
-
-			this[culture] = value;
-			return true;
-		}
-
 #if UNITY_EDITOR
-		/// <summary>
-		/// Draws the field for the specified culture.
-		/// </summary>
-		/// <param name="culture">Culture Localization to draw.</param>
-		/// <param name="options">Options for GUI.</param>
-		public void DrawField (string culture, GUILayoutOption[] options)
+		/// <inheritdoc cref=
+		/// "ILocalizedObject.DrawField(string, bool, GUILayoutOption[])"/>
+		public void DrawField (
+			string culture, bool drawLabel = true,
+			GUILayoutOption[] options = null
+		)
 		{
-			Set (
-				culture,
-				SirenixEditorFields.UnityObjectField (
+			if (!ContainsKey (culture)) return;
+			if (drawLabel)
+				this[culture] = SirenixEditorFields.UnityObjectField (
 					culture,
 					this[culture],
-					typeof (AudioClip),
+					typeof (Texture),
 					allowSceneObjects: false,
 					options
-				) as AudioClip
-			);
+				) as AudioClip;
+			else
+				this[culture] = SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Texture),
+					allowSceneObjects: false,
+					options
+				) as AudioClip;
 		}
 #endif
 	}
 
 	/// <summary>
 	/// 
-	/// LocalizedVideo.
+	/// <!-- LocalizedVideo -->
 	/// 
-	/// <para>
-	/// Localized Object with a localized video clip values for each different
-	/// culture in the object.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// Localized Object with Video Clip values for each different culture
+	/// in the object.
 	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class LocalizedVideo :
 		SerializableDictionary<string, VideoClip>,
-		ILocalized<VideoClip>
+		ILocalizedObject
 	{
-		/// <summary>
-		/// Total count of cultures with a default value for it's localization.
-		/// </summary>
+
+		/// <inheritdoc cref="ILocalizedObject.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -793,40 +468,23 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedObject.Cultures"/>
 		public string[] Cultures => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether for all this localized object cultures has a
-		/// localization different from the null.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted()"/>
 		public bool IsCompleted () => !ContainsValue (null);
 
-		/// <summary>
-		/// Defines whether the localization for the specified culture
-		/// is complete.
-		/// </summary>
-		/// <param name="culture">Culture to evaluate its localization.</param>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted(string)"/>
 		public bool IsCompleted (string culture) => this[culture] != null;
 
-		/// <summary>
-		/// Defines whether this localized object has a localization for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="culture">Culture to look for.</param>
-		/// <returns><value>True</value> if has the given culture.</returns>
+		/// <inheritdoc cref="ILocalizedObject.ContainsCulture(string)"/>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
 
-		/// <summary>
-		/// Adds a new localization to the localized object with null value. 
-		/// </summary>
-		/// <param name="culture">Culture to add.</param>
-		/// <returns><value>True</value> if the culture has
-		/// been added.</returns>
+		///<inheritdoc cref="ILocalizedObject.GetLocalization"/>
+		public object GetLocalization (string culture) =>
+			!ContainsCulture (culture) ? null : this[culture];
+
+		/// <inheritdoc cref="ILocalizedObject.AddEmpty(string)"/>
 		public bool AddEmpty (string culture)
 		{
 			if (ContainsKey (culture)) return false;
@@ -834,108 +492,51 @@ namespace BricksBucket.Localization.Internal
 			return true;
 		}
 
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <returns>Value of the localization if the element is successfully
-		/// found otherwise, null.</returns>
-		public VideoClip Get (string culture) =>
-			ContainsKey (culture)
-				? this[culture]
-				: null;
-
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <param name="localization">Value of the localization.</param>
-		/// <returns><value>True</value> if the element is successfully found;
-		/// otherwise, <value>False</value>.</returns>
-		public bool TryGet (string culture, out VideoClip localization) =>
-			TryGetValue (culture, out localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool Set (string culture, VideoClip localization)
-		{
-			if (!ContainsKey (culture)) return false;
-			this[culture] = localization;
-			return true;
-		}
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool TrySet (string culture, object localization)
-		{
-			if (!ContainsKey (culture)) return false;
-
-			VideoClip value;
-			try
-			{
-				value = (VideoClip) localization;
-			}
-			catch
-			{
-				return false;
-			}
-
-			this[culture] = value;
-			return true;
-		}
-
 #if UNITY_EDITOR
-		/// <summary>
-		/// Draws the field for the specified culture.
-		/// </summary>
-		/// <param name="culture">Culture Localization to draw.</param>
-		/// <param name="options">Options for GUI.</param>
-		public void DrawField (string culture, GUILayoutOption[] options)
+		/// <inheritdoc cref=
+		/// "ILocalizedObject.DrawField(string, bool, GUILayoutOption[])"/>
+		public void DrawField (
+			string culture, bool drawLabel = true,
+			GUILayoutOption[] options = null
+		)
 		{
-			Set (
-				culture,
-				SirenixEditorFields.UnityObjectField (
+			if (!ContainsKey (culture)) return;
+			if (drawLabel)
+				this[culture] = SirenixEditorFields.UnityObjectField (
 					culture,
 					this[culture],
-					typeof (VideoClip),
+					typeof (Texture),
 					allowSceneObjects: false,
 					options
-				) as VideoClip
-			);
+				) as VideoClip;
+			else
+				this[culture] = SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Texture),
+					allowSceneObjects: false,
+					options
+				) as VideoClip;
 		}
 #endif
 	}
 
 	/// <summary>
 	/// 
-	/// LocalizedObject.
+	/// <!-- LocalizedObject -->
 	/// 
-	/// <para>
-	/// Localized Object with a localized Unity.Object value for each different
-	/// culture in the object.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
+	/// Localized Object with Object values for each different culture
+	/// in the object.
 	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[System.Serializable]
 	internal class LocalizedUnityObject :
 		SerializableDictionary<string, Object>,
-		ILocalized<Object>
+		ILocalizedObject
 	{
-		/// <summary>
-		/// Total count of cultures with a default value for it's localization.
-		/// </summary>
+
+		/// <inheritdoc cref="ILocalizedObject.UncompletedCount"/>
 		public int UncompletedCount
 		{
 			get
@@ -949,40 +550,23 @@ namespace BricksBucket.Localization.Internal
 			}
 		}
 
-		/// <summary>
-		/// Array of all codes in this collection.
-		/// </summary>
+		/// <inheritdoc cref="ILocalizedObject.Cultures"/>
 		public string[] Cultures => Keys.ToArray ();
 
-		/// <summary>
-		/// Defines whether for all this localized object cultures has a
-		/// localization different from the null.
-		/// </summary>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted()"/>
 		public bool IsCompleted () => !ContainsValue (null);
 
-		/// <summary>
-		/// Defines whether the localization for the specified culture
-		/// is complete.
-		/// </summary>
-		/// <param name="culture">Culture to evaluate its localization.</param>
-		/// <returns><value>True</value> if is complete.</returns>
+		/// <inheritdoc cref="ILocalizedObject.IsCompleted(string)"/>
 		public bool IsCompleted (string culture) => this[culture] != null;
 
-		/// <summary>
-		/// Defines whether this localized object has a localization for the
-		/// given culture. 
-		/// </summary>
-		/// <param name="culture">Culture to look for.</param>
-		/// <returns><value>True</value> if has the given culture.</returns>
+		/// <inheritdoc cref="ILocalizedObject.ContainsCulture(string)"/>
 		public bool ContainsCulture (string culture) => ContainsKey (culture);
 
-		/// <summary>
-		/// Adds a new localization to the localized object with null value. 
-		/// </summary>
-		/// <param name="culture">Culture to add.</param>
-		/// <returns><value>True</value> if the culture has
-		/// been added.</returns>
+		///<inheritdoc cref="ILocalizedObject.GetLocalization"/>
+		public object GetLocalization (string culture) =>
+			!ContainsCulture (culture) ? null : this[culture];
+
+		/// <inheritdoc cref="ILocalizedObject.AddEmpty(string)"/>
 		public bool AddEmpty (string culture)
 		{
 			if (ContainsKey (culture)) return false;
@@ -990,84 +574,31 @@ namespace BricksBucket.Localization.Internal
 			return true;
 		}
 
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <returns>Value of the localization if the element is successfully
-		/// found otherwise, null.</returns>
-		public Object Get (string culture) =>
-			ContainsKey (culture)
-				? this[culture]
-				: null;
-
-		/// <summary>
-		/// Gets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to look for.</param>
-		/// <param name="localization">Value of the localization.</param>
-		/// <returns><value>True</value> if the element is successfully found;
-		/// otherwise, <value>False</value>.</returns>
-		public bool TryGet (string culture, out Object localization) =>
-			TryGetValue (culture, out localization);
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool Set (string culture, Object localization)
-		{
-			if (!ContainsKey (culture)) return false;
-			this[culture] = localization;
-			return true;
-		}
-
-		/// <summary>
-		/// Sets the localization value in an existing culture.
-		/// </summary>
-		/// <param name="culture">Name of the culture to set its value.</param>
-		/// <param name="localization">The new value for localization.</param>
-		/// <returns><value>True</value> if the element is successfully found
-		/// and set; otherwise, <value>False</value>.</returns>
-		public bool TrySet (string culture, object localization)
-		{
-			if (!ContainsKey (culture)) return false;
-
-			Object value;
-			try
-			{
-				value = (Object) localization;
-			}
-			catch
-			{
-				return false;
-			}
-
-			this[culture] = value;
-			return true;
-		}
-
 #if UNITY_EDITOR
-		/// <summary>
-		/// Draws the field for the specified culture.
-		/// </summary>
-		/// <param name="culture">Culture Localization to draw.</param>
-		/// <param name="options">Options for GUI.</param>
-		public void DrawField (string culture, GUILayoutOption[] options)
+
+		/// <inheritdoc cref=
+		/// "ILocalizedObject.DrawField(string, bool, GUILayoutOption[])"/>
+		public void DrawField (
+			string culture, bool drawLabel = true,
+			GUILayoutOption[] options = null
+		)
 		{
-			Set (
-				culture,
-				SirenixEditorFields.UnityObjectField (
+			if (!ContainsKey (culture)) return;
+			if (drawLabel)
+				this[culture] = SirenixEditorFields.UnityObjectField (
 					culture,
 					this[culture],
-					typeof (Object),
+					typeof (Texture),
 					allowSceneObjects: false,
 					options
-				)
-			);
+				);
+			else
+				this[culture] = SirenixEditorFields.UnityObjectField (
+					this[culture],
+					typeof (Texture),
+					allowSceneObjects: false,
+					options
+				);
 		}
 #endif
 	}

@@ -7,9 +7,9 @@
 // ReSharper disable UnusedType.Global
 namespace BricksBucket.Localization
 {
-    /// <summary>
-    /// 
     /// <!-- ISO639 -->
+    ///
+    /// <summary>
     /// 
     /// <para>
     /// <i>"This ISO standard can be applied across many types of organization
@@ -245,17 +245,15 @@ namespace BricksBucket.Localization
 
 
 
-        /// <summary>
-        /// 
         /// <!-- Alpha1 -->
-        /// 
+        ///
+        /// <summary>
         /// Defines two letters codes for the names of languages according to
         /// the <b>ISO 639-1</b> standard, is the first part of the  <see href=
         /// "https://www.iso.org/iso-639-language-codes.html">ISO 639</see>
         /// series. Its relation ship with the other parts of the standard
         /// is shown in the <see href=
         /// "../articles/localization/standard_iso639.html">ISO 639 Table</see>.
-        /// 
         /// </summary>
         /// 
         /// <seealso cref="BricksBucket.Localization.ISO639"/>
@@ -826,10 +824,9 @@ namespace BricksBucket.Localization
 
         
         
-        /// <summary>
-        /// 
         /// <!-- Alpha2T -->
-        /// 
+        ///
+        /// <summary>
         /// Defines three letters codes for the names of languages according to
         /// the <b>ISO 639-2/T</b> terminological standard, is the second part
         /// of the <see href=
@@ -837,7 +834,6 @@ namespace BricksBucket.Localization
         /// series. Its relation ship with the other parts of the standard
         /// is shown in the <see href=
         /// "../articles/localization/standard_iso639.html">ISO 639 Table</see>.
-        /// 
         /// </summary>
         /// 
         /// <seealso cref="BricksBucket.Localization.ISO639"/>
@@ -1408,10 +1404,9 @@ namespace BricksBucket.Localization
 
         
         
-        /// <summary>
-        /// 
         /// <!-- Alpha2B -->
-        /// 
+        ///
+        /// <summary>
         /// Defines three letters codes for the names of languages according to
         /// the <b>ISO 639-2/B</b> bibliographic standard, is the second part
         /// of the <see href=
@@ -1419,7 +1414,6 @@ namespace BricksBucket.Localization
         /// series. Its relation ship with the other parts of the standard
         /// is shown in the <see href=
         /// "../articles/localization/standard_iso639.html">ISO 639 Table</see>.
-        /// 
         /// </summary>
         /// 
         /// <seealso cref="BricksBucket.Localization.ISO639"/>

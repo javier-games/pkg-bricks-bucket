@@ -1,16 +1,12 @@
-namespace BricksBucket.Localization.Editor
+namespace BricksBucket.Localization.Internal
 {
+	/// <!-- LocalizationType -->
+	/// 
 	/// <summary>
-	///
-	/// Localization Type.
-	/// 
-	/// <para>
 	/// Definition of types for a localization.
-	/// </para>
-	/// 
-	/// <para> By Javier García | @jvrgms | 2020 </para>
-	/// 
 	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	internal enum LocalizationType
 	{
 		/// <summary>

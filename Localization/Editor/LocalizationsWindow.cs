@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using BricksBucket.Localization.Internal;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
@@ -7,194 +6,502 @@ using UnityEngine;
 
 namespace BricksBucket.Localization.Editor
 {
-	internal class LocalizationsWindow: OdinEditorWindow
+	internal class LocalizationsWindow : OdinEditorWindow
 	{
-		private LocalizationType _dataType;
-
-		private int _cultureMask;
-
-		private int _activeTab;
 		
-		[SerializeField]
-		private List<string> _cultureCodes
-			= new List<string> ();
+		#region Constants
+		
+		/// <summary>
+		/// Width of a field in the window.
+		/// </summary>
+		private const int FieldWidth = 150;
+		
+		/// <summary>
+		/// Space between Horizontal Fields. 
+		/// </summary>
+		private const int CellSpace = 4;
 
-		[SerializeField]
-		private List<string> _localizationCodes
-			= new List<string> ();
+		#endregion
 
 
+		#region Static Fields
+		
+		/// <summary>
+		/// Name of the data type where to activate the add menu.
+		/// </summary>
+		private static string _dataTypeAddMenu = string.Empty;
+		
+		/// <summary>
+		/// Code of the new localization to add.
+		/// </summary>
+		private static string _codeToAdd = string.Empty;
+		
+		/// <summary>
+		/// Code of the localization where to show edit menu.
+		/// </summary>
+		private static string _codeToEdit = string.Empty;
+		
+		/// <summary>
+		/// Replacement for the code of the localization selected.
+		/// </summary>
+		private static string _codeReplacement = string.Empty;
 
-		[MenuItem("Tools/Bricks Bucket/Localization/Localizations Editor")]
-		private static void OpenWindow()
+		/// <summary>
+		/// Value of the scroll bar.
+		/// </summary>
+		private static Vector2 _scroll;
+		
+		#endregion
+
+
+		#region Override Methods
+
+		/// <inheritdoc cref="OdinEditorWindow.OnEnable()"/>
+		protected override void OnEnable ()
 		{
+			base.OnEnable ();
+			titleContent = new GUIContent (
+				"Localizations Editor",
+				EditorIcons.Globe.Highlighted
+			);
+
+			if (LocalizationSettings.InstanceExist) return;
 			LocalizationSettings.InitializeLocalization ();
-			GetWindow<LocalizationsWindow>().Show();
 		}
 
+		/// <inheritdoc cref="OdinEditorWindow.OnGUI()"/>
 		protected override void OnGUI ()
 		{
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-			EditorGUILayout.BeginHorizontal ();
-			GUILayout.FlexibleSpace ();
-			
-			//	Drawing Cultures selector.
-			SirenixEditorGUI.BeginBox ();
-			EditorGUILayout.BeginHorizontal ();
-			EditorGUILayout.LabelField ("Culture(s)", GUILayout.Width (100));
-			_cultureMask = EditorGUILayout.MaskField (
-				_cultureMask,
-				LocalizationSettings.CulturesNames,
-				GUILayout.Width (150)
-			);
-			EditorGUILayout.EndHorizontal ();
-			
-			EditorGUILayout.BeginHorizontal ();
-			EditorGUILayout.LabelField ("Data Type", GUILayout.Width (100));
-			_dataType = (LocalizationType) SirenixEditorFields.EnumDropdown (
-				_dataType,
-				GUILayout.Width (150)
-			);
-			EditorGUILayout.EndHorizontal ();
-			SirenixEditorGUI.EndBox ();
-			
-			EditorGUILayout.Space(20);
-			EditorGUILayout.EndHorizontal ();
-
-			//	Drawing the toolbar.
-			if (_cultureMask == 0)
+			if (LocalizationSettings.CulturesNames.Length == 0)
 			{
 				SirenixEditorGUI.MessageBox (
-					"Select at least one book and culture to edit.",
+					"Add at least one culture into the localization settings.",
+					MessageType.Warning,
+					wide: false
+				);
+				return;
+			}
+			
+			if (LocalizationSettings.BooksCodes.Length == 0)
+			{
+				SirenixEditorGUI.MessageBox (
+					"Add at least one book to start editing."
+				);
+				return;
+			}
+			
+			if (LocalizationSettings.WindowCultureMask == 0)
+			{
+				SirenixEditorGUI.MessageBox (
+					"Select at least one culture to edit.",
 					MessageType.Warning
 				);
 				return;
 			}
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
+
+			DrawToolbar ();
+			DrawContent ();
+		}
+		
+		#endregion
+
+		
+		#region Class Implementation
+		
+		/// <summary>
+		/// Draws method in the Unity menu.
+		/// </summary>
+		[MenuItem ("Tools/Bricks Bucket/Localization/Localizations Editor")]
+		internal static void OpenWindow ()
+		{
+			LocalizationSettings.InitializeLocalization ();
+			GetWindow<LocalizationsWindow> ().Show ();
+		}
+
+		/// <summary>
+		/// Draws the header in the window.
+		/// </summary>
+		private static void DrawHeader ()
+		{
+			EditorGUILayout.BeginVertical ();
+			EditorGUILayout.Space (20);
+
+			EditorGUILayout.BeginHorizontal ();
+			GUILayout.FlexibleSpace ();
+			SirenixEditorGUI.BeginBox ();
+			EditorGUILayout.BeginVertical ();
+
+			//	Drawing Cultures selector.
+			EditorGUILayout.BeginHorizontal ();
+			EditorGUILayout.LabelField ("Culture(s)", GUILayout.Width (100));
+			LocalizationSettings.WindowCultureMask = EditorGUILayout.MaskField (
+				LocalizationSettings.WindowCultureMask,
+				LocalizationSettings.CulturesNames,
+				GUILayout.Width (FieldWidth)
+			);
+			EditorGUILayout.EndHorizontal ();
+
+			//	Drawing Data Types selector.
+			var types = new string[Book.GroupsNames.Count];
+			Book.GroupsNames.Values.CopyTo (types, 0);
+			EditorGUILayout.BeginHorizontal ();
+			EditorGUILayout.LabelField ("Data Type(s)", GUILayout.Width (100));
+			LocalizationSettings.WindowDataTypeMask =
+				EditorGUILayout.MaskField (
+					LocalizationSettings.WindowDataTypeMask,
+					types,
+					GUILayout.Width (FieldWidth)
+				);
+			EditorGUILayout.EndHorizontal ();
+
+			EditorGUILayout.EndVertical ();
+			SirenixEditorGUI.EndBox ();
+			EditorGUILayout.Space (20);
+			EditorGUILayout.EndHorizontal ();
+			EditorGUILayout.EndVertical ();
+		}
+
+		/// <summary>
+		/// Draws the tool bar with books.
+		/// </summary>
+		private static void DrawToolbar ()
+		{
 			SirenixEditorGUI.BeginHorizontalToolbar ();
 			for (int i = 0; i < LocalizationSettings.BooksNames.Length; i++)
 			{
-				if (SirenixEditorGUI.ToolbarToggle (_activeTab == i,
+				if (SirenixEditorGUI.ToolbarToggle (
+					LocalizationSettings.WindowActiveBook == i,
 					LocalizationSettings.BooksNames[i]))
 				{
-					_activeTab = i;
+					LocalizationSettings.WindowActiveBook = i;
 				}
 			}
 			SirenixEditorGUI.EndHorizontalToolbar ();
-			
-			
-			_cultureCodes.Clear ();
-			for (int i = 0; i < LocalizationSettings.CulturesNames.Length; i++)
-				if((_cultureMask & (1 << i)) > 0)
-					_cultureCodes.Add (LocalizationSettings.CulturesCodes[i]);
-			
-			_localizationCodes.Clear ();
-			var bookCode = LocalizationSettings.BooksCodes[_activeTab]; 
-			LocalizationSettings.GetBook (bookCode, out var book);
-			string[] keys;
-			switch (_dataType)
-			{
-				case LocalizationType.TEXT:
-					keys = new string[book.TextGroup.Count];
-					book.TextGroup.Keys.CopyTo (keys, 0);
-					for (int i = 0; i < keys.Length; i++)
-						_localizationCodes.Add (keys[i]);
-					break;
-				case LocalizationType.TEXTURE:
-					keys = new string[book.TextureGroup.Count];
-					book.TextureGroup.Keys.CopyTo (keys, 0);
-					for (int i = 0; i < keys.Length; i++)
-						_localizationCodes.Add (keys[i]);
-					break;
-				case LocalizationType.SPRITE:
-					keys = new string[book.SpriteGroup.Count];
-					book.SpriteGroup.Keys.CopyTo (keys, 0);
-					for (int i = 0; i < keys.Length; i++)
-						_localizationCodes.Add (keys[i]);
-					break;
-				case LocalizationType.AUDIO:
-					keys = new string[book.AudioGroup.Count];
-					book.AudioGroup.Keys.CopyTo (keys, 0);
-					for (int i = 0; i < keys.Length; i++)
-						_localizationCodes.Add (keys[i]);
-					break;
-				case LocalizationType.VIDEO:
-					keys = new string[book.VideoGroup.Count];
-					book.VideoGroup.Keys.CopyTo (keys, 0);
-					for (int i = 0; i < keys.Length; i++)
-						_localizationCodes.Add (keys[i]);
-					break;
-				case LocalizationType.OBJECT:
-					keys = new string[book.UnityObjectGroup.Count];
-					book.UnityObjectGroup.Keys.CopyTo (keys, 0);
-					for (int i = 0; i < keys.Length; i++)
-						_localizationCodes.Add (keys[i]);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException ();
-			}
+		}
 
-			EditorGUILayout.Space();
+		/// <summary>
+		/// Draws the content of localizations.
+		/// </summary>
+		private static void DrawContent ()
+		{
+			//	Draw Books Info.
+			var bookCodeIndex = LocalizationSettings.WindowActiveBook;
+			var bookCode = LocalizationSettings.BooksCodes[bookCodeIndex];
+			LocalizationSettings.GetBook (bookCode, out var book);
+
 			EditorGUILayout.BeginHorizontal ();
-			EditorGUILayout.LabelField (string.Empty, GUILayout.Width (150));
-			for (int i = 0; i < _cultureCodes.Count; i++)
-			{
-				EditorGUILayout.LabelField (_cultureCodes[i], SirenixGUIStyles.Title , GUILayout.Width (150));
-			}
+			DrawBookInfo (book);
+			DrawHeader ();
 			EditorGUILayout.EndHorizontal ();
 			
-			for (int i = 0; i < _localizationCodes.Count; i++)
+			// Initialize Scroll View.
+			var currentWindowWidth = EditorGUILayout.GetControlRect ().width;
+			var contentWidth =
+				(FieldWidth + CellSpace) * LocalizationSettings.Cultures.Length;
+			if (currentWindowWidth < contentWidth)
+				_scroll = EditorGUILayout.BeginScrollView (_scroll, true, true);
+			else
 			{
-				
+				_scroll.x = 0;
+				_scroll = EditorGUILayout.BeginScrollView (_scroll);
+			}
+			
+			//	Draw groups.
+			for (int i = 0; i < Book.GroupsNames.Count; i++)
+			{
+				if ((LocalizationSettings.WindowDataTypeMask & (1 << i)) <= 0)
+					continue;
+				DrawGroup (book, (LocalizationType) i);
+			}
+			EditorGUILayout.EndScrollView ();
+		}
+
+		/// <summary>
+		/// Draws the info of a book.
+		/// </summary>
+		/// <param name="book">Book to draw its info.</param>
+		private static void DrawBookInfo (Book book)
+		{
+			EditorGUILayout.BeginVertical ();
+			EditorGUILayout.Space(10);
+			EditorGUILayout.BeginHorizontal ();
+			CellHorizontalSpace ();
+			EditorGUILayout.LabelField (book.Name, EditorStyles.boldLabel);
+			EditorGUILayout.EndHorizontal ();
+
+			if (!string.IsNullOrWhiteSpace (book.Description))
+			{
+				EditorGUILayout.Space (1);
 				EditorGUILayout.BeginHorizontal ();
-				var localizationCode = _localizationCodes[i];
-				EditorGUILayout.LabelField (_localizationCodes[i], SirenixGUIStyles.Title, GUILayout.Width (150));
-				for (int j = 0; j < _cultureCodes.Count; j++)
-				{
-					var cultureCode = _cultureCodes[j];
-					switch (_dataType)
-					{
-						case LocalizationType.TEXT:
-							if(book.TextGroup.ContainsKey (localizationCode))
-								book.TextGroup[localizationCode].Set (
-									cultureCode,
-									EditorGUILayout.TextField (
-										book.TextGroup[localizationCode][cultureCode], GUILayout.Width (150)
-									)
-								);
-							break;
-						case LocalizationType.TEXTURE:
-							if(book.TextureGroup.ContainsKey (localizationCode))
-								book.TextureGroup[localizationCode].Set (
-									cultureCode,
-									SirenixEditorFields.UnityObjectField(
-										book.TextureGroup[localizationCode][cultureCode],
-										typeof(Texture),
-										false,
-										GUILayout.Width (150)
-									) as Texture
-								);
-							break;
-						case LocalizationType.SPRITE:
-							break;
-						case LocalizationType.AUDIO:
-							break;
-						case LocalizationType.VIDEO:
-							break;
-						case LocalizationType.OBJECT:
-							break;
-					}
-				}
+				CellHorizontalSpace ();
+				EditorGUILayout.LabelField (
+					book.Description,
+					SirenixGUIStyles.MultiLineLabel,
+					GUILayout.Width (FieldWidth * 3),
+					GUILayout.Height (40)
+				);
 				EditorGUILayout.EndHorizontal ();
 			}
 
-			
-			
-			
-			
+			//	Draws the Status.
+			EditorGUILayout.BeginHorizontal ();
+			CellHorizontalSpace ();
+			GUIContent statusIcon = new GUIContent();
+			GUIContent statusValue = new GUIContent (
+				"Completed", "All localizations are setup."
+			);
+			if (book.IsCompleted)
+			{
+				statusIcon.image = EditorIcons.TestPassed;
+				statusIcon.tooltip = "All localizations are setup.";
+				statusValue.text = "Completed";
+				statusValue.tooltip = "All localizations are setup.";
+			}
+			else
+			{
+				var statusTooltip = StringUtils.ConcatFormat (
+					"{0} localizations left to be completed.",
+					book.UncompletedCount
+				);
+				statusIcon.image = EditorIcons.UnityWarningIcon;
+				statusIcon.tooltip = statusTooltip;
+				statusValue.text = "Uncompleted";
+				statusValue.tooltip = statusTooltip;
+			}
+			EditorGUILayout.LabelField (
+				"Status:",
+				GUILayout.Width (FieldWidth * 0.5f));
+			EditorGUILayout.LabelField (
+				statusValue,
+				SirenixGUIStyles.BoldLabel,
+				GUILayout.Width (FieldWidth * 0.6f)
+			);
+			EditorGUILayout.LabelField (statusIcon, GUILayout.Width (14));
+			EditorGUILayout.EndHorizontal ();
+
+
+			for (int i = 0; i < Book.GroupsNames.Count; i++)
+			{
+				var type = (LocalizationType) i;
+				var group = book.GroupsDictionary[type];
+				if(group.UncompletedCount == 0) continue;
+				
+				EditorGUILayout.BeginHorizontal ();
+				CellHorizontalSpace ();
+				EditorGUILayout.LabelField (
+					string.Empty,
+					GUILayout.Width (FieldWidth * 0.5f)
+				);
+				EditorGUILayout.LabelField (
+					string.Concat (
+						group.UncompletedCount.ToString (), " ",
+						Book.GroupsNames[type],
+						" localizations left."
+					),
+					GUILayout.Width (FieldWidth)
+				);
+				EditorGUILayout.EndHorizontal ();
+			}
+			EditorGUILayout.EndVertical ();
 		}
 		
+		/// <summary>
+		/// Draws a group for the specific type.
+		/// </summary>
+		/// <param name="book">Book the group belongs to.</param>
+		/// <param name="type">Type of the group.</param>
+		private static void DrawGroup (Book book, LocalizationType type)
+		{
+			var culturesCount = LocalizationSettings.CulturesNames.Length;
+			var culturesMask = LocalizationSettings.WindowCultureMask;
+			var groupTitle = Book.GroupsNames[type];
+			var group = book.GroupsDictionary[type];
+			
+			//	Group Titles.
+			EditorGUILayout.Space (1);
+			EditorGUILayout.BeginHorizontal ();
+			ColumnTitleHorizontalSpace ();
+			ColumnTitle (groupTitle);
+			ColumnTitleHorizontalSpace ();
+			for (int i = 0; i < culturesCount; i++)
+				if ((culturesMask & (1 << i)) > 0)
+				{
+					ColumnTitle (LocalizationSettings.CulturesNames[i]);
+					ColumnTitleHorizontalSpace ();
+				}
+			EditorGUILayout.EndHorizontal ();
+
+			
+			SirenixEditorGUI.BeginBox ();
+			var codes = group.Codes;
+			for (int i = 0; i < codes.Length; i++)
+			{
+				EditorGUILayout.BeginHorizontal ();
+				CellHorizontalSpace ();
+				
+				//	Draws Editable Localization Code.
+				if (_codeToEdit == codes[i])
+				{
+					_codeReplacement = EditorGUILayout.DelayedTextField (
+						_codeReplacement,
+						GUILayout.Width (FieldWidth - 40)
+					).ToCodeFormat ();
+
+					CellHorizontalSpace ();
+					if (DrawIconButton (EditorIcons.ArrowLeft))
+					{
+						_codeReplacement = string.Empty;
+						_codeToEdit = string.Empty;
+						return;
+					}
+
+					var isAvailable =
+						!string.IsNullOrWhiteSpace (_codeReplacement) &&
+						!book.ContainsLocalizedObject (_codeReplacement);
+
+					GUI.enabled = isAvailable;
+					if (DrawIconButton(EditorIcons.Checkmark))
+					{
+						group.UpdateLocalizationCode (
+							codes[i],
+							_codeReplacement
+						);
+						_codeReplacement = string.Empty;
+						_codeToEdit = string.Empty;
+						return;
+					}
+					GUI.enabled = true;
+				}
+				
+				//	Draws Localization.
+				else
+				{
+					EditorGUILayout.LabelField (
+						codes[i],
+						SirenixGUIStyles.LeftAlignedCenteredLabel,
+						GUILayout.Width (FieldWidth - 32)
+					);
+
+					if (DrawIconButton (EditorIcons.Pen))
+					{
+						_codeReplacement = codes[i];
+						_codeToEdit = codes[i];
+					}
+
+					if (DrawIconButton (EditorIcons.X))
+					{
+						group.Remove (codes[i]);
+						_codeToEdit = string.Empty;
+						return;
+					}
+
+					CellHorizontalSpace ();
+					for (int j = 0; j < culturesCount; j++)
+						if ((culturesMask & (1 << j)) > 0)
+						{
+							var cultureCode = LocalizationSettings
+								.CulturesCodes[j];
+							
+							group.GetLocalized (codes[i]).DrawField (
+								cultureCode,
+								drawLabel: false,
+								options: new[] {GUILayout.Width (FieldWidth)}
+							);
+							CellHorizontalSpace ();
+						}
+				}
+				EditorGUILayout.EndHorizontal ();
+				EditorGUILayout.Space (2);
+			}
+
+			//	Draws Add Menu.
+			EditorGUILayout.BeginHorizontal ();
+			CellHorizontalSpace ();
+			if (_dataTypeAddMenu == groupTitle)
+				DrawAddMenu (book, group);
+			else if (DrawIconButton (EditorIcons.Plus))
+				_dataTypeAddMenu = groupTitle;
+			EditorGUILayout.EndHorizontal ();
+			
+			SirenixEditorGUI.EndBox ();
+		}
+
+		/// <summary>
+		/// Draws the add menu to add new empty localizations.
+		/// </summary>
+		/// <param name="book">Book to validate new code.</param>
+		/// <param name="group">Group of the localization.</param>
+		private static void DrawAddMenu (Book book,  ILocalizedGroup group)
+		{
+			_codeToAdd = EditorGUILayout.DelayedTextField (
+				_codeToAdd,
+				GUILayout.Width (FieldWidth)
+			).ToCodeFormat ();
+
+			CellHorizontalSpace ();
+
+			var isAvailable =
+				!string.IsNullOrWhiteSpace (_codeToAdd) &&
+				!book.ContainsLocalizedObject (_codeToAdd);
+
+			GUI.enabled = isAvailable;
+			if (GUILayout.Button ("Add",
+				GUILayout.Width (FieldWidth * 0.5f)))
+			{
+				group.AddEmpty (
+					_codeToAdd,
+					LocalizationSettings.CulturesCodes
+				);
+				_codeToAdd = string.Empty;
+			}
+
+			GUI.enabled = true;
+			if (!GUILayout.Button ("Cancel",
+				GUILayout.Width (FieldWidth * 0.5f)))
+				return;
+			_dataTypeAddMenu = string.Empty;
+			_codeToAdd = string.Empty;
+		}
+
+		/// <summary>
+		/// Horizontal space of a cell.
+		/// </summary>
+		private static void CellHorizontalSpace () =>
+			EditorGUILayout.LabelField (
+				string.Empty,
+				GUILayout.Width (CellSpace)
+			);
+
+		/// <summary>
+		/// Horizontal Space of a column title.
+		/// </summary>
+		private static void ColumnTitleHorizontalSpace () =>
+			EditorGUILayout.LabelField (
+				string.Empty,
+				GUILayout.Width (CellSpace),
+				GUILayout.Height (10)
+			);
+
+		/// <summary>
+		/// Draws a column title.
+		/// </summary>
+		/// <param name="columnTitle"></param>
+		private static void ColumnTitle (string columnTitle) =>
+			EditorGUILayout.LabelField (
+				columnTitle,
+				SirenixGUIStyles.Subtitle,
+				GUILayout.Width (FieldWidth),
+				GUILayout.Height (10)
+			);
+
+		/// <summary>
+		/// Draws a button icon.
+		/// </summary>
+		/// <param name="icon">Icon to draw.</param>
+		/// <returns>True if the button is pressed.</returns>
+		private static bool DrawIconButton (EditorIcon icon) =>
+			SirenixEditorGUI.IconButton (icon, 14, 14);
+
+		#endregion
 	}
 }

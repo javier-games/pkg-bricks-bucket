@@ -1,20 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using BricksBucket.Localization.Internal;
 
 
+// ReSharper disable ConvertIfStatementToNullCoalescingAssignment
 namespace BricksBucket.Localization
 {
-	/// <summary>
-	/// 
 	/// <!-- Book -->
-	///
+	/// 
+	/// <summary>
 	/// The book is an scriptable object that contains a group of localizations.
 	/// A book can store different localization types as text, images, audio
 	/// and video, it can also stores any type that inherits from
 	/// <see href="https://docs.unity3d.com/ScriptReference/Object.html">
 	/// UnityEngine.Object</see>, that means that can store custom assets.
-	/// 
 	/// </summary>
 	/// 
 	/// <seealso href=
@@ -30,7 +30,7 @@ namespace BricksBucket.Localization
 
 
 
-		#region Fields
+		#region Serialized Fields
 
 		/// <summary>
 		/// Code to identify the book in the books collection of
@@ -84,20 +84,98 @@ namespace BricksBucket.Localization
 		/// values.
 		/// </summary>
 		[SerializeField]
-		private AudioLocalizations _audioGroup;
+		private AudioGroup _audioGroup;
 
 		/// <summary>
 		/// Group of localizations of <see cref="UnityEngine.Video.VideoClip"/>
 		/// values.
 		/// </summary>
 		[SerializeField]
-		private VideoLocalizations _videoGroup;
+		private VideoGroup _videoGroup;
 
 		/// <summary>
 		/// Group of localizations of <see cref="UnityEngine.Object"/> values.
 		/// </summary>
 		[SerializeField]
-		private UnityObjectLocalizations _unityObjectGroup;
+		private UnityObjectGroup _unityObjectGroup;
+		#endregion
+
+
+		#region Read Only / Constants
+		
+		/*
+		 * NOTE:
+		 * For each new type of data to add to the book do the following steps:
+		 * - Add the new value to the Localization Type enum.
+		 * - Create a new LocalizedObject<TNewType>.
+		 * - Create a new LocalizationGroup<TNewType>.
+		 * - Add the serialized group to this book.
+		 * - Add the name to the GroupsNames dictionary.
+		 * - Add the group to the _groupsDictionary.
+		 */
+
+		/// <summary>
+		/// Names of the groups by type.
+		/// </summary>
+		internal static readonly Dictionary<LocalizationType, string>
+			GroupsNames = new Dictionary<LocalizationType, string> ()
+			{
+				{LocalizationType.TEXT, "Text"},
+				{LocalizationType.TEXTURE, "Texture"},
+				{LocalizationType.SPRITE, "Sprite"},
+				{LocalizationType.AUDIO, "Audio"},
+				{LocalizationType.VIDEO, "Video"},
+				{LocalizationType.OBJECT, "Other"}
+			};
+
+
+			/// <summary>
+		/// Dictionary of groups that ignores its types.
+		/// </summary>
+		private Dictionary<LocalizationType, ILocalizedGroup>
+			_groupsDictionary;
+
+
+		/// <summary>
+		/// Dictionary of all groups in the dictionary.
+		/// </summary>
+		internal Dictionary<LocalizationType, ILocalizedGroup>
+			GroupsDictionary
+		{
+			get
+			{
+				var groups = _groupsDictionary;
+				if (groups != null)
+				{
+					return groups;
+				}
+
+				if (_textGroup == null)
+					_textGroup = new TextGroup ();
+				if(_textureGroup == null)
+					_textureGroup = new TextureGroup ();
+				if(_spriteGroup == null)
+					_spriteGroup = new SpriteGroup ();
+				if(_audioGroup == null)
+					_audioGroup = new AudioGroup ();
+				if(_videoGroup == null)
+					_videoGroup = new VideoGroup ();
+				if(_unityObjectGroup == null)
+					_unityObjectGroup = new UnityObjectGroup ();
+
+
+				return (_groupsDictionary =
+					new Dictionary<LocalizationType, ILocalizedGroup> ()
+					{
+						{LocalizationType.TEXT, _textGroup},
+						{LocalizationType.TEXTURE, _textureGroup},
+						{LocalizationType.SPRITE, _spriteGroup},
+						{LocalizationType.AUDIO, _audioGroup},
+						{LocalizationType.VIDEO, _videoGroup},
+						{LocalizationType.OBJECT, _unityObjectGroup}
+					});
+			}
+		}
 
 		#endregion
 
@@ -145,26 +223,34 @@ namespace BricksBucket.Localization
 		/// text, media and object localizations.
 		/// </summary>
 		/// <returns>Count of localized objects.</returns>
-		public int Count =>
-			TextGroup.Count +
-			TextureGroup.Count +
-			SpriteGroup.Count +
-			AudioGroup.Count +
-			VideoGroup.Count +
-			UnityObjectGroup.Count;
+		public int Count
+		{
+			get
+			{
+				var count = 0;
+				for (int i = 0; i < GroupsNames.Count; i++)
+					count += GroupsDictionary[(LocalizationType)i].Count;
+				return count;
+			}
+		}
+		
 
 		/// <summary>
 		/// Count of localized objects that are uncompleted in the book. This
 		/// count includes all text, media and object localizations.
 		/// </summary>
 		/// <returns>Count of uncompleted localized objects.</returns>
-		internal int UncompletedCount =>
-			TextGroup.UncompletedCount +
-			TextureGroup.UncompletedCount +
-			SpriteGroup.UncompletedCount +
-			AudioGroup.UncompletedCount +
-			VideoGroup.UncompletedCount +
-			UnityObjectGroup.UncompletedCount;
+		internal int UncompletedCount 
+		{
+			get
+			{
+				var count = 0;
+				for (int i = 0; i < GroupsNames.Count; i++)
+					count += GroupsDictionary[(LocalizationType) i].
+						UncompletedCount;
+				return count;
+			}
+		}
 
 		/// <summary>
 		/// Whether each localized object in this book has a value different
@@ -174,69 +260,16 @@ namespace BricksBucket.Localization
 		/// </summary>
 		/// <returns><value>True</value> if this book has a non default value
 		/// for each culture in each localized object.</returns>
-		internal bool IsCompleted =>
-			TextGroup.IsCompleted () &&
-			TextureGroup.IsCompleted () &&
-			SpriteGroup.IsCompleted () &&
-			AudioGroup.IsCompleted () &&
-			VideoGroup.IsCompleted () &&
-			UnityObjectGroup.IsCompleted ();
-
-		/// <summary>
-		/// Group of localizations of <see cref="System.string"/> values.
-		/// </summary>
-		internal TextGroup TextGroup
+		internal bool IsCompleted 
 		{
-			get => _textGroup ?? new TextGroup ();
-			set => _textGroup = value;
-		}
-
-		/// <summary>
-		/// Group of localizations of <see cref="UnityEngine.Texture"/>
-		/// values.
-		/// </summary>
-		internal TextureGroup TextureGroup
-		{
-			get => _textureGroup ?? new TextureGroup ();
-			set => _textureGroup = value;
-		}
-
-		/// <summary>
-		/// Group of localizations of <see cref="UnityEngine.Sprite"/> values.
-		/// </summary>
-		internal SpriteGroup SpriteGroup
-		{
-			get => _spriteGroup ?? new SpriteGroup ();
-			set => _spriteGroup = value;
-		}
-
-		/// <summary>
-		/// Group of localizations of <see cref="UnityEngine.AudioClip"/>
-		/// values.
-		/// </summary>
-		internal AudioLocalizations AudioGroup
-		{
-			get => _audioGroup ?? new AudioLocalizations ();
-			set => _audioGroup = value;
-		}
-
-		/// <summary>
-		/// Group of localizations of <see cref="UnityEngine.Video.VideoClip"/>
-		/// values.
-		/// </summary>
-		internal VideoLocalizations VideoGroup
-		{
-			get => _videoGroup ?? new VideoLocalizations ();
-			set => _videoGroup = value;
-		}
-
-		/// <summary>
-		/// Group of localizations of <see cref="UnityEngine.Object"/> values.
-		/// </summary>
-		internal UnityObjectLocalizations UnityObjectGroup
-		{
-			get => _unityObjectGroup ?? new UnityObjectLocalizations ();
-			set => _unityObjectGroup = value;
+			get
+			{
+				var isCompleted = true;
+				for (int i = 0; i < GroupsNames.Count; i++)
+					isCompleted &= GroupsDictionary[(LocalizationType)i].
+						IsCompleted ();
+				return isCompleted;
+			}
 		}
 
 		#endregion
@@ -253,32 +286,22 @@ namespace BricksBucket.Localization
 		internal bool ContainsLocalizedObject (string code)
 		{
 			if (string.IsNullOrWhiteSpace (code)) return false;
-			return _textGroup.ContainsKey (code) ||
-				_textureGroup.ContainsKey (code) ||
-				_spriteGroup.ContainsKey (code) ||
-				_audioGroup.ContainsKey (code) ||
-				_videoGroup.ContainsKey (code) ||
-				_unityObjectGroup.ContainsKey (code);
+			var containsLocalizedObject = false;
+			for (int i = 0; i < GroupsNames.Count; i++)
+				containsLocalizedObject |=
+					GroupsDictionary[(LocalizationType) i].
+						ContainsLocalizedObject (code);
+			return containsLocalizedObject;
 		}
 
 		/// <summary>
 		/// Adds a new culture to all localized objects.
 		/// </summary>
 		/// <param name="code">Code of the culture to add.</param>
-		internal void AddCulture (string code)
+		internal void AddNewCulture (string code)
 		{
-			foreach (var localizedText in TextGroup.Values)
-				localizedText.AddEmpty (code);
-			foreach (var localizedText in TextureGroup.Values)
-				localizedText.AddEmpty (code);
-			foreach (var localizedText in SpriteGroup.Values)
-				localizedText.AddEmpty (code);
-			foreach (var localizedText in AudioGroup.Values)
-				localizedText.AddEmpty (code);
-			foreach (var localizedText in VideoGroup.Values)
-				localizedText.AddEmpty (code);
-			foreach (var localizedText in UnityObjectGroup.Values)
-				localizedText.AddEmpty (code);
+			for (int i = 0; i < GroupsNames.Count; i++)
+				GroupsDictionary[(LocalizationType) i].AddNewCulture (code);
 		}
 
 		/// <summary>
@@ -287,24 +310,8 @@ namespace BricksBucket.Localization
 		/// <param name="code">Code of the culture to remove.</param>
 		internal void RemoveCulture (string code)
 		{
-			foreach (var localizedText in TextGroup.Values)
-				if (localizedText.ContainsKey (code))
-					localizedText.Remove (code);
-			foreach (var localizedTexture in TextureGroup.Values)
-				if (localizedTexture.ContainsKey (code))
-					localizedTexture.Remove (code);
-			foreach (var localizedSprite in SpriteGroup.Values)
-				if (localizedSprite.ContainsKey (code))
-					localizedSprite.Remove (code);
-			foreach (var localizedAudio in AudioGroup.Values)
-				if (localizedAudio.ContainsKey (code))
-					localizedAudio.Remove (code);
-			foreach (var localizedVideo in VideoGroup.Values)
-				if (localizedVideo.ContainsKey (code))
-					localizedVideo.Remove (code);
-			foreach (var localizedObject in UnityObjectGroup.Values)
-				if (localizedObject.ContainsKey (code))
-					localizedObject.Remove (code);
+			for (int i = 0; i < GroupsNames.Count; i++)
+				GroupsDictionary[(LocalizationType) i].RemoveCulture (code);
 		}
 
 		/// <summary>
@@ -314,47 +321,9 @@ namespace BricksBucket.Localization
 		/// <param name="newCode">Code of the new culture.</param>
 		internal void UpdateCulture (string oldCode, string newCode)
 		{
-			foreach (var localized in TextGroup.Values)
-			{
-				if (!localized.ContainsCulture (oldCode)) continue;
-				localized.Add (newCode, localized[oldCode]);
-				localized.Remove (oldCode);
-			}
-
-			foreach (var localized in TextureGroup.Values)
-			{
-				if (!localized.ContainsCulture (oldCode)) continue;
-				localized.Add (newCode, localized[oldCode]);
-				localized.Remove (oldCode);
-			}
-
-			foreach (var localized in SpriteGroup.Values)
-			{
-				if (!localized.ContainsCulture (oldCode)) continue;
-				localized.Add (newCode, localized[oldCode]);
-				localized.Remove (oldCode);
-			}
-
-			foreach (var localized in AudioGroup.Values)
-			{
-				if (!localized.ContainsCulture (oldCode)) continue;
-				localized.Add (newCode, localized[oldCode]);
-				localized.Remove (oldCode);
-			}
-
-			foreach (var localized in VideoGroup.Values)
-			{
-				if (!localized.ContainsCulture (oldCode)) continue;
-				localized.Add (newCode, localized[oldCode]);
-				localized.Remove (oldCode);
-			}
-
-			foreach (var localized in UnityObjectGroup.Values)
-			{
-				if (!localized.ContainsCulture (oldCode)) continue;
-				localized.Add (newCode, localized[oldCode]);
-				localized.Remove (oldCode);
-			}
+			for (int i = 0; i < GroupsNames.Count; i++)
+				GroupsDictionary[(LocalizationType) i].
+					UpdateCulture (oldCode, newCode);
 		}
 
 		#endregion

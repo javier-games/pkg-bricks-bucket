@@ -44,7 +44,7 @@ namespace BricksBucket.Generics
         /// <summary>
         /// Scriptable Instance.
         /// </summary>
-        protected static T instance;
+        private static T _instance;
         
         #endregion
         
@@ -76,7 +76,7 @@ namespace BricksBucket.Generics
         /// <summary>
         /// Indicates whether an instance exists or not.
         /// </summary>
-        public static bool InstanceExist => instance != null;
+        public static bool InstanceExist => _instance != null;
 
         /// <summary>
         /// Returns the scriptable instance.
@@ -87,7 +87,7 @@ namespace BricksBucket.Generics
             get
             {
                 //  Returns the current instance if it exits.
-                if (InstanceExist) return instance;
+                if (InstanceExist) return _instance;
 
                 //  Try to find an instance on Resources Folder.
                 var instances = Resources.LoadAll ("", typeof (T));
@@ -96,27 +96,30 @@ namespace BricksBucket.Generics
                     if (instances.Length > 1)
                         Debug.LogWarning (
                             "There are more than one" + typeof (T));
-                    instance = instances[0] as T;
+                    _instance = instances[0] as T;
                 }
-                if (InstanceExist) return instance;
+                if (InstanceExist) return _instance;
 
                 // Creates a new asset in Resources folder.
-                instance = ScriptableObject.CreateInstance<T> ();
+                _instance = ScriptableObject.CreateInstance<T> ();
                 
 #if UNITY_EDITOR
-                var path = string.IsNullOrWhiteSpace (instance.Path)
+                var path = string.IsNullOrWhiteSpace (_instance.Path)
                     ? DefaultFolderPath
-                    : instance.Path;
+                    : _instance.Path;
                 if (!AssetDatabase.IsValidFolder (path))
                 {
-                    
                     var segments = path.Split ('/');
                     var currentPath = segments[0];
                     for (int i = 1; i < segments.Length; i++)
                     {
                         var wantedPath = currentPath + "/" + segments[i];
                         if (AssetDatabase.IsValidFolder (wantedPath))
+                        {
+                            currentPath = wantedPath;
                             continue;
+                        }
+
                         string guid = AssetDatabase.CreateFolder(
                             parentFolder: currentPath,
                             newFolderName: segments[i]
@@ -126,9 +129,9 @@ namespace BricksBucket.Generics
 
                     path = currentPath;
                 }
-                AssetDatabase.CreateAsset (instance, path);
+                AssetDatabase.CreateAsset (_instance, path);
 #endif
-                return instance;
+                return _instance;
             }
         }
         

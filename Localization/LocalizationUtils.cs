@@ -2,13 +2,11 @@
 // ReSharper disable StringLiteralTypo
 namespace BricksBucket.Localization
 {
-    /// <summary>
-    /// 
     /// <!-- LocalizationUtils -->
-    ///
+    /// 
+    /// <summary>
     /// Static collection of utilities (methods and extensions) for the
     /// localization system.
-    /// 
     /// </summary>
     ///
     /// <seealso cref="BricksBucket.Localization.LCID"/>
