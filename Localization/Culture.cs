@@ -204,7 +204,149 @@ namespace BricksBucket.Localization
         #endregion
 
 
+        #region Constructor
+        
+        /// <summary>
+        /// Constructor for the culture from a name or code.
+        /// </summary>
+        /// <param name="value">This value can be preferably a code for
+        /// the culture.</param>
+        internal Culture (string value)
+        {
+            if (string.IsNullOrWhiteSpace (value))
+            {
+                _name = "None";
+                _code = "NONE";
+                _LCID = LCID.NONE;
+                _country = ISO3166.Alpha2.NONE;
+                _language = ISO639.Alpha1.NONE;
+                _region = string.Empty;
+                _isCustom = false;
+                return;
+            }
 
+            _name = value;
+            _code = _name.ToCodeFormat ();
+            var sections = _code.Split ('_');
+            _isCustom = false;
+
+            //  LCID Attempt
+            string lcid = string.Empty;
+            string region = string.Empty;
+            var lastCoincidence = LCID.NONE;
+            for (int i = 0; i < sections.Length; i++)
+            {
+                lcid += sections[i];
+                region += sections[i];
+                if (System.Enum.TryParse (lcid, out LCID result))
+                {
+                    lastCoincidence = result;
+                    region = string.Empty;
+                }
+
+                if (i >= sections.Length - 1) continue;
+                lcid += "_";
+                
+                if(!string.IsNullOrEmpty (region))
+                    region += "_";
+            }
+
+            // If it has a match for an LCID gets the right name and code.
+            if (lastCoincidence != LCID.NONE)
+            {
+                _LCID = lastCoincidence;
+                _language = (ISO639.Alpha1) LocalizationUtils.ToISO639 (_LCID);
+                _country = (ISO3166.Alpha2) LocalizationUtils.ToISO3166 (_LCID);
+                _region = region;
+
+                if (_LCID == LCID.INVARIANT)
+                {
+                    _code = _LCID.ToString ();
+                    _name = "Invariant Language";
+                }
+                else
+                {
+                    var info = new CultureInfo ((int) _LCID);
+                    _code = info.Name.ToUpper ().Replace ("-", "_");
+                    _name = info.DisplayName;
+
+                    if (string.IsNullOrWhiteSpace (_region)) return;
+                    _code = StringUtils.Concat (_code, "_", _region.ToUpper ());
+
+                    if (_name.Contains (")"))
+                    {
+                        _name = _name.Replace (")", string.Empty);
+                        _name = StringUtils.Concat (
+                            _name, " - ", _region, ")"
+                        );
+                    }
+                    else
+                        _name = StringUtils.Concat (
+                            _name, " (", _region, ")"
+                        );
+                }
+
+                return;
+            }
+
+            _LCID = LCID.NONE;
+            System.Enum.TryParse (sections[0], out _language);
+            if (sections.Length >= 2)
+            {
+                System.Enum.TryParse (sections[1], out _country);
+                _region = string.Empty;
+                for (int i = 2; i < sections.Length; i++)
+                {
+                    _region += sections[i];
+                    if (i < sections.Length - 1) _region += "_";
+                }
+            }
+            else
+            {
+                _country = ISO3166.Alpha2.NONE;
+                _region = string.Empty;
+            }
+
+            if (_language != ISO639.Alpha1.NONE)
+            {
+                _code = _language.ToString ();
+                _name = ISO639.Names[(int) _language];
+
+                if (_country != ISO3166.Alpha2.NONE)
+                {
+                    _code = StringUtils.Concat (_code, "_",
+                        _country.ToString ());
+                    _name = StringUtils.Concat (
+                        _name, " (",
+                        ISO3166.Names[(int) _country]
+                    );
+                }
+
+                if (!string.IsNullOrWhiteSpace (_region))
+                {
+                    _code = StringUtils.Concat (_code, "_", _region.ToUpper ());
+
+                    _name = _country == ISO3166.Alpha2.NONE
+                        ? StringUtils.Concat (_name, " (", _region, ")")
+                        : StringUtils.Concat (_name, " - ", _region, ")");
+                }
+
+                else if (_country != ISO3166.Alpha2.NONE)
+                {
+                    _name = StringUtils.Concat (_name, ")");
+                }
+
+                return;
+            }
+
+            _name = value;
+            _region = string.Empty;
+            _isCustom = true;
+        }
+
+        #endregion
+
+        
         #region Methods
 
         /// <summary>
@@ -325,6 +467,9 @@ namespace BricksBucket.Localization
                 }
             }
         }
+
+        /// <inheritdoc cref="object.ToString()"/>
+        public override string ToString () => _name;
 
         #endregion
 
