@@ -341,7 +341,12 @@ namespace BricksBucket.Localization
         /// </summary>
         internal static int WindowActiveBook
         {
-            get => Instance._windowActiveBook;
+            get
+            {
+                if (Instance._windowActiveBook >= BooksNames.Length)
+                    Instance._windowActiveBook = BooksNames.Length - 1;
+                return Instance._windowActiveBook;
+            }
             set => Instance._windowActiveBook = value;
         }
 #endif
@@ -530,13 +535,10 @@ namespace BricksBucket.Localization
         /// Creates a new instances of the localization settings into the
         /// Resources folder.
         /// </summary>
-        [MenuItem ("Tools/Bricks Bucket/Localization/Initialize")]
+        [MenuItem ("Tools/Bricks Bucket/Localization/Create Asset")]
         public static void InitializeLocalization ()
         {
-            if (!InstanceExist)
-            {
-                Debug.Log (Instance);
-            }
+            if (Instance){}
         }
 #endif
 

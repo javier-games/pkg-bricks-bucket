@@ -6,6 +6,13 @@ using UnityEngine;
 
 namespace BricksBucket.Localization.Editor
 {
+	/// <!-- LocalizationsWindow -->
+	/// 
+	/// <summary>
+	/// Window that shows the localizations settings.
+	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	internal class LocalizationsWindow : OdinEditorWindow
 	{
 		
@@ -20,6 +27,11 @@ namespace BricksBucket.Localization.Editor
 		/// Space between Horizontal Fields. 
 		/// </summary>
 		private const int CellSpace = 4;
+
+		/// <summary>
+		/// Size of an Icon.
+		/// </summary>
+		private const int IconSize = 14;
 
 		#endregion
 
@@ -133,7 +145,10 @@ namespace BricksBucket.Localization.Editor
 
 			//	Drawing Cultures selector.
 			EditorGUILayout.BeginHorizontal ();
-			EditorGUILayout.LabelField ("Culture(s)", GUILayout.Width (100));
+			EditorGUILayout.LabelField (
+				"Culture(s)",
+				GUILayout.Width (FieldWidth * 0.5f)
+			);
 			LocalizationSettings.WindowCultureMask = EditorGUILayout.MaskField (
 				LocalizationSettings.WindowCultureMask,
 				LocalizationSettings.CulturesNames,
@@ -145,7 +160,10 @@ namespace BricksBucket.Localization.Editor
 			var types = new string[Book.GroupsNames.Count];
 			Book.GroupsNames.Values.CopyTo (types, 0);
 			EditorGUILayout.BeginHorizontal ();
-			EditorGUILayout.LabelField ("Data Type(s)", GUILayout.Width (100));
+			EditorGUILayout.LabelField (
+				"Data Type(s)",
+				GUILayout.Width (FieldWidth * 0.5f)
+			);
 			LocalizationSettings.WindowDataTypeMask =
 				EditorGUILayout.MaskField (
 					LocalizationSettings.WindowDataTypeMask,
@@ -276,7 +294,7 @@ namespace BricksBucket.Localization.Editor
 				SirenixGUIStyles.BoldLabel,
 				GUILayout.Width (FieldWidth * 0.6f)
 			);
-			EditorGUILayout.LabelField (statusIcon, GUILayout.Width (14));
+			EditorGUILayout.LabelField (statusIcon, GUILayout.Width (IconSize));
 			EditorGUILayout.EndHorizontal ();
 
 
@@ -344,10 +362,9 @@ namespace BricksBucket.Localization.Editor
 				{
 					_codeReplacement = EditorGUILayout.DelayedTextField (
 						_codeReplacement,
-						GUILayout.Width (FieldWidth - 40)
+						GUILayout.Width (FieldWidth - IconSize * 2 - CellSpace)
 					).ToCodeFormat ();
 
-					CellHorizontalSpace ();
 					if (DrawIconButton (EditorIcons.ArrowLeft))
 					{
 						_codeReplacement = string.Empty;
@@ -371,6 +388,8 @@ namespace BricksBucket.Localization.Editor
 						return;
 					}
 					GUI.enabled = true;
+					
+					CellHorizontalSpace ();
 				}
 				
 				//	Draws Localization.
@@ -379,7 +398,7 @@ namespace BricksBucket.Localization.Editor
 					EditorGUILayout.LabelField (
 						codes[i],
 						SirenixGUIStyles.LeftAlignedCenteredLabel,
-						GUILayout.Width (FieldWidth - 32)
+						GUILayout.Width (FieldWidth - IconSize * 2 - CellSpace)
 					);
 
 					if (DrawIconButton (EditorIcons.Pen))
@@ -435,7 +454,7 @@ namespace BricksBucket.Localization.Editor
 		{
 			_codeToAdd = EditorGUILayout.DelayedTextField (
 				_codeToAdd,
-				GUILayout.Width (FieldWidth)
+				GUILayout.Width (FieldWidth - 2)
 			).ToCodeFormat ();
 
 			CellHorizontalSpace ();
@@ -446,7 +465,7 @@ namespace BricksBucket.Localization.Editor
 
 			GUI.enabled = isAvailable;
 			if (GUILayout.Button ("Add",
-				GUILayout.Width (FieldWidth * 0.5f)))
+				GUILayout.Width (FieldWidth * 0.5f - 1)))
 			{
 				group.AddEmpty (
 					_codeToAdd,
@@ -500,7 +519,7 @@ namespace BricksBucket.Localization.Editor
 		/// <param name="icon">Icon to draw.</param>
 		/// <returns>True if the button is pressed.</returns>
 		private static bool DrawIconButton (EditorIcon icon) =>
-			SirenixEditorGUI.IconButton (icon, 14, 14);
+			SirenixEditorGUI.IconButton (icon, IconSize, IconSize);
 
 		#endregion
 	}

@@ -107,6 +107,7 @@ namespace BricksBucket.Localization
                 RemoveDiacritics ().
                 ToUpper ().
                 Replace (' ', '_').
+                Replace ('-', '_').
                 RemoveSpecialCharacters ('_');
         }
 
