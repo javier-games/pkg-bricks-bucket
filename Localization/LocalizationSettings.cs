@@ -121,7 +121,6 @@ namespace BricksBucket.Localization
         [SerializeField]
         internal int _windowActiveBook;
 #endif
-        
         #endregion
 
         

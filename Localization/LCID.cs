@@ -3,1042 +3,1031 @@
 // ReSharper disable InconsistentNaming
 namespace BricksBucket.Localization
 {
-    /// <!-- LCID -->
-    ///
-    /// <summary>
-    /// Describes localizable information in Windows. <see href=
-    /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
-    /// Lists all Language Code Identifiers (LCIDs)</see> available in all
-    /// versions of Windows.
-    /// </summary>
-    /// 
-    /// <!-- Note: The code of the members of the enum have been generated with
-    /// the following table: https://bit.ly/bb-localization-lcid -->
-    /// 
-    /// <!-- By Javier García | @jvrgms | 2020 -->
-    public enum LCID
-    {
-        /// <summary> No LCID. </summary>
-        NONE = 0,
+	/// <!-- LCID -->
+	///
+	/// <summary>
+	/// Describes localizable information in Windows. <see href=
+	/// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
+	/// Lists all Language Code Identifiers (LCIDs)</see> available in all
+	/// versions of Windows.
+	/// </summary>
+	/// 
+	/// <!-- Note: The code of the members of the enum have been generated with
+	/// the following table: https://bit.ly/bb-localization-lcid -->
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
+	public enum LCID
+	{
+		/// <summary>None LCID.</summary>
+		NONE = 0x0000,
 
-        /// <summary> Invariant Language (Invariant Country) LCID. </summary>
-        INVARIANT = 127,
+		/// <summary>Invariant Language (Invariant Country) LCID.</summary>
+		INVARIANT = 0x007F,
 
-        /// <summary> Arabic LCID. </summary>
-        AR = 1,
+		/// <summary>Afrikaans LCID.</summary>
+		AF = 0x0036,
 
-        /// <summary> Bulgarian LCID. </summary>
-        BG = 2,
+		/// <summary>Afrikaans - South Africa LCID.</summary>
+		AF_ZA = 0x0436,
 
-        /// <summary> Catalan LCID. </summary>
-        CA = 3,
+		/// <summary>Amharic LCID.</summary>
+		AM = 0x005E,
 
-        /// <summary> Chinese (Simplified) Legacy LCID. </summary>
-        ZH_CHS = 4,
+		/// <summary>Amharic - Ethiopia LCID.</summary>
+		AM_ET = 0x045E,
 
-        /// <summary> Czech LCID. </summary>
-        CS = 5,
+		/// <summary>Arabic LCID.</summary>
+		AR = 0x0001,
 
-        /// <summary> Danish LCID. </summary>
-        DA = 6,
+		/// <summary>Arabic - United Arab Emirates LCID.</summary>
+		AR_AE = 0x3801,
 
-        /// <summary> German LCID. </summary>
-        DE = 7,
+		/// <summary>Arabic - Bahrain LCID.</summary>
+		AR_BH = 0x3C01,
 
-        /// <summary> Greek LCID. </summary>
-        EL = 8,
+		/// <summary>Arabic - Algeria LCID.</summary>
+		AR_DZ = 0x1401,
 
-        /// <summary> English LCID. </summary>
-        EN = 9,
+		/// <summary>Arabic - Egypt LCID.</summary>
+		AR_EG = 0x0C01,
 
-        /// <summary> Spanish LCID. </summary>
-        ES = 10,
+		/// <summary>Arabic - Iraq LCID.</summary>
+		AR_IQ = 0x0801,
 
-        /// <summary> Finnish LCID. </summary>
-        FI = 11,
+		/// <summary>Arabic - Jordan LCID.</summary>
+		AR_JO = 0x2C01,
 
-        /// <summary> French LCID. </summary>
-        FR = 12,
+		/// <summary>Arabic - Kuwait LCID.</summary>
+		AR_KW = 0x3401,
 
-        /// <summary> Hebrew LCID. </summary>
-        HE = 13,
+		/// <summary>Arabic - Lebanon LCID.</summary>
+		AR_LB = 0x3001,
 
-        /// <summary> Hungarian LCID. </summary>
-        HU = 14,
+		/// <summary>Arabic - Libya LCID.</summary>
+		AR_LY = 0x1001,
 
-        /// <summary> Icelandic LCID. </summary>
-        IS = 15,
+		/// <summary>Arabic - Morocco LCID.</summary>
+		AR_MA = 0x1801,
 
-        /// <summary> Italian LCID. </summary>
-        IT = 16,
+		/// <summary>Arabic - Oman LCID.</summary>
+		AR_OM = 0x2001,
 
-        /// <summary> Japanese LCID. </summary>
-        JA = 17,
+		/// <summary>Arabic - Qatar LCID.</summary>
+		AR_QA = 0x4001,
 
-        /// <summary> Korean LCID. </summary>
-        KO = 18,
+		/// <summary>Arabic - Saudi Arabia LCID.</summary>
+		AR_SA = 0x0401,
 
-        /// <summary> Dutch LCID. </summary>
-        NL = 19,
+		/// <summary>Arabic - Syrian Arab Republic LCID.</summary>
+		AR_SY = 0x2801,
 
-        /// <summary> Norwegian LCID. </summary>
-        NO = 20,
+		/// <summary>Arabic - Tunisia LCID.</summary>
+		AR_TN = 0x1C01,
 
-        /// <summary> Polish LCID. </summary>
-        PL = 21,
+		/// <summary>Arabic - Yemen LCID.</summary>
+		AR_YE = 0x2401,
 
-        /// <summary> Portuguese LCID. </summary>
-        PT = 22,
+		/// <summary>Assamese LCID.</summary>
+		AS = 0x004D,
 
-        /// <summary> Romansh LCID. </summary>
-        RM = 23,
+		/// <summary>Assamese - India LCID.</summary>
+		AS_IN = 0x044D,
 
-        /// <summary> Romanian LCID. </summary>
-        RO = 24,
+		/// <summary>Azerbaijani LCID.</summary>
+		AZ = 0x002C,
 
-        /// <summary> Russian LCID. </summary>
-        RU = 25,
+		/// <summary>Azerbaijani (Cyrillic) LCID.</summary>
+		AZ_CYRL = 0x742C,
 
-        /// <summary> Croatian LCID. </summary>
-        HR = 26,
+		/// <summary>Azerbaijani - Azerbaijan (Cyrillic) LCID.</summary>
+		AZ_CYRL_AZ = 0x082C,
 
-        /// <summary> Slovak LCID. </summary>
-        SK = 27,
+		/// <summary>Azerbaijani (Latin) LCID.</summary>
+		AZ_LATN = 0x782C,
 
-        /// <summary> Albanian LCID. </summary>
-        SQ = 28,
+		/// <summary>Azerbaijani - Azerbaijan (Latin) LCID.</summary>
+		AZ_LATN_AZ = 0x042C,
 
-        /// <summary> Swedish LCID. </summary>
-        SV = 29,
+		/// <summary>Belarusian LCID.</summary>
+		BE = 0x0023,
 
-        /// <summary> Thai LCID. </summary>
-        TH = 30,
+		/// <summary>Belarusian - Belarus LCID.</summary>
+		BE_BY = 0x0423,
 
-        /// <summary> Turkish LCID. </summary>
-        TR = 31,
+		/// <summary>Bulgarian LCID.</summary>
+		BG = 0x0002,
 
-        /// <summary> Urdu LCID. </summary>
-        UR = 32,
+		/// <summary>Bulgarian - Bulgaria LCID.</summary>
+		BG_BG = 0x0402,
 
-        /// <summary> Indonesian LCID. </summary>
-        ID = 33,
+		/// <summary>Bengali LCID.</summary>
+		BN = 0x0045,
 
-        /// <summary> Ukrainian LCID. </summary>
-        UK = 34,
+		/// <summary>Bengali - Bangladesh LCID.</summary>
+		BN_BD = 0x0845,
 
-        /// <summary> Belarusian LCID. </summary>
-        BE = 35,
+		/// <summary>Bengali - India LCID.</summary>
+		BN_IN = 0x0445,
 
-        /// <summary> Slovenian LCID. </summary>
-        SL = 36,
+		/// <summary>Tibetan LCID.</summary>
+		BO = 0x0051,
 
-        /// <summary> Estonian LCID. </summary>
-        ET = 37,
+		/// <summary>Tibetan - China LCID.</summary>
+		BO_CN = 0x0451,
 
-        /// <summary> Latvian LCID. </summary>
-        LV = 38,
+		/// <summary>Breton LCID.</summary>
+		BR = 0x007E,
 
-        /// <summary> Lithuanian LCID. </summary>
-        LT = 39,
+		/// <summary>Breton - France LCID.</summary>
+		BR_FR = 0x047E,
 
-        /// <summary> Tajik LCID. </summary>
-        TG = 40,
+		/// <summary>Bosnian LCID.</summary>
+		BS = 0x781A,
 
-        /// <summary> Persian LCID. </summary>
-        FA = 41,
+		/// <summary>Bosnian (Cyrillic) LCID.</summary>
+		BS_CYRL = 0x641A,
 
-        /// <summary> Vietnamese LCID. </summary>
-        VI = 42,
+		/// <summary>Bosnian - Bosnia and Herzegovina (Cyrillic) LCID.</summary>
+		BS_CYRL_BA = 0x201A,
 
-        /// <summary> Armenian LCID. </summary>
-        HY = 43,
+		/// <summary>Bosnian (Latin) LCID.</summary>
+		BS_LATN = 0x681A,
 
-        /// <summary> Azerbaijani LCID. </summary>
-        AZ = 44,
+		/// <summary>Bosnian - Bosnia and Herzegovina (Latin) LCID.</summary>
+		BS_LATN_BA = 0x141A,
 
-        /// <summary> Basque LCID. </summary>
-        EU = 45,
+		/// <summary>Catalan LCID.</summary>
+		CA = 0x0003,
 
-        /// <summary> Upper Sorbian LCID. </summary>
-        HSB = 46,
+		/// <summary>Catalan - Spain LCID.</summary>
+		CA_ES = 0x0403,
 
-        /// <summary> Macedonian LCID. </summary>
-        MK = 47,
+		/// <summary>Catalan - Spain (Valencia) LCID.</summary>
+		CA_ES_VALENCIA = 0x0803,
 
-        /// <summary> Southern Sotho LCID. </summary>
-        ST = 48,
+		/// <summary>Cherokee LCID.</summary>
+		CHR = 0x005C,
 
-        /// <summary> Tsonga LCID. </summary>
-        TS = 49,
+		/// <summary>Czech LCID.</summary>
+		CS = 0x0005,
 
-        /// <summary> Tswana LCID. </summary>
-        TN = 50,
+		/// <summary>Czech - Czechia LCID.</summary>
+		CS_CZ = 0x0405,
 
-        /// <summary> Xhosa LCID. </summary>
-        XH = 52,
+		/// <summary>Welsh LCID.</summary>
+		CY = 0x0052,
 
-        /// <summary> Zulu LCID. </summary>
-        ZU = 53,
+		/// <summary>Welsh - United Kingdom of Great Britain and Northern
+		/// Ireland LCID.</summary>
+		CY_GB = 0x0452,
 
-        /// <summary> Afrikaans LCID. </summary>
-        AF = 54,
+		/// <summary>Danish LCID.</summary>
+		DA = 0x0006,
 
-        /// <summary> Georgian LCID. </summary>
-        KA = 55,
+		/// <summary>Danish - Denmark LCID.</summary>
+		DA_DK = 0x0406,
 
-        /// <summary> Faroese LCID. </summary>
-        FO = 56,
+		/// <summary>German LCID.</summary>
+		DE = 0x0007,
 
-        /// <summary> Hindi LCID. </summary>
-        HI = 57,
+		/// <summary>German - Austria LCID.</summary>
+		DE_AT = 0x0C07,
 
-        /// <summary> Maltese LCID. </summary>
-        MT = 58,
+		/// <summary>German - Switzerland LCID.</summary>
+		DE_CH = 0x0807,
 
-        /// <summary> Northern Sami LCID. </summary>
-        SE = 59,
+		/// <summary>German - Germany LCID.</summary>
+		DE_DE = 0x0407,
 
-        /// <summary> Irish LCID. </summary>
-        GA = 60,
+		/// <summary>German - Liechtenstein LCID.</summary>
+		DE_LI = 0x1407,
 
-        /// <summary> Malay LCID. </summary>
-        MS = 62,
+		/// <summary>German - Luxembourg LCID.</summary>
+		DE_LU = 0x1007,
 
-        /// <summary> Kazakh LCID. </summary>
-        KK = 63,
+		/// <summary>Lower Sorbian LCID.</summary>
+		DSB = 0x7C2E,
 
-        /// <summary> Kyrgyz LCID. </summary>
-        KY = 64,
+		/// <summary>Lower Sorbian - Germany LCID.</summary>
+		DSB_DE = 0x082E,
 
-        /// <summary> Swahili LCID. </summary>
-        SW = 65,
+		/// <summary>Greek LCID.</summary>
+		EL = 0x0008,
 
-        /// <summary> Turkmen LCID. </summary>
-        TK = 66,
+		/// <summary>Greek - Greece LCID.</summary>
+		EL_GR = 0x0408,
 
-        /// <summary> Uzbek LCID. </summary>
-        UZ = 67,
+		/// <summary>English LCID.</summary>
+		EN = 0x0009,
 
-        /// <summary> Bangla LCID. </summary>
-        BN = 69,
+		/// <summary>English - Australia LCID.</summary>
+		EN_AU = 0x0C09,
 
-        /// <summary> Punjabi LCID. </summary>
-        PA = 70,
+		/// <summary>English - Belize LCID.</summary>
+		EN_BZ = 0x2809,
 
-        /// <summary> Gujarati LCID. </summary>
-        GU = 71,
+		/// <summary>English - Canada LCID.</summary>
+		EN_CA = 0x1009,
 
-        /// <summary> Odia LCID. </summary>
-        OR = 72,
+		/// <summary>English - United Kingdom of Great Britain and Northern
+		/// Ireland LCID.</summary>
+		EN_GB = 0x0809,
 
-        /// <summary> Tamil LCID. </summary>
-        TA = 73,
+		/// <summary>English - Hong Kong LCID.</summary>
+		EN_HK = 0x3C09,
 
-        /// <summary> Telugu LCID. </summary>
-        TE = 74,
+		/// <summary>English - Ireland LCID.</summary>
+		EN_IE = 0x1809,
 
-        /// <summary> Kannada LCID. </summary>
-        KN = 75,
+		/// <summary>English - India LCID.</summary>
+		EN_IN = 0x4009,
 
-        /// <summary> Malayalam LCID. </summary>
-        ML = 76,
+		/// <summary>English - Jamaica LCID.</summary>
+		EN_JM = 0x2009,
 
-        /// <summary> Assamese LCID. </summary>
-        AS = 77,
+		/// <summary>English - Malaysia LCID.</summary>
+		EN_MY = 0x4409,
 
-        /// <summary> Marathi LCID. </summary>
-        MR = 78,
+		/// <summary>English - New Zealand LCID.</summary>
+		EN_NZ = 0x1409,
 
-        /// <summary> Mongolian LCID. </summary>
-        MN = 80,
+		/// <summary>English - Philippines LCID.</summary>
+		EN_PH = 0x3409,
 
-        /// <summary> Tibetan LCID. </summary>
-        BO = 81,
+		/// <summary>English - Singapore LCID.</summary>
+		EN_SG = 0x4809,
 
-        /// <summary> Welsh LCID. </summary>
-        CY = 82,
+		/// <summary>English - Trinidad and Tobago LCID.</summary>
+		EN_TT = 0x2C09,
 
-        /// <summary> Khmer LCID. </summary>
-        KM = 83,
+		/// <summary>English - United States of America LCID.</summary>
+		EN_US = 0x0409,
 
-        /// <summary> Lao LCID. </summary>
-        LO = 84,
+		/// <summary>English - South Africa LCID.</summary>
+		EN_ZA = 0x1C09,
 
-        /// <summary> Burmese LCID. </summary>
-        MY = 85,
+		/// <summary>English - Zimbabwe LCID.</summary>
+		EN_ZW = 0x3009,
 
-        /// <summary> Galician LCID. </summary>
-        GL = 86,
+		/// <summary>Spanish LCID.</summary>
+		ES = 0x000A,
 
-        /// <summary> Konkani LCID. </summary>
-        KOK = 87,
+		/// <summary>Spanish - Argentina LCID.</summary>
+		ES_AR = 0x2C0A,
 
-        /// <summary> Sinhala LCID. </summary>
-        SI = 91,
+		/// <summary>Spanish - Bolivia, Plurinational State of LCID.</summary>
+		ES_BO = 0x400A,
 
-        /// <summary> Cherokee LCID. </summary>
-        CHR = 92,
+		/// <summary>Spanish - Chile LCID.</summary>
+		ES_CL = 0x340A,
 
-        /// <summary> Amharic LCID. </summary>
-        AM = 94,
+		/// <summary>Spanish - Colombia LCID.</summary>
+		ES_CO = 0x240A,
 
-        /// <summary> Central Atlas Tamazight LCID. </summary>
-        TZM = 95,
+		/// <summary>Spanish - Costa Rica LCID.</summary>
+		ES_CR = 0x140A,
 
-        /// <summary> Nepali LCID. </summary>
-        NE = 97,
+		/// <summary>Spanish - Cuba LCID.</summary>
+		ES_CU = 0x5c0A,
 
-        /// <summary> Western Frisian LCID. </summary>
-        FY = 98,
+		/// <summary>Spanish - Dominican Republic LCID.</summary>
+		ES_DO = 0x1c0A,
 
-        /// <summary> Pashto LCID. </summary>
-        PS = 99,
+		/// <summary>Spanish - Ecuador LCID.</summary>
+		ES_EC = 0x300A,
 
-        /// <summary> Filipino LCID. </summary>
-        FIL = 100,
+		/// <summary>Spanish - Spain LCID.</summary>
+		ES_ES = 0x0c0A,
 
-        /// <summary> Fulah LCID. </summary>
-        FF = 103,
+		/// <summary>Spanish - Guatemala LCID.</summary>
+		ES_GT = 0x100A,
 
-        /// <summary> Hausa LCID. </summary>
-        HA = 104,
+		/// <summary>Spanish - Honduras LCID.</summary>
+		ES_HN = 0x480A,
 
-        /// <summary> Yoruba LCID. </summary>
-        YO = 106,
+		/// <summary>Spanish - Mexico LCID.</summary>
+		ES_MX = 0x080A,
 
-        /// <summary> Northern Sotho LCID. </summary>
-        NSO = 108,
+		/// <summary>Spanish - Nicaragua LCID.</summary>
+		ES_NI = 0x4C0A,
 
-        /// <summary> Luxembourgish LCID. </summary>
-        LB = 110,
+		/// <summary>Spanish - Panama LCID.</summary>
+		ES_PA = 0x180A,
 
-        /// <summary> Kalaallisut LCID. </summary>
-        KL = 111,
+		/// <summary>Spanish - Peru LCID.</summary>
+		ES_PE = 0x280A,
 
-        /// <summary> Igbo LCID. </summary>
-        IG = 112,
+		/// <summary>Spanish - Puerto Rico LCID.</summary>
+		ES_PR = 0x500A,
 
-        /// <summary> Oromo LCID. </summary>
-        OM = 114,
+		/// <summary>Spanish - Paraguay LCID.</summary>
+		ES_PY = 0x3C0A,
 
-        /// <summary> Tigrinya LCID. </summary>
-        TI = 115,
+		/// <summary>Spanish - El Salvador LCID.</summary>
+		ES_SV = 0x440A,
 
-        /// <summary> Hawaiian LCID. </summary>
-        HAW = 117,
+		/// <summary>Spanish - United States of America LCID.</summary>
+		ES_US = 0x540A,
 
-        /// <summary> Somali LCID. </summary>
-        SO = 119,
+		/// <summary>Spanish - Uruguay LCID.</summary>
+		ES_UY = 0x380A,
 
-        /// <summary> Sichuan Yi LCID. </summary>
-        II = 120,
+		/// <summary>Spanish - Venezuela (Bolivarian Republic of)
+		/// LCID.</summary>
+		ES_VE = 0x200A,
 
-        /// <summary> Breton LCID. </summary>
-        BR = 126,
+		/// <summary>Estonian LCID.</summary>
+		ET = 0x0025,
 
-        /// <summary> Uyghur LCID. </summary>
-        UG = 128,
+		/// <summary>Estonian - Estonia LCID.</summary>
+		ET_EE = 0x0425,
 
-        /// <summary> Swiss German LCID. </summary>
-        GSW = 132,
+		/// <summary>Basque LCID.</summary>
+		EU = 0x002D,
 
-        /// <summary> Sakha LCID. </summary>
-        SAH = 133,
+		/// <summary>Basque - Spain LCID.</summary>
+		EU_ES = 0x042D,
 
-        /// <summary> Kinyarwanda LCID. </summary>
-        RW = 135,
+		/// <summary>Persian LCID.</summary>
+		FA = 0x0029,
 
-        /// <summary> Scottish Gaelic LCID. </summary>
-        GD = 145,
+		/// <summary>Persian - Iran (Islamic Republic of) LCID.</summary>
+		FA_IR = 0x0429,
 
-        /// <summary> Arabic (Saudi Arabia) LCID. </summary>
-        AR_SA = 1025,
+		/// <summary>Fulah LCID.</summary>
+		FF = 0x0067,
 
-        /// <summary> Bulgarian (Bulgaria) LCID. </summary>
-        BG_BG = 1026,
+		/// <summary>Finnish LCID.</summary>
+		FI = 0x000B,
 
-        /// <summary> Catalan (Spain) LCID. </summary>
-        CA_ES = 1027,
+		/// <summary>Finnish - Finland LCID.</summary>
+		FI_FI = 0x040B,
 
-        /// <summary> Chinese (Traditional) LCID. </summary>
-        ZH_TW = 1028,
+		/// <summary>Filipino LCID.</summary>
+		FIL = 0x0064,
 
-        /// <summary> Czech (Czech Republic) LCID. </summary>
-        CS_CZ = 1029,
+		/// <summary>Filipino - Philippines LCID.</summary>
+		FIL_PH = 0x0464,
 
-        /// <summary> Danish (Denmark) LCID. </summary>
-        DA_DK = 1030,
+		/// <summary>Faroese LCID.</summary>
+		FO = 0x0038,
 
-        /// <summary> German (Germany) LCID. </summary>
-        DE_DE = 1031,
+		/// <summary>Faroese - Faroe Islands LCID.</summary>
+		FO_FO = 0x0438,
 
-        /// <summary> Greek (Greece) LCID. </summary>
-        EL_GR = 1032,
+		/// <summary>French LCID.</summary>
+		FR = 0x000C,
 
-        /// <summary> English (United States) LCID. </summary>
-        EN_US = 1033,
+		/// <summary>French - Belgium LCID.</summary>
+		FR_BE = 0x080C,
 
-        /// <summary> Finnish (Finland) LCID. </summary>
-        FI_FI = 1035,
+		/// <summary>French - Canada LCID.</summary>
+		FR_CA = 0x0C0C,
 
-        /// <summary> French (France) LCID. </summary>
-        FR_FR = 1036,
+		/// <summary>French - Congo, Democratic Republic of the LCID.</summary>
+		FR_CD = 0x240C,
 
-        /// <summary> Hebrew (Israel) LCID. </summary>
-        HE_IL = 1037,
+		/// <summary>French - Switzerland LCID.</summary>
+		FR_CH = 0x100C,
 
-        /// <summary> Hungarian (Hungary) LCID. </summary>
-        HU_HU = 1038,
+		/// <summary>French - Côte d'Ivoire LCID.</summary>
+		FR_CI = 0x300C,
 
-        /// <summary> Icelandic (Iceland) LCID. </summary>
-        IS_IS = 1039,
+		/// <summary>French - Cameroon LCID.</summary>
+		FR_CM = 0x2C0C,
 
-        /// <summary> Italian (Italy) LCID. </summary>
-        IT_IT = 1040,
+		/// <summary>French - France LCID.</summary>
+		FR_FR = 0x040C,
 
-        /// <summary> Japanese (Japan) LCID. </summary>
-        JA_JP = 1041,
+		/// <summary>French - Haiti LCID.</summary>
+		FR_HT = 0x3C0C,
 
-        /// <summary> Korean (South Korea) LCID. </summary>
-        KO_KR = 1042,
+		/// <summary>French - Luxembourg LCID.</summary>
+		FR_LU = 0x140C,
 
-        /// <summary> Dutch (Netherlands) LCID. </summary>
-        NL_NL = 1043,
+		/// <summary>French - Morocco LCID.</summary>
+		FR_MA = 0x380C,
 
-        /// <summary> Norwegian Bokmål (Norway) LCID. </summary>
-        NB_NO = 1044,
+		/// <summary>French - Monaco LCID.</summary>
+		FR_MC = 0x180C,
 
-        /// <summary> Polish (Poland) LCID. </summary>
-        PL_PL = 1045,
+		/// <summary>French - Mali LCID.</summary>
+		FR_ML = 0x340C,
 
-        /// <summary> Portuguese (Brazil) LCID. </summary>
-        PT_BR = 1046,
+		/// <summary>French - Réunion LCID.</summary>
+		FR_RE = 0x200C,
 
-        /// <summary> Romansh (Switzerland) LCID. </summary>
-        RM_CH = 1047,
+		/// <summary>French - Senegal LCID.</summary>
+		FR_SN = 0x280C,
 
-        /// <summary> Romanian (Romania) LCID. </summary>
-        RO_RO = 1048,
+		/// <summary>Western Frisian LCID.</summary>
+		FY = 0x0062,
 
-        /// <summary> Russian (Russia) LCID. </summary>
-        RU_RU = 1049,
+		/// <summary>Western Frisian - Netherlands LCID.</summary>
+		FY_NL = 0x0462,
 
-        /// <summary> Croatian (Croatia) LCID. </summary>
-        HR_HR = 1050,
+		/// <summary>Irish LCID.</summary>
+		GA = 0x003C,
 
-        /// <summary> Slovak (Slovakia) LCID. </summary>
-        SK_SK = 1051,
+		/// <summary>Irish - Ireland LCID.</summary>
+		GA_IE = 0x083C,
 
-        /// <summary> Albanian (Albania) LCID. </summary>
-        SQ_AL = 1052,
+		/// <summary>Scottish Gaelic LCID.</summary>
+		GD = 0x0091,
 
-        /// <summary> Swedish (Sweden) LCID. </summary>
-        SV_SE = 1053,
+		/// <summary>Scottish Gaelic - United Kingdom of Great Britain and
+		/// Northern Ireland LCID.</summary>
+		GD_GB = 0x0491,
 
-        /// <summary> Thai (Thailand) LCID. </summary>
-        TH_TH = 1054,
+		/// <summary>Galician LCID.</summary>
+		GL = 0x0056,
 
-        /// <summary> Turkish (Turkey) LCID. </summary>
-        TR_TR = 1055,
+		/// <summary>Galician - Spain LCID.</summary>
+		GL_ES = 0x0456,
 
-        /// <summary> Urdu (Pakistan) LCID. </summary>
-        UR_PK = 1056,
+		/// <summary>Alsatian LCID.</summary>
+		GSW = 0x0084,
 
-        /// <summary> Indonesian (Indonesia) LCID. </summary>
-        ID_ID = 1057,
+		/// <summary>Alsatian - France LCID.</summary>
+		GSW_FR = 0x0484,
 
-        /// <summary> Ukrainian (Ukraine) LCID. </summary>
-        UK_UA = 1058,
+		/// <summary>Gujarati LCID.</summary>
+		GU = 0x0047,
 
-        /// <summary> Belarusian (Belarus) LCID. </summary>
-        BE_BY = 1059,
+		/// <summary>Gujarati - India LCID.</summary>
+		GU_IN = 0x0447,
 
-        /// <summary> Slovenian (Slovenia) LCID. </summary>
-        SL_SI = 1060,
+		/// <summary>Hausa LCID.</summary>
+		HA = 0x0068,
 
-        /// <summary> Estonian (Estonia) LCID. </summary>
-        ET_EE = 1061,
+		/// <summary>Hausa - Nigeria (Latin) LCID.</summary>
+		HA_LATN_NG = 0x0468,
 
-        /// <summary> Latvian (Latvia) LCID. </summary>
-        LV_LV = 1062,
+		/// <summary>Hawaiian LCID.</summary>
+		HAW = 0x0075,
 
-        /// <summary> Lithuanian (Lithuania) LCID. </summary>
-        LT_LT = 1063,
+		/// <summary>Hawaiian - United States of America LCID.</summary>
+		HAW_US = 0x0475,
 
-        /// <summary> Tajik (Cyrillic, Tajikistan) LCID. </summary>
-        TG_CYRL_TJ = 1064,
+		/// <summary>Hebrew LCID.</summary>
+		HE = 0x000D,
 
-        /// <summary> Persian (Iran) LCID. </summary>
-        FA_IR = 1065,
+		/// <summary>Hebrew - Israel LCID.</summary>
+		HE_IL = 0x040D,
 
-        /// <summary> Vietnamese (Vietnam) LCID. </summary>
-        VI_VN = 1066,
+		/// <summary>Hindi LCID.</summary>
+		HI = 0x0039,
 
-        /// <summary> Armenian (Armenia) LCID. </summary>
-        HY_AM = 1067,
+		/// <summary>Hindi - India LCID.</summary>
+		HI_IN = 0x0439,
 
-        /// <summary> Azerbaijani (Latin, Azerbaijan) LCID. </summary>
-        AZ_LATN_AZ = 1068,
+		/// <summary>Croatian - Bosnia and Herzegovina LCID.</summary>
+		HR_BA = 0x101A,
 
-        /// <summary> Basque (Spain) LCID. </summary>
-        EU_ES = 1069,
+		/// <summary>Croatian - Croatia LCID.</summary>
+		HR_HR = 0x041A,
 
-        /// <summary> Upper Sorbian (Germany) LCID. </summary>
-        HSB_DE = 1070,
+		/// <summary>Croatian LCID.</summary>
+		HR = 0x001A,
 
-        /// <summary> Macedonian (Macedonia) LCID. </summary>
-        MK_MK = 1071,
+		/// <summary>Upper Sorbian LCID.</summary>
+		HSB = 0x002E,
 
-        /// <summary> Southern Sotho (South Africa) LCID. </summary>
-        ST_ZA = 1072,
+		/// <summary>Upper Sorbian - Germany LCID.</summary>
+		HSB_DE = 0x042E,
 
-        /// <summary> Tsonga (South Africa) LCID. </summary>
-        TS_ZA = 1073,
+		/// <summary>Hungarian LCID.</summary>
+		HU = 0x000E,
 
-        /// <summary> Tswana (South Africa) LCID. </summary>
-        TN_ZA = 1074,
+		/// <summary>Hungarian - Hungary LCID.</summary>
+		HU_HU = 0x040E,
 
-        /// <summary> Xhosa (South Africa) LCID. </summary>
-        XH_ZA = 1076,
+		/// <summary>Armenian LCID.</summary>
+		HY = 0x002B,
 
-        /// <summary> Zulu (South Africa) LCID. </summary>
-        ZU_ZA = 1077,
+		/// <summary>Armenian - Armenia LCID.</summary>
+		HY_AM = 0x042B,
 
-        /// <summary> Afrikaans (South Africa) LCID. </summary>
-        AF_ZA = 1078,
+		/// <summary>Indonesian LCID.</summary>
+		ID = 0x0021,
 
-        /// <summary> Georgian (Georgia) LCID. </summary>
-        KA_GE = 1079,
+		/// <summary>Indonesian - Indonesia LCID.</summary>
+		ID_ID = 0x0421,
 
-        /// <summary> Faroese (Faroe Islands) LCID. </summary>
-        FO_FO = 1080,
+		/// <summary>Igbo LCID.</summary>
+		IG = 0x0070,
 
-        /// <summary> Hindi (India) LCID. </summary>
-        HI_IN = 1081,
+		/// <summary>Igbo - Nigeria LCID.</summary>
+		IG_NG = 0x0470,
 
-        /// <summary> Maltese (Malta) LCID. </summary>
-        MT_MT = 1082,
+		/// <summary>Yi LCID.</summary>
+		II = 0x0078,
 
-        /// <summary> Northern Sami (Norway) LCID. </summary>
-        SE_NO = 1083,
+		/// <summary>Yi - China LCID.</summary>
+		II_CN = 0x0478,
 
-        /// <summary> Malay (Malaysia) LCID. </summary>
-        MS_MY = 1086,
+		/// <summary>Icelandic LCID.</summary>
+		IS = 0x000F,
 
-        /// <summary> Kazakh (Kazakhstan) LCID. </summary>
-        KK_KZ = 1087,
+		/// <summary>Icelandic - Iceland LCID.</summary>
+		IS_IS = 0x040F,
 
-        /// <summary> Kyrgyz (Kyrgyzstan) LCID. </summary>
-        KY_KG = 1088,
+		/// <summary>Italian LCID.</summary>
+		IT = 0x0010,
 
-        /// <summary> Swahili (Kenya) LCID. </summary>
-        SW_KE = 1089,
+		/// <summary>Italian - Switzerland LCID.</summary>
+		IT_CH = 0x0810,
 
-        /// <summary> Turkmen (Turkmenistan) LCID. </summary>
-        TK_TM = 1090,
+		/// <summary>Italian - Italy LCID.</summary>
+		IT_IT = 0x0410,
 
-        /// <summary> Uzbek (Latin, Uzbekistan) LCID. </summary>
-        UZ_LATN_UZ = 1091,
+		/// <summary>Japanese LCID.</summary>
+		JA = 0x0011,
 
-        /// <summary> Bangla (India) LCID. </summary>
-        BN_IN = 1093,
+		/// <summary>Japanese - Japan LCID.</summary>
+		JA_JP = 0x0411,
 
-        /// <summary> Gujarati (India) LCID. </summary>
-        GU_IN = 1095,
+		/// <summary>Georgian LCID.</summary>
+		KA = 0x0037,
 
-        /// <summary> Odia (India) LCID. </summary>
-        OR_IN = 1096,
+		/// <summary>Georgian - Georgia LCID.</summary>
+		KA_GE = 0x0437,
 
-        /// <summary> Tamil (India) LCID. </summary>
-        TA_IN = 1097,
+		/// <summary>Kazakh LCID.</summary>
+		KK = 0x003F,
 
-        /// <summary> Telugu (India) LCID. </summary>
-        TE_IN = 1098,
+		/// <summary>Kazakh - Kazakhstan LCID.</summary>
+		KK_KZ = 0x043F,
 
-        /// <summary> Kannada (India) LCID. </summary>
-        KN_IN = 1099,
+		/// <summary>Greenlandic LCID.</summary>
+		KL = 0x006F,
 
-        /// <summary> Malayalam (India) LCID. </summary>
-        ML_IN = 1100,
+		/// <summary>Greenlandic - Greenland LCID.</summary>
+		KL_GL = 0x046F,
 
-        /// <summary> Assamese (India) LCID. </summary>
-        AS_IN = 1101,
+		/// <summary>Khmer LCID.</summary>
+		KM = 0x0053,
 
-        /// <summary> Marathi (India) LCID. </summary>
-        MR_IN = 1102,
+		/// <summary>Khmer - Cambodia LCID.</summary>
+		KM_KH = 0x0453,
 
-        /// <summary> Mongolian (Mongolia) LCID. </summary>
-        MN_MN = 1104,
+		/// <summary>Kannada LCID.</summary>
+		KN = 0x004B,
 
-        /// <summary> Tibetan (China) LCID. </summary>
-        BO_CN = 1105,
+		/// <summary>Kannada - India LCID.</summary>
+		KN_IN = 0x044B,
 
-        /// <summary> Welsh (United Kingdom) LCID. </summary>
-        CY_GB = 1106,
+		/// <summary>Korean LCID.</summary>
+		KO = 0x0012,
 
-        /// <summary> Khmer (Cambodia) LCID. </summary>
-        KM_KH = 1107,
+		/// <summary>Korean - Korea, Republic of LCID.</summary>
+		KO_KR = 0x0412,
 
-        /// <summary> Lao (Laos) LCID. </summary>
-        LO_LA = 1108,
+		/// <summary>Konkani LCID.</summary>
+		KOK = 0x0057,
 
-        /// <summary> Burmese (Myanmar (Burma)) LCID. </summary>
-        MY_MM = 1109,
+		/// <summary>Konkani - India LCID.</summary>
+		KOK_IN = 0x0457,
 
-        /// <summary> Galician (Spain) LCID. </summary>
-        GL_ES = 1110,
+		/// <summary>Kyrgyz LCID.</summary>
+		KY = 0x0040,
 
-        /// <summary> Konkani (India) LCID. </summary>
-        KOK_IN = 1111,
+		/// <summary>Kyrgyz - Kyrgyzstan LCID.</summary>
+		KY_KG = 0x0440,
 
-        /// <summary> Sinhala (Sri Lanka) LCID. </summary>
-        SI_LK = 1115,
+		/// <summary>Luxembourgish LCID.</summary>
+		LB = 0x006E,
 
-        /// <summary> Amharic (Ethiopia) LCID. </summary>
-        AM_ET = 1118,
+		/// <summary>Luxembourgish - Luxembourg LCID.</summary>
+		LB_LU = 0x046E,
 
-        /// <summary> Nepali (Nepal) LCID. </summary>
-        NE_NP = 1121,
+		/// <summary>Lao LCID.</summary>
+		LO = 0x0054,
 
-        /// <summary> Western Frisian (Netherlands) LCID. </summary>
-        FY_NL = 1122,
+		/// <summary>Lao - Lao People's Democratic Republic LCID.</summary>
+		LO_LA = 0x0454,
 
-        /// <summary> Pashto (Afghanistan) LCID. </summary>
-        PS_AF = 1123,
+		/// <summary>Lithuanian LCID.</summary>
+		LT = 0x0027,
 
-        /// <summary> Filipino (Philippines) LCID. </summary>
-        FIL_PH = 1124,
+		/// <summary>Lithuanian - Lithuania LCID.</summary>
+		LT_LT = 0x0427,
 
-        /// <summary> Hausa (Latin, Nigeria) LCID. </summary>
-        HA_LATN_NG = 1128,
+		/// <summary>Latvian LCID.</summary>
+		LV = 0x0026,
 
-        /// <summary> Yoruba (Nigeria) LCID. </summary>
-        YO_NG = 1130,
+		/// <summary>Latvian - Latvia LCID.</summary>
+		LV_LV = 0x0426,
 
-        /// <summary> Northern Sotho (South Africa) LCID. </summary>
-        NSO_ZA = 1132,
+		/// <summary>Macedonian LCID.</summary>
+		MK = 0x002F,
 
-        /// <summary> Luxembourgish (Luxembourg) LCID. </summary>
-        LB_LU = 1134,
+		/// <summary>Macedonian - North Macedonia LCID.</summary>
+		MK_MK = 0x042F,
 
-        /// <summary> Kalaallisut (Greenland) LCID. </summary>
-        KL_GL = 1135,
+		/// <summary>Malayalam LCID.</summary>
+		ML = 0x004C,
 
-        /// <summary> Igbo (Nigeria) LCID. </summary>
-        IG_NG = 1136,
+		/// <summary>Malayalam - India LCID.</summary>
+		ML_IN = 0x044C,
 
-        /// <summary> Oromo (Ethiopia) LCID. </summary>
-        OM_ET = 1138,
+		/// <summary>Mongolian LCID.</summary>
+		MN = 0x0050,
 
-        /// <summary> Tigrinya (Ethiopia) LCID. </summary>
-        TI_ET = 1139,
+		/// <summary>Mongolian (Cyrillic) LCID.</summary>
+		MN_CYRL = 0x7850,
 
-        /// <summary> Hawaiian (United States) LCID. </summary>
-        HAW_US = 1141,
+		/// <summary>Mongolian - Mongolia LCID.</summary>
+		MN_MN = 0x0450,
 
-        /// <summary> Somali (Somalia) LCID. </summary>
-        SO_SO = 1143,
+		/// <summary>Marathi LCID.</summary>
+		MR = 0x004E,
 
-        /// <summary> Sichuan Yi (China) LCID. </summary>
-        II_CN = 1144,
+		/// <summary>Marathi - India LCID.</summary>
+		MR_IN = 0x044E,
 
-        /// <summary> Breton (France) LCID. </summary>
-        BR_FR = 1150,
+		/// <summary>Malay LCID.</summary>
+		MS = 0x003E,
 
-        /// <summary> Uyghur (China) LCID. </summary>
-        UG_CN = 1152,
+		/// <summary>Malay - Brunei Darussalam LCID.</summary>
+		MS_BN = 0x083E,
 
-        /// <summary> Swiss German (France) LCID. </summary>
-        GSW_FR = 1156,
+		/// <summary>Malay - Malaysia LCID.</summary>
+		MS_MY = 0x043E,
 
-        /// <summary> Sakha (Russia) LCID. </summary>
-        SAH_RU = 1157,
+		/// <summary>Maltese LCID.</summary>
+		MT = 0x003A,
 
-        /// <summary> Kinyarwanda (Rwanda) LCID. </summary>
-        RW_RW = 1159,
+		/// <summary>Maltese - Malta LCID.</summary>
+		MT_MT = 0x043A,
 
-        /// <summary> Scottish Gaelic (United Kingdom) LCID. </summary>
-        GD_GB = 1169,
+		/// <summary>Burmese LCID.</summary>
+		MY = 0x0055,
 
-        /// <summary> Arabic (Iraq) LCID. </summary>
-        AR_IQ = 2049,
+		/// <summary>Burmese - Myanmar LCID.</summary>
+		MY_MM = 0x0455,
 
-        /// <summary> Catalan (Spain) LCID. </summary>
-        CA_ES_VALENCIA = 2051,
+		/// <summary>Norwegian Bokmål LCID.</summary>
+		NB = 0x7C14,
 
-        /// <summary> Chinese (Simplified) LCID. </summary>
-        ZH_CN = 2052,
+		/// <summary>Norwegian Bokmål - Norway LCID.</summary>
+		NB_NO = 0x0414,
 
-        /// <summary> German (Switzerland) LCID. </summary>
-        DE_CH = 2055,
+		/// <summary>Nepali LCID.</summary>
+		NE = 0x0061,
 
-        /// <summary> English (United Kingdom) LCID. </summary>
-        EN_GB = 2057,
+		/// <summary>Nepali - India LCID.</summary>
+		NE_IN = 0x0861,
 
-        /// <summary> Spanish (Mexico) LCID. </summary>
-        ES_MX = 2058,
+		/// <summary>Nepali - Nepal LCID.</summary>
+		NE_NP = 0x0461,
 
-        /// <summary> French (Belgium) LCID. </summary>
-        FR_BE = 2060,
+		/// <summary>Dutch LCID.</summary>
+		NL = 0x0013,
 
-        /// <summary> Italian (Switzerland) LCID. </summary>
-        IT_CH = 2064,
+		/// <summary>Dutch - Belgium LCID.</summary>
+		NL_BE = 0x0813,
 
-        /// <summary> Dutch (Belgium) LCID. </summary>
-        NL_BE = 2067,
+		/// <summary>Dutch - Netherlands LCID.</summary>
+		NL_NL = 0x0413,
 
-        /// <summary> Norwegian Nynorsk (Norway) LCID. </summary>
-        NN_NO = 2068,
+		/// <summary>Norwegian Nynorsk LCID.</summary>
+		NN = 0x7814,
 
-        /// <summary> Portuguese (Portugal) LCID. </summary>
-        PT_PT = 2070,
+		/// <summary>Norwegian Nynorsk - Norway LCID.</summary>
+		NN_NO = 0x0814,
 
-        /// <summary> Romanian (Moldova) LCID. </summary>
-        RO_MD = 2072,
+		/// <summary>Norwegian LCID.</summary>
+		NO = 0x0014,
 
-        /// <summary> Russian (Moldova) LCID. </summary>
-        RU_MD = 2073,
+		/// <summary>Sesotho sa Leboa LCID.</summary>
+		NSO = 0x006C,
 
-        /// <summary> Swedish (Finland) LCID. </summary>
-        SV_FI = 2077,
+		/// <summary>Sesotho sa Leboa - South Africa LCID.</summary>
+		NSO_ZA = 0x046C,
 
-        /// <summary> Urdu (India) LCID. </summary>
-        UR_IN = 2080,
+		/// <summary>Oromo LCID.</summary>
+		OM = 0x0072,
 
-        /// <summary> Azerbaijani (Cyrillic, Azerbaijan) LCID. </summary>
-        AZ_CYRL_AZ = 2092,
+		/// <summary>Oromo - Ethiopia LCID.</summary>
+		OM_ET = 0x0472,
 
-        /// <summary> Lower Sorbian (Germany) LCID. </summary>
-        DSB_DE = 2094,
+		/// <summary>Odia LCID.</summary>
+		OR = 0x0048,
 
-        /// <summary> Tswana (Botswana) LCID. </summary>
-        TN_BW = 2098,
+		/// <summary>Odia - India LCID.</summary>
+		OR_IN = 0x0448,
 
-        /// <summary> Northern Sami (Sweden) LCID. </summary>
-        SE_SE = 2107,
+		/// <summary>Punjabi LCID.</summary>
+		PA = 0x0046,
 
-        /// <summary> Irish (Ireland) LCID. </summary>
-        GA_IE = 2108,
+		/// <summary>Punjabi - Pakistan (Arabic) LCID.</summary>
+		PA_ARAB_PK = 0x0846,
 
-        /// <summary> Malay (Brunei) LCID. </summary>
-        MS_BN = 2110,
+		/// <summary>Polish LCID.</summary>
+		PL = 0x0015,
 
-        /// <summary> Uzbek (Cyrillic, Uzbekistan) LCID. </summary>
-        UZ_CYRL_UZ = 2115,
+		/// <summary>Polish - Poland LCID.</summary>
+		PL_PL = 0x0415,
 
-        /// <summary> Bangla (Bangladesh) LCID. </summary>
-        BN_BD = 2117,
+		/// <summary>Pashto LCID.</summary>
+		PS = 0x0063,
 
-        /// <summary> Punjabi (Arabic, Pakistan) LCID. </summary>
-        PA_ARAB_PK = 2118,
+		/// <summary>Pashto - Afghanistan LCID.</summary>
+		PS_AF = 0x0463,
 
-        /// <summary> Tamil (Sri Lanka) LCID. </summary>
-        TA_LK = 2121,
+		/// <summary>Portuguese LCID.</summary>
+		PT = 0x0016,
 
-        /// <summary> Nepali (India) LCID. </summary>
-        NE_IN = 2145,
+		/// <summary>Portuguese - Brazil LCID.</summary>
+		PT_BR = 0x0416,
 
-        /// <summary> Tigrinya (Eritrea) LCID. </summary>
-        TI_ER = 2163,
+		/// <summary>Portuguese - Portugal LCID.</summary>
+		PT_PT = 0x0816,
 
-        /// <summary> Arabic (Egypt) LCID. </summary>
-        AR_EG = 3073,
+		/// <summary>Romansh LCID.</summary>
+		RM = 0x0017,
 
-        /// <summary> Chinese (Traditional, Hong Kong SAR China)
-        /// LCID. </summary>
-        ZH_HK = 3076,
+		/// <summary>Romansh - Switzerland LCID.</summary>
+		RM_CH = 0x0417,
 
-        /// <summary> German (Austria) LCID. </summary>
-        DE_AT = 3079,
+		/// <summary>Romanian LCID.</summary>
+		RO = 0x0018,
 
-        /// <summary> English (Australia) LCID. </summary>
-        EN_AU = 3081,
+		/// <summary>Romanian - Moldova, Republic of LCID.</summary>
+		RO_MD = 0x0818,
 
-        /// <summary> Spanish (Spain) LCID. </summary>
-        ES_ES = 3082,
+		/// <summary>Romanian - Romania LCID.</summary>
+		RO_RO = 0x0418,
 
-        /// <summary> French (Canada) LCID. </summary>
-        FR_CA = 3084,
+		/// <summary>Russian LCID.</summary>
+		RU = 0x0019,
 
-        /// <summary> Northern Sami (Finland) LCID. </summary>
-        SE_FI = 3131,
+		/// <summary>Russian - Moldova, Republic of LCID.</summary>
+		RU_MD = 0x0819,
 
-        /// <summary> Arabic (Libya) LCID. </summary>
-        AR_LY = 4097,
+		/// <summary>Russian - Russian Federation LCID.</summary>
+		RU_RU = 0x0419,
 
-        /// <summary> Chinese (Simplified, Singapore) LCID. </summary>
-        ZH_SG = 4100,
+		/// <summary>Kinyarwanda LCID.</summary>
+		RW = 0x0087,
 
-        /// <summary> German (Luxembourg) LCID. </summary>
-        DE_LU = 4103,
+		/// <summary>Kinyarwanda - Rwanda LCID.</summary>
+		RW_RW = 0x0487,
 
-        /// <summary> English (Canada) LCID. </summary>
-        EN_CA = 4105,
+		/// <summary>Sakha LCID.</summary>
+		SAH = 0x0085,
 
-        /// <summary> Spanish (Guatemala) LCID. </summary>
-        ES_GT = 4106,
+		/// <summary>Sakha - Russian Federation LCID.</summary>
+		SAH_RU = 0x0485,
 
-        /// <summary> French (Switzerland) LCID. </summary>
-        FR_CH = 4108,
+		/// <summary>Northern Sami LCID.</summary>
+		SE = 0x003B,
 
-        /// <summary> Croatian (Bosnia and Herzegovina) LCID. </summary>
-        HR_BA = 4122,
+		/// <summary>Northern Sami - Finland LCID.</summary>
+		SE_FI = 0x0C3B,
 
-        /// <summary> Arabic (Algeria) LCID. </summary>
-        AR_DZ = 5121,
+		/// <summary>Northern Sami - Norway LCID.</summary>
+		SE_NO = 0x043B,
 
-        /// <summary> Chinese (Traditional, Macau SAR China) LCID. </summary>
-        ZH_MO = 5124,
+		/// <summary>Northern Sami - Sweden LCID.</summary>
+		SE_SE = 0x083B,
 
-        /// <summary> German (Liechtenstein) LCID. </summary>
-        DE_LI = 5127,
+		/// <summary>Sinhala LCID.</summary>
+		SI = 0x005B,
 
-        /// <summary> English (New Zealand) LCID. </summary>
-        EN_NZ = 5129,
+		/// <summary>Sinhala - Sri Lanka LCID.</summary>
+		SI_LK = 0x045B,
 
-        /// <summary> Spanish (Costa Rica) LCID. </summary>
-        ES_CR = 5130,
+		/// <summary>Slovak LCID.</summary>
+		SK = 0x001B,
 
-        /// <summary> French (Luxembourg) LCID. </summary>
-        FR_LU = 5132,
+		/// <summary>Slovak - Slovakia LCID.</summary>
+		SK_SK = 0x041B,
 
-        /// <summary> Bosnian (Latin, Bosnia and Herzegovina) LCID. </summary>
-        BS_LATN_BA = 5146,
+		/// <summary>Slovenian LCID.</summary>
+		SL = 0x0024,
 
-        /// <summary> Arabic (Morocco) LCID. </summary>
-        AR_MA = 6145,
+		/// <summary>Slovenian - Slovenia LCID.</summary>
+		SL_SI = 0x0424,
 
-        /// <summary> English (Ireland) LCID. </summary>
-        EN_IE = 6153,
+		/// <summary>Sami Inari LCID.</summary>
+		SMN = 0x703B,
 
-        /// <summary> Spanish (Panama) LCID. </summary>
-        ES_PA = 6154,
+		/// <summary>Sami Inari - Finland LCID.</summary>
+		SMN_FI = 0x243B,
 
-        /// <summary> French (Monaco) LCID. </summary>
-        FR_MC = 6156,
+		/// <summary>Somali LCID.</summary>
+		SO = 0x0077,
 
-        /// <summary> Serbian (Latin, Bosnia and Herzegovina) LCID. </summary>
-        SR_LATN_BA = 6170,
+		/// <summary>Somali - Somalia LCID.</summary>
+		SO_SO = 0x0477,
 
-        /// <summary> Arabic (Tunisia) LCID. </summary>
-        AR_TN = 7169,
+		/// <summary>Albanian LCID.</summary>
+		SQ = 0x001C,
 
-        /// <summary> English (South Africa) LCID. </summary>
-        EN_ZA = 7177,
+		/// <summary>Albanian - Albania LCID.</summary>
+		SQ_AL = 0x041C,
 
-        /// <summary> Spanish (Dominican Republic) LCID. </summary>
-        ES_DO = 7178,
+		/// <summary>Serbian LCID.</summary>
+		SR = 0x7C1A,
 
-        /// <summary> Serbian (Cyrillic, Bosnia and Herzegovina)
-        /// LCID. </summary>
-        SR_CYRL_BA = 7194,
+		/// <summary>Serbian (Cyrillic) LCID.</summary>
+		SR_CYRL = 0x6C1A,
 
-        /// <summary> Arabic (Oman) LCID. </summary>
-        AR_OM = 8193,
+		/// <summary>Serbian - Bosnia and Herzegovina (Cyrillic) LCID.</summary>
+		SR_CYRL_BA = 0x1C1A,
 
-        /// <summary> English (Jamaica) LCID. </summary>
-        EN_JM = 8201,
+		/// <summary>Serbian - Montenegro (Cyrillic) LCID.</summary>
+		SR_CYRL_ME = 0x301A,
 
-        /// <summary> Spanish (Venezuela) LCID. </summary>
-        ES_VE = 8202,
+		/// <summary>Serbian - Serbia (Cyrillic) LCID.</summary>
+		SR_CYRL_RS = 0x281A,
 
-        /// <summary> French (Réunion) LCID. </summary>
-        FR_RE = 8204,
+		/// <summary>Serbian (Latin) LCID.</summary>
+		SR_LATN = 0x701A,
 
-        /// <summary> Bosnian (Cyrillic, Bosnia and Herzegovina)
-        /// LCID. </summary>
-        BS_CYRL_BA = 8218,
+		/// <summary>Serbian - Bosnia and Herzegovina (Latin) LCID.</summary>
+		SR_LATN_BA = 0x181A,
 
-        /// <summary> Arabic (Yemen) LCID. </summary>
-        AR_YE = 9217,
+		/// <summary>Serbian - Montenegro (Latin) LCID.</summary>
+		SR_LATN_ME = 0x2c1A,
 
-        /// <summary> Spanish (Colombia) LCID. </summary>
-        ES_CO = 9226,
+		/// <summary>Serbian - Serbia (Latin) LCID.</summary>
+		SR_LATN_RS = 0x241A,
 
-        /// <summary> French (Congo _ Kinshasa) LCID. </summary>
-        FR_CD = 9228,
+		/// <summary>Sotho LCID.</summary>
+		ST = 0x0030,
 
-        /// <summary> Serbian (Latin, Serbia) LCID. </summary>
-        SR_LATN_RS = 9242,
+		/// <summary>Sotho - South Africa LCID.</summary>
+		ST_ZA = 0x0430,
 
-        /// <summary> Inari Sami (Finland) LCID. </summary>
-        SMN_FI = 9275,
+		/// <summary>Swedish LCID.</summary>
+		SV = 0x001D,
 
-        /// <summary> Arabic (Syria) LCID. </summary>
-        AR_SY = 10241,
+		/// <summary>Swedish - Finland LCID.</summary>
+		SV_FI = 0x081D,
 
-        /// <summary> English (Belize) LCID. </summary>
-        EN_BZ = 10249,
+		/// <summary>Swedish - Sweden LCID.</summary>
+		SV_SE = 0x041D,
 
-        /// <summary> Spanish (Peru) LCID. </summary>
-        ES_PE = 10250,
+		/// <summary>Swahili LCID.</summary>
+		SW = 0x0041,
 
-        /// <summary> French (Senegal) LCID. </summary>
-        FR_SN = 10252,
+		/// <summary>Swahili - Kenya LCID.</summary>
+		SW_KE = 0x0441,
 
-        /// <summary> Serbian (Cyrillic, Serbia) LCID. </summary>
-        SR_CYRL_RS = 10266,
+		/// <summary>Tamil LCID.</summary>
+		TA = 0x0049,
 
-        /// <summary> Arabic (Jordan) LCID. </summary>
-        AR_JO = 11265,
+		/// <summary>Tamil - India LCID.</summary>
+		TA_IN = 0x0449,
 
-        /// <summary> English (Trinidad and Tobago) LCID. </summary>
-        EN_TT = 11273,
+		/// <summary>Tamil - Sri Lanka LCID.</summary>
+		TA_LK = 0x0849,
 
-        /// <summary> Spanish (Argentina) LCID. </summary>
-        ES_AR = 11274,
+		/// <summary>Telugu LCID.</summary>
+		TE = 0x004A,
 
-        /// <summary> French (Cameroon) LCID. </summary>
-        FR_CM = 11276,
+		/// <summary>Telugu - India LCID.</summary>
+		TE_IN = 0x044A,
 
-        /// <summary> Serbian (Latin, Montenegro) LCID. </summary>
-        SR_LATN_ME = 11290,
+		/// <summary>Tajik LCID.</summary>
+		TG = 0x0028,
 
-        /// <summary> Arabic (Lebanon) LCID. </summary>
-        AR_LB = 12289,
+		/// <summary>Tajik (Cyrillic) LCID.</summary>
+		TG_CYRL = 0x7C28,
 
-        /// <summary> English (Zimbabwe) LCID. </summary>
-        EN_ZW = 12297,
+		/// <summary>Tajik - Tajikistan (Cyrillic) LCID.</summary>
+		TG_CYRL_TJ = 0x0428,
 
-        /// <summary> Spanish (Ecuador) LCID. </summary>
-        ES_EC = 12298,
+		/// <summary>Thai LCID.</summary>
+		TH = 0x001E,
 
-        /// <summary> French (Côte d’Ivoire) LCID. </summary>
-        FR_CI = 12300,
+		/// <summary>Thai - Thailand LCID.</summary>
+		TH_TH = 0x041E,
 
-        /// <summary> Serbian (Cyrillic, Montenegro) LCID. </summary>
-        SR_CYRL_ME = 12314,
+		/// <summary>Tigrinya LCID.</summary>
+		TI = 0x0073,
 
-        /// <summary> Arabic (Kuwait) LCID. </summary>
-        AR_KW = 13313,
+		/// <summary>Tigrinya - Eritrea LCID.</summary>
+		TI_ER = 0x0873,
 
-        /// <summary> English (Philippines) LCID. </summary>
-        EN_PH = 13321,
+		/// <summary>Tigrinya - Ethiopia LCID.</summary>
+		TI_ET = 0x0473,
 
-        /// <summary> Spanish (Chile) LCID. </summary>
-        ES_CL = 13322,
+		/// <summary>Turkmen LCID.</summary>
+		TK = 0x0042,
 
-        /// <summary> French (Mali) LCID. </summary>
-        FR_ML = 13324,
+		/// <summary>Turkmen - Turkmenistan LCID.</summary>
+		TK_TM = 0x0442,
 
-        /// <summary> Arabic (United Arab Emirates) LCID. </summary>
-        AR_AE = 14337,
+		/// <summary>Tswana LCID.</summary>
+		TN = 0x0032,
 
-        /// <summary> Spanish (Uruguay) LCID. </summary>
-        ES_UY = 14346,
+		/// <summary>Tswana - Botswana LCID.</summary>
+		TN_BW = 0x0832,
 
-        /// <summary> French (Morocco) LCID. </summary>
-        FR_MA = 14348,
+		/// <summary>Tswana - South Africa LCID.</summary>
+		TN_ZA = 0x0432,
 
-        /// <summary> Arabic (Bahrain) LCID. </summary>
-        AR_BH = 15361,
+		/// <summary>Turkish LCID.</summary>
+		TR = 0x001F,
 
-        /// <summary> English (Hong Kong SAR China) LCID. </summary>
-        EN_HK = 15369,
+		/// <summary>Turkish - Turkey LCID.</summary>
+		TR_TR = 0x041F,
 
-        /// <summary> Spanish (Paraguay) LCID. </summary>
-        ES_PY = 15370,
+		/// <summary>Tsonga LCID.</summary>
+		TS = 0x0031,
 
-        /// <summary> French (Haiti) LCID. </summary>
-        FR_HT = 15372,
+		/// <summary>Tsonga - South Africa LCID.</summary>
+		TS_ZA = 0x0431,
 
-        /// <summary> Arabic (Qatar) LCID. </summary>
-        AR_QA = 16385,
+		/// <summary>Tamazight LCID.</summary>
+		TZM = 0x005F,
 
-        /// <summary> English (India) LCID. </summary>
-        EN_IN = 16393,
+		/// <summary>Uyghur LCID.</summary>
+		UG = 0x0080,
 
-        /// <summary> Spanish (Bolivia) LCID. </summary>
-        ES_BO = 16394,
+		/// <summary>Uyghur - China LCID.</summary>
+		UG_CN = 0x0480,
 
-        /// <summary> English (Malaysia) LCID. </summary>
-        EN_MY = 17417,
+		/// <summary>Ukrainian LCID.</summary>
+		UK = 0x0022,
 
-        /// <summary> Spanish (El Salvador) LCID. </summary>
-        ES_SV = 17418,
+		/// <summary>Ukrainian - Ukraine LCID.</summary>
+		UK_UA = 0x0422,
 
-        /// <summary> English (Singapore) LCID. </summary>
-        EN_SG = 18441,
+		/// <summary>Urdu LCID.</summary>
+		UR = 0x0020,
 
-        /// <summary> Spanish (Honduras) LCID. </summary>
-        ES_HN = 18442,
+		/// <summary>Urdu - India LCID.</summary>
+		UR_IN = 0x0820,
 
-        /// <summary> Spanish (Nicaragua) LCID. </summary>
-        ES_NI = 19466,
+		/// <summary>Urdu - Pakistan LCID.</summary>
+		UR_PK = 0x0420,
 
-        /// <summary> Spanish (Puerto Rico) LCID. </summary>
-        ES_PR = 20490,
+		/// <summary>Uzbek LCID.</summary>
+		UZ = 0x0043,
 
-        /// <summary> Spanish (United States) LCID. </summary>
-        ES_US = 21514,
+		/// <summary>Uzbek (Cyrillic) LCID.</summary>
+		UZ_CYRL = 0x7843,
 
-        /// <summary> Spanish (Cuba) LCID. </summary>
-        ES_CU = 23562,
+		/// <summary>Uzbek - Uzbekistan (Cyrillic) LCID.</summary>
+		UZ_CYRL_UZ = 0x0843,
 
-        /// <summary> Bosnian (Cyrillic) LCID. </summary>
-        BS_CYRL = 25626,
+		/// <summary>Uzbek (Latin) LCID.</summary>
+		UZ_LATN = 0x7C43,
 
-        /// <summary> Bosnian (Latin) LCID. </summary>
-        BS_LATN = 26650,
+		/// <summary>Uzbek - Uzbekistan (Latin) LCID.</summary>
+		UZ_LATN_UZ = 0x0443,
 
-        /// <summary> Serbian (Cyrillic) LCID. </summary>
-        SR_CYRL = 27674,
+		/// <summary>Vietnamese LCID.</summary>
+		VI = 0x002A,
 
-        /// <summary> Serbian (Latin) LCID. </summary>
-        SR_LATN = 28698,
+		/// <summary>Vietnamese - Viet Nam LCID.</summary>
+		VI_VN = 0x042A,
 
-        /// <summary> Inari Sami LCID. </summary>
-        SMN = 28731,
+		/// <summary>Xhosa LCID.</summary>
+		XH = 0x0034,
 
-        /// <summary> Azerbaijani (Cyrillic) LCID. </summary>
-        AZ_CYRL = 29740,
+		/// <summary>Xhosa - South Africa LCID.</summary>
+		XH_ZA = 0x0434,
 
-        /// <summary> Chinese (Simplified) LCID. </summary>
-        ZH = 30724,
+		/// <summary>Yoruba LCID.</summary>
+		YO = 0x006A,
 
-        /// <summary> Norwegian Nynorsk LCID. </summary>
-        NN = 30740,
+		/// <summary>Yoruba - Nigeria LCID.</summary>
+		YO_NG = 0x046A,
 
-        /// <summary> Bosnian LCID. </summary>
-        BS = 30746,
+		/// <summary>Chinese LCID.</summary>
+		ZH = 0x7804,
 
-        /// <summary> Azerbaijani (Latin) LCID. </summary>
-        AZ_LATN = 30764,
+		/// <summary>Chinese - China LCID.</summary>
+		ZH_CN = 0x0804,
 
-        /// <summary> Uzbek (Cyrillic) LCID. </summary>
-        UZ_CYRL = 30787,
+		/// <summary>Chinese (Han Simplified) LCID.</summary>
+		ZH_HANS = 0x0004,
 
-        /// <summary> Mongolian (Cyrillic) LCID. </summary>
-        MN_CYRL = 30800,
+		/// <summary>Chinese (Han Traditional) LCID.</summary>
+		ZH_HANT = 0x7C04,
 
-        /// <summary> Chinese (Traditional) LCID. </summary>
-        ZH_HANT = 31748,
+		/// <summary>Chinese - Hong Kong LCID.</summary>
+		ZH_HK = 0x0C04,
 
-        /// <summary> Chinese (Traditional) Legacy LCID. </summary>
-        ZH_CHT = 31748,
+		/// <summary>Chinese - Macao LCID.</summary>
+		ZH_MO = 0x1404,
 
-        /// <summary> Norwegian Bokmål LCID. </summary>
-        NB = 31764,
+		/// <summary>Chinese - Singapore LCID.</summary>
+		ZH_SG = 0x1004,
 
-        /// <summary> Serbian LCID. </summary>
-        SR = 31770,
+		/// <summary>Chinese - Taiwan, Province of China LCID.</summary>
+		ZH_TW = 0x0404,
 
-        /// <summary> Tajik (Cyrillic) LCID. </summary>
-        TG_CYRL = 31784,
+		/// <summary>Zulu LCID.</summary>
+		ZU = 0x0035,
 
-        /// <summary> Lower Sorbian LCID. </summary>
-        DSB = 31790,
-
-        /// <summary> Uzbek (Latin) LCID. </summary>
-        UZ_LATN = 31811,
-
-        /// <summary> Punjabi (Arabic) LCID. </summary>
-        PA_ARAB = 31814,
-
-        /// <summary> Central Atlas Tamazight (Latin) LCID. </summary>
-        TZM_LATN = 31839,
-
-        /// <summary> Hausa (Latin) LCID. </summary>
-        HA_LATN = 31848,
-    }
+		/// <summary>Zulu - South Africa LCID.</summary>
+		ZU_ZA = 0x0435,
+	}
 }

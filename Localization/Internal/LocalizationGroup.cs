@@ -197,6 +197,29 @@ namespace BricksBucket.Localization.Internal
 				localizedObject.Remove (oldCode);
 			}
 		}
+
+		/// <inheritdoc cref="object.ToString()"/>
+		public override string ToString ()
+		{
+			var builder = new System.Text.StringBuilder ();
+			builder.Append ("Text Group:\n");
+			foreach (var localized in Keys)
+			{
+				builder.Append ("- ");
+				builder.Append (localized);
+				builder.Append (":\n");
+				foreach (var culture in this[localized].Keys)
+				{
+					builder.Append (" - ");
+					builder.Append (culture);
+					builder.Append (": ");
+					builder.Append (this[localized][culture]);
+					builder.Append ("\n");
+				}
+			}
+
+			return builder.ToString ();
+		}
 	}
 
 	/// <!-- TextureGroup -->

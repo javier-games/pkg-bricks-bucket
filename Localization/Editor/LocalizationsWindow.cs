@@ -130,6 +130,16 @@ namespace BricksBucket.Localization.Editor
 			GetWindow<LocalizationsWindow> ().Show ();
 		}
 
+		internal void Import ()
+		{
+			this.ImportFromGoogleSheet (
+				token: "AIzaSyBEH_oZtk8pxMJIRZx1W1TVjyeRKc3ja2c",
+				spreadsheet: "15EAdMwZFYe_YAdHYPGxPZ4fY2IPN1a4u9viM1AAN8Z0",
+				sheet: "Example",
+				book => { Debug.Log (book);}
+			);
+		}
+
 		/// <summary>
 		/// Draws the header in the window.
 		/// </summary>
@@ -182,7 +192,7 @@ namespace BricksBucket.Localization.Editor
 		/// <summary>
 		/// Draws the tool bar with books.
 		/// </summary>
-		private static void DrawToolbar ()
+		private void DrawToolbar ()
 		{
 			SirenixEditorGUI.BeginHorizontalToolbar ();
 			for (int i = 0; i < LocalizationSettings.BooksNames.Length; i++)
@@ -194,6 +204,13 @@ namespace BricksBucket.Localization.Editor
 					LocalizationSettings.WindowActiveBook = i;
 				}
 			}
+			
+			GUILayout.FlexibleSpace ();
+			if (SirenixEditorGUI.ToolbarToggle (false, "Import"))
+			{
+				Import ();
+			}
+			
 			SirenixEditorGUI.EndHorizontalToolbar ();
 		}
 
