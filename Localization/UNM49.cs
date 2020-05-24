@@ -228,6 +228,9 @@ namespace BricksBucket.Localization
 		/// <summary>China UN M.49 Code.</summary>
 		CN = 0x09C,
 
+		/// <summary>Taiwan, Province of China UN M.49 Code.</summary>
+		TW = 0x09E,
+
 		/// <summary>Christmas Island UN M.49 Code.</summary>
 		CX = 0x0A2,
 

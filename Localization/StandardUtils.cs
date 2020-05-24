@@ -17,24 +17,21 @@ namespace BricksBucket.Localization
 				: string.Empty;
 
 		public static string GetCode (ISO15924 script) =>
-			script.ToString ().Substring (1).
-				Insert (0, script.ToString ().Substring (0, 1));
+			System.Enum.IsDefined (typeof (ISO15924), script)
+				? script.ToString ().Substring (1).
+					Insert (0, script.ToString ().Substring (0, 1))
+				: string.Empty;
 
 		public static ISO15924 GetISO15924 (string code) =>
-			System.Enum.TryParse (code.ToUpper (), out ISO15924 script)
+			System.Enum.TryParse (code, true, out ISO15924 script)
 				? script
-				: ISO15924.NONE;
-
-		public static ISO15924 GetISO15924 (ISO639 language) =>
-			ISO639Scripts.ContainsKey (language)
-				? ISO639Scripts[language]
 				: ISO15924.NONE;
 
 		public static ScriptDirection GetDirection (ISO15924 script) =>
 			ISO15924Directions.ContainsKey (script)
 				? ISO15924Directions[script]
-				: ScriptDirection.VAR;
-		
+				: ScriptDirection.NONE;
+
 		private static readonly Dictionary<ISO15924, string> ISO15924Names =
 			new Dictionary<ISO15924, string>
 			{
@@ -458,17 +455,19 @@ namespace BricksBucket.Localization
 				: string.Empty;
 
 		public static string GetCode (ISO639 language) =>
-			language.ToString ().ToLower ();
+			System.Enum.IsDefined (typeof (ISO639), language)
+				? language.ToString ().ToLower ()
+				: string.Empty;
 
 		public static ISO639 GetISO639 (string code) =>
-			System.Enum.TryParse (code.ToUpper (), out ISO639 language)
+			System.Enum.TryParse (code, true, out ISO639 language)
 				? language
 				: ISO639.NONE;
 
-		public static ISO639 GetISO639 (LCID lcid) =>
-			LCIDLanguages.ContainsKey (lcid)
-				? LCIDLanguages[lcid]
-				: ISO639.NONE;
+		public static ISO15924 GetISO15924 (ISO639 language) =>
+			ISO639Scripts.ContainsKey (language)
+				? ISO639Scripts[language]
+				: ISO15924.NONE;
 
 		public static PluralForm GetPluralForm (ISO639 language) =>
 			ISO639PluralForms.ContainsKey (language)
@@ -986,25 +985,24 @@ namespace BricksBucket.Localization
 				: string.Empty;
 
 		public static string GetCode (UNM49 region) =>
-			((int) region).ToString ("000");
+			System.Enum.IsDefined (typeof (UNM49), region)
+				? ((int) region).ToString ("000")
+				: string.Empty;
 
 		public static UNM49 GetUNM49 (string code) =>
 			int.TryParse (code, out int result)
 				? GetUNM49 (result)
 				: UNM49.NONE;
-		
-		public static UNM49 GetUNM49 (ISO3166 country) =>
-			GetUNM49 ((int) country);
-
-		public static UNM49 GetUNM49 (LCID lcid) =>
-			LCIDRegions.ContainsKey (lcid)
-				? LCIDRegions[lcid]
-				: GetUNM49 (GetISO3166 (lcid));
 
 		private static UNM49 GetUNM49 (int code) => 
 			System.Enum.IsDefined (typeof (UNM49), code)
 				? (UNM49) code
 				: UNM49.NONE;
+		
+		public static ISO3166 GetISO3166 (UNM49 region) =>
+			System.Enum.IsDefined (typeof (ISO3166), (int) region)
+				? (ISO3166) (int) region
+				: ISO3166.NONE;
 
 		private static readonly Dictionary<UNM49, string> UNM49Names =
 			new Dictionary<UNM49, string>
@@ -1086,6 +1084,7 @@ namespace BricksBucket.Localization
 				{UNM49.NORTHERN_EUROPE, "Northern Europe"},
 				{UNM49.WESTERN_EUROPE, "Western Europe"},
 				{UNM49.CN, "China"},
+				{UNM49.TW, "Taiwan, Province of China"},
 				{UNM49.CX, "Christmas Island"},
 				{UNM49.CC, "Cocos (Keeling) Islands"},
 				{UNM49.CO, "Colombia"},
@@ -1309,22 +1308,18 @@ namespace BricksBucket.Localization
 		public static string GetName (ISO3166 country) =>
 			GetName ((UNM49) (int) country);
 
-		public static string GetCode (ISO3166 country) => country.ToString ();
-
-		public static ISO3166 GetISO3166 (UNM49 region) =>
-			System.Enum.IsDefined (typeof (ISO3166), (int) region)
-				? (ISO3166) (int) region
-				: ISO3166.NONE;
-
-		public static ISO3166 GetISO3166 (LCID lcid) =>
-			LCIDCountries.ContainsKey (lcid)
-				? LCIDCountries[lcid]
-				: ISO3166.NONE;
-
+		public static string GetCode (ISO3166 country) =>
+			System.Enum.IsDefined (typeof (ISO3166), country)
+				? country.ToString ()
+				: string.Empty;
+		
 		public static ISO3166 GetISO3166 (string code) =>
-			System.Enum.TryParse (code.ToUpper (), out ISO3166 country)
+			System.Enum.TryParse (code, true, out ISO3166 country)
 				? country
 				: ISO3166.NONE;
+		
+		public static UNM49 GetUNM49 (ISO3166 country) =>
+			GetUNM49 ((int) country);
 
 		#endregion
 
@@ -1371,13 +1366,28 @@ namespace BricksBucket.Localization
 
 			return GetLCID (builder.ToString ());
 		}
+		
+		public static ISO639 GetISO639 (LCID lcid) =>
+			LCIDLanguages.ContainsKey (lcid)
+				? LCIDLanguages[lcid]
+				: ISO639.NONE;
 
 		public static LCID GetLCID (string code) =>
 			System.Enum.TryParse (code.ToUpper (), out LCID lcid)
 				? lcid
 				: LCID.NONE;
+		
+		public static UNM49 GetUNM49 (LCID lcid) =>
+			LCIDRegions.ContainsKey (lcid)
+				? LCIDRegions[lcid]
+				: GetUNM49 (GetISO3166 (lcid));
+		
+		public static ISO3166 GetISO3166 (LCID lcid) =>
+			LCIDCountries.ContainsKey (lcid)
+				? LCIDCountries[lcid]
+				: ISO3166.NONE;
 
-		public static readonly Dictionary<LCID, string> LCIDNames =
+		private static readonly Dictionary<LCID, string> LCIDNames =
 			new Dictionary<LCID, string>
 			{
 				{LCID.NONE, "None"},
@@ -1736,7 +1746,7 @@ namespace BricksBucket.Localization
 				{LCID.ZU_ZA, "Zulu - South Africa"},
 			};
 
-		public static readonly Dictionary<LCID, ISO3166> LCIDCountries =
+		private static readonly Dictionary<LCID, ISO3166> LCIDCountries =
 			new Dictionary<LCID, ISO3166>
 			{
 				{LCID.NONE, ISO3166.NONE},
@@ -1950,14 +1960,14 @@ namespace BricksBucket.Localization
 				{LCID.ZU_ZA, ISO3166.ZA},
 			};
 
-		public static readonly Dictionary<LCID, UNM49> LCIDRegions =
+		private static readonly Dictionary<LCID, UNM49> LCIDRegions =
 			new Dictionary<LCID, UNM49>
 			{
 				{LCID.NONE, UNM49.NONE},
 				{LCID.INVARIANT, UNM49.NONE},
 			};
 
-		public static readonly Dictionary<LCID, ISO639> LCIDLanguages =
+		private static readonly Dictionary<LCID, ISO639> LCIDLanguages =
 			new Dictionary<LCID, ISO639>
 			{
 				{LCID.NONE, ISO639.NONE},
@@ -2310,6 +2320,8 @@ namespace BricksBucket.Localization
 		[System.Flags]
 		public enum ScriptDirection
 		{
+			//	No direction.
+			NONE,
 			//	Left to Right.
 			L2R,
 			//	Right to Left.
