@@ -1,4 +1,4 @@
-﻿// ReSharper disable IdentifierTypo
+// ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo
 // ReSharper disable InconsistentNaming
 namespace BricksBucket.Localization
@@ -720,6 +720,9 @@ namespace BricksBucket.Localization
 
 		/// <summary>Punjabi LCID.</summary>
 		PA = 0x0046,
+
+		/// <summary>Punjabi (Arabic) LCID.</summary>
+		PA_ARAB = 0x7C46,
 
 		/// <summary>Punjabi - Pakistan (Arabic) LCID.</summary>
 		PA_ARAB_PK = 0x0846,
