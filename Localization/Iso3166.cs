@@ -1,9 +1,8 @@
 ﻿// ReSharper disable StringLiteralTypo
-// ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
 namespace BricksBucket.Localization
 {
-	/// <!-- ISO3166 -->
+	/// <!-- Iso3166 -->
 	///
 	/// <summary>
 	///
@@ -25,15 +24,15 @@ namespace BricksBucket.Localization
 	/// 
 	/// </summary>
 	///
-	/// <seealso cref="BricksBucket.Localization.ISO639"/>
-	/// <seealso cref="BricksBucket.Localization.LCID"/>
+	/// <seealso cref="Iso639"/>
+	/// <seealso cref="Lcid"/>
 	/// <seealso cref="BricksBucket.Localization.Culture"/>
 	///
 	/// <!-- Note: The code of the members of the enum have been generated with
 	/// the following table: https://bit.ly/bb-localization-iso3166 -->
 	/// 
 	/// <!-- By Javier García | @jvrgms | 2020 -->
-	public enum ISO3166
+	public enum Iso3166
 	{
 		/// <summary>None ISO 3166-1 Alpha-2 Code.</summary>
 		NONE = 0x000,

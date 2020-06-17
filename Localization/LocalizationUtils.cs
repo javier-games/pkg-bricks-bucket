@@ -15,9 +15,9 @@ namespace BricksBucket.Localization
     /// localization system.
     /// </summary>
     ///
-    /// <seealso cref="BricksBucket.Localization.LCID"/>
-    /// <seealso cref="BricksBucket.Localization.ISO639"/>
-    /// <seealso cref="BricksBucket.Localization.ISO3166"/>
+    /// <seealso cref="Lcid"/>
+    /// <seealso cref="Iso639"/>
+    /// <seealso cref="Iso3166"/>
     /// 
     /// <!-- By Javier García | @jvrgms | 2020 -->
     public static class LocalizationUtils
@@ -35,20 +35,20 @@ namespace BricksBucket.Localization
         /// <param name="country">ISO 3166-2 Country reference.</param>
         /// <returns>Language Code Identifier. Returns <value><c>LCID.NONE</c>
         /// </value> if no match was found.</returns>
-        public static LCID ToLCID (
-            ISO639 language, ISO3166 country
+        public static Lcid ToLCID (
+            Iso639 language, Iso3166 country
         )
         {
-            if (language == ISO639.NONE) return LCID.INVARIANT;
+            if (language == Iso639.NONE) return Lcid.INVARIANT;
 
             var textCode = language.ToString ();
 
-            if (country != Localization.ISO3166.NONE)
+            if (country != Localization.Iso3166.NONE)
                 textCode = StringUtils.Concat (textCode, "_", country);
 
-            return System.Enum.TryParse (textCode, out LCID lcid)
+            return System.Enum.TryParse (textCode, out Lcid lcid)
                 ? lcid
-                : LCID.NONE;
+                : Lcid.NONE;
         }
 
         /// <summary>
@@ -59,21 +59,21 @@ namespace BricksBucket.Localization
         /// <param name="country">Country reference.</param>
         /// <returns>Language Code Identifier. Returns <value><c>LCID.NONE</c>
         /// </value> if no match was found.</returns>
-        public static LCID ToLCID (int language, int country) =>
-            ToLCID ((ISO639) language, (ISO3166) country);
+        public static Lcid ToLCID (int language, int country) =>
+            ToLCID ((Iso639) language, (Iso3166) country);
 
         /// <summary>
         /// Converts a Language Code ID to a language ISO-639 numeric code.
         /// </summary>
         /// <param name="lcid">Language code identifier to convert.</param>
         /// <returns>Numeric representation of the ISO-639 standard.</returns>
-        public static int ToISO639 (LCID lcid)
+        public static int ToISO639 (Lcid lcid)
         {
             var dividedLCID = lcid.ToString ().Split ('_');
             if (dividedLCID.Length == 0) return 0;
 
             var language = dividedLCID[0];
-            if (System.Enum.TryParse (language, out ISO639 iso))
+            if (System.Enum.TryParse (language, out Iso639 iso))
                 return (int) iso;
 
             return 0;
@@ -84,14 +84,14 @@ namespace BricksBucket.Localization
         /// </summary>
         /// <param name="lcid">Language code identifier to convert.</param>
         /// <returns>Numeric representation of the ISO-3166 standard.</returns>
-        public static int ToISO3166 (LCID lcid)
+        public static int ToISO3166 (Lcid lcid)
         {
             var dividedLCID = lcid.ToString ().Split ('_');
 
             if (dividedLCID.Length == 0 || dividedLCID.Length == 1) return 0;
 
             var country = dividedLCID[1];
-            if (System.Enum.TryParse (country, out ISO3166 iso))
+            if (System.Enum.TryParse (country, out Iso3166 iso))
                 return (int) iso;
 
             return 0;
@@ -128,10 +128,10 @@ namespace BricksBucket.Localization
             /// Collection of displays names for the ISO 639 standard.
             /// </summary>
             /// <value>Display name for ISO 639 standard.</value>
-            public static readonly Dictionary<ISO639, string> ISO639 =
-                new Dictionary<ISO639, string>
+            public static readonly Dictionary<Iso639, string> ISO639 =
+                new Dictionary<Iso639, string>
                 {
-                    {Localization.ISO639.IS, ""},
+                    {Localization.Iso639.IS, ""},
                 };
 
 

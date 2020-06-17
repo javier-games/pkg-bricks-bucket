@@ -58,7 +58,7 @@ namespace BricksBucket.Localization
         [SerializeField, EnumPaging]
         [Tooltip ("Windows Language Code Identifier.")]
         [OnValueChanged ("OnLCIDChanged")]
-        private LCID _LCID;
+        private Lcid _LCID;
 
         /// <summary>
         /// Language code from the <see href=
@@ -68,7 +68,7 @@ namespace BricksBucket.Localization
         [SerializeField, EnumPaging]
         [Tooltip ("Language ISO-639 code.")]
         [OnValueChanged ("OnISOChanged")]
-        private ISO639 _language;
+        private Iso639 _language;
 
         /// <summary>
         /// Country code from the <see href=
@@ -78,7 +78,7 @@ namespace BricksBucket.Localization
         [SerializeField, EnumPaging]
         [Tooltip ("Country ISO-3166 code.")]
         [OnValueChanged ("OnISOChanged")]
-        private ISO3166 _country;
+        private Iso3166 _country;
 
         /// <summary>
         /// Specifies a region for the culture.
@@ -140,7 +140,7 @@ namespace BricksBucket.Localization
         /// <seealso href=
         /// "https://docs.microsoft.com/openspecs/windows_protocols/ms-lcid">
         /// Microsoft LCID Documentation</seealso>
-        public LCID LCID
+        public Lcid LCID
         {
             get => _LCID;
             private set => _LCID = value;
@@ -157,9 +157,9 @@ namespace BricksBucket.Localization
         /// <seealso href="../articles/localization/standard_iso639.html">
         /// Bricks Bucket ISO 639 Table</seealso>
         /// <!-- https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes -->
-        public ISO639 Language
+        public Iso639 Language
         {
-            get => _isCustom ? ISO639.NONE : _language;
+            get => _isCustom ? Iso639.NONE : _language;
             private set => _language = value;
         }
 
@@ -172,7 +172,7 @@ namespace BricksBucket.Localization
         /// <seealso href="../articles/localization/standard_iso3166.html">
         /// Bricks Bucket ISO 3166 Table</seealso>
         /// <!-- https://en.wikipedia.org/wiki/ISO_3166-2 -->
-        public ISO3166 Country
+        public Iso3166 Country
         {
             get => _country;
             private set => _country = value;
@@ -217,9 +217,9 @@ namespace BricksBucket.Localization
             {
                 _name = "None";
                 _code = "NONE";
-                _LCID = LCID.NONE;
-                _country = ISO3166.NONE;
-                _language = ISO639.NONE;
+                _LCID = Lcid.NONE;
+                _country = Iso3166.NONE;
+                _language = Iso639.NONE;
                 _region = string.Empty;
                 _isCustom = false;
                 //_pluralOptionsCount = 0;
@@ -234,12 +234,12 @@ namespace BricksBucket.Localization
             //  LCID Attempt
             string lcid = string.Empty;
             string region = string.Empty;
-            var lastCoincidence = LCID.NONE;
+            var lastCoincidence = Lcid.NONE;
             for (int i = 0; i < sections.Length; i++)
             {
                 lcid += sections[i];
                 region += sections[i];
-                if (System.Enum.TryParse (lcid, out LCID result))
+                if (System.Enum.TryParse (lcid, out Lcid result))
                 {
                     lastCoincidence = result;
                     region = string.Empty;
@@ -253,15 +253,15 @@ namespace BricksBucket.Localization
             }
 
             // If it has a match for an LCID gets the right name and code.
-            if (lastCoincidence != LCID.NONE)
+            if (lastCoincidence != Lcid.NONE)
             {
                 _LCID = lastCoincidence;
-                _country = (ISO3166) LocalizationUtils.ToISO3166 (_LCID);
-                _language = (ISO639) LocalizationUtils.ToISO639 (_LCID);
+                _country = (Iso3166) LocalizationUtils.ToISO3166 (_LCID);
+                _language = (Iso639) LocalizationUtils.ToISO639 (_LCID);
                 //_pluralOptionsCount = PluralForm.GetCount (_language);
                 _region = region;
 
-                if (_LCID == LCID.INVARIANT)
+                if (_LCID == Lcid.INVARIANT)
                 {
                     _code = _LCID.ToString ();
                     _name = "Invariant Language";
@@ -291,7 +291,7 @@ namespace BricksBucket.Localization
                 return;
             }
 
-            _LCID = LCID.NONE;
+            _LCID = Lcid.NONE;
             System.Enum.TryParse (sections[0], out _language);
             //_pluralOptionsCount = PluralForm.GetCount (_language);
             if (sections.Length >= 2)
@@ -306,16 +306,16 @@ namespace BricksBucket.Localization
             }
             else
             {
-                _country = ISO3166.NONE;
+                _country = Iso3166.NONE;
                 _region = string.Empty;
             }
 
-            if (_language != ISO639.NONE)
+            if (_language != Iso639.NONE)
             {
                 _code = _language.ToString ();
                 _name = LocalizationUtils.Names.ISO639[ _language];
 
-                if (_country != ISO3166.NONE)
+                if (_country != Iso3166.NONE)
                 {
                     _code = StringUtils.Concat (_code, "_",
                         _country.ToString ());
@@ -329,12 +329,12 @@ namespace BricksBucket.Localization
                 {
                     _code = StringUtils.Concat (_code, "_", _region.ToUpper ());
 
-                    _name = _country == ISO3166.NONE
+                    _name = _country == Iso3166.NONE
                         ? StringUtils.Concat (_name, " (", _region, ")")
                         : StringUtils.Concat (_name, " - ", _region, ")");
                 }
 
-                else if (_country != ISO3166.NONE)
+                else if (_country != Iso3166.NONE)
                 {
                     _name = StringUtils.Concat (_name, ")");
                 }
@@ -370,8 +370,8 @@ namespace BricksBucket.Localization
         {
             if (IsCustom) return;
 
-            Country = (ISO3166) LocalizationUtils.ToISO3166 (LCID);
-            Language = (ISO639) LocalizationUtils.ToISO639 (LCID);
+            Country = (Iso3166) LocalizationUtils.ToISO3166 (LCID);
+            Language = (Iso639) LocalizationUtils.ToISO639 (LCID);
             UpdateData ();
         }
 
@@ -396,10 +396,10 @@ namespace BricksBucket.Localization
         {
             Name = string.Empty;
             Code = string.Empty;
-            Country = ISO3166.NONE;
+            Country = Iso3166.NONE;
             Region = string.Empty;
-            Language = ISO639.NONE;
-            LCID = LCID.NONE;
+            Language = Iso639.NONE;
+            LCID = Lcid.NONE;
         }
 
         /// <summary>
@@ -408,9 +408,9 @@ namespace BricksBucket.Localization
         private void UpdateData ()
         {
             // It has a match for an LCID.
-            if (LCID != LCID.NONE)
+            if (LCID != Lcid.NONE)
             {
-                if (LCID == LCID.INVARIANT)
+                if (LCID == Lcid.INVARIANT)
                 {
                     Code = LCID.ToString ();
                     Name = "Invariant Language";
@@ -446,7 +446,7 @@ namespace BricksBucket.Localization
                 Code = Language.ToString ();
                 Name = LocalizationUtils.Names.ISO639[Language];
 
-                if (Country != ISO3166.NONE)
+                if (Country != Iso3166.NONE)
                 {
                     Code = StringUtils.Concat (Code, "_", Country.ToString ());
                     Name = StringUtils.Concat (
@@ -459,12 +459,12 @@ namespace BricksBucket.Localization
                 {
                     Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
 
-                    Name = Country == ISO3166.NONE
+                    Name = Country == Iso3166.NONE
                         ? StringUtils.Concat (Name, " (", Region, ")")
                         : StringUtils.Concat (Name, " - ", Region, ")");
                 }
 
-                else if (Country != ISO3166.NONE)
+                else if (Country != Iso3166.NONE)
                 {
                     Name = StringUtils.Concat (Name, ")");
                 }
@@ -609,7 +609,7 @@ namespace BricksBucket.Localization
                 GUI.enabled = true;
 
                 EditorGUI.BeginChangeCheck ();
-                culture.LCID = (LCID) SirenixEditorFields.EnumDropdown (
+                culture.LCID = (Lcid) SirenixEditorFields.EnumDropdown (
                     label: "LCID",
                     selected: culture.LCID
                 );
@@ -617,7 +617,7 @@ namespace BricksBucket.Localization
 
                 EditorGUI.BeginChangeCheck ();
                 culture.Language =
-                    (ISO639) SirenixEditorFields.EnumDropdown (
+                    (Iso639) SirenixEditorFields.EnumDropdown (
                         label: "Language",
                         selected: culture.Language
                     );
@@ -625,7 +625,7 @@ namespace BricksBucket.Localization
 
                 EditorGUI.BeginChangeCheck ();
                 culture.Country =
-                    (ISO3166) SirenixEditorFields.EnumDropdown (
+                    (Iso3166) SirenixEditorFields.EnumDropdown (
                         label: "Country",
                         selected: culture.Country
                     );
@@ -663,7 +663,7 @@ namespace BricksBucket.Localization
                 );
 
                 culture.Country =
-                    (ISO3166) SirenixEditorFields.EnumDropdown (
+                    (Iso3166) SirenixEditorFields.EnumDropdown (
                         label: "Country",
                         selected: culture.Country
                     );

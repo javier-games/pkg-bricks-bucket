@@ -1,9 +1,8 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo
-// ReSharper disable InconsistentNaming
 namespace BricksBucket.Localization
 {
-	/// <!-- LCID -->
+	/// <!-- Lcid -->
 	///
 	/// <summary>
 	/// Describes localizable information in Windows. <see href=
@@ -16,7 +15,7 @@ namespace BricksBucket.Localization
 	/// the following table: https://bit.ly/bb-localization-lcid -->
 	/// 
 	/// <!-- By Javier García | @jvrgms | 2020 -->
-	public enum LCID
+	public enum Lcid
 	{
 		/// <summary>None LCID.</summary>
 		NONE = 0x0000,
@@ -459,6 +458,9 @@ namespace BricksBucket.Localization
 
 		/// <summary>Hausa LCID.</summary>
 		HA = 0x0068,
+
+		/// <summary>Hausa (Latin) LCID.</summary>
+		HA_LATN = 0x7C68,
 
 		/// <summary>Hausa - Nigeria (Latin) LCID.</summary>
 		HA_LATN_NG = 0x0468,
@@ -948,6 +950,9 @@ namespace BricksBucket.Localization
 
 		/// <summary>Tamazight LCID.</summary>
 		TZM = 0x005F,
+
+		/// <summary>Tamazight (Latin) LCID.</summary>
+		TZM_LATN = 0x7C5F,
 
 		/// <summary>Uyghur LCID.</summary>
 		UG = 0x0080,

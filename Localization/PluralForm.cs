@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BricksBucket.Localization.Internal;
 
 namespace BricksBucket.Localization
@@ -15,23 +14,104 @@ namespace BricksBucket.Localization
 	/// </summary>
 	/// 
 	/// <seealso cref="BricksBucket.Localization.CustomPluralForm" />
-	/// <seealso cref="BricksBucket.Localization.ISO639" />
+	/// <seealso cref="Iso639"/>
 	/// 
 	/// <!-- Note: The code of the members of the enum have been generated with
 	/// the following table: https://bit.ly/bb-localization-iso3166 -->
 	/// 
 	/// <!-- By Javier García | @jvrgms | 2020 -->
-	[Serializable]
+	[System.Serializable]
 	public class PluralForm : IPluralForm
 	{
 		
-		#region Static Read-Only Fields
+		#region Fields
 
+		/// <summary>
+		/// Delegate to evaluate the plural form.
+		/// </summary>
+		/// <param name="n">Plural number to evaluate.</param>
+		public delegate int Evaluator (int n);
+
+		/// <summary>
+		/// Evaluator Delegate for de plural form.
+		/// </summary>
+		private Evaluator _evaluator;
+
+		/// <summary>
+		/// Code of the default plural form.
+		/// </summary>
+		internal static readonly int Default = 0x000;
+
+		#endregion
+
+
+		#region Properties
+
+		/// <summary>
+		/// Text representative of the rule used to choose the plural option.
+		/// </summary>
+		/// <returns>String value with the text rule.</returns>
+		public string Rule { get; }
+
+		/// <inheritdoc cref="IPluralForm.Count" />
+		public int Count { get; }
+
+		/// <inheritdoc cref="IPluralForm.Evaluate(int)" />
+		public int Evaluate (int n)
+		{
+			return _evaluator (n);
+		}
+
+		#endregion
+
+
+		#region Methods
+
+		/// <summary>
+		/// Private Constructor to avoid the creation of new instances.
+		/// </summary>
+		private PluralForm () { }
+
+		/// <summary>
+		/// Constructor with Int and Func Signature for the dictionary.
+		/// </summary>
+		/// <param name="count">Count of plural forms.</param>
+		/// <param name="evaluator">Delegate that implements the rule for the
+		/// plural form.</param>
+		/// <param name="rule"> String representation of the rule used to
+		/// define the case.</param>
+		internal PluralForm (int count, Evaluator evaluator, string rule)
+		{
+			_evaluator = evaluator;
+			Count = count;
+			Rule = rule;
+		}
+
+		/// <summary>
+		/// Gets a pre-defined <seealso cref="PluralForm" /> for the
+		/// given language.
+		/// </summary>
+		/// <param name="code">Plural form code to look for.</param>
+		/// <returns>Whether a form for the language has been found.</returns>
+		public static PluralForm GetForm (int code) =>
+			PluralForms.ContainsKey (code) ? PluralForms[code] : null;
+
+		/// <summary>
+		/// Gets the count of defined plural forms.
+		/// </summary>
+		/// <returns>Count of defined plural forms.</returns>
+		public static int DefinedPluralFormsCount () => PluralForms.Count;
+		
+		#endregion
+		
+		
+		#region Static Read Only
+		
 		/// <summary>
 		/// Dictionary that contains existing defined rules and count of its
 		/// cases in plural forms.
 		/// </summary>
-		private static readonly Dictionary<int, PluralForm> DefinedForms =
+		private static readonly Dictionary<int, PluralForm> PluralForms =
 			new Dictionary<int, PluralForm>
 			{
 				{
@@ -146,83 +226,6 @@ namespace BricksBucket.Localization
 						" 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 ? 4 : 5")
 				}
 			};
-
-		#endregion
-
-
-		#region Fields
-
-		/// <summary>
-		/// Delegate to evaluate the plural form.
-		/// </summary>
-		/// <param name="n">Plural number to evaluate.</param>
-		private delegate int Evaluator (int n);
-
-		/// <summary>
-		/// Evaluator Delegate for de plural form.
-		/// </summary>
-		private Evaluator _evaluator;
-
-		/// <summary>
-		/// Code of the default plural form.
-		/// </summary>
-		internal static readonly int Default = 0x000;
-
-		#endregion
-
-
-		#region Properties
-
-		/// <summary>
-		/// Text representative of the rule used to choose the plural option.
-		/// </summary>
-		/// <returns>String value with the text rule.</returns>
-		public string Rule { get; }
-
-		/// <inheritdoc cref="IPluralForm.Count" />
-		public int Count { get; }
-
-		/// <inheritdoc cref="IPluralForm.Evaluate(int)" />
-		public int Evaluate (int n)
-		{
-			return _evaluator (n);
-		}
-
-		#endregion
-
-
-		#region Methods
-
-		/// <summary>
-		/// Private Constructor to avoid the creation of new instances.
-		/// </summary>
-		private PluralForm () { }
-
-		/// <summary>
-		/// Constructor with Int and Func Signature for the dictionary.
-		/// </summary>
-		/// <param name="count">Count of plural forms.</param>
-		/// <param name="evaluator">Delegate that implements the rule for the
-		/// plural form.</param>
-		/// <param name="rule"> String representation of the rule used to
-		/// define the case.</param>
-		private PluralForm (int count, Evaluator evaluator, string rule)
-		{
-			_evaluator = evaluator;
-			Count = count;
-			Rule = rule;
-		}
-
-		/// <summary>
-		/// Gets a pre-defined <seealso cref="PluralForm" /> for the
-		/// given language.
-		/// </summary>
-		/// <param name="code">Plural form code to look for.</param>
-		/// <returns>Whether a form for the language has been found.</returns>
-		public static PluralForm GetForm (int code)
-		{
-			return !DefinedForms.ContainsKey (code) ? null : DefinedForms[code];
-		}
 
 		#endregion
 	}

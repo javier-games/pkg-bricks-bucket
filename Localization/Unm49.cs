@@ -1,9 +1,21 @@
-// ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 namespace BricksBucket.Localization
 {
-	public enum UNM49
+	/// <!-- Unm49 -->
+	///
+	/// <summary>
+	/// UN M49 or the Standard Country or Area Codes for Statistical Use
+	/// (Series M, No. 49) is a standard for area codes used by the United
+	/// Nations for statistical purposes, developed and maintained by the
+	/// United Nations Statistics Division.
+	/// </summary>
+	/// 
+	/// <!-- Note: The code of the members of the enum have been generated with
+	/// the following table: https://bit.ly/bb-localization-lcid -->
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
+	public enum Unm49
 	{
 		/// <summary>None UN M.49 Code.</summary>
 		NONE = 0x000,

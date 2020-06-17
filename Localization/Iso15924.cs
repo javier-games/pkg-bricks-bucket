@@ -1,10 +1,9 @@
-﻿// ReSharper disable InconsistentNaming
-// ReSharper disable CommentTypo
+﻿// ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable UnusedType.Global
 namespace BricksBucket.Localization
 {
-	/// <!-- ISO15924 -->
+	/// <!-- Iso15924 -->
 	///
 	/// <summary>
 	///
@@ -22,15 +21,15 @@ namespace BricksBucket.Localization
 	/// 
 	/// </summary>
 	///
-	/// <seealso cref="BricksBucket.Localization.ISO639"/>
-	/// <seealso cref="BricksBucket.Localization.LCID"/>
+	/// <seealso cref="Iso639"/>
+	/// <seealso cref="Lcid"/>
 	/// <seealso cref="BricksBucket.Localization.Culture"/>
 	///
 	/// <!-- Note: The code of the members of the enum have been generated with
 	/// the following table: https://bit.ly/bb-localization-iso3166 -->
 	/// 
 	/// <!-- By Javier García | @jvrgms | 2020 -->
-	public enum ISO15924
+	public enum Iso15924
 	{
 		/// <summary>None ISO 15924 Code.</summary>
 		NONE = 0x000,
