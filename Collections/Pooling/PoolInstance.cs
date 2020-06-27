@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
 using Suppress = System.Diagnostics.CodeAnalysis.SuppressMessageAttribute;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Local
 
 namespace BricksBucket.Collections
 {
@@ -24,8 +27,8 @@ namespace BricksBucket.Collections
         #region Class members
 
         /// <summary>
-        /// Reference to the prefab this instance cames from.
-        /// If null this instance is consider as the orifginal prefab.
+        /// Reference to the prefab this instance comes from.
+        /// If null this instance is consider as the original prefab.
         /// </summary>
         [Tooltip ("Original prefab reference")]
         [Space, SerializeField, ReadOnly, ShowIf ("_prefab")]
@@ -34,8 +37,7 @@ namespace BricksBucket.Collections
         /// <summary>
         /// Pool owner of this instance.
         /// </summary>
-        [SerializeField, HideInInspector]
-        private Pool _pool;
+        [SerializeField, HideInInspector] private Pool _pool;
 
         /// <summary>
         /// Minimum amount of instances to spawn on awake by the pool
@@ -50,38 +52,37 @@ namespace BricksBucket.Collections
         /// Type of prefab. Changes the behaviour of the instance according to
         /// the selected option.
         /// </summary>
-        [Tooltip ("Type of prefab.")]
-        [SerializeField]
+        [Tooltip ("Type of prefab.")] [SerializeField]
         private PrefabType _type;
 
         /// <summary>
-        /// Flag to stop the coroutines on all the monobehaviour on the
+        /// Flag to stop the coroutines on all the MonoBehaviour on the
         /// instance game object.
         /// </summary>
-        [Tooltip ("Wether to stop coroutines for all monobehaviors.")]
+        [Tooltip ("Whether to stop coroutines for all MonoBehaviours.")]
         [SerializeField]
         private bool _stopCoroutines;
 
         /// <summary>
         /// Flag to use or ignore scaled time for delayed spawn or dispose.
         /// </summary>
-        [Tooltip ("Wether to use scaled time with coroutines.")]
+        [Tooltip ("Whether to use scaled time with coroutines.")]
         [SerializeField]
         private bool _useScaledTime;
 
         /// <summary>
         /// Flag to parent to local or global position.
         /// </summary>
-        [Tooltip ("Wether to use local or global position.")]
+        [Tooltip ("Whether to use local or global position.")]
         [SerializeField]
         private bool _useLocalPosition;
 
         /// <summary>
         /// Flag to expand the pool after finish all instances.
         /// </summary>
-        [Tooltip ("Wether to expand the pool if it is empty.")]
+        [Tooltip ("Whether to expand the pool if it is empty.")]
         [SerializeField]
-        private bool _isExpandible = true;
+        private bool _isExpandable = true;
 
 
         /// <summary>
@@ -106,20 +107,20 @@ namespace BricksBucket.Collections
         [Title ("Related 3D Components")]
         [Tooltip ("Related Rigid bodies to reset on dispose.")]
         [SerializeField, ReadOnly, ShowIf ("_type", PrefabType._3D)]
-        private Rigidbody[] _rigidbodies3D;
+        private Rigidbody[] _rigidBodies3D;
 
 
         /// <summary>
-        /// Collection of related rigid bodies 2D to reset on desapwn.
+        /// Collection of related rigid bodies 2D to reset on despawn.
         /// </summary>
         [Title ("Related 2D Components")]
         [Tooltip ("Related Rigid bodies to reset on dispose.")]
         [SerializeField, ReadOnly, ShowIf ("_type", PrefabType._2D)]
-        private Rigidbody2D[] _rigidbodies2D;
+        private Rigidbody2D[] _rigidBodies2D;
 
         /// <summary>
-        /// All children components wich coroutines and invokes will be
-        /// stoped on dispose.
+        /// All children components which coroutines and invokes will be
+        /// stop on dispose.
         /// </summary>
         [SerializeField, HideInInspector]
         private Component[] _components;
@@ -167,7 +168,7 @@ namespace BricksBucket.Collections
             set => _stopCoroutines = value;
         }
 
-        /// <summary> Wether to use scaled time with deleayd spawn and
+        /// <summary> Whether to use scaled time with delayed spawn and
         /// dispose actions. </summary>
         public bool UseScaledTime
         {
@@ -175,7 +176,7 @@ namespace BricksBucket.Collections
             set => _useScaledTime = value;
         }
 
-        /// <summary> Wether to use global or local positions
+        /// <summary> Whether to use global or local positions
         /// on parent. </summary>
         public bool UseLocalPosition
         {
@@ -185,10 +186,10 @@ namespace BricksBucket.Collections
 
         /// <summary> Flag to expand the pool after finish all
         /// instances. </summary>
-        public bool IsExpandible
+        public bool IsExpandable
         {
-            get => _isExpandible;
-            set => _isExpandible = value;
+            get => _isExpandable;
+            set => _isExpandable = value;
         }
 
         /// <summary> Gets the spawner reference. </summary>
@@ -204,28 +205,34 @@ namespace BricksBucket.Collections
                 {
                     case PrefabType._3D:
                     case PrefabType._2D:
-                    transform.SetParent (value, true);
-                    break;
+                        transform.SetParent (value, true);
+                        break;
 
                     case PrefabType.UI:
-                    transform.SetParent (value, false);
-                    break;
+                        transform.SetParent (value, false);
+                        break;
+
+                    case PrefabType.NONE:
+                        transform.SetParent (value);
+                        break;
 
                     default:
-                    transform.SetParent (value);
-                    break;
+                        transform.SetParent (value);
+                        break;
                 }
             }
         }
 
         /// <summary>Unity event called on spawn.</summary>
-        public UnityEvent OnSpawnEvent {
+        public UnityEvent OnSpawnEvent
+        {
             get => _onSpawnEvent;
             private set => _onSpawnEvent = value;
         }
 
         /// <summary>Unity event called on dispose.</summary>
-        public UnityEvent OnDisposeEvent {
+        public UnityEvent OnDisposeEvent
+        {
             get => _onDisposeEvent;
             private set => _onDisposeEvent = value;
         }
@@ -253,19 +260,25 @@ namespace BricksBucket.Collections
         /// <summary> Get related components according the type. </summary>
         private void GetRelatedComponents ()
         {
-            _rigidbodies2D = null;
-            _rigidbodies3D = null;
+            _rigidBodies2D = null;
+            _rigidBodies3D = null;
             _components = null;
 
             switch (Type)
             {
                 case PrefabType._3D:
-                _rigidbodies3D = GetComponentsInChildren<Rigidbody> (true);
-                break;
+                    _rigidBodies3D = GetComponentsInChildren<Rigidbody> (true);
+                    break;
 
                 case PrefabType._2D:
-                _rigidbodies2D = GetComponentsInChildren<Rigidbody2D> (true);
-                break;
+                    _rigidBodies2D =
+                        GetComponentsInChildren<Rigidbody2D> (true);
+                    break;
+
+                case PrefabType.NONE:
+                case PrefabType.UI: break;
+
+                default: throw new ArgumentOutOfRangeException ();
             }
 
             _components = GetComponentsInChildren<Component> (true);
@@ -313,22 +326,25 @@ namespace BricksBucket.Collections
             OnDisposeEvent.RemoveAllListeners ();
 
         /// <summary>Spawn this instance with specified parameters.</summary>
-        /// <param name="position">Position to lacate the instance.</param>
+        /// <param name="position">Position to locate the instance.</param>
         /// <param name="rotation">Rotation to locate the instance.</param>
-        /// <param name="parent">Parent of the transform of instace.</param>
+        /// <param name="parent">Parent of the transform of instance.</param>
         /// <param name="spawner">Spawner who wants order spawn.</param>
         public PoolInstance SpawnAt (
             Vector3 position,
             Quaternion rotation,
             Transform parent,
             Component spawner = null
-        ) => PoolManager.SpawnAt (Prefab, position, rotation, parent, spawner);
+        ) =>
+            PoolManager.SpawnAt (Prefab, position, rotation, parent, spawner);
 
         /// <summary>Spawn this instance with specified parameters.</summary>
-        /// <param name="position">Position to lacate the instance.</param>
+        /// <param name="position">Position to locate the instance.</param>
         /// <param name="rotation">Rotation to locate the instance.</param>
-        /// <param name="parent">Parent of the transform of instace.</param>
+        /// <param name="parent">Parent of the transform of instance.</param>
+        /// <param name="callback">Callback on spawned finished.</param>
         /// <param name="spawner">Spawner who wants order spawn.</param>
+        /// <param name="delay">Delay in witch the manager has to spawn.</param>
         public void SpawnDelayed (
             Vector3 position,
             Quaternion rotation,
@@ -338,14 +354,16 @@ namespace BricksBucket.Collections
             GameObject spawner = null
         )
         {
-            //  Up to the manager.
+            // TODO: Add spawning delayed.
+            // Up to the manager.
         }
 
         /// <summary> Disposes this instance with a specified delay. </summary>
         /// <param name="delay">Delay.</param>
         public void Dispose (float delay)
         {
-            //  Up to the manager.
+            // TODO: Add dispose delayed.
+            // Up to the manager.
         }
 
         /// <summary> Disposes this instance. </summary>
@@ -358,16 +376,17 @@ namespace BricksBucket.Collections
         #region Internal Methods
 
         /// <summary>Spawn this instance with specified parameters.</summary>
-        /// <param name="position">Position to lacate the instance.</param>
+        /// <param name="position">Position to locate the instance.</param>
         /// <param name="rotation">Rotation to locate the instance.</param>
-        /// <param name="parent">Parent of the transform of instace.</param>
+        /// <param name="parent">Parent of the transform of instance.</param>
         /// <param name="spawner">Spawner who wants order spawn.</param>
         internal void ApplySpawn (
             Vector3 position,
             Quaternion rotation,
             Transform parent,
             Component spawner
-        ) {
+        )
+        {
             Parent = parent;
             Spawner = spawner;
 
@@ -391,20 +410,31 @@ namespace BricksBucket.Collections
             switch (Type)
             {
                 case PrefabType._3D:
-                for (int i = 0; i < _rigidbodies3D.Length; i++)
-                {
-                    _rigidbodies3D[i].velocity = Vector3.zero;
-                    _rigidbodies3D[i].angularVelocity = Vector3.zero;
-                }
-                break;
+                    for (int i = _rigidBodies3D.Length - 1; i >= 0; i--)
+                    {
+                        _rigidBodies3D[i].velocity = Vector3.zero;
+                        _rigidBodies3D[i].angularVelocity = Vector3.zero;
+                    }
+
+                    break;
 
                 case PrefabType._2D:
-                for (int i = 0; i < _rigidbodies2D.Length; i++)
-                {
-                    _rigidbodies2D[i].velocity = Vector2.zero;
-                    _rigidbodies2D[i].angularVelocity = 0;
-                }
-                break;
+                    for (int i = _rigidBodies2D.Length - 1; i >= 0; i--)
+                    {
+                        _rigidBodies2D[i].velocity = Vector2.zero;
+                        _rigidBodies2D[i].angularVelocity = 0;
+                    }
+
+                    break;
+
+                case PrefabType.NONE:
+                    break;
+
+                case PrefabType.UI:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException ();
             }
 
             //  Stop current calls and coroutines.
@@ -412,11 +442,11 @@ namespace BricksBucket.Collections
             {
                 for (int i = 0; i < _components.Length; i++)
                 {
-                    if (_components[i] is MonoBehaviour)
-                    {
-                        (_components[i] as MonoBehaviour).StopAllCoroutines ();
-                        (_components[i]as MonoBehaviour).CancelInvoke ();
-                    }
+                    if (!(_components[i] is MonoBehaviour))
+                        continue;
+
+                    ((MonoBehaviour) _components[i]).StopAllCoroutines ();
+                    ((MonoBehaviour) _components[i]).CancelInvoke ();
                 }
             }
 

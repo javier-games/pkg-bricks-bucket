@@ -29,36 +29,26 @@ namespace BricksBucket.Collections
         /// <summary>
         /// Reference to the prefab to use to create instances.
         /// </summary>
-        [Tooltip ("Prefab to generate instances.")]
-        [SerializeField]//, ReadOnly, PreviewField (Height = 80), HideLabel]
-        //[HorizontalGroup ("Split", LabelWidth = 50)]
-        //[BoxGroup ("Split/Prefab",false)]
+        [Tooltip ("Prefab to generate instances.")] [SerializeField]
         private PoolInstance _prefab;
 
         /// <summary>
-        /// Reference to the transform to cointain instances on stock.
+        /// Reference to the transform to contains instances on stock.
         /// </summary>
-        [Tooltip ("Root of the pools stock.")]
-        [SerializeField]//, ReadOnly]
-        //[BoxGroup ("Split/References", false)]
+        [Tooltip ("Root of the pools stock.")] [SerializeField]
         private Transform _root;
 
         /// <summary>
         /// List of reference to spawned instances.
         /// </summary>
-        [Tooltip ("List of the instances spwaned.")]
-        [Space, SerializeField]//, ReadOnly]
-        //[BoxGroup ("Split/References", false)]
-        [Suppress ("Style", "IDE0044:Add readonly modifier")]
+        [Space, Tooltip ("List of the instances spawned.")] [SerializeField]
         private List<PoolInstance> _spawned = new List<PoolInstance> ();
 
         /// <summary>
         /// Stack of usable instances.
         /// </summary>
-        [Tooltip ("Stack of the instances waiting to spawn.")]
-        [Suppress ("Style", "IDE0044:Add readonly modifier")]
-        [Space, SerializeField]//, ReadOnly]
-        //[BoxGroup ("Split/References", false)]
+        [Space, Tooltip ("Stack of the instances waiting to spawn.")]
+        [SerializeField]
         private PoolInstanceStack _stack = new PoolInstanceStack ();
 
         #endregion
@@ -68,32 +58,17 @@ namespace BricksBucket.Collections
         #region Class Accessors
 
         /// <summary> Gets the count of instances in the pool. </summary>
-        public int InstanceCount
-        {
-            get { return SpawnedCount + StackCount; }
-        }
+        public int InstanceCount => SpawnedCount + StackCount;
 
         /// <summary> Gets the count of instances spawned. </summary>
-        public int SpawnedCount
-        {
-            get { return _spawned.Count; }
-        }
+        public int SpawnedCount => _spawned.Count;
 
         /// <summary> Gets the count of instances on stack. </summary>
-        public int StackCount
-        {
-            get { return _stack.Count; }
-        }
+        public int StackCount => _stack.Count;
 
-        public List<PoolInstance> Spawned
-        {
-            get { return _spawned; }
-        }
+        public List<PoolInstance> Spawned => _spawned;
 
-        public PoolInstanceStack Stack
-        {
-            get { return _stack; }
-        }
+        public PoolInstanceStack Stack => _stack;
 
         /// <summary> Gets the prefab of the pool. </summary>
         public PoolInstance Prefab
@@ -125,11 +100,14 @@ namespace BricksBucket.Collections
         /// <param name="prefab">Prefab to use as reference.</param>
         internal Pool (PoolInstance prefab)
         {
-            Prefab = prefab ?? throw CollectionUtils.NullPrefabException ();
+            Prefab = prefab
+                ? prefab
+                : throw CollectionUtils.NullPrefabException ();
 
             Root = new GameObject (
                 name: StringUtils.Concat (prefab.name, " Pool")
             ).transform;
+
             Root.SetParent (PoolManager.Root);
             Root.position = Vector3.zero;
 
@@ -144,11 +122,11 @@ namespace BricksBucket.Collections
 
         #region Instance Validation
 
-        /// <summary> Idicates if the instance is on the stack. </summary>
+        /// <summary> Indicates if the instance is on the stack. </summary>
         public bool OnStack (PoolInstance instance) =>
             _stack.Contains (instance);
 
-        /// <summary> Idicates if the instance did spawned. </summary>
+        /// <summary> Indicates if the instance did spawned. </summary>
         public bool DidSpawned (PoolInstance instance) =>
             _spawned.Contains (instance);
 
@@ -164,18 +142,22 @@ namespace BricksBucket.Collections
         {
             for (int i = 0; i < count; i++)
             {
-                PoolInstance instance =
+                var instance =
 
-                #if UNITY_EDITOR
-                !Application.isPlaying ?
-                PrefabUtility.InstantiatePrefab (Prefab) as PoolInstance:
-                #endif
+#if UNITY_EDITOR
+                    !Application.isPlaying
+                        ? PrefabUtility.InstantiatePrefab (Prefab) as
+                            PoolInstance
+                        :
+#endif
+                        Object.Instantiate (
+                            original: Prefab.gameObject,
+                            position: Vector3.zero,
+                            rotation: Quaternion.identity
+                        ).GetComponent<PoolInstance> ();
 
-                Object.Instantiate (
-                    original: Prefab.gameObject,
-                    position: Vector3.zero,
-                    rotation: Quaternion.identity
-                ).GetComponent<PoolInstance> ();
+                if (instance == null)
+                    continue;
 
                 _stack.Push (instance);
                 instance.Pool = this;
@@ -188,7 +170,7 @@ namespace BricksBucket.Collections
         /// Spawn an instance.
         /// </summary>
         /// <returns>The spawned instance.</returns>
-        /// <param name="spawner">Spawner whos call this method.</param>
+        /// <param name="spawner">Spawner who's call this method.</param>
         public PoolInstance Spawn (Component spawner = null) =>
             SpawnAt (Vector3.zero, Quaternion.identity, null, spawner);
 
@@ -199,17 +181,18 @@ namespace BricksBucket.Collections
         /// <param name="position">Position to locate instance.</param>
         /// <param name="rotation">Rotation to sets instance transform.</param>
         /// <param name="parent">Parent to attach the instance.</param>
-        /// <param name="spawner">Spawner whos call this method.</param>
+        /// <param name="spawner">Spawner who's call this method.</param>
         public PoolInstance SpawnAt (
             Vector3 position,
             Quaternion rotation,
             Transform parent,
             Component spawner = null
-        ) {
+        )
+        {
 
             if (_stack.Count == 0)
             {
-                if (_prefab.IsExpandible)
+                if (_prefab.IsExpandable)
                 {
 
                     AllocateInstance ();
@@ -237,7 +220,7 @@ namespace BricksBucket.Collections
                 throw CollectionUtils.NullInstanceException ();
 
             //  Avoid adding instances from other pools.
-            if (instance.Pool!= this)
+            if (instance.Pool != this)
             {
                 DebugUtils.InternalExtendedLog (
                     layer: LogLayer.Logistics,
@@ -248,7 +231,7 @@ namespace BricksBucket.Collections
                         "{1} prefab. You should try call manage the instance ",
                         "with the PoolManager or the instance it self."
                     ),
-                    data: new object[] {instance.name, Prefab.name }
+                    data: new object[] {instance.name, Prefab.name}
                 );
                 return;
             }
@@ -275,22 +258,21 @@ namespace BricksBucket.Collections
         }
 
         /// <summary> Clear this pool. </summary>
-        /// <param name="useGC">If <c>true</c> Use Garbage Collector.</param>
-        public void DestroyAll (bool useGC = true)
+        /// <param name="useGarbageCollector">Use Garbage Collector.</param>
+        public void DestroyAll (bool useGarbageCollector = true)
         {
             DisposeAll ();
             while (_stack.Count > 0)
             {
-                PoolInstance instance = _stack.Pop ();
-                if (instance != null && instance.gameObject != null)
-                {
+                var instance = _stack.Pop ();
+                if (instance == null || instance.gameObject == null)
+                    continue;
 #if UNITY_EDITOR
-                    if (!Application.isPlaying)
-                        Object.DestroyImmediate (instance.gameObject);
-                    else
+                if (!Application.isPlaying)
+                    Object.DestroyImmediate (instance.gameObject);
+                else
 #endif
-                        Object.Destroy (instance.gameObject);
-                }
+                    Object.Destroy (instance.gameObject);
             }
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -300,21 +282,21 @@ namespace BricksBucket.Collections
                 Object.Destroy (_root.gameObject);
             _root = null;
 
-            if (useGC)
+            if (useGarbageCollector)
                 System.GC.Collect ();
         }
 
         /// <summary>
-        /// Removes this pool from pool manager and/or destroyes this intance.
-        /// <param name="useGC">If <c>true</c> Use Garbage Collector.</param>
+        /// Removes this pool from pool manager and/or destroys this instance.
+        /// <param name="useGarbageCollector"> Use Garbage Collector.</param>
         /// </summary>
-        public void Remove (bool useGC = false)
+        public void Remove (bool useGarbageCollector = false)
         {
             if (PoolManager.ContainsPool (_prefab))
                 PoolManager.RemovePool (_prefab);
 
             else
-                DestroyAll (useGC);
+                DestroyAll (useGarbageCollector);
         }
 
         /// <summary> Log the amount of over request instances. </summary>
@@ -356,8 +338,5 @@ namespace BricksBucket.Collections
         public class PoolInstanceStack : SerializableStack<PoolInstance> { }
 
         #endregion
-
     }
-
-
 }

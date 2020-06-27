@@ -8,7 +8,7 @@ namespace BricksBucket
     /// UI Utils.
     ///
     /// <para>
-    /// Usefull tools for UI.
+    /// Useful tools for UI.
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
@@ -27,9 +27,9 @@ namespace BricksBucket
         public static void SetAlpha(this Image image, float alpha) =>
             image.color.SetAlpha(alpha);
 
-        /// <summary> Activate alpha, interactibity and rays. </summary>
+        /// <summary> Activate alpha, interactivity and rays. </summary>
         /// <param name="canvas">Canvas to modify.</param>
-        /// <param name="active">Wether to active the canvas group.</param>
+        /// <param name="active">Whether to active the canvas group.</param>
         public static void ActivateAll (this CanvasGroup canvas, bool active)
         {
             canvas.alpha = active ? 1 : 0;

@@ -13,7 +13,7 @@ namespace BricksBucket.Editor
     /// Assets Utils.
     ///
     /// <para>
-    /// Usefull tools for editing assets.
+    /// Useful tools for editing assets.
     /// </para>
     ///
     /// <para> By Javier García | @jvrgms | 2019 </para>
@@ -35,7 +35,7 @@ namespace BricksBucket.Editor
 
             #if UNITY_2018_3_OR_NEWER
 
-            //  Determinating wether the asset is a prefab.
+            //  Determinate whether the asset is a prefab.
             if (PrefabUtility.IsPartOfPrefabAsset (asset))
                 path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot (
                     instanceComponentOrGameObject: asset
@@ -43,7 +43,7 @@ namespace BricksBucket.Editor
 
             #else
 
-            //  Determinating wether the asset is a prefab.
+            //  Determinate whether the asset is a prefab.
             var prefabRoot = PrefabUtility.GetPrefabObject(asset);
             if (prefabRoot != null)
                 path = AssetDatabase.GetAssetPath(prefabRoot);
@@ -53,31 +53,34 @@ namespace BricksBucket.Editor
             if (!string.IsNullOrEmpty (path))
                 return path;
 
-            //  Determinating if the game object is on scene.
+            //  Determinate if the game object is on scene.
             GameObject gameObject = null;
-            if (asset is GameObject)
-                gameObject = (GameObject) asset;
-            else if (asset is Component)
-                gameObject = ((Component) asset).gameObject;
+            switch (asset) {
+                case GameObject o:
+                    gameObject = o;
+                    break;
+                case Component component:
+                    gameObject = component.gameObject;
+                    break;
+            }
 
-            if (gameObject != null)
-                return gameObject.scene.path;
-
-            return null;
+            return gameObject != null ? gameObject.scene.path : null;
         }
 
-        /// <summary> Add a sub asset to this object. </summary>
+        /// <summary> Adds a sub asset to this object. </summary>
         /// <param name="asset"></param>
-        /// <param name="subasset"></param>
-        public static void AddSubasset (this Object asset, Object subasset)
+        /// <param name="subAsset"></param>
+        public static void AddSubAsset (this Object asset, Object subAsset)
         {
             var assetPath = asset.GetAssetPath ();
             Debug.Assert (assetPath != null);
-            AssetDatabase.AddObjectToAsset (subasset, assetPath);
+            AssetDatabase.AddObjectToAsset (subAsset, assetPath);
             AssetDatabase.ImportAsset (assetPath);
+            AssetDatabase.SaveAssets ();
+            AssetDatabase.Refresh ();
         }
 
-        /// <summary> Try to destroy this inmediately. </summary>
+        /// <summary> Try to destroy this immediately. </summary>
         /// <param name="asset"></param>
         public static void TryDestroyImmediate (this Object asset)
         {
@@ -95,7 +98,8 @@ namespace BricksBucket.Editor
 
         /// <summary> Destroy unreferenced sub assets. </summary>
         /// <param name="asset"></param>
-        public static void DestroyUnreferencedSubassets
+        /// <param name="candidates"></param>
+        public static void DestroyUnreferencedSubAssets
         (this Object asset, IEnumerable<Object> candidates)
         {
             var path = AssetDatabase.GetAssetPath (asset);
@@ -107,12 +111,12 @@ namespace BricksBucket.Editor
             var allAssets = AssetDatabase.LoadAllAssetsAtPath (path);
             var referencedAssets = new HashSet<Object> ();
 
-            //  Add Referenced subassets
-            AddReferencedSubassets (referencedAssets, allAssets, mainAsset);
+            //  Add Referenced sub assets
+            AddReferencedSubAssets (referencedAssets, allAssets, mainAsset);
 
             //  Destroy unreferenced assets.
-            var unreferencedSubassets = candidates.Except (referencedAssets);
-            foreach (var unreferencedAsset in unreferencedSubassets)
+            var unreferencedSubAssets = candidates.Except (referencedAssets);
+            foreach (var unreferencedAsset in unreferencedSubAssets)
                 unreferencedAsset.TryDestroyImmediate ();
             AssetDatabase.ImportAsset (path);
         }
@@ -123,11 +127,11 @@ namespace BricksBucket.Editor
 
         #region Subassets Methods
 
-        /// <summary> Adds referenced subassets. </summary>
+        /// <summary> Adds referenced sub assets. </summary>
         /// <param name="referencedAssets"></param>
         /// <param name="allAssets"></param>
         /// <param name="asset"></param>
-        public static void AddReferencedSubassets
+        public static void AddReferencedSubAssets
         (HashSet<Object> referencedAssets, Object[] allAssets, Object asset)
         {
             if (asset == null)
@@ -143,20 +147,20 @@ namespace BricksBucket.Editor
             using (var serializedObject = new SerializedObject(asset))
                 children = serializedObject.EnumerateChildProperties();
             foreach (var child in children)
-                AddReferencedSubassets (referencedAssets,allAssets,child);
+                AddReferencedSubAssets (referencedAssets,allAssets,child);
         }
 
-        /// <summary> Adds referenced subassets. </summary>
+        /// <summary> Adds referenced sub assets. </summary>
         /// <param name="referencedAssets"></param>
         /// <param name="allAssets"></param>
         /// <param name="property"></param>
-        public static void AddReferencedSubassets (
+        public static void AddReferencedSubAssets (
             HashSet<Object> referencedAssets,
             Object[] allAssets,
             SerializedProperty property
         ) {
             if (property.propertyType == SerializedPropertyType.ObjectReference)
-                AddReferencedSubassets (
+                AddReferencedSubAssets (
                     referencedAssets: referencedAssets,
                     allAssets: allAssets,
                     asset: property.objectReferenceValue
@@ -164,12 +168,16 @@ namespace BricksBucket.Editor
             else
             {
                 var children = property.EnumerateChildProperties ();
-                foreach (var child in children)
-                    AddReferencedSubassets (
+                var serializedProperties = children.ToList ();
+                for (int i = 0; i < serializedProperties.Count(); i++)
+                {
+                    AddReferencedSubAssets (
                         referencedAssets: referencedAssets,
                         allAssets: allAssets,
                         asset: property.objectReferenceValue
                     );
+                }
+                    
             }
         }
 

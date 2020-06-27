@@ -172,7 +172,7 @@ namespace BricksBucket.Editor
             var assetPath = AssetDatabase.GetAssetPath (propertyAsset);
             var allSubassets = AssetDatabase.LoadAllAssetsAtPath (assetPath);
             var referencedSubassets = new HashSet<Object> ();
-            AssetsUtils.AddReferencedSubassets (
+            AssetsUtils.AddReferencedSubAssets (
                 referencedAssets: referencedSubassets,
                 allAssets: allSubassets,
                 property: property
@@ -188,7 +188,7 @@ namespace BricksBucket.Editor
         (this SerializedObject serializedObject, IEnumerable<Object> candidates)
         {
             var targetObject = serializedObject.targetObject;
-            targetObject.DestroyUnreferencedSubassets (candidates);
+            targetObject.DestroyUnreferencedSubAssets (candidates);
         }
 
         /// <summary> Returns wether has referenced subassets. </summary>
@@ -275,7 +275,7 @@ namespace BricksBucket.Editor
         private static IEnumerable<object>
         ParsePropertyPath (string propertyPath)
         {
-            return StringUtils.ParseValuePath (propertyPath);
+            return ParseValuePath (propertyPath);
         }
 
         /// <summary> Parse the property path. </summary>
@@ -291,7 +291,7 @@ namespace BricksBucket.Editor
         private static IEnumerable<object>
         ParseValuePath (SerializedProperty property)
         {
-            return StringUtils.ParseValuePath (property.GetValuePath());
+            return ParseValuePath (property.GetValuePath());
         }
 
 
@@ -328,6 +328,66 @@ namespace BricksBucket.Editor
         private static string JoinPropertyPath (IEnumerable<object> keys)
         {
             return JoinValuePath (keys);
+        }
+        
+        /// <summary>
+        /// Parse value path.
+        /// </summary>
+        /// <param name="path">Path to parse.</param>
+        private static IEnumerable<object> ParseValuePath (string path)
+        {
+            var keys = path.Split ('.');
+            foreach (var key in keys)
+            {
+                //  For element identifier.
+                if (key.IsElementIdentifier ())
+                {
+                    var subKeys = key.Split ('[', ']');
+                    yield return subKeys[0];
+                    foreach (var subKey in subKeys.Skip (1))
+                    {
+                        if (string.IsNullOrEmpty (subKey))
+                            continue;
+
+                        int index = int.Parse (subKey);
+                        yield return index;
+                    }
+
+                    //  Continue the key iteration.
+                    continue;
+                }
+
+                //  For element index.
+                if (key.IsElementIndex ())
+                {
+                    var subKeys = key.Split ('[', ']');
+                    foreach (var subKey in subKeys)
+                    {
+                        if (string.IsNullOrEmpty (subKey))
+                            continue;
+
+                        int index = int.Parse (subKey);
+                        yield return index;
+                    }
+
+                    //  Continue the key iteration.
+                    continue;
+                }
+
+                //  For member identifier.
+                if (key.IsMemberIdentifier ())
+                {
+                    yield return key;
+
+                    //  Continue the key iteration.
+                    continue;
+                }
+
+                //  Else Exception.
+                throw new System.Exception (
+                    StringUtils.ConcatFormat ( "Invalid path: {0}", path)
+                );
+            }
         }
 
         #endregion

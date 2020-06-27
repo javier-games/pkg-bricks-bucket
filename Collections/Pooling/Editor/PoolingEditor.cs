@@ -136,9 +136,9 @@ namespace BricksBucket.Collections
                         new GUIContent ("Use Local Position"),
                         prefab.UseLocalPosition
                     );
-                    prefab.IsExpandible = EditorGUILayout.Toggle (
+                    prefab.IsExpandable = EditorGUILayout.Toggle (
                         new GUIContent ("Is Expandible"),
-                        prefab.IsExpandible
+                        prefab.IsExpandable
                     );
                     EditorGUI.indentLevel--;
 
@@ -319,9 +319,9 @@ namespace BricksBucket.Collections
                         new GUIContent ("Use Local Position"),
                         prefab.UseLocalPosition
                     );
-                    prefab.IsExpandible = EditorGUILayout.Toggle (
+                    prefab.IsExpandable = EditorGUILayout.Toggle (
                         new GUIContent ("Is Expandible"),
-                        prefab.IsExpandible
+                        prefab.IsExpandable
                     );
                     EditorGUI.indentLevel--;
 
