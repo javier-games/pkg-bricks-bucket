@@ -3,7 +3,7 @@
 // ReSharper disable NotAccessedField.Global
 // ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo
-namespace BricksBucket.Zeplin.v1
+namespace BricksBucket.Web.Zeplin
 {
 	#region Error Models
 
