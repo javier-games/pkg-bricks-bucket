@@ -274,10 +274,10 @@ namespace BricksBucket.Editor
             string directory = string.Empty;
             for (int i = 0; i < pathSections.Length - 1; i++)
             {
-                directory = StringUtils.Concat (directory, pathSections[i]);
+                directory = string.Concat (directory, pathSections[i]);
                 if (!Directory.Exists (directory))
                     Directory.CreateDirectory (directory);
-                directory = StringUtils.Concat (directory, "/");
+                directory = string.Concat (directory, "/");
             }
 
             //  Creation of scriptable asset.

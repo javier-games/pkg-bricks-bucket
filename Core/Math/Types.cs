@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using BricksBucket.Core;
 
 namespace BricksBucket
 {
@@ -46,7 +47,7 @@ namespace BricksBucket
         public RangeFloatSerialized (float min, float max)
         {
             if (max < min)
-                MathUtils.Swap (ref min, ref max);
+                Utils.Swap (ref min, ref max);
 
             Min = min;
             Max = max;
@@ -142,7 +143,7 @@ namespace BricksBucket
         public RangeIntSerialized (int min, int max)
         {
             if (max < min)
-                MathUtils.Swap (ref min, ref max);
+                Utils.Swap (ref min, ref max);
 
             Min = min;
             Max = max;

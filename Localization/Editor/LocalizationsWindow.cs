@@ -294,10 +294,8 @@ namespace BricksBucket.Localization.Editor
 			}
 			else
 			{
-				var statusTooltip = StringUtils.ConcatFormat (
-					"{0} localizations left to be completed.",
-					book.UncompletedCount
-				);
+				var statusTooltip =
+					$"{book.UncompletedCount} localizations left to be completed.";
 				statusIcon.image = EditorIcons.UnityWarningIcon;
 				statusIcon.tooltip = statusTooltip;
 				statusValue.text = "Uncompleted";

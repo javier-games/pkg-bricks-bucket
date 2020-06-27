@@ -166,7 +166,7 @@ namespace BricksBucket.Localization.Editor
 			}
 			else
 			{
-				var statusTooltip = StringUtils.ConcatFormat (
+				var statusTooltip = string.Format (
 					StatusUncompletedTooltip, book.UncompletedCount
 				);
 				_statusIcon.image = EditorIcons.UnityWarningIcon;

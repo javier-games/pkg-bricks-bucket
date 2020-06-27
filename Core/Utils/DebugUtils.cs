@@ -133,8 +133,8 @@ namespace BricksBucket
                 return;
 
             string message = string.IsNullOrWhiteSpace (format) ?
-                StringUtils.Concat (DebuggableString (data)) :
-                StringUtils.ConcatFormat (format, DebuggableString ());
+                string.Concat (DebuggableString (data)) :
+                string.Format (format, DebuggableString ());
 
             Debug.LogFormat (type, Option, context, message);
         }

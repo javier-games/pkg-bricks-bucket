@@ -1,88 +1,32 @@
-﻿using UnityEngine;
-
-namespace BricksBucket
+namespace BricksBucket.Core
 {
+    using UnityEngine;
+
+    /// <!-- TextureExtensions -->
+    ///
     /// <summary>
-    ///
-    /// Unity Utils.
-    ///
-    /// <para>
-    /// Useful general unity tools.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// Collection of extension methods for the
+    /// <see href="https://docs.unity3d.com/ScriptReference/Texture.html">
+    /// UnityEngine.Texture</see> related classes.
     /// </summary>
-    public static class UnityUtils
+    ///
+    /// <seealso href="https://docs.unity3d.com/ScriptReference/Texture.html">
+    /// UnityEngine.Texture</seealso>
+    /// <seealso href="https://docs.unity3d.com/ScriptReference/Texture2D.html">
+    /// UnityEngine.Texture2D</seealso>
+    /// <seealso href="https://docs.unity3d.com/ScriptReference/Sprite.html">
+    /// UnityEngine.Sprite</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    public static class TextureExtensions
     {
-
-
-        #region Color
-
-        /// <summary> Add Brightness to color. </summary>
-        /// <param name="color">Color to manage brightness.</param>
-        /// <param name="brightness">Brightness to add.</param>
-        /// <returns> Brightness color. </returns>
-        public static Color Brightness (this Color color, float brightness)
-        {
-            return new Color (
-                color.r + brightness,
-                color.g + brightness,
-                color.b + brightness,
-                color.a
-            );
-        }
-
-        /// <summary> Sets the alpha of a color. </summary>
-        /// <param name="color">Color to manage brightness.</param>
-        /// <param name="alpha">New alpha to add.</param>
-        /// <returns> Brightness color. </returns>
-        public static Color SetAlpha(this Color color, float alpha) =>
-            new Color(color.r, color.g, color.b, alpha);
-
-        /// <summary>Convert string HEX color to Color.</summary>
-        /// <param name="stringToConvert">String to Convert.</param>
-        /// <returns>Color from string.</returns>
-        public static Color ToColor (this string stringToConvert)
-        {
-            ColorUtility.TryParseHtmlString (stringToConvert, out var color);
-            return color;
-        }
-
-        /// <summary>Convert Color to HEX string color.</summary>
-        /// <param name="color">Color to convert to HEX.</param>
-        /// <returns>HEX code of a color.</returns>
-        public static string HEX (this Color color)
-        {
-            var colorString = color.a >= 1f
-                ? ColorUtility.ToHtmlStringRGBA (color)
-                : ColorUtility.ToHtmlStringRGB (color);
-
-            return StringUtils.Concat ("#", colorString);
-        }
-
-        #endregion
-
-
-
-        #region Texture
-
-        /// <summary> Creates a new sprite form texture. </summary>
-        /// <param name="texture"></param>
-        /// <returns> New Sprite. </returns>
-        public static Sprite ToSprite (this Texture2D texture)
-        {
-            var rect = new Rect (0, 0, texture.width, texture.height);
-            var pivot = Vector2.one * 0.5f;
-            return Sprite.Create (texture, rect, pivot);
-        }
-
         /// <summary>Generates a new sample texture resized.</summary>
         /// <param name="source">Texture base.</param>
         /// <param name="targetWidth">Target width.</param>
         /// <param name="targetHeight">Target Height.</param>
         /// <returns>New texture resized.</returns>
         public static Texture2D
-        GetSample (this Texture2D source, int targetWidth, int targetHeight)
+            GetSample (this Texture2D source, int targetWidth, int targetHeight)
         {
             var width = source.width;
             var height = source.height;
@@ -117,11 +61,11 @@ namespace BricksBucket
                         y: Mathf.Clamp (offset.y + y / factor, 0, height - 1)
                     );
 
-                    Vector2Int floorToInt = new Vector2Int (
+                    var floorToInt = new Vector2Int (
                         x: Mathf.FloorToInt (p.x),
                         y: Mathf.FloorToInt (p.y)
                     );
-                    Vector2Int ceilToInt = new Vector2Int (
+                    var ceilToInt = new Vector2Int (
                         x: Mathf.CeilToInt (p.x),
                         y: Mathf.CeilToInt (p.y)
                     );
@@ -151,7 +95,7 @@ namespace BricksBucket
         /// <param name="offset">Offset to apply.</param>
         /// <returns>Crop the current text.</returns>
         public static Texture2D
-        Crop (this Texture2D source, RectOffset offset)
+            Crop (this Texture2D source, RectOffset offset)
         {
             var x = offset.left + offset.right;
             var y = offset.top + offset.bottom;
@@ -176,7 +120,15 @@ namespace BricksBucket
 
             return result;
         }
-
-        #endregion
+        
+        /// <summary> Creates a new sprite form texture. </summary>
+        /// <param name="texture"></param>
+        /// <returns> New Sprite. </returns>
+        public static Sprite ToSprite (this Texture2D texture)
+        {
+            var rect = new Rect (0, 0, texture.width, texture.height);
+            var pivot = Vector2.one * 0.5f;
+            return Sprite.Create (texture, rect, pivot);
+        }
     }
 }

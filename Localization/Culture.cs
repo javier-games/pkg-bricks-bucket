@@ -273,17 +273,17 @@ namespace BricksBucket.Localization
                     _name = info.DisplayName;
 
                     if (string.IsNullOrWhiteSpace (_region)) return;
-                    _code = StringUtils.Concat (_code, "_", _region.ToUpper ());
+                    _code = string.Concat (_code, "_", _region.ToUpper ());
 
                     if (_name.Contains (")"))
                     {
                         _name = _name.Replace (")", string.Empty);
-                        _name = StringUtils.Concat (
+                        _name = string.Concat (
                             _name, " - ", _region, ")"
                         );
                     }
                     else
-                        _name = StringUtils.Concat (
+                        _name = string.Concat (
                             _name, " (", _region, ")"
                         );
                 }
@@ -317,9 +317,9 @@ namespace BricksBucket.Localization
 
                 if (_country != Iso3166.NONE)
                 {
-                    _code = StringUtils.Concat (_code, "_",
+                    _code = string.Concat (_code, "_",
                         _country.ToString ());
-                    _name = StringUtils.Concat (
+                    _name = string.Concat (
                         _name, " (",
                         LocalizationUtils.Names.ISO3166[(int) _country]
                     );
@@ -327,16 +327,16 @@ namespace BricksBucket.Localization
 
                 if (!string.IsNullOrWhiteSpace (_region))
                 {
-                    _code = StringUtils.Concat (_code, "_", _region.ToUpper ());
+                    _code = string.Concat (_code, "_", _region.ToUpper ());
 
                     _name = _country == Iso3166.NONE
-                        ? StringUtils.Concat (_name, " (", _region, ")")
-                        : StringUtils.Concat (_name, " - ", _region, ")");
+                        ? string.Concat (_name, " (", _region, ")")
+                        : string.Concat (_name, " - ", _region, ")");
                 }
 
                 else if (_country != Iso3166.NONE)
                 {
-                    _name = StringUtils.Concat (_name, ")");
+                    _name = string.Concat (_name, ")");
                 }
                 
                 return;
@@ -422,18 +422,18 @@ namespace BricksBucket.Localization
                     Name = info.DisplayName;
 
                     if (string.IsNullOrWhiteSpace (Region)) return;
-                    Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
+                    Code = string.Concat (Code, "_", Region.ToUpper ());
 
                     if (Name.Contains (")"))
                     {
                         Name = Name.Replace (")", string.Empty);
-                        Name = StringUtils.Concat (
+                        Name = string.Concat (
                             Name, " - ", Region, ")"
                         );
                     }
                     else
                     {
-                        Name = StringUtils.Concat (
+                        Name = string.Concat (
                             Name, " (", Region, ")"
                         );
                     }
@@ -448,8 +448,8 @@ namespace BricksBucket.Localization
 
                 if (Country != Iso3166.NONE)
                 {
-                    Code = StringUtils.Concat (Code, "_", Country.ToString ());
-                    Name = StringUtils.Concat (
+                    Code = string.Concat (Code, "_", Country.ToString ());
+                    Name = string.Concat (
                         Name, " (",
                         LocalizationUtils.Names.ISO3166[(int) Country]
                     );
@@ -457,16 +457,16 @@ namespace BricksBucket.Localization
 
                 if (!string.IsNullOrWhiteSpace (Region))
                 {
-                    Code = StringUtils.Concat (Code, "_", Region.ToUpper ());
+                    Code = string.Concat (Code, "_", Region.ToUpper ());
 
                     Name = Country == Iso3166.NONE
-                        ? StringUtils.Concat (Name, " (", Region, ")")
-                        : StringUtils.Concat (Name, " - ", Region, ")");
+                        ? string.Concat (Name, " (", Region, ")")
+                        : string.Concat (Name, " - ", Region, ")");
                 }
 
                 else if (Country != Iso3166.NONE)
                 {
-                    Name = StringUtils.Concat (Name, ")");
+                    Name = string.Concat (Name, ")");
                 }
             }
         }

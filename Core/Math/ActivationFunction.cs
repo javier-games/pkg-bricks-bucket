@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BricksBucket.Math
+namespace BricksBucket.Core.Math
 {
     public static class ActivationFunction
     {
@@ -27,12 +27,14 @@ namespace BricksBucket.Math
         /// <returns>  Sigmoid of x.  </returns>
         public static float Sigmoid (float x) =>
             (1 + Mathf.Exp (-x)).Invert ();
-
+        
+        // ReSharper disable CommentTypo
         /// <summary>
         /// Softsign function.
         /// </summary>
         /// <param name="x"> X float value to evaluate. </param>
         /// <returns> Softsign of x. </returns>
+        // ReSharper restore CommentTypo
         public static float SoftSign(float x) =>
             x * (1 + x.Absolute()).Invert();
 
@@ -42,31 +44,36 @@ namespace BricksBucket.Math
         /// <param name="x"> X float value to evaluate. </param>
         /// <param name="alpha"></param>
         /// <returns> Inverse Square Root Unit of x. </returns>
-        public static float ISRU(float x, float alpha) =>
+        // ReSharper disable once IdentifierTypo
+        public static float Isru(float x, float alpha) =>
             x * Mathf.Sqrt(1 + alpha + Mathf.Pow(x, 2)).Invert();
 
         /// <summary>
-        /// nverse Square Root Linear Unit function.
+        /// Inverse Square Root Linear Unit function.
         /// </summary>
         /// <param name="x"> X float value to evaluate. </param>
         /// <param name="alpha"></param>
         /// <returns> Inverse Square Root Linear Unit of x. </returns>
-        public static float ISRLU(float x, float alpha) =>
-            x < 0 ? ISRU(x, alpha) : x;
+        // ReSharper disable once IdentifierTypo
+        public static float Isrlu(float x, float alpha) =>
+            x < 0 ? Isru(x, alpha) : x;
 
         /// <summary>
         /// Rectified Linear Unit function.
         /// </summary>
         /// <param name="x"> X float value to evaluate. </param>
         /// <returns> Rectified Linear Unit  of x. </returns>
-        public static float ReLU(float x) =>
+        public static float ReLu(float x) =>
             x > 0 ? x : 0;
 
+        // ReSharper disable CommentTypo
         /// <summary>
         /// Sinc function.
         /// </summary>
         /// <param name="x"> X float value to evaluate. </param>
         /// <returns> Sinc of x. </returns>
+        // ReSharper restore CommentTypo
+        // ReSharper disable once IdentifierTypo
         public static float Sinc(float x) =>
             x.Approximately(0) ? 1 : Mathf.Sin(x) * x.Invert();
 
@@ -84,7 +91,7 @@ namespace BricksBucket.Math
         /// <param name="x"> X float value to evaluate. </param>
         /// <returns> Hyperbolic Tangent of x </returns>
         public static float Tanh (float x) =>
-            Trigonometry.Tanh (x);
+            (float)System.Math.Tanh(x);
 
         /// <summary>
         /// Angle whose tangent function.
@@ -92,15 +99,18 @@ namespace BricksBucket.Math
         /// <param name="x"> X float value </param>
         /// <returns> The angle whose tan is x. </returns>
         public static float Atan (float x) =>
-            Trigonometry.Atan (x);
+            Mathf.Atan (x);
 
         /// <summary>
         /// Angle whose hyperbolic sin function.
         /// </summary>
         /// <param name="x"> X float value to evaluate. </param>
         /// <returns> The angle whose Sinh is x. </returns>
-        public static float Asinh (float x) =>
-            Trigonometry.Asinh (x);
+        public static float Asinh (float x)
+        {
+            float sqrt = Mathf.Sqrt (Mathf.Pow (x, 2) + 1);
+            return Mathf.Log (x + sqrt, Mathf.Exp (1));
+        }
 
     }
 }

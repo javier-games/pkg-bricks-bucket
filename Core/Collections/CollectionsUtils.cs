@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Exception = System.Exception;
 using Array = System.Array;
 using Random = UnityEngine.Random;
+using BricksBucket.Core;
 
 namespace BricksBucket.Collections
 {
@@ -94,7 +95,7 @@ namespace BricksBucket.Collections
 
             if (!array.HasIndex (b)) throw IndexOutOfRangeException (array, b);
 
-            MathUtils.Swap (ref array[a], ref array[b]);
+            Utils.Swap (ref array[a], ref array[b]);
         }
 
         /// <summary> Scramble the elements in this array. </summary>
@@ -194,7 +195,7 @@ namespace BricksBucket.Collections
         {
             if (array.IsNullOrEmpty ()) throw NullOrEmptyException (array);
 
-            index = MathUtils.Loop (index, 0, array.Length - 1, increment);
+            index = index.Loop (0, array.Length - 1, increment);
             return array[index];
         }
 
@@ -205,7 +206,7 @@ namespace BricksBucket.Collections
         /// <returns> Sequence of numbers. </returns>
         public static int[] GetSequence (int from, int to, bool random = false)
         {
-            if (to < from) MathUtils.Swap (ref from, ref to);
+            if (to < from) Utils.Swap (ref from, ref to);
 
             int[] sequence = new int[to - from];
 
@@ -410,7 +411,7 @@ namespace BricksBucket.Collections
         {
             if (list.IsNullOrEmpty ()) throw NullOrEmptyException (list);
 
-            index = MathUtils.Loop (index, 0, list.Count - 1, increment);
+            index = index.Loop (0, list.Count - 1, increment);
             return list[index];
         }
 
@@ -587,9 +588,9 @@ namespace BricksBucket.Collections
         )
         {
             return new Exception (
-                StringUtils.ConcatFormat (
+                string.Format (
                     format: "The collection {0} does not contains index {1}.",
-                    array: new[] {collection, index}
+                     new[] {collection, index}
                 )
             );
         }
@@ -602,9 +603,9 @@ namespace BricksBucket.Collections
             ElementNotFoundException<T> (object collection, T element)
         {
             return new Exception (
-                StringUtils.ConcatFormat (
+                string.Format (
                     format: "The collection {0} does not contains element {1}.",
-                    array: new[] {collection, element}
+                    new[] {collection, element}
                 )
             );
         }
@@ -615,9 +616,9 @@ namespace BricksBucket.Collections
         public static Exception NullOrEmptyException (object collection)
         {
             return new Exception (
-                StringUtils.ConcatFormat (
+                string.Format (
                     format: "The collection {0} is null or empty.",
-                    array: collection
+                    collection
                 )
             );
         }

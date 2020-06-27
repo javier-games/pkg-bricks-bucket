@@ -105,7 +105,7 @@ namespace BricksBucket.Collections
                 : throw CollectionUtils.NullPrefabException ();
 
             Root = new GameObject (
-                name: StringUtils.Concat (prefab.name, " Pool")
+                name: string.Concat (prefab.name, " Pool")
             ).transform;
 
             Root.SetParent (PoolManager.Root);
@@ -226,7 +226,7 @@ namespace BricksBucket.Collections
                     layer: LogLayer.Logistics,
                     type: LogType.Error,
                     context: instance,
-                    format: StringUtils.Concat (
+                    format: string.Concat (
                         "The instance {0} does not belongs to the pool of ",
                         "{1} prefab. You should try call manage the instance ",
                         "with the PoolManager or the instance it self."
@@ -307,7 +307,7 @@ namespace BricksBucket.Collections
                     layer: LogLayer.Logistics,
                     type: LogType.Error,
                     context: null,
-                    format: StringUtils.Concat (
+                    format: string.Concat (
                         "Over Request Alert: {0} extra instances of ",
                         "\"{1}\" prefab has been requested during the game."
                     ),

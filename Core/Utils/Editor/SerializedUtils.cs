@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.Text.RegularExpressions;
 
 using Object = UnityEngine.Object;
 
@@ -385,7 +386,7 @@ namespace BricksBucket.Editor
 
                 //  Else Exception.
                 throw new System.Exception (
-                    StringUtils.ConcatFormat ( "Invalid path: {0}", path)
+                    string.Format ( "Invalid path: {0}", path)
                 );
             }
         }
@@ -680,7 +681,7 @@ namespace BricksBucket.Editor
             var targetTypeName = targetType.Name;
             var valueTypeName = property.propertyType.ToString ();
             var propertyPath = property.propertyPath;
-            return new Exception ( StringUtils.ConcatFormat (
+            return new Exception ( string.Format (
                 "Unsupported value type {0} for {1}.{2}",
                 valueTypeName, targetTypeName, propertyPath
             ));
@@ -698,7 +699,7 @@ namespace BricksBucket.Editor
             var targetType = targetObject.GetType ();
             var targetTypeName = targetType.Name;
             var propertyPath = property.propertyPath;
-            return new Exception ( StringUtils.ConcatFormat (
+            return new Exception ( string.Format (
                 "Unsupported value {0} for {1}.{2}",
                 value, targetTypeName, propertyPath
             ));
@@ -723,7 +724,7 @@ namespace BricksBucket.Editor
                 value = "null";
             else
                 value = string.Format ("'{0}'", value);
-            return new Exception ( StringUtils.ConcatFormat (
+            return new Exception ( string.Format (
                 "Unsupported value {0} for {1}.{2}, expected {3}",
                 value, targetTypeName, propertyPath, expected
             ));
@@ -736,10 +737,38 @@ namespace BricksBucket.Editor
         public static Exception
         FieldNotFoundException (Type type, string field)
         {
-            return new KeyNotFoundException ( StringUtils.ConcatFormat (
+            return new KeyNotFoundException ( string.Format (
                 "Property {0}.{1} not found", type, field)
             );
         }
+
+        #endregion
+
+        #region Regex
+        
+        /// <summary>
+        /// Whether this is an element identifier.
+        /// </summary>
+        /// <param name="text">String to validate.</param>
+        /// <returns>Whether this is an element identifier or not.</returns>
+        public static bool IsElementIdentifier (this string text) =>
+            Regex.IsMatch (text, @"^[_a-zA-Z][_a-zA-Z0-9]*(\[[0-9]*\])+$");
+
+        /// <summary>
+        /// Whether this is an element index.
+        /// </summary>
+        /// <param name="text">String to validate.</param>
+        /// <returns>Whether this is an element index or not.</returns>
+        public static bool IsElementIndex (this string text) =>
+            Regex.IsMatch (text, @"^[_a-zA-Z][_a-zA-Z0-9]*(\[[0-9]*\])+$");
+
+        /// <summary>
+        /// Whether this is a member identifier.
+        /// </summary>
+        /// <param name="text">String to validate.</param>
+        /// <returns>Whether this is a member identifier or not.</returns>
+        public static bool IsMemberIdentifier (this string text) =>
+            Regex.IsMatch (text, @"^[_a-zA-Z][_a-zA-Z0-9]*$");
 
         #endregion
     }

@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using Sirenix.OdinInspector;
+using BricksBucket.Core;
 
 namespace BricksBucket.Editor
 {

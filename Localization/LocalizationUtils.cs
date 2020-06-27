@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEditor;
 using UnityEngine;
+using BricksBucket.Core;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable StringLiteralTypo
@@ -44,7 +45,7 @@ namespace BricksBucket.Localization
             var textCode = language.ToString ();
 
             if (country != Localization.Iso3166.NONE)
-                textCode = StringUtils.Concat (textCode, "_", country);
+                textCode = string.Concat (textCode, "_", country);
 
             return System.Enum.TryParse (textCode, out Lcid lcid)
                 ? lcid
@@ -109,8 +110,7 @@ namespace BricksBucket.Localization
             if (string.IsNullOrWhiteSpace (unformattedCode))
                 return string.Empty;
 
-            return unformattedCode.
-                RemoveDiacritics ().
+            return unformattedCode.RemoveDiacritics ().
                 ToUpper ().
                 Replace (' ', '_').
                 Replace ('-', '_').

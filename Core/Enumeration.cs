@@ -1,4 +1,4 @@
-﻿namespace BricksBucket 
+﻿namespace BricksBucket.Core 
 {
     /// <summary>
     ///

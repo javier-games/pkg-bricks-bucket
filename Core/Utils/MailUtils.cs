@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.ComponentModel;
+using BricksBucket.Core;
 
 namespace BricksBucket
 {
@@ -37,14 +38,14 @@ namespace BricksBucket
             //  Validation mail parameters Process.
 
             //  Sender Validation.
-            if (string.IsNullOrWhiteSpace (sender) || !IsValidEmail (sender))
+            if (string.IsNullOrWhiteSpace (sender) || !sender.HasEmailFormat ())
             {
                 ExceptionCallback ("Invalid e-mail sender.", callback);
                 return;
             }
 
             //  Reciver Validation.
-            if (string.IsNullOrWhiteSpace (receiver)|| !IsValidEmail (receiver))
+            if (string.IsNullOrWhiteSpace (receiver)|| !receiver.HasEmailFormat ())
             {
                 ExceptionCallback ("Invalid e-mail receiver.", callback);
                 return;
@@ -141,24 +142,6 @@ namespace BricksBucket
                     new AsyncCompletedEventArgs (e, true, null)
                 );
             throw e;
-        }
-
-        /// <summary>
-        /// Validates an string as a mail.
-        /// </summary>
-        /// <param name="email">String to validate.</param>
-        /// <returns>Wether the string is valid.</returns>
-        public static bool IsValidEmail (string email)
-        {
-            try
-            {
-                var mail = new MailAddress (email);
-                return mail.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

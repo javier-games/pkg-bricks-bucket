@@ -69,7 +69,7 @@ namespace BricksBucket.Generics
         /// <summary>
         /// Complete path of the file.
         /// </summary>
-        public string Path => StringUtils.Concat (
+        public string Path => string.Concat (
             FolderPath, "/", FileName, FileExtension
         );
 
