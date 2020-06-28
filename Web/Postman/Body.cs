@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
-using BricksBucket.Collections;
+using BricksBucket.Core.Collections;
 
 namespace Postman.v2
 {

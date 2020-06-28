@@ -1,11 +1,11 @@
 ﻿#if UNITY_EDITOR
 
-using UnityEditor;
-using UnityEngine;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
+using UnityEditor;
+using UnityEngine;
 
-namespace BricksBucket.Collections
+namespace BricksBucket.Core.Pooling.Editor
 {
     /// <summary>
     ///

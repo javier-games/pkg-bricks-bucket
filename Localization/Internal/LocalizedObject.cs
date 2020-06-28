@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Video;
-using BricksBucket.Collections;
+using BricksBucket.Core.Collections;
 
 #if UNITY_EDITOR
 using Sirenix.Utilities.Editor;

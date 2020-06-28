@@ -1,4 +1,4 @@
-using BricksBucket.Collections;
+using BricksBucket.Core.Collections;
 
 namespace BricksBucket.Localization.Internal
 {

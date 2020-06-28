@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace BricksBucket.Collections
+namespace BricksBucket.Core.Collections
 {
     /// <summary>
     ///

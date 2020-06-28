@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using BricksBucket.Core;
+using BricksBucket.Core.Generics;
 using UnityEngine;
 using BricksBucket.Generics;
 using Sirenix.OdinInspector;
@@ -6,10 +8,12 @@ using Sirenix.OdinInspector;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine.SceneManagement;
+
+using BricksBucket.Core.Collections;
 #endif
 
 
-namespace BricksBucket.Collections
+namespace BricksBucket.Core
 {
     /// <summary>
     ///
@@ -85,7 +89,7 @@ namespace BricksBucket.Collections
         {
             //  Return if the passed instance is null.
             if (instance == null)
-                throw CollectionUtils.NullInstanceException ();
+                throw Utils.NullInstanceException ();
 
             //  If it is a prefab with already a pool return its pool.
             if (Instance.Dictionary.ContainsKey (instance))
@@ -185,7 +189,7 @@ namespace BricksBucket.Collections
         Spawn (PoolInstance prefab, Component spawner = null)
         {
             if (prefab == null)
-                throw CollectionUtils.NullPrefabException ();
+                throw Utils.NullPrefabException ();
 
             return GetPool (prefab).Spawn (spawner);
         }
@@ -204,13 +208,13 @@ namespace BricksBucket.Collections
             Component spawner = null,
             System.Action<PoolInstance> callback = null
         ) => Instance.StartCoroutine (
-            TimeUtils.DelayedAction (
-                delay,
+            Utils.DelayAction (
                 () => {
                     var instance = Spawn (prefab, spawner);
                     if (callback != null)
                         callback.Invoke (instance);
                 },
+                delay,
                 prefab.UseScaledTime
             )
         );
@@ -233,7 +237,7 @@ namespace BricksBucket.Collections
             Component spawner = null
         ) {
             if (prefab == null)
-                throw CollectionUtils.NullPrefabException ();
+                throw Utils.NullPrefabException ();
 
             return GetPool (prefab).SpawnAt (
                 position: position,
@@ -263,8 +267,7 @@ namespace BricksBucket.Collections
             Component spawner = null,
             System.Action<PoolInstance> callback = null
         ) => Instance.StartCoroutine(
-            TimeUtils.DelayedAction(
-                delay,
+            Utils.DelayAction(
                 () =>
                 {
                     var instance = SpawnAt(
@@ -277,6 +280,7 @@ namespace BricksBucket.Collections
                     if (callback != null)
                         callback.Invoke(instance);
                 },
+                delay,
                 prefab.UseScaledTime
             )
         );
@@ -288,7 +292,7 @@ namespace BricksBucket.Collections
         public static void Dispose (PoolInstance instance)
         {
             if (instance == null)
-                throw CollectionUtils.NullInstanceException ();
+                throw Utils.NullInstanceException ();
 
             var pool = GetPool (instance);
             pool.Dispose (instance);
@@ -303,7 +307,7 @@ namespace BricksBucket.Collections
         {
 
             if (gameObject == null)
-                throw CollectionUtils.NullInstanceException ();
+                throw Utils.NullInstanceException ();
 
             PoolInstance instance = gameObject.GetComponent<PoolInstance> ();
             if (instance)
@@ -312,6 +316,8 @@ namespace BricksBucket.Collections
                 return true;
             }
 
+            // TODO: Implement log method in PoolManager.Dispose.
+            /*
             DebugUtils.InternalExtendedLog (
                 layer: LogLayer.Logistics,
                 type: LogType.Error,
@@ -319,6 +325,7 @@ namespace BricksBucket.Collections
                 format: "The game object {0} has not a pooled component.",
                 data: gameObject.name
             );
+            */
 
             return false;
         }
@@ -332,9 +339,9 @@ namespace BricksBucket.Collections
         DisposeDelayed (PoolInstance instance, float delay)
         {
             return Instance.StartCoroutine (
-                TimeUtils.DelayedAction (
-                    delay,
+                Utils.DelayAction (
                     () => { Dispose (instance); },
+                    delay,
                     instance.UseScaledTime
                 )
             );

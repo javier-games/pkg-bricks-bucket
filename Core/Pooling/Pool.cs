@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using BricksBucket.Core.Collections;
 
 using Suppress = System.Diagnostics.CodeAnalysis.SuppressMessageAttribute;
 
@@ -7,7 +8,7 @@ using Suppress = System.Diagnostics.CodeAnalysis.SuppressMessageAttribute;
 using PrefabUtility = UnityEditor.PrefabUtility;
 #endif
 
-namespace BricksBucket.Collections
+namespace BricksBucket.Core
 {
     /// <summary>
     ///
@@ -102,7 +103,7 @@ namespace BricksBucket.Collections
         {
             Prefab = prefab
                 ? prefab
-                : throw CollectionUtils.NullPrefabException ();
+                : throw Utils.NullPrefabException ();
 
             Root = new GameObject (
                 name: string.Concat (prefab.name, " Pool")
@@ -217,11 +218,13 @@ namespace BricksBucket.Collections
 
             //  Avoid adding missing instances.
             if (instance == null)
-                throw CollectionUtils.NullInstanceException ();
+                throw Utils.NullInstanceException ();
 
             //  Avoid adding instances from other pools.
             if (instance.Pool != this)
             {
+                // TODO: Implement Log Method in Pool.Dispose.
+                /*
                 DebugUtils.InternalExtendedLog (
                     layer: LogLayer.Logistics,
                     type: LogType.Error,
@@ -233,6 +236,7 @@ namespace BricksBucket.Collections
                     ),
                     data: new object[] {instance.name, Prefab.name}
                 );
+                */
                 return;
             }
 
@@ -303,6 +307,9 @@ namespace BricksBucket.Collections
         public void LogOverRequest ()
         {
             if (OverRequestedInstancesAmount > 0)
+            {
+                // TODO: Implement Log method in Pool.LgOverRequest.
+                /*
                 DebugUtils.InternalExtendedLog (
                     layer: LogLayer.Logistics,
                     type: LogType.Error,
@@ -313,10 +320,11 @@ namespace BricksBucket.Collections
                     ),
                     data: new object[]
                     {
-                        OverRequestedInstancesAmount,
-                        Prefab.name
+                        OverRequestedInstancesAmount, Prefab.name
                     }
                 );
+                */
+            }
         }
 
         #endregion

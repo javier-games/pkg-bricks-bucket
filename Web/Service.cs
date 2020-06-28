@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using BricksBucket.Collections;
+using BricksBucket.Core.Collections;
 
 #if UNITY_EDITOR
 using UnityEditor;

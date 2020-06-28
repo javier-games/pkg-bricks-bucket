@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-namespace BricksBucket.Generics
+namespace BricksBucket.Core.Generics
 {
 
     /// <summary>
     /// MonoSingleton.
     /// 
     /// <para>
-    /// Generic singleton that inherits from monobehaviour.
+    /// Generic singleton that inherits from MonoBehaviour.
     /// </para>
     /// 
     /// <para> By Javier García | @jvrgms | 2018 </para>
@@ -42,6 +42,8 @@ namespace BricksBucket.Generics
                 //  Return null if the instances has been already destroyed.
                 if (_didDestroyed)
                 {
+                    // TODO: Add Log on MonoSingleton.Instance property.
+                    /*
                     DebugUtils.InternalExtendedLog (
                         layer: LogLayer.Logistics,
                         type: LogType.Warning,
@@ -49,11 +51,12 @@ namespace BricksBucket.Generics
                         format: "{0} singleton has been already destroyed.",
                         data: typeof(T)
                     );
+                    */
                     return null;
                 }
 
                 //  Return InstanceForced if this has not passed for Awake.
-                if (!_didAwoken && _instance == null)
+                if (!_didAwoken && !InstanceExist)
                     return InstanceForced;
                 
                 return _instance;
@@ -66,9 +69,11 @@ namespace BricksBucket.Generics
             get
             {
                 //  Return this instance.
-                if (_instance != null)
+                if (InstanceExist)
                     return _instance;
-
+                
+                // TODO: Add Log on MonoSingleton.InstanceForced property.
+                /*
                 DebugUtils.InternalExtendedLog (
                     layer: LogLayer.Logistics,
                     type: LogType.Warning,
@@ -76,9 +81,10 @@ namespace BricksBucket.Generics
                     format: "{0} singleton has been forced.",
                     data: typeof (T)
                 );
+                */
 
                 /* If a singleton has to be forced means that it is called
-                 * from another awake in other monobehaviour class before
+                 * from another awake in other MonoBehaviour class before
                  * this singleton is initialized or the execution order is
                  * wrong.
                  * 
@@ -89,10 +95,13 @@ namespace BricksBucket.Generics
                  * https://docs.unity3d.com/Manual/ExecutionOrder.html
                  */
 
-                //  Find class in herarchy.
+                //  Find class in hierarchy.
                 _instance = FindObjectOfType (typeof (T)) as T;
 
                 if (FindObjectsOfType (typeof (T)).Length > 1)
+                {
+                    // TODO: Add Log on MonoSingleton.InstanceForced property.
+                    /*
                     DebugUtils.InternalExtendedLog (
                         layer: LogLayer.Logistics,
                         type: LogType.Warning,
@@ -100,12 +109,14 @@ namespace BricksBucket.Generics
                         format: "Various instances of {0} singleton found.",
                         data: typeof (T)
                     );
+                    */
+                }
 
-                if (_instance != null)
+                if (InstanceExist)
                     return _instance;
 
                 //  Find prefab in resources folder.
-                T prefab = Resources.Load<T> (typeof (T).Name);
+                var prefab = Resources.Load<T> (typeof (T).Name);
                 if (prefab != null)
                 {
                     _instance = (Instantiate (
@@ -125,10 +136,7 @@ namespace BricksBucket.Generics
         }
 
         /// <summary> Indicates whether this has an instance or not. </summary>
-        public static bool InstanceExist
-        {
-            get { return _instance != null; }
-        }
+        public static bool InstanceExist => _instance != null;
 
         #endregion
 

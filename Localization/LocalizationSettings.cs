@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using BricksBucket.Localization.Internal;
 
 #if UNITY_EDITOR
-using BricksBucket.Editor;
+using BricksBucket.Core.Editor;
 using UnityEditor;
 #endif
 

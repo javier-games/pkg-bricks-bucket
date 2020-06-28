@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using BricksBucket.Collections;
+using BricksBucket.Core.Collections;
 
 
 namespace BricksBucket.Localization.Internal

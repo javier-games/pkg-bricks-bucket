@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BricksBucket.Collections
+namespace BricksBucket.Core.Collections
 {
     /// <summary>
     ///
