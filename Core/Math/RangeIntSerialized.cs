@@ -1,41 +1,37 @@
 ﻿using UnityEngine;
-using BricksBucket.Core;
 
-namespace BricksBucket
+namespace BricksBucket.Core.Math
 {
+    /// <!-- RangeIntSerialized -->
+    /// 
     /// <summary>
-    ///
-    /// Range Int Serialized.
-    ///
-    /// <para>
     /// Serialized Range for integer values.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
     /// </summary>
+    ///
+    /// <seealso cref="RangeFloatSerialized"/>
+    /// <seealso cref="MinMaxRangeAttribute"/>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     [System.Serializable]
     public struct RangeIntSerialized
     {
         #region Class Members
 
         /// <summary> Min value in range. </summary>
-        public int Min;
+        public int m_min;
 
         /// <summary> Max value in range. </summary>
-        public int Max;
+        public int m_max;
 
         #endregion
-
 
 
         #region Accessors
-
-
-        /// <summary> Lenght of the range. </summary>
-        public int Lenght { get { return Max - Min; } }
+        
+        /// <summary> Length of the range. </summary>
+        public int Length => m_max - m_min;
 
         #endregion
-
 
 
         #region Constructor
@@ -47,38 +43,30 @@ namespace BricksBucket
         /// <param name="max"> Max value in range. </param>
         public RangeIntSerialized (int min, int max)
         {
-            if (max < min)
-                Core.Utils.Swap (ref min, ref max);
-
-            Min = min;
-            Max = max;
+            if (max < min) Utils.Swap (ref min, ref max);
+            m_min = min;
+            m_max = max;
         }
 
         #endregion
 
 
-
         #region Class Implementation
 
         /// <summary>
-        /// Evaluates wether a value is in range.
+        /// Evaluates whether a value is in range.
         /// </summary>
         /// <param name="value"> Value to evaluate </param>
-        /// <returns> Wether a value is in range. </returns>
-        public bool InRange (int value)
-        {
-            return value.InRange (Min, Max);
-        }
+        /// <returns> Whether a value is in range. </returns>
+        public bool InRange (int value) => value.InRange (m_min, m_max);
 
         /// <summary>
         /// Returns a random number between [Min, Max].
         /// </summary>
-        /// <param name="maxInclusive"> Wether max must be inclusive</param>
+        /// <param name="maxInclusive"> Whether max must be inclusive</param>
         /// <returns> Random number. </returns>
-        public int GetRandom (bool maxInclusive = true)
-        {
-            return Random.Range (Min, maxInclusive ? Max + 1: Max);
-        }
+        public int GetRandom (bool maxInclusive = true) =>
+            Random.Range (m_min, maxInclusive ? m_max + 1 : m_max);
 
         #endregion
     }

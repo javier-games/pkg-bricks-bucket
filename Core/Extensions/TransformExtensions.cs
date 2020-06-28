@@ -1,7 +1,7 @@
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-    using UnityEngine;
-    
     /// <!-- TransformExtensions -->
     ///
     /// <summary>

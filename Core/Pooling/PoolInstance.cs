@@ -1,14 +1,12 @@
 ﻿using System;
-using BricksBucket.Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
-using Sirenix.OdinInspector;
 
-using Suppress = System.Diagnostics.CodeAnalysis.SuppressMessageAttribute;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable UnusedMember.Local
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Pooling
 {
     /// <summary>
     ///

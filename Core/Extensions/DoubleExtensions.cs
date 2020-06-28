@@ -1,7 +1,8 @@
+using BricksBucket.Core.Math;
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-    using UnityEngine;
-
     /// <!-- DoubleExtensions -->
     ///
     /// <summary>

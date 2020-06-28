@@ -27,7 +27,6 @@ namespace BricksBucket.Core
 	[AttributeUsage (AttributeTargets.Field)]
 	public class ConditionalFieldAttribute : PropertyAttribute
 	{
-
 		#region Class Members
 
 		/// <summary> Name of the property to check. </summary>

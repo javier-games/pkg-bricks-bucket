@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace BricksBucket.Core.Collections
 {
-    /// <summary>
-    ///
-    /// Serializable Dictionary.
-    ///
-    /// <para>
-    /// Dictionary version that can be handled by Unity.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
+    /// <!-- SerializableDictionary -->
     /// 
+    /// <summary>
+    /// Dictionary version that can be handled by Unity.
     /// </summary>
-    [Serializable]
+    /// 
+    /// <typeparam name="TKey">Heiress Key Class Type.</typeparam>
+    /// <typeparam name="TValue">Heiress Value Class Type.</typeparam>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    [System.Serializable]
     public abstract class SerializableDictionary<TKey, TValue> :
         Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
@@ -23,11 +21,11 @@ namespace BricksBucket.Core.Collections
 
         /// <summary> List for keys, used just for serialization. </summary>
         [SerializeField, HideInInspector]
-        private List<TKey> _keyData = new List<TKey> ();
+        private List<TKey> m_keyData = new List<TKey> ();
 
         /// <summary> List for values, used just for serialization. </summary>
         [SerializeField, HideInInspector]
-        private List<TValue> _valueData = new List<TValue> ();
+        private List<TValue> m_valueData = new List<TValue> ();
 
         #endregion
 
@@ -39,8 +37,8 @@ namespace BricksBucket.Core.Collections
         void ISerializationCallbackReceiver.OnAfterDeserialize ()
         {
             Clear ();
-            for (int i = 0; i < _keyData.Count && i < _valueData.Count; i++)
-                this[_keyData[i]] = _valueData[i];
+            for (int i = 0; i < m_keyData.Count && i < m_valueData.Count; i++)
+                this[m_keyData[i]] = m_valueData[i];
         }
 
         /// <summary>
@@ -48,13 +46,13 @@ namespace BricksBucket.Core.Collections
         /// </summary>
         void ISerializationCallbackReceiver.OnBeforeSerialize ()
         {
-            _keyData.Clear ();
-            _valueData.Clear ();
+            m_keyData.Clear ();
+            m_valueData.Clear ();
 
             foreach (var item in this)
             {
-                _keyData.Add (item.Key);
-                _valueData.Add (item.Value);
+                m_keyData.Add (item.Key);
+                m_valueData.Add (item.Value);
             }
         }
 

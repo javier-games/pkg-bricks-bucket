@@ -1,8 +1,9 @@
+using System;
+
 namespace BricksBucket.Core
 {
-    using System;
-    
-	public static partial class Utils
+    // Internal Utils
+    public static partial class Utils
 	{
 		
 		 /// <summary> Value out of range. </summary>

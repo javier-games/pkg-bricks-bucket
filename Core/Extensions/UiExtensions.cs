@@ -1,8 +1,8 @@
+using UnityEngine;
+using UnityEngine.UI;
+
 namespace BricksBucket.Core
 {
-	using UnityEngine;
-	using UnityEngine.UI;
-	
 	/// <!-- UiExtensions -->
 	///
 	/// <summary>
@@ -21,15 +21,15 @@ namespace BricksBucket.Core
 		/// <summary> Updates Unity Text Component Text. </summary>
 		/// <param name="label">Updates a label.</param>
 		/// <param name="text">Text to add to the labels.</param>
-		public static void UpdateText(this Text label, params string[] text) =>
-			label.text = string.Concat(text);
+		public static void UpdateText (this Text label, params string[] text) =>
+			label.text = string.Concat (text);
 
 		/// <summary> Sets the image alpha. </summary>
 		/// <param name="image">Sets the alpha of an Image.</param>
 		/// <param name="alpha">Value of the new alpha.</param>
-		public static void SetAlpha(this Image image, float alpha) =>
-			image.color.SetAlpha(alpha);
-		
+		public static void SetAlpha (this Image image, float alpha) =>
+			image.color.SetAlpha (alpha);
+
 		/// <summary> Activate alpha, interactivity and rays. </summary>
 		/// <param name="canvas">Canvas to modify.</param>
 		/// <param name="active">Whether to active the canvas group.</param>

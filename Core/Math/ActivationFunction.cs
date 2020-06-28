@@ -2,6 +2,17 @@
 
 namespace BricksBucket.Core.Math
 {
+    /// <!-- ActivationFunction -->
+    /// 
+    /// <summary>
+    /// In artificial neural networks, the activation function of a node defines
+    /// the output of that node given an input or set of inputs.
+    /// </summary>
+    ///
+    /// <seealso href="https://en.wikipedia.org/wiki/Activation_function">
+    /// Activation Functions</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     public static class ActivationFunction
     {
         /// <summary>

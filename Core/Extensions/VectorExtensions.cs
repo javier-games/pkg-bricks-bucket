@@ -1,7 +1,8 @@
+using BricksBucket.Core.Math;
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-    using UnityEngine;
-    
     /// <!-- VectorExtensions -->
     ///
     /// <summary>
@@ -127,7 +128,6 @@ namespace BricksBucket.Core
         }
 
         #endregion
-
 
 
         #region Vector3

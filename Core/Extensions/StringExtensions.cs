@@ -1,12 +1,12 @@
+using System.IO;
+using System.Net.Mail;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Globalization;
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-	using System.IO;
-	using System.Net.Mail;
-	using System.Text;
-	using System.Text.RegularExpressions;
-	using System.Globalization;
-	using UnityEngine;
-
 	/// <!-- StringExtensions -->
 	///
 	/// <summary>

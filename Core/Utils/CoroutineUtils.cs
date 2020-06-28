@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace BricksBucket.Core
 {
-    /// <!-- Coroutine Utils -->
-    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // Coroutine Utils
     public static partial class Utils
     {
         /// <summary>

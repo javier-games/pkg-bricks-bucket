@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BricksBucket.Core.Generics;
 using UnityEngine;
 using UnityEngine.Video;
 using Sirenix.OdinInspector;
@@ -14,8 +15,7 @@ using UnityEditor;
 // ReSharper disable TailRecursiveCall
 namespace BricksBucket.Localization
 {
-    using ScriptableSingleton =
-        Generics.ScriptableSingleton<LocalizationSettings>;
+    using ScriptableSingleton = Core.Generics.ScriptableSingleton<LocalizationSettings>;
     
     /// <!-- LocalizationSettings -->
     /// 
@@ -28,12 +28,12 @@ namespace BricksBucket.Localization
     /// <seealso href=
     /// "https://docs.unity3d.com/ScriptReference/ScriptableObject.html">
     /// Scriptable Object.</seealso>
-    /// <seealso cref="BricksBucket.Generics.ScriptableSingleton{T}"/>
+    /// <seealso cref="Core.Generics.ScriptableSingleton{T}"/>
     /// <seealso cref="BricksBucket.Localization.Book"/>
     /// <see cref="BricksBucket.Localization.Culture"/>
     /// 
     /// <!-- By Javier García | @jvrgms | 2020 -->
-    public class LocalizationSettings : ScriptableSingleton
+    public class LocalizationSettings : Core.Generics.ScriptableSingleton<LocalizationSettings>
     {
 
         

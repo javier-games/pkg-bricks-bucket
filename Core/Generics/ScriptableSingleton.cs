@@ -6,20 +6,17 @@ using UnityEditor;
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable VirtualMemberNeverOverridden.Global
-namespace BricksBucket.Generics
+namespace BricksBucket.Core.Generics
 {
+    /// <!-- ScriptableSingleton -->
+    /// 
     /// <summary>
-    /// 
-    /// ScriptableSingleton.
-    /// 
-    /// <para>
     /// Generic singleton that inherits from scriptable object.
-    /// </para>
-    /// 
-    /// <para> By Javier García | @jvrgms | 2018 </para>
-    /// 
     /// </summary>
+    /// 
     /// <typeparam name="T">Heiress Class Type.</typeparam>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     public abstract class ScriptableSingleton<T> : ScriptableObject
     where T : ScriptableSingleton<T>
     {

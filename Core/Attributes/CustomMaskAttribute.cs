@@ -27,7 +27,6 @@ namespace BricksBucket.Core
 	[AttributeUsage (AttributeTargets.Field)]
 	public class CustomMaskAttribute : PropertyAttribute
 	{
-
 		#region Class Members
 
 		/// <summary> Reference to the type of enum. </summary>

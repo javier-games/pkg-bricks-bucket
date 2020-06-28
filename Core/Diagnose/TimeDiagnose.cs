@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BricksBucket.Core
 {
-    /// <!--Time Diagnose Methods.-->
+    // Time Diagnose Methods
     public static partial class Diagnose
     {
         #region Fields

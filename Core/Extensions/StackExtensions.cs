@@ -1,9 +1,23 @@
+using System.Collections.Generic;
+
 namespace BricksBucket.Core
 {
-    using System.Collections.Generic;
-    
-	public static class StackExtensions
-	{
+    /// <!-- ListExtensions -->
+    /// 
+    /// <summary>
+    /// Collection of extension methods for the
+    /// <see href=
+    /// "https://docs.microsoft.com/en-us/dotnet/api/system.collections.stack">
+    /// Generic.Stack</see> class.
+    /// </summary>
+    ///
+    /// <seealso href=
+    /// "https://docs.microsoft.com/en-us/dotnet/api/system.collections.stack">
+    /// Generic.Stack</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    public static class StackExtensions
+    {
         /// <summary>
         /// Removes an element from the stack.
         /// </summary>
@@ -57,5 +71,5 @@ namespace BricksBucket.Core
         {
             return stack.ToArray ().Find (element);
         }
-	}
+    }
 }

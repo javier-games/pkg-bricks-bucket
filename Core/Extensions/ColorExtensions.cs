@@ -1,7 +1,7 @@
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-	using UnityEngine;
-
 	/// <!-- ColorExtensions -->
 	///
 	/// <summary>
@@ -48,7 +48,7 @@ namespace BricksBucket.Core
 
 			return string.Concat ("#", colorString);
 		}
-		
+
 		/// <summary>Convert string HEX color to Color.</summary>
 		/// <param name="text">String to Convert.</param>
 		/// <returns>Color from string.</returns>

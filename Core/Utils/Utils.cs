@@ -1,5 +1,12 @@
 namespace BricksBucket.Core
 {
+	/// <!-- Utils -->
+	///
+	/// <summary>
+	/// Collection of utilities useful during the development. 
+	/// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	public static partial class Utils
 	{
 		/// <summary>

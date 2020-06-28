@@ -1,10 +1,24 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-    using System.Collections.Generic;
-    using UnityEngine;
-    
-	public static class ListExtensions
-	{
+    /// <!-- ListExtensions -->
+    /// 
+    /// <summary>
+    /// Collection of extension methods for the
+    /// <see href="
+    /// https://docs.microsoft.com/dotnet/api/system.collections.generic.list-1
+    /// ">Generic.List</see> class.
+    /// </summary>
+    ///
+    /// <seealso href="
+    /// https://docs.microsoft.com/dotnet/api/system.collections.generic.list-1
+    /// ">Generic.List</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    public static class ListExtensions
+    {
         /// <summary> Verify whether the index is valid. </summary>
         /// <typeparam name="T"> Type of the list. </typeparam>
         /// <param name="list"> List Collection. </param>

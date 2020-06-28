@@ -1,7 +1,8 @@
+using BricksBucket.Core.Math;
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-    using UnityEngine;
-    
     /// <!-- IntegerExtensions -->
     ///
     /// <summary>
@@ -15,8 +16,8 @@ namespace BricksBucket.Core
     /// System.Single</seealso>
     /// 
     /// <!-- By Javier García | @jvrgms | 2020 -->
-	public static class FloatExtensions
-	{
+    public static class FloatExtensions
+    {
         /// <summary> Infinity Value </summary>
         private const float Infinity = Mathf.Infinity;
 
@@ -70,18 +71,18 @@ namespace BricksBucket.Core
         /// <param name="roundType">Round method to use.</param>
         /// <returns>Rounded value as int.</returns>
         public static int
-        RoundToInt (this float x, RoundType roundType = RoundType.Round)
+            RoundToInt (this float x, RoundType roundType = RoundType.Round)
         {
             switch (roundType)
             {
                 case RoundType.Ceil:
-                return Mathf.CeilToInt (x);
+                    return Mathf.CeilToInt (x);
 
                 case RoundType.Floor:
-                return Mathf.FloorToInt (x);
+                    return Mathf.FloorToInt (x);
 
                 default:
-                return Mathf.RoundToInt (x);
+                    return Mathf.RoundToInt (x);
             }
         }
 
@@ -92,20 +93,19 @@ namespace BricksBucket.Core
         /// <param name="roundType">Round method to use.</param>
         /// <returns>Rounded value.</returns>
         public static float
-        Round (this float x, RoundType roundType = RoundType.Round)
+            Round (this float x, RoundType roundType = RoundType.Round)
         {
             switch (roundType)
             {
                 case RoundType.Ceil:
-                return Mathf.Ceil (x);
+                    return Mathf.Ceil (x);
 
                 case RoundType.Floor:
-                return Mathf.Floor (x);
+                    return Mathf.Floor (x);
 
                 default:
-                return Mathf.Round (x);
+                    return Mathf.Round (x);
             }
         }
-		
-	}
+    }
 }

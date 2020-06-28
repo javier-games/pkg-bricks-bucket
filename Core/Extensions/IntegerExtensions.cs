@@ -1,8 +1,9 @@
+using UnityEngine;
+
+using Enum = System.Enum;
+
 namespace BricksBucket.Core
 {
-	using UnityEngine;
-	using Enum = System.Enum;
-	
 	/// <!-- IntegerExtensions -->
 	///
 	/// <summary>
@@ -18,7 +19,7 @@ namespace BricksBucket.Core
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	public static class IntegerExtensions
 	{
-		
+
 		/// <summary>
 		/// Loops the number with the specified increment.
 		/// </summary>
@@ -27,41 +28,35 @@ namespace BricksBucket.Core
 		/// <param name="to">Highest value to take.</param>
 		/// <param name="increment">Increment to apply.</param>
 		/// <returns>Next value on the loop.</returns>
-		public static int 
+		public static int
 			Loop (this ref int current, int from, int to, int increment = 1)
 		{
-			if (from > to)
-				Utils.Swap (ref from, ref to);
+			if (from > to) Utils.Swap (ref from, ref to);
 
 			int range = to - from + 1;
 
-			if (range == 1)
-				return from;
+			if (range == 1) return from;
 
-			if (current < from || current > to)
-				current = from;
+			if (current < from || current > to) current = from;
 
-			if (increment.Absolute () > range)
-				increment %= range;
+			if (increment.Absolute () > range) increment %= range;
 
 			current += increment;
 
-			if (current > to)
-				return current - range;
+			if (current > to) return current - range;
 
-			if (current < from)
-				return range + current;
+			if (current < from) return range + current;
 
 			return current;
 		}
-		
+
 		/// <summary>
 		/// Absolute Value.
 		/// </summary>
 		/// <param name="x">Number to absolute.</param>
 		/// <returns>Absolute value.</returns>
 		public static int Absolute (this int x) => Mathf.Abs (x);
-		
+
 		/// <summary>
 		/// Evaluates if value is between min and max.
 		/// </summary>
@@ -121,7 +116,7 @@ namespace BricksBucket.Core
 		/// <param name="layer">Int value as Layer.</param>
 		public static void RemoveLayer (this ref int mask, Enum layer) =>
 			mask.RemoveLayer (GetInt (layer));
-		
+
 		/// <summary>
 		/// Removes an int layer reference from mask.
 		/// </summary>
@@ -129,8 +124,7 @@ namespace BricksBucket.Core
 		/// <param name="layer">Int value as Layer.</param>
 		public static void RemoveLayer (this ref int mask, int layer)
 		{
-			if (mask.HasLayer (layer))
-				mask &= ~(1 << layer);
+			if (mask.HasLayer (layer)) mask &= ~(1 << layer);
 		}
 	}
 }

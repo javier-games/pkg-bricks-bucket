@@ -1,28 +1,36 @@
-﻿using Mathd = System.Math;
-using BricksBucket.Core;
+﻿using MathD = System.Math;
 
-namespace BricksBucket.Math
+namespace BricksBucket.Core.Math
 {
+    // ReSharper disable CommentTypo
+    /// <!-- PennerFunctions -->
+    /// 
     /// <summary>
     ///
-    /// PannerFunctions.
-    ///
     /// <para>
-    /// Library to generate ease panner functions for animations..
+    /// Library to generate ease panner functions for animation curves.
     /// </para>
     ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    /// 
     /// <para>
-    /// Based in the EasingCurvePresets project by @aureliendrouet - @nobutaka.
-    /// https://github.com/aureliendrouet/EasingCurvePresets
+    /// Based in the <see href=
+    /// "https://github.com/aureliendrouet/EasingCurvePresets">
+    /// EasingCurvePresets</see> project by <see href="
+    /// https://github.com/aureliendrouet">@aureliendrouet</see> - <see href=
+    /// "https://github.com/nobutaka">@nobutaka</see>.
     /// </para>
-    /// 
+    ///
     /// </summary>
+    ///
+    /// <seealso href="https://github.com/aureliendrouet/EasingCurvePresets">
+    /// aureliendrouet/EasingCurvePresets</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     public static class PennerFunctions
     {
         #region Linear
 
+        // ReSharper disable once CommentTypo
         /// <summary>
         /// Easing equation function for a simple linear tweening, with no easing.
         /// </summary>
@@ -51,7 +59,7 @@ namespace BricksBucket.Math
         /// <returns>The correct value.</returns>
         public static double ExpoEaseOut (double t, double b, double c, double d)
         {
-            return t.Approximately(d) ? b + c : c * (-Mathd.Pow (2, -10 * t / d) + 1) + b;
+            return t.Approximately(d) ? b + c : c * (-MathD.Pow (2, -10 * t / d) + 1) + b;
         }
 
         /// <summary>
@@ -65,7 +73,7 @@ namespace BricksBucket.Math
         /// <returns>The correct value.</returns>
         public static double ExpoEaseIn (double t, double b, double c, double d)
         {
-            return t.Approximately(0) ? b : c * Mathd.Pow (2, 10 * (t / d - 1)) + b;
+            return t.Approximately(0) ? b : c * MathD.Pow (2, 10 * (t / d - 1)) + b;
         }
 
         /// <summary>
@@ -86,9 +94,9 @@ namespace BricksBucket.Math
                 return b + c;
 
             if ((t /= d / 2) < 1)
-                return c / 2 * Mathd.Pow (2, 10 * (t - 1)) + b;
+                return c / 2 * MathD.Pow (2, 10 * (t - 1)) + b;
 
-            return c / 2 * (-Mathd.Pow (2, -10 * --t) + 2) + b;
+            return c / 2 * (-MathD.Pow (2, -10 * --t) + 2) + b;
         }
 
         /// <summary>
@@ -123,7 +131,7 @@ namespace BricksBucket.Math
         /// <returns>The correct value.</returns>
         public static double CircEaseOut (double t, double b, double c, double d)
         {
-            return c * Mathd.Sqrt (1 - (t = t / d - 1) * t) + b;
+            return c * MathD.Sqrt (1 - (t = t / d - 1) * t) + b;
         }
 
         /// <summary>
@@ -137,7 +145,7 @@ namespace BricksBucket.Math
         /// <returns>The correct value.</returns>
         public static double CircEaseIn (double t, double b, double c, double d)
         {
-            return -c * (Mathd.Sqrt (1 - (t /= d) * t) - 1) + b;
+            return -c * (MathD.Sqrt (1 - (t /= d) * t) - 1) + b;
         }
 
         /// <summary>
@@ -152,9 +160,9 @@ namespace BricksBucket.Math
         public static double CircEaseInOut (double t, double b, double c, double d)
         {
             if ((t /= d / 2) < 1)
-                return -c / 2 * (Mathd.Sqrt (1 - t * t) - 1) + b;
+                return -c / 2 * (MathD.Sqrt (1 - t * t) - 1) + b;
 
-            return c / 2 * (Mathd.Sqrt (1 - (t -= 2) * t) + 1) + b;
+            return c / 2 * (MathD.Sqrt (1 - (t -= 2) * t) + 1) + b;
         }
 
         /// <summary>
@@ -255,7 +263,7 @@ namespace BricksBucket.Math
         /// <returns>The correct value.</returns>
         public static double SineEaseOut (double t, double b, double c, double d)
         {
-            return c * Mathd.Sin (t / d * (Mathd.PI / 2)) + b;
+            return c * MathD.Sin (t / d * (MathD.PI / 2)) + b;
         }
 
         /// <summary>
@@ -269,7 +277,7 @@ namespace BricksBucket.Math
         /// <returns>The correct value.</returns>
         public static double SineEaseIn (double t, double b, double c, double d)
         {
-            return -c * Mathd.Cos (t / d * (Mathd.PI / 2)) + c + b;
+            return -c * MathD.Cos (t / d * (MathD.PI / 2)) + c + b;
         }
 
         /// <summary>
@@ -284,9 +292,9 @@ namespace BricksBucket.Math
         public static double SineEaseInOut (double t, double b, double c, double d)
         {
             if ((t /= d / 2) < 1)
-                return c / 2 * (Mathd.Sin (Mathd.PI * t / 2)) + b;
+                return c / 2 * (MathD.Sin (MathD.PI * t / 2)) + b;
 
-            return -c / 2 * (Mathd.Cos (Mathd.PI * --t / 2) - 2) + b;
+            return -c / 2 * (MathD.Cos (MathD.PI * --t / 2) - 2) + b;
         }
 
         /// <summary>
@@ -523,7 +531,7 @@ namespace BricksBucket.Math
             double p = d * .3;
             double s = p / 4;
 
-            return (c * Mathd.Pow (2, -10 * t) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p) + c + b);
+            return (c * MathD.Pow (2, -10 * t) * MathD.Sin ((t * d - s) * (2 * MathD.PI) / p) + c + b);
         }
 
         /// <summary>
@@ -543,7 +551,7 @@ namespace BricksBucket.Math
             double p = d * .3;
             double s = p / 4;
 
-            return -(c * Mathd.Pow (2, 10 * (t -= 1)) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p)) + b;
+            return -(c * MathD.Pow (2, 10 * (t -= 1)) * MathD.Sin ((t * d - s) * (2 * MathD.PI) / p)) + b;
         }
 
         /// <summary>
@@ -564,8 +572,8 @@ namespace BricksBucket.Math
             double s = p / 4;
 
             if (t < 1)
-                return -.5 * (c * Mathd.Pow (2, 10 * (t -= 1)) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p)) + b;
-            return c * Mathd.Pow (2, -10 * (t -= 1)) * Mathd.Sin ((t * d - s) * (2 * Mathd.PI) / p) * .5 + c + b;
+                return -.5 * (c * MathD.Pow (2, 10 * (t -= 1)) * MathD.Sin ((t * d - s) * (2 * MathD.PI) / p)) + b;
+            return c * MathD.Pow (2, -10 * (t -= 1)) * MathD.Sin ((t * d - s) * (2 * MathD.PI) / p) * .5 + c + b;
         }
 
         /// <summary>

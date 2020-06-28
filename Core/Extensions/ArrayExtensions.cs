@@ -1,15 +1,26 @@
+using System;
+using System.Collections.Generic;
+
+using Array = System.Array;
+using Random = UnityEngine.Random;
+
 namespace BricksBucket.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using Array = System.Array;
-    using Random = UnityEngine.Random;
-
-	public static class ArrayExtensions
-	{
-		
-        #region Array Extensions and Methods
-
+    /// <!-- ArrayExtensions -->
+    /// 
+    /// <summary>
+    /// Collection of extension methods for the
+    /// <see href="https://docs.microsoft.com/en-us/dotnet/api/system.array">
+    /// System.Array</see> class.
+    /// </summary>
+    ///
+    /// <seealso href=
+    /// "https://docs.microsoft.com/en-us/dotnet/api/system.array">
+    /// System.Array</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    public static class ArrayExtensions
+    {
         /// <summary> Verify whether the index is valid. </summary>
         /// <typeparam name="T"> Type of the array. </typeparam>
         /// <param name="array"> Array Collection. </param>
@@ -36,10 +47,15 @@ namespace BricksBucket.Core
         public static bool Contains<T> (this T[] array, T element) =>
             array.Find (element) >= 0;
 
-        public static bool Exists<T> (this T[] array, Predicate<T> predicate)
-        {
-            return Array.Exists (array, predicate);
-        }
+        /// <summary>
+        /// Whether there is a match in the array for the predicate.
+        /// </summary>
+        /// <param name="array">Array Collection.</param>
+        /// <param name="predicate">Predicate look for.</param>
+        /// <typeparam name="T">Type of the elements of the array.</typeparam>
+        /// <returns><value>False</value> if can not find a match.</returns>
+        public static bool Exists<T> (this T[] array, Predicate<T> predicate) =>
+            Array.Exists (array, predicate);
 
         /// <summary> Finds an element in an array. </summary>
         /// <typeparam name="T"> Type of array. </typeparam>
@@ -64,10 +80,8 @@ namespace BricksBucket.Core
         /// <param name="predicate">Predicate to find an element.</param>
         /// <typeparam name="T">Type of array.</typeparam>
         /// <returns>-1 if an elements does not found.</returns>
-        public static int Find<T> (this T[] array, Predicate<T> predicate)
-        {
-            return array.Find (Array.Find (array, predicate));
-        }
+        public static int Find<T> (this T[] array, Predicate<T> predicate) =>
+            array.Find (Array.Find (array, predicate));
 
         /// <summary> Swaps the values of index A and index B </summary>
         /// <typeparam name="T"> Type of the array. </typeparam>
@@ -76,11 +90,13 @@ namespace BricksBucket.Core
         /// <param name="b"> Index B. </param>
         public static void Swap<T> (this T[] array, int a, int b)
         {
-            if (!array.HasIndex (a)) throw Utils.IndexOutOfRangeException (array, a);
+            if (!array.HasIndex (a))
+                throw Utils.IndexOutOfRangeException (array, a);
 
-            if (!array.HasIndex (b)) throw Utils.IndexOutOfRangeException (array, b);
+            if (!array.HasIndex (b))
+                throw Utils.IndexOutOfRangeException (array, b);
 
-            Core.Utils.Swap (ref array[a], ref array[b]);
+            Utils.Swap (ref array[a], ref array[b]);
         }
 
         /// <summary> Scramble the elements in this array. </summary>
@@ -178,7 +194,8 @@ namespace BricksBucket.Core
             int increment = 1
         )
         {
-            if (array.IsNullOrEmpty ()) throw Utils.NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ())
+                throw Utils.NullOrEmptyException (array);
 
             index = index.Loop (0, array.Length - 1, increment);
             return array[index];
@@ -191,7 +208,7 @@ namespace BricksBucket.Core
         /// <returns> Sequence of numbers. </returns>
         public static int[] GetSequence (int from, int to, bool random = false)
         {
-            if (to < from) Core.Utils.Swap (ref from, ref to);
+            if (to < from) Utils.Swap (ref from, ref to);
 
             int[] sequence = new int[to - from];
 
@@ -208,7 +225,8 @@ namespace BricksBucket.Core
         /// <param name="index"> Index to remove from collection. </param>
         public static void RemoveAt<T> (ref T[] array, int index)
         {
-            if (array.IsNullOrEmpty ()) throw Utils.NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ())
+                throw Utils.NullOrEmptyException (array);
 
             if (!array.HasIndex (index))
                 throw Utils.IndexOutOfRangeException (array, index);
@@ -226,7 +244,8 @@ namespace BricksBucket.Core
         /// <returns> Whether the value is not any more in the array. </returns>
         public static void Remove<T> (ref T[] array, T element)
         {
-            if (array.IsNullOrEmpty ()) throw Utils.NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ())
+                throw Utils.NullOrEmptyException (array);
 
             int index = array.Find (element);
             if (index >= 0)
@@ -242,7 +261,8 @@ namespace BricksBucket.Core
         /// <param name="element"> Element to add. </param>
         public static void AddAt<T> (ref T[] array, int index, T element)
         {
-            if (array.IsNullOrEmpty ()) throw Utils.NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ())
+                throw Utils.NullOrEmptyException (array);
 
             if (!array.HasIndex (index))
                 throw Utils.IndexOutOfRangeException (array, index);
@@ -259,12 +279,11 @@ namespace BricksBucket.Core
         /// <param name="element"> Element to add. </param>
         public static void Add<T> (ref T[] array, T element)
         {
-            if (array.IsNullOrEmpty ()) throw Utils.NullOrEmptyException (array);
+            if (array.IsNullOrEmpty ())
+                throw Utils.NullOrEmptyException (array);
 
             Array.Resize (ref array, array.Length + 1);
             array[array.Length - 1] = element;
         }
-
-        #endregion
-	}
+    }
 }

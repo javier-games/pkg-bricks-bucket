@@ -1,4 +1,4 @@
-﻿namespace BricksBucket.Core
+﻿namespace BricksBucket.Core.Pooling
 {
     /// <summary>
     ///

@@ -1,20 +1,30 @@
-﻿namespace BricksBucket.Core 
+﻿namespace BricksBucket.Core.Math 
 {
+    /// <!-- RoundType -->
+    /// 
     /// <summary>
-    ///
-    /// Round Approximation Type Enum.
-    ///
-    /// <para>
     /// Defines the different approximation types.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
     /// </summary>
+    ///
+    /// <seealso cref="FloatExtensions"/>
+    /// <seealso cref="DoubleExtensions"/>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     public enum RoundType
     {
-        Round = 0,      //  Rounded to the nearest integer.
-        Ceil = 1,       //  Smallest integer greater or equal.
-        Floor = 2       //  Grater integer smallest or equal.
+        /// <summary>
+        /// Rounded to the nearest integer.
+        /// </summary>
+        Round = 0,
+        
+        /// <summary>
+        /// Smallest integer greater or equal.
+        /// </summary>
+        Ceil = 1,
+        
+        /// <summary>
+        /// Grater integer smallest or equal.
+        /// </summary>
+        Floor = 2
     }
 }

@@ -1,9 +1,23 @@
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-    using System.Linq;
-    using System.Collections.Generic;
-    using UnityEngine;
-
+    /// <!-- EnumerableExtensions -->
+    /// 
+    /// <summary>
+    /// Collection of extension methods for the
+    /// <see href=
+    /// "https://docs.microsoft.com/dotnet/api/system.collections.ienumerable">
+    /// System.IEnumerable</see> interface.
+    /// </summary>
+    ///
+    /// <seealso href=
+    /// "https://docs.microsoft.com/dotnet/api/system.collections.ienumerable">
+    /// System.IEnumerable</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     public static class EnumerableExtensions
     {
         /// <summary> Verify whether the index is valid. </summary>

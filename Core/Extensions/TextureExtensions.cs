@@ -1,7 +1,7 @@
+using UnityEngine;
+
 namespace BricksBucket.Core
 {
-    using UnityEngine;
-
     /// <!-- TextureExtensions -->
     ///
     /// <summary>
@@ -120,7 +120,7 @@ namespace BricksBucket.Core
 
             return result;
         }
-        
+
         /// <summary> Creates a new sprite form texture. </summary>
         /// <param name="texture"></param>
         /// <returns> New Sprite. </returns>

@@ -2,34 +2,33 @@
 
 namespace BricksBucket.Core.Generics
 {
-
+    /// <!-- MonoSingleton -->
+    /// 
     /// <summary>
-    /// MonoSingleton.
-    /// 
-    /// <para>
     /// Generic singleton that inherits from MonoBehaviour.
-    /// </para>
-    /// 
-    /// <para> By Javier García | @jvrgms | 2018 </para>
-    /// 
     /// </summary>
+    /// 
+    /// <typeparam name="T">Heiress Class Type.</typeparam>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     [DisallowMultipleComponent]
-    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+    public abstract class MonoSingleton<T> : MonoBehaviour
+    where T : MonoSingleton<T>
     {
 
-
-
+        
         #region Class Members
 
         private static T _instance;         //  Instance of the singleton.
 
-        #pragma warning disable RECS0108    //  Warns about static fields in generic types
+        #pragma warning disable RECS0108
+        // ReSharper disable StaticMemberInGenericType
         private static bool _didAwoken;     //  Flagged true after awake.
         private static bool _didDestroyed;  //  Flagged true after on destroy.
-        #pragma warning restore RECS0108    //  Warns about static fields in generic types
+        // ReSharper restore StaticMemberInGenericType
+        #pragma warning restore RECS0108
 
         #endregion
-
 
 
         #region Class Accessors
@@ -119,9 +118,9 @@ namespace BricksBucket.Core.Generics
                 var prefab = Resources.Load<T> (typeof (T).Name);
                 if (prefab != null)
                 {
-                    _instance = (Instantiate (
+                    _instance = Instantiate (
                         original: prefab.gameObject
-                    ) as GameObject).GetComponent<T> ();
+                    ).GetComponent<T> ();
                     _instance.name = typeof (T).Name;
                     return _instance;
                 }
@@ -139,7 +138,6 @@ namespace BricksBucket.Core.Generics
         public static bool InstanceExist => _instance != null;
 
         #endregion
-
 
 
         #region MonoBehaviour Methods
