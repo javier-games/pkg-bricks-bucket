@@ -4,100 +4,91 @@ using UnityEngine;
 
 namespace BricksBucket.Core.Editor.Attributes
 {
+    /// <!-- CustomMaskAttributeDrawer -->
+    ///
     /// <summary>
-    ///
-    /// Layer Attribute Drawer.
-    ///
-    /// <para>
-    /// Editor tool to draw an int as mask.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// Custom Mask Attribute Drawer.
     /// </summary>
+    ///
+    /// <!-- By Javier García | @jvrgms | 2020 -->
     [CustomPropertyDrawer (typeof (CustomMaskAttribute))]
     public class CustomMaskAttributeDrawer : PropertyDrawer
     {
-        #region Class Members
+        #region Fields
 
-        /// <summary> Wether the type has been checked. </summary>
+        /// <summary>
+        /// Whether the type has been checked.
+        /// </summary>
         private bool _checked;
+
+        /// <summary>
+        /// Custom Mask to display.
+        /// </summary>
+        private CustomMaskAttribute _attribute;
 
         #endregion
 
-        private CustomMaskAttribute _attribute;
 
-        private CustomMaskAttribute Attribute
-        {
-            get
-            {
-                return _attribute ?? (
-                    _attribute = attribute as CustomMaskAttribute
-                );
-            }
-        }
+        #region Property
+
+        /// <summary>
+        /// Property of the attribute.
+        /// </summary>
+        private CustomMaskAttribute Attribute =>
+            _attribute ?? (
+                _attribute = attribute as CustomMaskAttribute
+            );
+
+        #endregion
 
 
+        #region Method Overrides
 
-        #region Property Drawer Overrides
-
-        /// <summary> Called to return the Height of a property. </summary>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
-        /// <returns> Height to draw property.</returns>
+        /// <inheritdoc cref="PropertyDrawer.GetPropertyHeight"/>
         public override float
-        GetPropertyHeight (SerializedProperty property, GUIContent label)
+            GetPropertyHeight (SerializedProperty property, GUIContent label)
         {
             return EditorGUI.GetPropertyHeight (property);
         }
 
-        /// <summary> Called on GUI to draw property. </summary>
-        /// <param name="position"> Position to draw property. </param>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
+        /// <inheritdoc cref="PropertyDrawer.OnGUI"/>
         public override void
-        OnGUI (Rect position, SerializedProperty property, GUIContent label)
+            OnGUI (Rect position, SerializedProperty property, GUIContent label)
         {
             if (property.propertyType != SerializedPropertyType.Integer)
             {
                 if (!_checked)
                 {
                     var serializedObject = property.serializedObject;
-                    /*
-                    DebugEditor.LogWarningFormat (
-                        context: serializedObject?.targetObject,
-                        format: StringUtils.Concat (
-                            "Property {0} in object {1} is of wrong type.",
-                            "Type expected: Int"
-                        ),
-                        data: new object[]{
-                            property.name,
-                            serializedObject?.targetObject
-                        }
+                    // TODO: Add Log method to CustomMaskAttributeEditor.OnGUI.
+                    Debug.LogWarning (
+                        $"Property {property.name} in object " +
+                        $"{serializedObject?.targetObject} is of wrong type." +
+                        "Type expected: Int",
+                        serializedObject?.targetObject
                     );
-                    */
                     _checked = true;
                 }
+
                 EditorGUI.PropertyField (position, property, label);
                 return;
             }
 
             string[] enumNames = Enum.GetNames (Attribute.enumType);
 
-            if(enumNames == null || enumNames.Length == 0)
+            if (enumNames.Length == 0)
             {
                 if (!_checked)
                 {
                     var serializedObject = property.serializedObject;
-                    /*
-                    DebugEditor.LogWarningFormat (
-                        context: serializedObject?.targetObject,
-                        format: "Enum Type {0} has not elements.",
-                        data: Attribute.EnumType
+                    // TODO: Add Log method to CustomMaskAttributeEditor.OnGUI.
+                    Debug.LogWarning (
+                        $"Enum Type {Attribute.enumType} has not elements.",
+                        serializedObject?.targetObject
                     );
-                    */
                     _checked = true;
                 }
+
                 EditorGUI.PropertyField (position, property, label);
                 return;
             }

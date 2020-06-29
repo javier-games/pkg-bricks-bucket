@@ -27,7 +27,7 @@ namespace BricksBucket.Core
 	[AttributeUsage (AttributeTargets.Field)]
 	public class DefinedValuesAttribute : PropertyAttribute
 	{
-		#region Class Members
+		#region Fields
 
 		/// <summary> Collection of defined values. </summary>
 		public readonly object[] valuesArray;
@@ -35,14 +35,12 @@ namespace BricksBucket.Core
 		#endregion
 
         
-		#region Constructor
+		#region Methods
 
 		/// <summary> Creates new instance of Defined Values. </summary>
 		/// <param name="definedValues"> Defined values to use. </param>
-		public DefinedValuesAttribute (params object[] definedValues)
-		{
+		public DefinedValuesAttribute (params object[] definedValues) =>
 			valuesArray = definedValues;
-		}
 
 		#endregion
 	}

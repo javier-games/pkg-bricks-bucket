@@ -16,7 +16,7 @@ namespace BricksBucket.Core.Collections
     public abstract class SerializableStack<T> :
         Stack<T>, ISerializationCallbackReceiver
     {
-        #region Class Properties
+        #region Fields
 
         /// <summary> List for keys, used just for serialization. </summary>
         [SerializeField, HideInInspector]

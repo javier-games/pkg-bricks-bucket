@@ -1,6 +1,6 @@
 ﻿namespace BricksBucket.Core
 {
-    // Logs Diagnose Methods
+    // Log Diagnose Methods
     public static partial class Diagnose
     {
         // TODO: Fix Log Methods.

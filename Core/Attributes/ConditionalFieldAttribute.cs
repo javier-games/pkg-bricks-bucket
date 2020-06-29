@@ -27,7 +27,7 @@ namespace BricksBucket.Core
 	[AttributeUsage (AttributeTargets.Field)]
 	public class ConditionalFieldAttribute : PropertyAttribute
 	{
-		#region Class Members
+		#region Fields
 
 		/// <summary> Name of the property to check. </summary>
 		public readonly string propertyToCheck;
@@ -41,7 +41,7 @@ namespace BricksBucket.Core
 		#endregion
 
         
-		#region Constructor
+		#region Methods
 
 		/// <summary> Creates an instance of this attribute. </summary>
 		/// <param name="propertyToCheck"> Property to check. </param>

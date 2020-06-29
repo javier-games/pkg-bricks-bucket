@@ -15,8 +15,6 @@ namespace BricksBucket.Core.Generics
     public abstract class MonoSingleton<T> : MonoBehaviour
     where T : MonoSingleton<T>
     {
-
-        
         #region Class Members
 
         private static T _instance;         //  Instance of the singleton.

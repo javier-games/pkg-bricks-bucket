@@ -27,7 +27,7 @@ namespace BricksBucket.Core
 	[AttributeUsage (AttributeTargets.Field)]
 	public class CustomMaskAttribute : PropertyAttribute
 	{
-		#region Class Members
+		#region Fields
 
 		/// <summary> Reference to the type of enum. </summary>
 		public readonly Type enumType;
@@ -35,14 +35,11 @@ namespace BricksBucket.Core
 		#endregion
 
         
-		#region Constructor
+		#region Methods
 
 		/// <summary> Creates a new instance of attribute. </summary>
 		/// <param name="enumType"> Type of enum. </param>
-		public CustomMaskAttribute (Type enumType)
-		{
-			this.enumType = enumType;
-		}
+		public CustomMaskAttribute (Type enumType) => this.enumType = enumType;
 
 		#endregion
 	}

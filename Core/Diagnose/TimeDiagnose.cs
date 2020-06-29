@@ -101,7 +101,7 @@ namespace BricksBucket.Core
         /// <!-- By Javier García | @jvrgms | 2020 -->
         private readonly struct TimeTest
         {
-            #region TestData Class Members
+            #region Fields
 
             /// <summary> Timer to accurately measure elapsed time. </summary>
             public readonly Stopwatch timer;
@@ -114,7 +114,7 @@ namespace BricksBucket.Core
 
             #endregion
 
-            #region TestData Constructor
+            #region Methods
 
             /// <summary>
             /// Creates and Initialize a new test.
@@ -127,10 +127,6 @@ namespace BricksBucket.Core
                 _precise = precise;
                 timer = Stopwatch.StartNew ();
             }
-
-            #endregion
-
-            #region TestData Class Implementation
 
             /// <summary>
             /// Ends the test.

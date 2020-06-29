@@ -186,9 +186,9 @@ namespace BricksBucket.Core.Editor.Attributes
 			return false;
 		}
 
-        /// <summary> Defines wether is a valid type. </summary>
+        /// <summary> Defines whether is a valid type. </summary>
         /// <param name="propertyType"> Property type to check. </param>
-        /// <returns> Wether is a valid type. </returns>
+        /// <returns> Whether is a valid type. </returns>
         private bool IsNumerical(SerializedPropertyType propertyType)
 		{
 			switch (propertyType)

@@ -12,20 +12,23 @@ namespace BricksBucket.Core
 	/// </para>
 	/// 
 	/// <para>
-	/// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
-	/// project by @deadcows</see>.
+	/// Based in the <see href=
+	/// "https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/">
+	/// Scriptable Object Demo</see> project by <see href=
+	/// "https://bitbucket.org/richardfine">@richardfine</see>.
 	/// </para>
 	///
 	/// </summary>
 	///
-	/// <seealso href="https://github.com/Deadcows/MyBox">
-	/// Deadcows/MyBox</seealso>
+	/// <seealso href=
+	/// "https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/">
+	/// richardfine/scriptableobjectdemo</seealso>
 	/// 
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
 	public class MinMaxRangeAttribute : Attribute
 	{
-		#region Class Members
+		#region Fields
 
 		/// <summary> Minimum value to use for the property. </summary>
 		public readonly float min;
@@ -36,7 +39,7 @@ namespace BricksBucket.Core
 		#endregion
 
         
-		#region Constructor
+		#region Methods
 
 		/// <summary> Creates a new instance of min max attribute. </summary>
 		/// <param name="min"> Minimum value to use for the property. </param>

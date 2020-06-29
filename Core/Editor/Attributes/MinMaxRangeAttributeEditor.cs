@@ -5,51 +5,51 @@ using UnityEditor;
 
 namespace BricksBucket
 {
-    /// <summary>
+    // ReSharper disable CommentTypo
+    /// <!-- MinMaxRangeIntAttributeDrawer -->
     ///
-    /// Min Max Range Int Attribute Drawer
+    /// <summary>
     ///
     /// <para>
     /// Drawer of a range of integers values.
     /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// 
     /// <para>
-    /// Based in the Scriptable Object Demo project by @richardfine
-    /// https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/
+    /// Based in the <see href=
+    /// "https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/">
+    /// Scriptable Object Demo</see> project by <see href=
+    /// "https://bitbucket.org/richardfine">@richardfine</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href=
+    /// "https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/">
+    /// richardfine/scriptableobjectdemo</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     [CustomPropertyDrawer (typeof (RangeIntSerialized), true)]
     public class MinMaxRangeIntAttributeDrawer : PropertyDrawer
     {
-
-        #region Class Members
+        #region Fields
 
         /// <summary> Width of label. </summary>
-        const float RangeBoundsLabelWidth = 40f;
+        private const float RangeBoundsLabelWidth = 40f;
 
         #endregion
+        
 
+        #region Methods Override
 
-
-        #region Property Drawer Override
-
-        /// <summary> Called to return the Height of a property. </summary>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
-        /// <returns> Height to draw property.</returns>
+        /// <inheritdoc cref="PropertyDrawer.GetPropertyHeight"/>
         public override float
         GetPropertyHeight (SerializedProperty property, GUIContent label)
         {
             return EditorGUIUtility.singleLineHeight;
         }
 
-        /// <summary> Called on GUI to draw property. </summary>
-        /// <param name="position"> Position to draw property. </param>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
+        /// <inheritdoc cref="PropertyDrawer.OnGUI"/>
         public override void
         OnGUI (Rect position, SerializedProperty property, GUIContent label)
         {
@@ -116,37 +116,43 @@ namespace BricksBucket
 
         #endregion
     }
-
+    
+    // ReSharper disable CommentTypo
+    /// <!-- MinMaxRangeFloatAttributeDrawer -->
+    ///
     /// <summary>
     ///
-    /// Min Max Range Float Attribute Drawer
-    ///
     /// <para>
-    /// Drawer of a range of floating values.
+    /// Min Max Range Float Attribute Drawer.
     /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// 
     /// <para>
-    /// Based in the Scriptable Object Demo project by @richardfine
-    /// https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/
+    /// Based in the <see href=
+    /// "https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/">
+    /// Scriptable Object Demo</see> project by <see href=
+    /// "https://bitbucket.org/richardfine">@richardfine</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href=
+    /// "https://bitbucket.org/richardfine/scriptableobjectdemo/src/default/">
+    /// richardfine/scriptableobjectdemo</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     [CustomPropertyDrawer (typeof (RangeFloatSerialized), true)]
     public class MinMaxRangeFloatAttributeDrawer : PropertyDrawer
     {
-
-        #region Class Members
+        #region Fields
 
         /// <summary> Width of label. </summary>
-        const float RangeBoundsLabelWidth = 40f;
+        private const float RangeBoundsLabelWidth = 40f;
 
         #endregion
+        
 
-
-
-        #region Property Drawer Overrides
+        #region Method Overrides
 
         /// <summary> Called to return the Height of a property. </summary>
         /// <param name="property"> Property to draw. </param>

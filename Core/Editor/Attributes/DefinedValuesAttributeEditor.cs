@@ -4,26 +4,31 @@ using UnityEngine;
 
 namespace BricksBucket.Core.Editor.Attributes
 {
-    /// <summary>
+    // ReSharper disable CommentTypo
+    /// <!-- DefinedValuesAttributeDrawer -->
     ///
-    /// Defined Values Attribute Drawer.
+    /// <summary>
     ///
     /// <para>
     /// Helps to draw a pop up of defined value on editor.
     /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// 
     /// <para>
-    /// Based in the MyBox project by @deadcows.
-    /// https://github.com/Deadcows/MyBox
+    /// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
+    /// project by @deadcows</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href="https://github.com/Deadcows/MyBox">
+    /// Deadcows/MyBox</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     [CustomPropertyDrawer (typeof (DefinedValuesAttribute))]
     public class DefinedValuesAttributeDrawer : PropertyDrawer
     {
-        #region Class Memebers
+        #region Fields
 
         /// <summary> Reference to attribute to draw. </summary>
         private DefinedValuesAttribute _attribute;
@@ -40,65 +45,44 @@ namespace BricksBucket.Core.Editor.Attributes
         #endregion
 
 
+        #region Properties
 
-        #region Accessors
+        /// <summary> Returns whether the type Unicode or a string. </summary>
+        private bool IsString =>
+            _variableType.IsString () ||
+            _variableType.IsChar ();
 
-        /// <summary> Returns wether the type Unicode or a string. </summary>
-        private bool IsString
-        {
-            get
-            {
-                return
-                    _variableType.IsString () ||
-                    _variableType.IsChar ();
-            }
-        }
+        /// <summary> Returns whether the type is an integral type. </summary>
+        private bool IsInt =>
+            _variableType.IsSignedByte () ||
+            _variableType.IsByte () ||
+            _variableType.IsShort () ||
+            _variableType.IsUnsignedShort () ||
+            _variableType.IsInt () ||
+            _variableType.IsUnsignedInt () ||
+            _variableType.IsUnsignedLong () ||
+            _variableType.IsLong ();
 
-        /// <summary> Returns wether the type is an integral type. </summary>
-        private bool IsInt
-        {
-            get
-            {
-                return
-                    _variableType.IsSignedByte () ||
-                    _variableType.IsByte () ||
-                    _variableType.IsShort () ||
-                    _variableType.IsUnsignedShort () ||
-                    _variableType.IsInt () ||
-                    _variableType.IsUnsignedInt () ||
-                    _variableType.IsUnsignedLong () ||
-                    _variableType.IsLong ();
-            }
-        }
+        /// <summary> Returns whether the type is a floating type. </summary>
+        private bool IsFloat =>
+            _variableType.IsFloat () ||
+            _variableType.IsDouble () ||
+            _variableType.IsDecimal ();
 
-        /// <summary> Returns wether the type is a floating type. </summary>
-        private bool IsFloat
-        {
-            get
-            {
-                return
-                    _variableType.IsFloat () ||
-                    _variableType.IsDouble () ||
-                    _variableType.IsDecimal ();
-            }
-        }
-
+        /// <summary> Returns whether the type is valid. </summary>
+        /// <returns> Whether the type is valid. </returns>
+        private bool IsValidType () => IsInt || IsFloat || IsString;
 
         #endregion
 
 
+        #region Methods
 
-        #region Class Implementation.
-
-        /// <summary> Drawa attribute on GUI. </summary>
-        /// <param name="position"> Position to draw attributte. </param>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label of the property. </param>
+        /// <inheritdoc cref="PropertyDrawer.OnGUI"/>
         public override void
-        OnGUI (Rect position, SerializedProperty property, GUIContent label)
+            OnGUI (Rect position, SerializedProperty property, GUIContent label)
         {
-            if (_attribute == null)
-                Initialize (property);
+            if (_attribute == null) Initialize (property);
 
             if (_values == null || _values.Length == 0 || _selectedIndex < 0)
             {
@@ -115,14 +99,12 @@ namespace BricksBucket.Core.Editor.Attributes
                 displayedOptions: _values
             );
 
-            if (EditorGUI.EndChangeCheck ())
-            {
-                property.SetObjectValue (
-                    _variableType,
-                    _values[_selectedIndex]
-                );
-                property.serializedObject.ApplyModifiedProperties ();
-            }
+            if (!EditorGUI.EndChangeCheck ()) return;
+            property.SetObjectValue (
+                _variableType,
+                _values[_selectedIndex]
+            );
+            property.serializedObject.ApplyModifiedProperties ();
         }
 
         /// <summary> Initialize a property. </summary>
@@ -133,13 +115,11 @@ namespace BricksBucket.Core.Editor.Attributes
 
             object[] values = _attribute.valuesArray;
 
-            if (values == null || values.Length == 0)
-                return;
+            if (values == null || values.Length == 0) return;
 
             _variableType = property.GetObjectType ();
 
-            if (!IsValidType ())
-                return;
+            if (!IsValidType ()) return;
 
             _values = new string[values.Length];
             for (int i = 0; i < values.Length; i++)
@@ -148,11 +128,7 @@ namespace BricksBucket.Core.Editor.Attributes
             _selectedIndex = GetSelectedIndex (property);
         }
 
-        /// <summary> Returns wether the type is valid. </summary>
-        /// <returns> Wether the type is valid. </returns>
-        private bool IsValidType () => IsInt || IsFloat || IsString;
-
-        /// <summary> Returns the index acording to the value. </summary>
+        /// <summary> Returns the index according to the value. </summary>
         /// <param name="property"> Property to change. </param>
         /// <returns> Index of the chosen value. </returns>
         private int GetSelectedIndex (SerializedProperty property)
@@ -162,26 +138,26 @@ namespace BricksBucket.Core.Editor.Attributes
                 switch (property.propertyType)
                 {
                     case SerializedPropertyType.String:
-                    if (property.stringValue == _values[i])
-                        return i;
-                    break;
+                        if (property.stringValue == _values[i]) return i;
+                        break;
 
                     case SerializedPropertyType.Integer:
-                    if(property.intValue == Convert.ToInt32(_values[i]))
-                        return i;
-                    break;
+                        if (property.intValue == Convert.ToInt32 (_values[i]))
+                            return i;
+                        break;
 
                     case SerializedPropertyType.Float:
-                    if (property.floatValue.Approximately (
-                        Convert.ToSingle (_values[i])
-                    ))
-                        return i;
-                    break;
+                        if (property.floatValue.Approximately (
+                            Convert.ToSingle (_values[i])
+                        ))
+                            return i;
+                        break;
 
                     default:
-                    return 0;
+                        return 0;
                 }
             }
+
             return 0;
         }
 

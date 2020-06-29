@@ -3,50 +3,48 @@ using UnityEngine;
 
 namespace BricksBucket.Core.Editor.Attributes
 {
-    /// <summary>
+    // ReSharper disable CommentTypo
+    /// <!-- LayerAttributeDrawer -->
     ///
-    /// Layer Attribute Drawer.
+    /// <summary>
     ///
     /// <para>
     /// Editor tool to draw int as LayerMask.
     /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// 
     /// <para>
-    /// Based in the MyBox project by @deadcows.
-    /// https://github.com/Deadcows/MyBox
+    /// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
+    /// project by @deadcows</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href="https://github.com/Deadcows/MyBox">
+    /// Deadcows/MyBox</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     [CustomPropertyDrawer (typeof (LayerAttribute))]
     public class LayerAttributeDrawer : PropertyDrawer
     {
-        #region Class Members
+        #region Properties
 
-        /// <summary> Wether the type has been checked. </summary>
+        /// <summary> Whether the type has been checked. </summary>
         private bool _checked;
 
         #endregion
+        
 
+        #region Method Overrides
 
-
-        #region Property Drawer Overrides
-
-        /// <summary> Called to return the Height of a property. </summary>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
-        /// <returns> Height to draw property.</returns>
+        /// <inheritdoc cref="PropertyDrawer.GetPropertyHeight"/>
         public override float
         GetPropertyHeight (SerializedProperty property, GUIContent label)
         {
             return EditorGUI.GetPropertyHeight (property);
         }
 
-        /// <summary> Called on GUI to draw property. </summary>
-        /// <param name="position"> Position to draw property. </param>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
+        /// <inheritdoc cref="PropertyDrawer.OnGUI"/>
         public override void
         OnGUI (Rect position, SerializedProperty property, GUIContent label)
         {
@@ -55,19 +53,12 @@ namespace BricksBucket.Core.Editor.Attributes
                 if (!_checked)
                 {
                     var serializedObject = property.serializedObject;
-                    /*
-                    DebugEditor.LogWarningFormat (
-                        context: serializedObject?.targetObject,
-                        format: StringUtils.Concat (
-                            "Property {0} in object {1} is of wrong type.",
-                            "Type expected: Int"
-                        ),
-                        data: new object[]{
-                            property.name,
-                            serializedObject?.targetObject
-                        }
+                    Debug.LogWarning (
+                        $"Property {property.name} in object " + 
+                        $"{serializedObject?.targetObject} is of wrong type." +
+                        "Type expected: Int",
+                        serializedObject?.targetObject
                     );
-                    */
                     _checked = true;
                 }
                 EditorGUI.PropertyField (position, property, label);

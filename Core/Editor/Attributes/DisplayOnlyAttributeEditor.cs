@@ -3,34 +3,24 @@ using UnityEngine;
 
 namespace BricksBucket.Core.Editor.Attributes
 {
+    /// <!-- DisplayOnlyAttributeDrawer -->
+    /// 
     /// <summary>
-    ///
-    /// Read Only Attribute Drawer.
-    ///
-    /// <para>
-    /// Draws property but disables editablity.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// Draws property but disables its edition.
     /// </summary>
+	/// 
+	/// <!-- By Javier García | @jvrgms | 2020 -->
 	[CustomPropertyDrawer (typeof(DisplayOnlyAttribute))]
 	public class DisplayOnlyAttributeDrawer : PropertyDrawer
 	{
-        /// <summary> Called to return the Height of a property. </summary>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
-        /// <returns> Height to draw property.</returns>
+        /// <inheritdoc cref="PropertyDrawer.GetPropertyHeight"/>
 		public override float
         GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			return EditorGUI.GetPropertyHeight(property, label, true);
 		}
-
-        /// <summary> Called on GUI to draw property. </summary>
-        /// <param name="position"> Position to draw property. </param>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
+		
+		/// <inheritdoc cref="PropertyDrawer.OnGUI"/>
         public override void
         OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{

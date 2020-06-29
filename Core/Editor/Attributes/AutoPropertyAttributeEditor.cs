@@ -4,41 +4,38 @@ using Object = UnityEngine.Object;
 
 namespace BricksBucket.Core.Editor.Attributes
 {
-    /// <summary>
+    // ReSharper disable CommentTypo
+    /// <!-- AutoPropertyDrawer -->
     ///
-    /// Auto Property Drawer.
+    /// <summary>
     ///
     /// <para>
     /// Property Drawer for the AutoProperty Attribute.
     /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// 
     /// <para>
-    /// Based in the MyBox project by @deadcows.
-    /// https://github.com/Deadcows/MyBox
+    /// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
+    /// project by @deadcows</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href="https://github.com/Deadcows/MyBox">
+    /// Deadcows/MyBox</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     [CustomPropertyDrawer (typeof (AutoPropertyAttribute))]
     public class AutoPropertyDrawer : PropertyDrawer
     {
-        #region Property Drawer Overrides
-
-        /// <summary> Called to return the Height of a property. </summary>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
-        /// <returns> Height to draw property.</returns>
+        /// <inheritdoc cref="PropertyDrawer.GetPropertyHeight"/>
         public override float
         GetPropertyHeight (SerializedProperty property, GUIContent label)
         {
             return EditorGUI.GetPropertyHeight (property);
         }
 
-        /// <summary> Called On GUI </summary>
-        /// <param name="position"> Position to draw. </param>
-        /// <param name="property"> Property to draw. </param>
-        /// <param name="label"> Label to draw. </param>
+        /// <inheritdoc cref="PropertyDrawer.OnGUI"/>
         public override void
         OnGUI (Rect position, SerializedProperty property, GUIContent label)
         {
@@ -46,42 +43,41 @@ namespace BricksBucket.Core.Editor.Attributes
             EditorGUI.PropertyField (position, property, label);
             GUI.enabled = true;
         }
-
-        #endregion
     }
 
-    /// <summary>
+    // ReSharper disable CommentTypo
+    /// <!-- AutoPropertyHandler -->
     ///
-    /// Auto Property Handler.
+    /// <summary>
     ///
     /// <para>
     /// Called on will save assets to search for properties and fill them.
     /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
+    /// 
     /// <para>
-    /// Based in the MyBox project by @deadcows.
-    /// https://github.com/Deadcows/MyBox
+    /// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
+    /// project by @deadcows</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href="https://github.com/Deadcows/MyBox">
+    /// Deadcows/MyBox</seealso>
+    /// 
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     [InitializeOnLoad]
     public static class AutoPropertyHandler
     {
-        #region Constructor
-
-        /// <summary> Subscribing to editor events. </summary>
+        /// <summary>
+        /// Subscribing to editor events.
+        /// </summary>
         static AutoPropertyHandler () =>
             EditorEvents.OnSaveAssets += CheckComponents;
 
-        #endregion
-
-
-
-        #region Class Implementation
-
-        /// <summary> Check for all auto property attributes. </summary>
+        /// <summary>
+        /// Check for all auto property attributes.
+        /// </summary>
         private static void CheckComponents ()
         {
             var components =
@@ -92,8 +88,10 @@ namespace BricksBucket.Core.Editor.Attributes
                 FillProperty (components[i]);
         }
 
-        /// <summary> Fills the property. </summary>
-        /// <param name="property"></param>
+        /// <summary>
+        /// Fills the property.
+        /// </summary>
+        /// <param name="property">Info of the component.</param>
         private static void FillProperty (ComponentFieldInfo property)
         {
             var propertyType = property.field.FieldType;
@@ -101,6 +99,7 @@ namespace BricksBucket.Core.Editor.Attributes
             if (propertyType.IsArray)
             {
                 var underlyingType = propertyType.GetElementType ();
+                // ReSharper disable once CoVariantArrayConversion
                 Object[] components =
                     property.component.GetComponentsInChildren (
                         t: underlyingType,
@@ -149,6 +148,9 @@ namespace BricksBucket.Core.Editor.Attributes
                     }
                 }
             } 
+            
+            // TODO: Change Log method in AutoPropertyHandler.FillProperty.
+            Debug.LogError ("AutoProperty not found in {0} component.");
             /*
             DebugEditor.LogErrorFormat (
                 context: property.component,
@@ -164,7 +166,5 @@ namespace BricksBucket.Core.Editor.Attributes
                 field: property.field.Name
             );
         }
-
-        #endregion
     }
 }

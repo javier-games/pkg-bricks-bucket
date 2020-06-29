@@ -8,105 +8,104 @@ using Object = UnityEngine.Object;
 
 namespace BricksBucket.Core.Editor.Attributes
 {
+    // ReSharper disable CommentTypo
+    /// <!-- ButtonMethodMonoBehaviourEditor -->
     /// <summary>
     ///
+    /// <para>
     /// Button Method MonoBehaviour Editor.
-    ///
-    /// <para>
-    /// Custom editor for a MonoBehaviour Button Method Attribute.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
-    /// <para>
-    /// Based in the MyBox project by @deadcows.
-    /// https://github.com/Deadcows/MyBox
     /// </para>
     ///
     /// <para>
-    /// Original version by @Kaynn-Cahya
-    /// https://github.com/Kaynn-Cahya
+    /// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
+    /// project by @deadcows</see> and the original version by <see creh="
+    /// https://github.com/Kaynn-Cahya">@Kaynn-Cahya</see>.
     /// </para>
     ///
     /// </summary>
-	[CustomEditor (typeof(MonoBehaviour), true), CanEditMultipleObjects]
-	public class ButtonMethodMonoBehaviourEditor : UnityEditor.Editor
-	{
+    ///
+    /// <seealso href="https://github.com/Deadcows/MyBox">
+    /// Deadcows/MyBox</seealso>
+    /// <seealso href="https://github.com/Kaynn-Cahya">
+    /// @Kaynn-Cahya</seealso>
+    ///
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
+    [CustomEditor (typeof (MonoBehaviour), true), CanEditMultipleObjects]
+    public class ButtonMethodMonoBehaviourEditor : UnityEditor.Editor
+    {
+        #region Properties
 
-        #region Class Members
+        /// <summary>
+        /// Collection of valid members.
+        /// </summary>
+        private List<MethodInfo> _methods;
 
-        private List<MethodInfo> _methods;  //  Collection of valid members.
-		private MonoBehaviour _target;      //  Current target.
+        /// <summary>
+        /// Current target.
+        /// </summary>
+        private MonoBehaviour _target;
 
         #endregion
 
 
-
-        #region  Editor Methods
+        #region Methods
 
         /// <summary> Called on enable. </summary>
-        private void OnEnable()
-		{
-			_target = target as MonoBehaviour;
-			if (_target == null)
-                return;
+        private void OnEnable ()
+        {
+            _target = target as MonoBehaviour;
+            if (_target == null) return;
 
-			_methods = ButtonMethodHandler.CollectValidMethods(
-                type: _target.GetType()
+            _methods = ButtonMethodHandler.CollectValidMethods (
+                type: _target.GetType ()
             );
-		}
+        }
 
-        #endregion
+        /// <inheritdoc cref="UnityEditor.Editor.OnInspectorGUI"/>
+        public override void OnInspectorGUI ()
+        {
+            base.OnInspectorGUI ();
+            if (_methods == null) return;
 
-
-
-        #region Editor Overrides
-
-        /// <summary> Called on inspector GUI </summary>
-        public override void OnInspectorGUI()
-		{
-			base.OnInspectorGUI();
-			if (_methods == null)
-                return;
-
-			ButtonMethodHandler.OnInspectorGUI(_target, _methods);
-		}
+            ButtonMethodHandler.OnInspectorGUI (_target, _methods);
+        }
 
         #endregion
     }
-
+    
+    // ReSharper disable CommentTypo
+    /// <!-- ButtonMethodScriptableObjectEditor -->
     /// <summary>
-    ///
-    /// Button Method Scriptable Object Editor.
     ///
     /// <para>
     /// Custom editor for a scriptable object Button Method Attribute.
     /// </para>
     ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
     /// <para>
-    /// Based in the MyBox project by @deadcows.
-    /// https://github.com/Deadcows/MyBox
-    /// </para>
-    ///
-    /// <para>
-    /// Original version by @Kaynn-Cahya
-    /// https://github.com/Kaynn-Cahya
+    /// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
+    /// project by @deadcows</see> and the original version by <see creh="
+    /// https://github.com/Kaynn-Cahya">@Kaynn-Cahya</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href="https://github.com/Deadcows/MyBox">
+    /// Deadcows/MyBox</seealso>
+    /// <seealso href="https://github.com/Kaynn-Cahya">
+    /// @Kaynn-Cahya</seealso>
+    ///
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     [CustomEditor (typeof (ScriptableObject), true), CanEditMultipleObjects]
     public class ButtonMethodScriptableObjectEditor : UnityEditor.Editor
     {
-
         #region Class Members
 
-        private List<MethodInfo> _methods;  //  Collection of valid members.
-        private ScriptableObject _target;   //  Current target.
+        private List<MethodInfo> _methods; //  Collection of valid members.
+        private ScriptableObject _target; //  Current target.
 
         #endregion
-
 
 
         #region Editor Methods
@@ -117,13 +116,12 @@ namespace BricksBucket.Core.Editor.Attributes
             _target = target as ScriptableObject;
             if (_target == null) return;
 
-           _methods = ButtonMethodHandler.CollectValidMethods (
-               type: _target.GetType ()
+            _methods = ButtonMethodHandler.CollectValidMethods (
+                type: _target.GetType ()
             );
         }
 
         #endregion
-
 
 
         #region Editor Overrides
@@ -140,27 +138,29 @@ namespace BricksBucket.Core.Editor.Attributes
         #endregion
     }
 
+    // ReSharper disable CommentTypo
+    /// <!-- ButtonMethodHandler -->
     /// <summary>
     ///
-    /// Button Method Handler.
-    ///
     /// <para>
-    /// Class.
-    /// </para>
-    ///
-    /// <para> By Javier García | @jvrgms | 2019 </para>
-    ///
-    /// <para>
-    /// Based in the MyBox project by @deadcows.
-    /// https://github.com/Deadcows/MyBox
+    /// Handler for buttons.
     /// </para>
     ///
     /// <para>
-    /// Original version by @Kaynn-Cahya
-    /// https://github.com/Kaynn-Cahya
+    /// Based in the <see href="https://github.com/Deadcows/MyBox">MyBox
+    /// project by @deadcows</see> and the original version by <see creh="
+    /// https://github.com/Kaynn-Cahya">@Kaynn-Cahya</see>.
     /// </para>
     ///
     /// </summary>
+    ///
+    /// <seealso href="https://github.com/Deadcows/MyBox">
+    /// Deadcows/MyBox</seealso>
+    /// <seealso href="https://github.com/Kaynn-Cahya">
+    /// @Kaynn-Cahya</seealso>
+    ///
+    /// <!-- By Javier García | @jvrgms | 2020 -->
+    // ReSharper restore CommentTypo
     public static class ButtonMethodHandler
     {
         #region Public Methods
@@ -182,13 +182,10 @@ namespace BricksBucket.Core.Editor.Attributes
             foreach (var member in members)
             {
                 var method = member as MethodInfo;
-                if (IsValidMethod (method, member))
-                {
-                    if (methods == null)
-                        methods = new List<MethodInfo> ();
+                if (!IsValidMethod (method, member)) continue;
+                if (methods == null) methods = new List<MethodInfo> ();
 
-                    methods.Add (method);
-                }
+                methods.Add (method);
             }
 
             return methods;
@@ -198,7 +195,7 @@ namespace BricksBucket.Core.Editor.Attributes
         /// <param name="target"> Current Target. </param>
         /// <param name="methods"> List of methods. </param>
         public static void
-        OnInspectorGUI (Object target, List<MethodInfo> methods)
+            OnInspectorGUI (Object target, List<MethodInfo> methods)
         {
             EditorGUILayout.Space ();
 
@@ -223,60 +220,46 @@ namespace BricksBucket.Core.Editor.Attributes
 
             if (result != null)
             {
-                /*
-                DebugEditor.LogFormat (
-                    context: target,
-                    format: "{0}\nResult of Method '{1}' called by {2}",
-                    data: new object[]{ result, method.Name, target.name }
+                // TODO: Implement Log in ButtonMethodAttributeEditor in Invike.
+                Debug.Log (
+                    $"{result}\nResult of Method '{method.Name}' " +
+                    $"called by {target.name}"
                 );
-                */
             }
         }
 
         /// <summary> Validates a method. </summary>
         /// <param name="method"> Method to validate. </param>
-        /// <param name="member"> Member of the methot. </param>
-        /// <returns> Wether the method is valid. </returns>
+        /// <param name="member"> Member of the method. </param>
+        /// <returns> Whether the method is valid. </returns>
         private static bool IsValidMethod (MethodInfo method, MemberInfo member)
         {
             if (method == null)
             {
-                /*
-                DebugEditor.LogWarningFormat (
-                    context: null,
-                    format: string.Concat(
-                        "Property {0}  is not a method button. ",
-                        "Remove unnecesary EditorButtonAttribute. "
-                    ),
-                    data: member.Name
+                // TODO: Implement Log in ButtonMethodAttributeEditor in Invoke.
+                Debug.LogWarning (
+                    $"Property {member.Name}  is not a method button. " +
+                    "Remove unnecessary EditorButtonAttribute. "
                 );
-                */
                 return false;
             }
 
-            if (method.GetParameters ().Length > 0)
-            {
-                /*
-                DebugEditor.LogWarningFormat (
-                    context: null,
-                    format: string.Concat (
-                        "Methods with parameters are not supported by ",
-                        "EditorButtonAttribute at Method {0}"
-                    ),
-                    data: method.Name
-                );
-                */
-                return false;
-            }
+            if (method.GetParameters ().Length <= 0) return true;
+            
+            // TODO: Implement Log in ButtonMethodAttributeEditor in Invoke.
+            Debug.LogWarning (
+                "Methods with parameters are not supported by " +
+                $"EditorButtonAttribute at Method {method.Name}"
+            );
+            return false;
 
-            return true;
         }
 
         /// <summary> Validates whether a member is a button method. </summary>
         /// <param name="memberInfo"> Member info to validate. </param>
         /// <returns> Whether a member is a button method. </returns>
-        private static bool IsButtonMethod(MemberInfo memberInfo) =>
-            Attribute.IsDefined(memberInfo, typeof(ButtonMethodAttribute));
+        private static bool IsButtonMethod (MemberInfo memberInfo) =>
+            Attribute.IsDefined (memberInfo, typeof (ButtonMethodAttribute));
 
         #endregion
     }
