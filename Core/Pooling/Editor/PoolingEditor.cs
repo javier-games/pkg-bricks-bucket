@@ -20,7 +20,7 @@ namespace BricksBucket.Core.Pooling.Editor
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor (typeof (PoolInstance), false)]
-    public class PooledEditor : NoScriptEditor { }
+    public class PooledEditor : OdinEditor { }
 
     /// <summary>
     ///
@@ -37,7 +37,7 @@ namespace BricksBucket.Core.Pooling.Editor
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor (typeof (PoolManager), false)]
-    public class PoolManagerEditor : NoScriptEditor
+    public class PoolManagerEditor : OdinEditor
     {
         PoolInstance _selected;
         Pool _found;

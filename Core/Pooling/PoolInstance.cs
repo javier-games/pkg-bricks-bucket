@@ -1,4 +1,5 @@
 ﻿using System;
+using BricksBucket.Core.Attributes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,7 +31,7 @@ namespace BricksBucket.Core.Pooling
         /// If null this instance is consider as the original prefab.
         /// </summary>
         [Tooltip ("Original prefab reference")]
-        [Space, SerializeField, ReadOnly, ShowIf ("_prefab")]
+        [Space, SerializeField, Sirenix.OdinInspector.ReadOnly, Sirenix.OdinInspector.ShowIf ("_prefab")]
         private PoolInstance _prefab;
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace BricksBucket.Core.Pooling
         /// </summary>
         [Title ("Related 3D Components")]
         [Tooltip ("Related Rigid bodies to reset on dispose.")]
-        [SerializeField, ReadOnly, ShowIf ("_type", PrefabType._3D)]
+        [SerializeField, Sirenix.OdinInspector.ReadOnly, Sirenix.OdinInspector.ShowIf ("_type", PrefabType._3D)]
         private Rigidbody[] _rigidBodies3D;
 
 
@@ -114,7 +115,7 @@ namespace BricksBucket.Core.Pooling
         /// </summary>
         [Title ("Related 2D Components")]
         [Tooltip ("Related Rigid bodies to reset on dispose.")]
-        [SerializeField, ReadOnly, ShowIf ("_type", PrefabType._2D)]
+        [SerializeField, Sirenix.OdinInspector.ReadOnly, Sirenix.OdinInspector.ShowIf ("_type", PrefabType._2D)]
         private Rigidbody2D[] _rigidBodies2D;
 
         /// <summary>

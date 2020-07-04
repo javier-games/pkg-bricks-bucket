@@ -4,12 +4,12 @@ using UnityEngine;
 namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
-	/// <!-- TagAttribute -->
+	/// <!-- PositiveOnlyAttribute -->
 	///
 	/// <summary>
 	///
 	/// <para>
-	/// Shows a menu with tags for a string field.
+	/// Constrains the value to be positive only.
 	/// </para>
 	/// 
 	/// <para>
@@ -22,13 +22,21 @@ namespace BricksBucket.Core.Attributes
 	///
 	/// <example><code>
 	/// using UnityEngine;
-	/// using BricksBucket.Core.Attributes
+	/// using BricksBucket.Core.Attributes;
 	///
-	/// public class TagAttribute : MonoBehaviour
+	/// public class PositiveOnlyAttributeTest : MonoBehaviour
 	/// {
-	///   // Shows a menu with the existing tags.
-	///   [SerializeField, Tag]
-	///   private string m_tag;
+	///   // Constrains the value to be positive only.
+	///   [SerializeField, PositiveOnly]
+	///   private int m_integer;
+	///
+	///   // Also for floats, doubles...
+	///   [SerializeField, PositiveOnly]
+	///   private float m_float;
+	///
+	///   // And vectors.
+	///   [SerializeField, PositiveOnly]
+	///   private Vector3 m_vector3;
 	/// }
 	/// </code></example>
 	///
@@ -40,5 +48,5 @@ namespace BricksBucket.Core.Attributes
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
 	[AttributeUsage (AttributeTargets.Field)]
-	public class TagAttribute : PropertyAttribute { }
+	public class PositiveOnlyAttribute : PropertyAttribute { }
 }

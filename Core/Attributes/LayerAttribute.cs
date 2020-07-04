@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
 	/// <!-- LayerAttribute -->
@@ -18,6 +18,18 @@ namespace BricksBucket.Core
 	/// </para>
 	///
 	/// </summary>
+	///
+	/// <example><code>
+	/// using UnityEngine;
+	/// using BricksBucket.Core.Attributes;
+	/// 
+	/// public class LayerAttributeTest : MonoBehaviour
+	/// {
+	///   // Recive the value of the selected layer on inspector.
+	///   [SerializeField, Layer]
+	///   private int m_myLayer;
+	/// }
+	/// </code></example>
 	///
 	/// <seealso href="https://github.com/Deadcows/MyBox">
 	/// Deadcows/MyBox</seealso>

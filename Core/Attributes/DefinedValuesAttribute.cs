@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
 	/// <!-- DefinedValuesAttribute -->
@@ -18,6 +18,19 @@ namespace BricksBucket.Core
 	/// </para>
 	///
 	/// </summary>
+	///
+	/// <example><code>
+	/// using UnityEngine;
+	/// BricksBucket.Core.Attributes;
+	/// 
+	/// public class DefinedValuesAttributeTest : MonoBehaviour
+	/// {
+	///   // Displays the defined values instead an input string.
+	///   [SerializeField, DefinedValues(1,1.5,2)]
+	///   private string m_definedValue;
+	/// }
+	/// </code></example>
+	/// 
 	///
 	/// <seealso href="https://github.com/Deadcows/MyBox">
 	/// Deadcows/MyBox</seealso>

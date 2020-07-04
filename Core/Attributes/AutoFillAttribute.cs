@@ -4,12 +4,12 @@ using UnityEngine;
 namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
-	/// <!-- SpriteLayerAttribute -->
+	/// <!-- AutoFillAttribute -->
 	///
 	/// <summary>
 	///
 	/// <para>
-	/// Creates Popup with sprite layers available.
+	/// Automatically assign components from the Game Object on scene save.
 	/// </para>
 	/// 
 	/// <para>
@@ -19,17 +19,20 @@ namespace BricksBucket.Core.Attributes
 	///
 	/// </summary>
 	///
-	/// <example><code>
+	/// <example>
+	/// <code>
 	/// using UnityEngine;
 	/// using BricksBucket.Core.Attributes;
-	///
-	/// public class SpriteLayerAttributeTest : MonoBehaviour
+	/// 
+	/// public class AutoFillAttributeTest : MonoBehaviour
 	/// {
-	///   // Shows the available sprite layers.
-	///   [SerializeField, SpriteLayer]
-	///   private int m_spriteLayer;
+	///   // The variable m_myTransform is assigned when the scene
+	///   // is saved.
+	///   [SerializeField, AutoProperty]
+	///   public Transform m_transform;
 	/// }
-	/// </code></example>
+	/// </code>
+	/// </example>
 	///
 	/// <seealso href="https://github.com/Deadcows/MyBox">
 	/// Deadcows/MyBox</seealso>
@@ -37,5 +40,5 @@ namespace BricksBucket.Core.Attributes
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
 	[AttributeUsage (AttributeTargets.Field)]
-	public class SpriteLayerAttribute : PropertyAttribute { }
+	public class AutoFillAttribute : PropertyAttribute { }
 }

@@ -4,12 +4,12 @@ using UnityEngine;
 namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
-	/// <!-- SpriteLayerAttribute -->
+	/// <!-- ReadOnlyAttribute -->
 	///
 	/// <summary>
 	///
 	/// <para>
-	/// Creates Popup with sprite layers available.
+	/// Show the value on inspector but disable its editability.
 	/// </para>
 	/// 
 	/// <para>
@@ -23,11 +23,11 @@ namespace BricksBucket.Core.Attributes
 	/// using UnityEngine;
 	/// using BricksBucket.Core.Attributes;
 	///
-	/// public class SpriteLayerAttributeTest : MonoBehaviour
+	/// public class ReadOnlyAttributeTest : MonoBehaviour
 	/// {
-	///   // Shows the available sprite layers.
-	///   [SerializeField, SpriteLayer]
-	///   private int m_spriteLayer;
+	///   // Displays the string but disable its editability on inspector.
+	///   [SerializeField, ReadOnly]
+	///   private string m_string = "You can only edit me by code.";
 	/// }
 	/// </code></example>
 	///
@@ -37,5 +37,5 @@ namespace BricksBucket.Core.Attributes
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
 	[AttributeUsage (AttributeTargets.Field)]
-	public class SpriteLayerAttribute : PropertyAttribute { }
+	public class ReadOnlyAttribute : PropertyAttribute { }
 }

@@ -4,12 +4,14 @@ using UnityEngine;
 namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
-	/// <!-- TagAttribute -->
+	/// <!-- ButtonAttribute -->
 	///
 	/// <summary>
 	///
 	/// <para>
-	/// Shows a menu with tags for a string field.
+	/// Easy creates a button on inspector. The functionallity for this
+	/// attribute is canceled by <see href="https://odininspector.com">
+	/// Odin Inspector</see>, do not use both together.
 	/// </para>
 	/// 
 	/// <para>
@@ -22,13 +24,15 @@ namespace BricksBucket.Core.Attributes
 	///
 	/// <example><code>
 	/// using UnityEngine;
-	/// using BricksBucket.Core.Attributes
+	/// using BricksBucket.Core.Attributes;
 	///
-	/// public class TagAttribute : MonoBehaviour
+	/// public class ButtonAttributeTest : MonoBehaviour
 	/// {
-	///   // Shows a menu with the existing tags.
-	///   [SerializeField, Tag]
-	///   private string m_tag;
+	///   [Button]
+	///   public void MyMethod ()
+	///   {
+	///     Debug.Log ("My Method has been pressed.");
+	///   }
 	/// }
 	/// </code></example>
 	///
@@ -39,6 +43,6 @@ namespace BricksBucket.Core.Attributes
 	/// 
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
-	[AttributeUsage (AttributeTargets.Field)]
-	public class TagAttribute : PropertyAttribute { }
+	[AttributeUsage (AttributeTargets.Method)]
+	public class ButtonAttribute : PropertyAttribute { }
 }
