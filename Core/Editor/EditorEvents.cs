@@ -2,9 +2,10 @@
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-using EditorProcessor = UnityEditor.AssetModificationProcessor;
-// ReSharper disable UnassignedField.Global
 
+using EditorProcessor = UnityEditor.AssetModificationProcessor;
+
+// ReSharper disable UnassignedField.Global
 namespace BricksBucket.Core.Editor
 {
     /// <!-- EditorEvents -->

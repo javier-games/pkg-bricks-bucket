@@ -2,6 +2,13 @@ using System;
 
 namespace BricksBucket.Core.Editor
 {
+    /// <!-- ReflectionExtensions -->
+    /// 
+    /// <summary>
+    /// Extensions related to the reflection namespace.
+    /// </summary>
+    ///
+    /// <!-- By Javier García | @jvrgms | 2020 -->
 	public static class ReflectionExtensions
 	{
         /// <summary> Whether the type is a bool. </summary>

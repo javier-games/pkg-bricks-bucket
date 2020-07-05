@@ -15,16 +15,16 @@
         /// <summary>
         /// Rounded to the nearest integer.
         /// </summary>
-        Round = 0,
+        ROUND = 0,
         
         /// <summary>
         /// Smallest integer greater or equal.
         /// </summary>
-        Ceil = 1,
+        CEIL = 1,
         
         /// <summary>
         /// Grater integer smallest or equal.
         /// </summary>
-        Floor = 2
+        FLOOR = 2
     }
 }

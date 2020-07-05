@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+
 using Object = UnityEngine.Object;
 
 namespace BricksBucket.Core.Editor

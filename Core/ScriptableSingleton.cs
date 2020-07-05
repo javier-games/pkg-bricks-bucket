@@ -1,11 +1,5 @@
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-// ReSharper disable MemberCanBeProtected.Global
-// ReSharper disable VirtualMemberNeverOverridden.Global
 namespace BricksBucket.Core
 {
     /// <!-- ScriptableSingleton -->
@@ -20,59 +14,60 @@ namespace BricksBucket.Core
     public abstract class ScriptableSingleton<T> : ScriptableObject
     where T : ScriptableSingleton<T>
     {
-        
+
         #region Constants
-        
+
         /// <summary>
         /// Defines the default _folderPath in project folder.
         /// </summary>
         private const string DefaultFolderPath = "Assets/Resources";
-        
+
         /// <summary>
         /// Defines the default extension for the scriptable object.
         /// </summary>
         private const string DefaultExtension = ".asset";
 
         #endregion
-        
-        
+
+
         #region Fields
-        
+
         /// <summary>
         /// Scriptable Instance.
         /// </summary>
         private static T _instance;
-        
+
         #endregion
-        
-        
+
+
         #region Properties
-        
+
         /// <summary>
         /// Name of the file.
         /// </summary>
         /// <returns>Name of the type of the singleton as default.</returns>
-        public virtual string FileName => typeof (T).Name;
+        protected virtual string FileName => typeof (T).Name;
 
         /// <summary>
         /// Extension of the scriptable object asset.
         /// </summary>
         /// <returns><value>".asset"</value> as default.</returns>
-        public virtual string FileExtension => DefaultExtension;
+        protected virtual string FileExtension => DefaultExtension;
 
         /// <summary>
         /// Path of the file's folder.
         /// </summary>
         /// <returns><value>"Assets/Resources"</value> as default.</returns>
-        public virtual string FolderPath => DefaultFolderPath;
-        
+        protected virtual string FolderPath => DefaultFolderPath;
+
         /// <summary>
         /// Complete path of the file.
         /// </summary>
         /// <returns>Path of the file.</returns>
-        public string Path => string.Concat (
-            FolderPath, "/", FileName, FileExtension
-        );
+        public string Path =>
+            string.Concat (
+                FolderPath, "/", FileName, FileExtension
+            );
 
         /// <summary>
         /// Indicates whether an instance exists or not.
@@ -102,43 +97,46 @@ namespace BricksBucket.Core
                             "There are more than one" + typeof (T));
                     _instance = instances[0] as T;
                 }
+
                 if (InstanceExist) return _instance;
 
                 // Creates a new asset in Resources folder.
                 _instance = ScriptableObject.CreateInstance<T> ();
-                
+
 #if UNITY_EDITOR
                 var path = string.IsNullOrWhiteSpace (_instance.Path)
                     ? DefaultFolderPath
                     : _instance.Path;
-                if (!AssetDatabase.IsValidFolder (path))
+                if (!UnityEditor.AssetDatabase.IsValidFolder (path))
                 {
                     var segments = path.Split ('/');
                     var currentPath = segments[0];
                     for (int i = 1; i < segments.Length; i++)
                     {
-                        var wantedPath = currentPath + "/" + segments[i];
-                        if (AssetDatabase.IsValidFolder (wantedPath))
+                        var wanted = currentPath + "/" + segments[i];
+                        if (UnityEditor.AssetDatabase.IsValidFolder (wanted))
                         {
-                            currentPath = wantedPath;
+                            currentPath = wanted;
                             continue;
                         }
 
-                        string guid = AssetDatabase.CreateFolder(
+                        string guid = UnityEditor.AssetDatabase.CreateFolder (
                             parentFolder: currentPath,
                             newFolderName: segments[i]
                         );
-                        currentPath = AssetDatabase.GUIDToAssetPath(guid);
+                        currentPath =
+                            UnityEditor.AssetDatabase.GUIDToAssetPath (guid);
                     }
 
                     path = currentPath;
                 }
-                AssetDatabase.CreateAsset (_instance, path);
+
+                UnityEditor.AssetDatabase.CreateAsset (_instance, path);
 #endif
                 return _instance;
             }
         }
-        
+
         #endregion
     }
 }
