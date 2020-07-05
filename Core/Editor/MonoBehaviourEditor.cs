@@ -6,7 +6,7 @@ using UnityEngine;
 namespace BricksBucket.Core.Editor
 {
 	// ReSharper disable CommentTypo
-	/// <!-- BricksBucketMonoBehaviourEditor -->
+	/// <!-- MonoBehaviourEditor -->
 	/// 
 	/// <summary>
 	///
@@ -27,7 +27,7 @@ namespace BricksBucket.Core.Editor
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
 	[CustomEditor (typeof (MonoBehaviour), true), CanEditMultipleObjects]
-	public class BricksBucketMonoBehaviourEditor : UnityEditor.Editor
+	public class MonoBehaviourEditor : UnityEditor.Editor
 	{
 		#region Properties
 

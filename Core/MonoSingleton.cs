@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BricksBucket.Core.Generics
+namespace BricksBucket.Core
 {
     /// <!-- MonoSingleton -->
     /// 
@@ -15,52 +15,69 @@ namespace BricksBucket.Core.Generics
     public abstract class MonoSingleton<T> : MonoBehaviour
     where T : MonoSingleton<T>
     {
-        #region Class Members
+        #region Fields
 
-        private static T _instance;         //  Instance of the singleton.
-
-        #pragma warning disable RECS0108
-        // ReSharper disable StaticMemberInGenericType
-        private static bool _didAwoken;     //  Flagged true after awake.
-        private static bool _didDestroyed;  //  Flagged true after on destroy.
-        // ReSharper restore StaticMemberInGenericType
-        #pragma warning restore RECS0108
+        /// <summary>
+        /// Instance of the singleton.
+        /// </summary>
+        private static T _instance;
 
         #endregion
 
 
-        #region Class Accessors
+        #region Properties
 
-        /// <summary> Gets the instance. </summary>
+        /// <summary>
+        /// Flagged true after awake.
+        /// </summary>
+        /// <returns><value>True</value> after Awake.</returns>
+        // ReSharper disable once StaticMemberInGenericType
+        protected static bool DidAwoken { get; private set; }
+
+        /// <summary>
+        /// Flagged true after on destroy.
+        /// </summary>
+        /// <returns><value>True</value> after OnDestroy.</returns>
+        // ReSharper disable once StaticMemberInGenericType
+        protected static bool DidDestroyed { get; private set; }
+        
+        /// <summary>
+        /// Indicates whether this has an instance or not.
+        /// </summary>
+        /// <returns><value>True</value> if the singleton has been assigned
+        /// </returns>
+        public static bool InstanceExist => _instance != null;
+
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <returns>Null if the instance has been destroyed.</returns>
         public static T Instance
         {
             get
             {
                 //  Return null if the instances has been already destroyed.
-                if (_didDestroyed)
+                if (DidDestroyed)
                 {
                     // TODO: Add Log on MonoSingleton.Instance property.
-                    /*
-                    DebugUtils.InternalExtendedLog (
-                        layer: LogLayer.Logistics,
-                        type: LogType.Warning,
-                        context: null,
-                        format: "{0} singleton has been already destroyed.",
-                        data: typeof(T)
+                    Debug.LogWarning (
+                        $"{typeof(T)} singleton has been already destroyed."
                     );
-                    */
                     return null;
                 }
 
                 //  Return InstanceForced if this has not passed for Awake.
-                if (!_didAwoken && !InstanceExist)
+                if (!DidAwoken && !InstanceExist)
                     return InstanceForced;
                 
                 return _instance;
             }
         }
 
-        /// <summary> Gets the instance forced to not return null. </summary>
+        /// <summary>
+        /// Gets the instance forced to not return null.
+        /// </summary>
+        /// <returns>Always returns a value.</returns>
         public static T InstanceForced
         {
             get
@@ -70,15 +87,7 @@ namespace BricksBucket.Core.Generics
                     return _instance;
                 
                 // TODO: Add Log on MonoSingleton.InstanceForced property.
-                /*
-                DebugUtils.InternalExtendedLog (
-                    layer: LogLayer.Logistics,
-                    type: LogType.Warning,
-                    context: null,
-                    format: "{0} singleton has been forced.",
-                    data: typeof (T)
-                );
-                */
+                Debug.LogWarning ($"{typeof (T)} singleton has been forced.");
 
                 /* If a singleton has to be forced means that it is called
                  * from another awake in other MonoBehaviour class before
@@ -98,15 +107,9 @@ namespace BricksBucket.Core.Generics
                 if (FindObjectsOfType (typeof (T)).Length > 1)
                 {
                     // TODO: Add Log on MonoSingleton.InstanceForced property.
-                    /*
-                    DebugUtils.InternalExtendedLog (
-                        layer: LogLayer.Logistics,
-                        type: LogType.Warning,
-                        context: _instance,
-                        format: "Various instances of {0} singleton found.",
-                        data: typeof (T)
+                    Debug.LogWarning (
+                        $"Various instances of {typeof (T)} singleton found."
                     );
-                    */
                 }
 
                 if (InstanceExist)
@@ -132,9 +135,6 @@ namespace BricksBucket.Core.Generics
             }
         }
 
-        /// <summary> Indicates whether this has an instance or not. </summary>
-        public static bool InstanceExist => _instance != null;
-
         #endregion
 
 
@@ -148,8 +148,8 @@ namespace BricksBucket.Core.Generics
             else
             {
                 _instance = this as T;
-                _didAwoken = true;
-                _didDestroyed = false;
+                DidAwoken = true;
+                DidDestroyed = false;
             }
         }
 
@@ -157,8 +157,8 @@ namespace BricksBucket.Core.Generics
         protected virtual void OnDestroy ()
         {
             _instance = null;
-            _didAwoken = false;
-            _didDestroyed = true;
+            DidAwoken = false;
+            DidDestroyed = true;
         }
 
         #endregion

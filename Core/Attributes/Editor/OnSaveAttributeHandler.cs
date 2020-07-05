@@ -26,13 +26,13 @@ namespace BricksBucket.Core.Attributes.Editor
 
         /// <summary> Subscribing to editor events. </summary>
         static OnSaveAttributeHandler () =>
-            EditorEvents.OnSaveAssets += CheckComponents;
+            EditorEvents.onSaveAssets += CheckComponents;
 
         /// <summary> Check for On Save method attributes. </summary>
         private static void CheckComponents ()
         {
             var components =
-                SerializedUtils.GetMethodsWithAttribute<OnSaveAttribute> ();
+                BucketEditor.GetMethodsWithAttribute<OnSaveAttribute> ();
 
             for (int i = 0; i < components.Length; i++)
                 InvokeMethod (components[i].component, components[i].method);

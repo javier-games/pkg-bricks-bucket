@@ -32,7 +32,7 @@ namespace BricksBucket.Core.Attributes.Editor
 		/// Subscribing to editor events.
 		/// </summary>
 		static AutoFillAttributeHandler () =>
-			EditorEvents.OnSaveAssets += CheckComponents;
+			EditorEvents.onSaveAssets += CheckComponents;
 
 		/// <summary>
 		/// Check for all auto property attributes.
@@ -40,7 +40,7 @@ namespace BricksBucket.Core.Attributes.Editor
 		private static void CheckComponents ()
 		{
 			var components =
-				SerializedUtils.GetFieldsWithAttribute
+				BucketEditor.GetFieldsWithAttribute
 					<AutoFillAttribute> ();
 
 			for (int i = 0; i < components.Length; i++)
@@ -51,7 +51,9 @@ namespace BricksBucket.Core.Attributes.Editor
 		/// Fills the property.
 		/// </summary>
 		/// <param name="property">Info of the component.</param>
-		private static void FillProperty (ComponentFieldInfo property)
+		private static void FillProperty (
+			BucketEditor.ComponentFieldInfo property
+		)
 		{
 			var propertyType = property.field.FieldType;
 
@@ -114,7 +116,7 @@ namespace BricksBucket.Core.Attributes.Editor
 				" component. Make sure it is also serialized."
 			);
 
-			throw SerializedUtils.FieldNotFoundException (
+			throw BucketEditor.FieldNotFoundException (
 				type: propertyType,
 				field: property.field.Name
 			);

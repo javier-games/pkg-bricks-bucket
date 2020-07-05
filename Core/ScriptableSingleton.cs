@@ -6,7 +6,7 @@ using UnityEditor;
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable VirtualMemberNeverOverridden.Global
-namespace BricksBucket.Core.Generics
+namespace BricksBucket.Core
 {
     /// <!-- ScriptableSingleton -->
     /// 
@@ -49,23 +49,27 @@ namespace BricksBucket.Core.Generics
         #region Properties
         
         /// <summary>
-        /// Name of the folder.
+        /// Name of the file.
         /// </summary>
+        /// <returns>Name of the type of the singleton as default.</returns>
         public virtual string FileName => typeof (T).Name;
 
         /// <summary>
         /// Extension of the scriptable object asset.
         /// </summary>
+        /// <returns><value>".asset"</value> as default.</returns>
         public virtual string FileExtension => DefaultExtension;
 
         /// <summary>
         /// Path of the file's folder.
         /// </summary>
+        /// <returns><value>"Assets/Resources"</value> as default.</returns>
         public virtual string FolderPath => DefaultFolderPath;
         
         /// <summary>
         /// Complete path of the file.
         /// </summary>
+        /// <returns>Path of the file.</returns>
         public string Path => string.Concat (
             FolderPath, "/", FileName, FileExtension
         );
@@ -73,11 +77,14 @@ namespace BricksBucket.Core.Generics
         /// <summary>
         /// Indicates whether an instance exists or not.
         /// </summary>
+        /// <returns><value>Null</value> if the Instance does not exists.
+        /// </returns>
         public static bool InstanceExist => _instance != null;
 
         /// <summary>
         /// Returns the scriptable instance.
         /// </summary>
+        /// <returns>Always returns a value.</returns>
         // ReSharper disable once MemberCanBeProtected.Global
         public static T Instance
         {
