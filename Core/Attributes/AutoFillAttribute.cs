@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
 	/// <!-- AutoFillAttribute -->

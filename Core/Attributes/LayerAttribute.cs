@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
-	/// <!-- SpriteLayerAttribute -->
+	/// <!-- LayerAttribute -->
 	///
 	/// <summary>
 	///
 	/// <para>
-	/// Creates Popup with sprite layers available.
+	/// Shows an int field as LayerMask.
 	/// </para>
 	/// 
 	/// <para>
@@ -21,13 +21,13 @@ namespace BricksBucket.Core
 	///
 	/// <example><code>
 	/// using UnityEngine;
-	/// using BricksBucket.Core;
-	///
-	/// public class SpriteLayerAttributeTest : MonoBehaviour
+	/// using BricksBucket.Core.Attributes;
+	/// 
+	/// public class LayerAttributeTest : MonoBehaviour
 	/// {
-	///   // Shows the available sprite layers.
-	///   [SerializeField, SpriteLayer]
-	///   private int m_spriteLayer;
+	///   // Recive the value of the selected layer on inspector.
+	///   [SerializeField, Layer]
+	///   private int m_myLayer;
 	/// }
 	/// </code></example>
 	///
@@ -37,5 +37,5 @@ namespace BricksBucket.Core
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
 	[AttributeUsage (AttributeTargets.Field)]
-	public class SpriteLayerAttribute : PropertyAttribute { }
+	public class LayerAttribute : PropertyAttribute { }
 }

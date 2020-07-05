@@ -7,7 +7,7 @@ using UnityEngine;
 
 using Object = UnityEngine.Object;
 
-namespace BricksBucket.Core.Editor
+namespace BricksBucket.Core.Attributes.Editor
 {
 	// ReSharper disable CommentTypo
     /// <!-- ButtonAttributeHandler -->

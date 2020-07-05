@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
 	/// <!-- DefinedValuesAttribute -->
@@ -21,7 +21,7 @@ namespace BricksBucket.Core
 	///
 	/// <example><code>
 	/// using UnityEngine;
-	/// BricksBucket.Core;
+	/// BricksBucket.Core.Attributes;
 	/// 
 	/// public class DefinedValuesAttributeTest : MonoBehaviour
 	/// {

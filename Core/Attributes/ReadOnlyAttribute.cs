@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
-	/// <!-- LayerAttribute -->
+	/// <!-- ReadOnlyAttribute -->
 	///
 	/// <summary>
 	///
 	/// <para>
-	/// Shows an int field as LayerMask.
+	/// Show the value on inspector but disable its editability.
 	/// </para>
 	/// 
 	/// <para>
@@ -21,13 +21,13 @@ namespace BricksBucket.Core
 	///
 	/// <example><code>
 	/// using UnityEngine;
-	/// using BricksBucket.Core;
-	/// 
-	/// public class LayerAttributeTest : MonoBehaviour
+	/// using BricksBucket.Core.Attributes;
+	///
+	/// public class ReadOnlyAttributeTest : MonoBehaviour
 	/// {
-	///   // Recive the value of the selected layer on inspector.
-	///   [SerializeField, Layer]
-	///   private int m_myLayer;
+	///   // Displays the string but disable its editability on inspector.
+	///   [SerializeField, ReadOnly]
+	///   private string m_string = "You can only edit me by code.";
 	/// }
 	/// </code></example>
 	///
@@ -37,5 +37,5 @@ namespace BricksBucket.Core
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
 	[AttributeUsage (AttributeTargets.Field)]
-	public class LayerAttribute : PropertyAttribute { }
+	public class ReadOnlyAttribute : PropertyAttribute { }
 }

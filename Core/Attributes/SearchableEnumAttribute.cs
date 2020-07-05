@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
 	/// <!-- SearchableEnumAttribute -->
@@ -22,7 +22,7 @@ namespace BricksBucket.Core
 	///
 	/// <example><code>
 	/// using UnityEngine;
-	/// using BricksBucket.Core;
+	/// using BricksBucket.Core.Attributes;
 	///
 	/// public class SearchableEnumAttributeTest : MonoBehaviour
 	/// {

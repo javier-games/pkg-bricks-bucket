@@ -1,17 +1,15 @@
 using System;
 using UnityEngine;
 
-namespace BricksBucket.Core
+namespace BricksBucket.Core.Attributes
 {
 	// ReSharper disable CommentTypo
-	/// <!-- ButtonAttribute -->
+	/// <!-- PositiveOnlyAttribute -->
 	///
 	/// <summary>
 	///
 	/// <para>
-	/// Easy creates a button on inspector. The functionallity for this
-	/// attribute is canceled by <see href="https://odininspector.com">
-	/// Odin Inspector</see>, do not use both together.
+	/// Constrains the value to be positive only.
 	/// </para>
 	/// 
 	/// <para>
@@ -24,15 +22,21 @@ namespace BricksBucket.Core
 	///
 	/// <example><code>
 	/// using UnityEngine;
-	/// using BricksBucket.Core;
+	/// using BricksBucket.Core.Attributes;
 	///
-	/// public class ButtonAttributeTest : MonoBehaviour
+	/// public class PositiveOnlyAttributeTest : MonoBehaviour
 	/// {
-	///   [Button]
-	///   public void MyMethod ()
-	///   {
-	///     Debug.Log ("My Method has been pressed.");
-	///   }
+	///   // Constrains the value to be positive only.
+	///   [SerializeField, PositiveOnly]
+	///   private int m_integer;
+	///
+	///   // Also for floats, doubles...
+	///   [SerializeField, PositiveOnly]
+	///   private float m_float;
+	///
+	///   // And vectors.
+	///   [SerializeField, PositiveOnly]
+	///   private Vector3 m_vector3;
 	/// }
 	/// </code></example>
 	///
@@ -43,6 +47,6 @@ namespace BricksBucket.Core
 	/// 
 	/// <!-- By Javier García | @jvrgms | 2020 -->
 	// ReSharper restore CommentTypo
-	[AttributeUsage (AttributeTargets.Method)]
-	public class ButtonAttribute : PropertyAttribute { }
+	[AttributeUsage (AttributeTargets.Field)]
+	public class PositiveOnlyAttribute : PropertyAttribute { }
 }
