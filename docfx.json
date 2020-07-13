@@ -4,13 +4,12 @@
       "src": [
         {
           "files": [
-            "src/**.csproj"
+            "source/**.cs"
           ]
         }
       ],
       "dest": "api",
-      "disableGitFeatures": false,
-      "disableDefaultFilter": false
+      "globalNamespaceId": "Global"
     }
   ],
   "build": {
@@ -49,10 +48,17 @@
       }
     ],
     "dest": "_site",
-    "globalMetadataFiles": [],
+    "globalMetadata": {
+      "_appTitle": "Bricks Bucket",
+      "_appFooter": "Copyright © 2020 Monogum Hi-Turbo",
+      "_appFaviconPath": "images/favicon.ico",
+      "_appLogoPath": "images/logo.svg",
+      "_disableContribution": true
+    },
     "fileMetadataFiles": [],
     "template": [
-      "default"
+      "default",
+      "templates/monogum"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",

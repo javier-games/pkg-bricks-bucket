@@ -1,0 +1,9 @@
+[submodule "source/bricks-bucket-core-package"]
+	path = source/bricks-bucket-core-package
+	url = https://jvrgms@bitbucket.org/monogum/bricks-bucket-core-package.git
+[submodule "source/bricks-bucket-global-package"]
+	path = source/bricks-bucket-global-package
+	url = https://jvrgms@bitbucket.org/monogum/bricks-bucket-global-package.git
+[submodule "source/bricks-bucket-web-package"]
+	path = source/bricks-bucket-web-package
+	url = https://jvrgms@bitbucket.org/monogum/bricks-bucket-web-package.git
