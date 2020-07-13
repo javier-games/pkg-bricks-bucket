@@ -7,5 +7,6 @@ pipelines:
         name: Build and Deploy to Production
         deployment: Production
         script:
+          - git submodule update --init
           - docfx docfx.json
           - surge --project ./_site --domain $DOMAIN
