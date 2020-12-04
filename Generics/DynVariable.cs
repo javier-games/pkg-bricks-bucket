@@ -6,13 +6,13 @@ using Object = UnityEngine.Object;
 namespace Framework.Generics {
 
     /// <summary>
-    /// DynVar.
+    /// DynVariable.
     ///
     /// Dynamic variable that stores different types of data.
     /// By Javier García.
     /// </summary>
     [Serializable]
-    public class DynVar {
+    public class DynVariable : IVariable {
 
 
 
@@ -29,9 +29,9 @@ namespace Framework.Generics {
         [SerializeField]
         protected Object asset;           //  UnityEngine.Object variable.
 
+        //  Curve variable
         [SerializeField]
-        protected AnimationCurve curve     //  Curve variable
-        = new AnimationCurve ();
+        protected AnimationCurve curve = new AnimationCurve ();
 
         [SerializeField]
         protected DataType type;           //  Stores the type of variable.
@@ -51,7 +51,7 @@ namespace Framework.Generics {
                     stringValue = string.Empty;
                     asset = null;
                     if (curve != null)
-                        for (int i = 0; i < curve.keys.Length; i++)
+                        for (var i = 0; i < curve.keys.Length; i++)
                             curve.RemoveKey (i);
                 }
                 type = value;
@@ -153,7 +153,7 @@ namespace Framework.Generics {
 
         #region Class Implementation
 
-        public DynVar (bool readOnly = false) {
+        public DynVariable (bool readOnly = false) {
             Type = DataType.NULL;
             Vector4 = Vector4.zero;
             String = string.Empty;
@@ -165,7 +165,7 @@ namespace Framework.Generics {
                 curve.RemoveKey (i);
         }
 
-        public DynVar (
+        public DynVariable (
             Vector4 vector,
             string @string,
             AnimationCurve curve,
@@ -186,8 +186,8 @@ namespace Framework.Generics {
         /// <summary>
         /// Clones this instance, overriding the "readonly".
         /// </summary>
-        public DynVar Clone (bool readOnly) {
-            var v = new DynVar {
+        public DynVariable Clone (bool readOnly) {
+            var v = new DynVariable {
                 Vector4 = vector,
                 String = stringValue,
                 Curve = curve,
@@ -202,22 +202,22 @@ namespace Framework.Generics {
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        public DynVar Clone () => Clone (ReadOnly);
+        public DynVariable Clone () => Clone (ReadOnly);
 
         /// <summary>
         /// Returns this value as readonly
         /// </summary>
-        public DynVar AsReadOnly () => ReadOnly ? this : Clone (true);
+        public DynVariable AsReadOnly () => ReadOnly ? this : Clone (true);
 
         /// <summary>
         /// Clones this instance, returning a writable copy.
         /// </summary>
-        public DynVar AsWritable () => Clone (false);
+        public DynVariable AsWritable () => Clone (false);
 
         /// <summary>
         /// Performs an assignment with the specified one.
         /// </summary>
-        public void Assign (DynVar value) {
+        public void Assign (DynVariable value) {
             if (ReadOnly)
                 throw new Exception ("Assigning on r-value");
 
@@ -374,7 +374,7 @@ namespace Framework.Generics {
 
         /// <summary> Determines if Obj is equal to this instance. </summary>
         public override bool Equals (object obj) {
-            if (!(obj is DynVar other))
+            if (!(obj is DynVariable other))
                 return false;
 
             if (other.Type == Type && Type == DataType.NULL)
@@ -523,25 +523,5 @@ namespace Framework.Generics {
 
         #endregion
         
-    }
-
-
-    /// <summary>
-    /// Enumeration of possible data types.
-    /// </summary>
-    public enum DataType {
-        NULL,
-        BOOLEAN,
-        INTEGER,
-        FLOAT,
-        DOUBLE,
-        VECTOR2,
-        VECTOR3,
-        VECTOR4,
-        QUATERNION,
-        COLOR,
-        CURVE,
-        STRING,
-        ASSET
     }
 }

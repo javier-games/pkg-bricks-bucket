@@ -26,9 +26,9 @@ namespace Framework.Generics
         
         
         public const string BricksBucketNameSpace = "Framework.Generics";
-        public const string DynVarClassName = "DynVar";
-        public const string DynRefClassName = "DynRef";
-        public const string RegisteredTypesClassName = "RegisteredTypes";
+        public const string DynVarClassName = "DynVariable";
+        public const string DynRefClassName = "AbstractReference";
+        public const string RegisteredTypesClassName = "AbstractHardwired";
         public const string Extension = ".cs";
 
         

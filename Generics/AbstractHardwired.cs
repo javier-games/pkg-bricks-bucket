@@ -9,10 +9,10 @@ using System.Collections.Generic;
 namespace Framework.Generics
 {
 	/// <summary>
-	/// Since iOS cannot support System.Reflection, DynRef has to
+	/// Since iOS cannot support System.Reflection, AbstractReference has to
 	/// have this static class to cast values.
 	/// </summary>
-	public class RegisteredTypes
+	public abstract class AbstractHardwired : IHardwiredRegistry
 	{
 
 		public virtual string NameSpace => "";

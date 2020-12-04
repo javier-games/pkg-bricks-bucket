@@ -6,39 +6,41 @@ using UnityEditor;
 namespace Framework.Generics {
 
     /// <summary>
-    /// Dyn reference drawer.
-    /// 
-    /// Drawer for the DynVar Class.
-    /// By Javier García.
+    /// Drawer for the DynVariable Class.
     /// </summary>
-    [CustomPropertyDrawer(typeof(DynRef))]
-    public class DynRefDrawer : PropertyDrawer
+    public abstract class DynRefDrawer <T> : PropertyDrawer
+    where T : IReference, new ()
     {
 
 
 
         #region Class Members
 
-        //  Height of a standard singleline.
+        //  Height of a standard single line.
         private readonly float _fieldSize = EditorGUIUtility.singleLineHeight;
 
         //  Array of possible rects.
         private readonly Rect [] _rects = new Rect [5];
 
         //  References of a dynamic variable.
-        private readonly DynRef _dynRef = new DynRef ();
+        private readonly T _dynRef = new T ();
 
         //  List that the stores the properties and components.
         private readonly List<string> _dropdown = new List<string> ();
 
-
-        private PropertyInfo [] _propertiesInfo;      //  Reference to proertiesInfo.
-        private Component [] _components;             //  Reference to components.
-        private int _rectIndex;                      //  Curren count of rects.
-        private int _count;                          //  Count of fields.
-
-        private const float Padding = 4;            //  Size of padding.
-        private const string Text = "Value";        //  Text to show in value.
+        //  Reference to propertiesInfo.
+        private PropertyInfo [] _propertiesInfo;
+        //  Reference to components.
+        private Component [] _components;
+        //  Current count of rects.
+        private int _rectIndex;
+        //  Count of fields.
+        private int _count; 
+        
+        //  Size of padding.
+        private const float Padding = 4;
+        //  Text to show in value.
+        private const string Text = "Value";
 
         #endregion
 
@@ -116,7 +118,7 @@ namespace Framework.Generics {
 
 
                 //  Component Validation.
-                if (!_dynRef.Types.ContainsComponent (type.ToString ())) {
+                if (!_dynRef.Hardwired.ContainsComponent (type.ToString ())) {
 
                     EditorGUI.BeginChangeCheck ();
                     EditorGUI.HelpBox (
@@ -130,7 +132,7 @@ namespace Framework.Generics {
                     if (EditorGUI.EndChangeCheck ()) {
                         Registrator.RegisterType(
                             _dynRef.Component.GetType (),
-                            _dynRef.Types
+                            _dynRef.Hardwired
                         );
                     }
 
@@ -186,7 +188,7 @@ namespace Framework.Generics {
 
                     _dynRef.SetProperty (_dropdown [propIndex]);
                     //  Property Validation.
-                    if (!_dynRef.Types.ContainsProperty (type.ToString (), _dynRef.Property)) {
+                    if (!_dynRef.Hardwired.ContainsProperty (type.ToString (), _dynRef.Property)) {
                         EditorGUI.BeginChangeCheck ();
                         EditorGUI.HelpBox (
                             position: GetRect (),
@@ -199,7 +201,7 @@ namespace Framework.Generics {
                         if (EditorGUI.EndChangeCheck ()) {
                             Registrator.RegisterType(
                                 _dynRef.Component.GetType (),
-                                _dynRef.Types
+                                _dynRef.Hardwired
                             );
                         }
 
@@ -208,63 +210,136 @@ namespace Framework.Generics {
                         return;
                     }
 
-                    switch (_dynRef.DynVar.Type) {
+                    switch (_dynRef.Variable.Type) {
 
                         case DataType.NULL:
                             EditorGUI.LabelField (GetRect (), Text + " null");
                             break;
 
                         case DataType.BOOLEAN:
-                            _dynRef.SetValue (EditorGUI.Toggle (GetRect (), Text, _dynRef.DynVar.Boolean));
+                            _dynRef.SetValue (
+                                EditorGUI.Toggle (
+                                    GetRect (),
+                                    Text,
+                                    (bool) _dynRef.Variable.Get(typeof(bool))
+                                )
+                            );
                             break;
 
                         case DataType.INTEGER:
-                            _dynRef.SetValue (EditorGUI.IntField (GetRect (), Text, _dynRef.DynVar.Integer));
+                            _dynRef.SetValue (
+                                EditorGUI.IntField (
+                                    GetRect (),
+                                    Text,
+                                    (int) _dynRef.Variable.Get(typeof(int))
+                                )
+                            );
                             break;
 
                         case DataType.FLOAT:
-                            _dynRef.SetValue (EditorGUI.FloatField (GetRect (), Text, _dynRef.DynVar.Float));
+                            _dynRef.SetValue (
+                                EditorGUI.FloatField (
+                                    GetRect (),
+                                    Text,
+                                    (float) _dynRef.Variable.Get(typeof(float))
+                                )
+                            );
                             break;
 
                         case DataType.DOUBLE:
-                            _dynRef.SetValue (EditorGUI.DoubleField (GetRect (), Text, _dynRef.DynVar.Double));
+                            _dynRef.SetValue (
+                                EditorGUI.DoubleField (
+                                    GetRect (),
+                                    Text,
+                                    (double) _dynRef.Variable.Get(typeof(double))
+                                )
+                            );
                             break;
 
                         case DataType.VECTOR2:
-                            _dynRef.SetValue (EditorGUI.Vector2Field (GetRect (), Text, _dynRef.DynVar.Vector2));
+                            _dynRef.SetValue (
+                                EditorGUI.Vector2Field (
+                                    GetRect (),
+                                    Text,
+                                    (Vector2) _dynRef.Variable.Get(typeof(Vector2))
+                                )
+                            );
                             break;
 
                         case DataType.VECTOR3:
-                            _dynRef.SetValue (EditorGUI.Vector3Field (GetRect (), Text, _dynRef.DynVar.Vector3));
+                            _dynRef.SetValue (
+                                EditorGUI.Vector3Field (
+                                    GetRect (),
+                                    Text,
+                                    (Vector3) _dynRef.Variable.Get(typeof(Vector3))
+                                )
+                            );
                             break;
 
                         case DataType.VECTOR4:
-                            _dynRef.SetValue (EditorGUI.Vector4Field (GetRect (), Text, _dynRef.DynVar.Vector4));
+                            _dynRef.SetValue (
+                                EditorGUI.Vector4Field (
+                                    GetRect (),
+                                    Text,
+                                    (Vector4) _dynRef.Variable.Get(typeof(Vector4))
+                                )
+                            );
                             break;
 
                         case DataType.QUATERNION:
-                            Vector4 aux = EditorGUI.Vector4Field (GetRect (), Text, _dynRef.DynVar.Vector4);
-                            _dynRef.SetValue (new Quaternion (aux.x, aux.y, aux.z, aux.w));
+                            var aux = EditorGUI.Vector4Field (
+                                GetRect (),
+                                Text,
+                                (Vector4) _dynRef.Variable.Get(typeof(Vector4))
+                            );
+                            _dynRef.SetValue (
+                                new Quaternion (aux.x, aux.y, aux.z, aux.w)
+                            );
                             break;
 
                         case DataType.COLOR:
-                            _dynRef.SetValue (EditorGUI.ColorField (GetRect (), Text, _dynRef.DynVar.Color));
+                            _dynRef.SetValue (
+                                EditorGUI.ColorField (
+                                    GetRect (),
+                                    Text,
+                                    (Color) _dynRef.Variable.Get(typeof(Color))
+                                )
+                            );
                             break;
 
                         case DataType.STRING:
-                            _dynRef.SetValue (EditorGUI.TextField (GetRect (), Text, _dynRef.DynVar.String));
+                            _dynRef.SetValue (
+                                EditorGUI.TextField (
+                                    GetRect (),
+                                    Text,
+                                    (string) _dynRef.Variable.Get(typeof(string))
+                                )
+                            );
                             break;
 
                         case DataType.CURVE:
-                            _dynRef.SetValue (EditorGUI.CurveField (GetRect (), Text, _dynRef.DynVar.Curve));
+                            _dynRef.SetValue (
+                                EditorGUI.CurveField (
+                                    GetRect (),
+                                    Text,
+                                     _dynRef.Variable.Get(
+                                        typeof(AnimationCurve)
+                                    ) as AnimationCurve
+                                )
+                            );
                             break;
 
                         case DataType.ASSET:
+                            var component = _dynRef.Variable.Get(
+                                typeof(Object)
+                            ) as Object;
                             _dynRef.SetValue (EditorGUI.ObjectField (
                                 GetRect (),
                                 Text,
-                                _dynRef.DynVar.Asset,
-                                _dynRef.DynVar.Asset != null ? _dynRef.DynVar.Asset.GetType () : typeof (Object),
+                                component,
+                                component != null 
+                                    ? component.GetType ()
+                                    : typeof (Object),
                                 true
                             ));
                             break;
@@ -287,13 +362,20 @@ namespace Framework.Generics {
         /// <summary> Stores the data. </summary>
         private void StoreData (SerializedProperty property, SerializedProperty dynProperty) {
 
-            property.FindPropertyRelative ("component").objectReferenceValue = _dynRef.Component;
-            property.FindPropertyRelative ("property").stringValue = _dynRef.Property;
-            dynProperty.FindPropertyRelative ("stringValue").stringValue = _dynRef.DynVar.String;
-            dynProperty.FindPropertyRelative ("curve").animationCurveValue = _dynRef.DynVar.Curve;
-            dynProperty.FindPropertyRelative ("asset").objectReferenceValue = _dynRef.DynVar.Asset;
-            dynProperty.FindPropertyRelative ("vector").vector4Value = _dynRef.DynVar.Vector4;
-            dynProperty.FindPropertyRelative ("type").enumValueIndex = (int)_dynRef.DynVar.Type;
+            property.FindPropertyRelative ("component").objectReferenceValue =
+                _dynRef.Component;
+            property.FindPropertyRelative ("property").stringValue =
+                _dynRef.Property;
+            dynProperty.FindPropertyRelative ("stringValue").stringValue =
+                (string) _dynRef.Variable.Get(typeof(string));
+            dynProperty.FindPropertyRelative("curve").animationCurveValue =
+                _dynRef.Variable.Get(typeof(AnimationCurve)) as AnimationCurve;
+            dynProperty.FindPropertyRelative ("asset").objectReferenceValue =
+                _dynRef.Variable.Get(typeof(Object)) as Object;
+            dynProperty.FindPropertyRelative("vector").vector4Value =
+                (Vector4) _dynRef.Variable.Get(typeof(Vector4));
+            dynProperty.FindPropertyRelative ("type").enumValueIndex =
+                (int)_dynRef.Variable.Type;
 
             //  Assigning count of fields shown.
             _count = _rectIndex;

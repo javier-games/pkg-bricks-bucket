@@ -3,19 +3,19 @@
 namespace Framework.Generics {
 
     /// <summary>
-    /// DynRef.
+    /// AbstractReference.
     /// 
     /// Dynamic reference to component properties.
     /// By Javier García.
     /// </summary>
     [System.Serializable]
-    public class DynRef
+    public abstract class AbstractReference<THardwired> : IReference
+    where THardwired : AbstractHardwired, new()
     {
         
         #region Fields
 
-        private static RegisteredTypes
-            _registeredTypes = new RegisteredTypes();
+        private static THardwired _hardwired = new THardwired();
 
         [SerializeField]
         private Object component;    //  Component Reference.
@@ -24,7 +24,7 @@ namespace Framework.Generics {
         private string property;     //  Name of the _property.
 
         [SerializeField]
-        private DynVar value;        //  Value of the _property.
+        private DynVariable value;        //  Value of the _property.
 
         #endregion
 
@@ -44,14 +44,11 @@ namespace Framework.Generics {
             protected set => property = value;
         }
 
-        /// <summary> Gets the dynamic variable. </summary>
-        public DynVar DynVar {
-            get => value;
-            protected set => this.value = value;
-        }
+        public virtual IVariable Variable => value;
 
-        public virtual RegisteredTypes Types =>
-            _registeredTypes ?? (_registeredTypes = new RegisteredTypes());
+        public virtual IHardwiredRegistry Hardwired =>
+            _hardwired ?? (_hardwired = new THardwired());
+
 
         #endregion
 
@@ -59,11 +56,13 @@ namespace Framework.Generics {
 
         #region Class Implementation
 
-        /// <summary> Initializes a new instance of the DynRef class. </summary>
-        public DynRef () {
+        /// <summary>
+        /// Initializes a new instance of the AbstractReference class.
+        /// </summary>
+        protected AbstractReference () {
             Component = null;
             Property = string.Empty;
-            DynVar = new DynVar();
+            value = new DynVariable();
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace Framework.Generics {
             if (Component == reference) return;
             Component = reference;
             Property = string.Empty;
-            DynVar.Type = DataType.NULL;
+            value.Type = DataType.NULL;
         }
 
         /// <summary> Sets the property. </summary>
@@ -87,7 +86,7 @@ namespace Framework.Generics {
         /// <summary> Updates the dyn variable. </summary>
         public void UpdatedDynVar () {
             if (GetValue () != null)
-                DynVar.Set (GetValue ());
+                value.Set (GetValue ());
         }
 
         /// <summary> Gets the value. </summary>
@@ -96,7 +95,7 @@ namespace Framework.Generics {
                 return null;
             }
 
-            try { return Types.GetValue (Component, Property); }
+            try { return _hardwired.GetValue (Component, Property); }
             catch (System.Exception) {
                 return null;
             }
@@ -110,7 +109,7 @@ namespace Framework.Generics {
 
             try
             {
-                Types.SetValue (Component, Property, propertyValue);
+                _hardwired.SetValue (Component, Property, propertyValue);
             }
             catch (System.Exception)
             {

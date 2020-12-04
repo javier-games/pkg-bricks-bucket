@@ -11,7 +11,7 @@ namespace Framework.Generics
     public static class Registrator
     {
         /// <summary>
-        /// Writer for RegisteredTypes.cs
+        /// Writer for AbstractHardwired.cs
         /// </summary>
         private static StreamWriter _writer;
 
@@ -19,22 +19,23 @@ namespace Framework.Generics
         /// 
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="registeredTypesClass"></param>
+        /// <param name="hardwiredClass"></param>
         public static void RegisterType(
             Type type,
-            RegisteredTypes registeredTypesClass)
+            IHardwiredRegistry hardwiredClass)
         {
-            if (string.IsNullOrWhiteSpace(registeredTypesClass.Path))
+            
+            if (string.IsNullOrWhiteSpace(hardwiredClass.Path))
             {
-                Debug.Log(registeredTypesClass.NameSpace);
                 return;
             }
+            
             
             //  Local Variables.
             var registeredTypes = new List<Type>();
 
             //  Saving current types list.
-            foreach (var oldType in registeredTypesClass.Array)
+            foreach (var oldType in hardwiredClass.Array)
             {
                 registeredTypes.Add(oldType);
             }
@@ -50,7 +51,7 @@ namespace Framework.Generics
             //  Initializing a new writer.
             var path =
                 Application.dataPath + "/" +
-                registeredTypesClass.Path + "/" +
+                hardwiredClass.Path + "/" +
                 DynamicValuesWizard.DynVarClassName +
                 DynamicValuesWizard.Extension;
             
@@ -64,7 +65,7 @@ namespace Framework.Generics
             var content = string.Format(
                 Template,
                 DynamicValuesWizard.BricksBucketNameSpace,
-                registeredTypesClass.NameSpace,
+                hardwiredClass.NameSpace,
                 $"{DateTime.Now:F}",
                 GetTypes(registeredTypes),
                 GetSetDictionary(registeredTypes),
@@ -231,7 +232,7 @@ namespace {1}
 	/// <summary>
 	/// Registered types.
 	/// 
-	/// Since iOS cannot support System.Reflection, DynRef has to
+	/// Since iOS cannot support System.Reflection, AbstractReference has to
 	/// have this static class to cast values.
 	/// 
 	/// 
@@ -249,22 +250,22 @@ namespace {1}
 	///
 	/// By Javier García.
 	/// </summary>
-    public sealed class RegisteredTypes : {0}.RegisteredTypes
+    public sealed class AbstractHardwired : {0}.AbstractHardwired
 	{
-		/// <inheritdoc cref=""{0}.RegisteredTypes.Path""/>
+		/// <inheritdoc cref=""{0}.AbstractHardwired.Path""/>
 		public new readonly string NameSpace = ""{1}"";
 
-        /// <inheritdoc cref=""{0}.RegisteredTypes.Path""/>
+        /// <inheritdoc cref=""{0}.AbstractHardwired.Path""/>
         public new readonly string Path = ""LISTA"";
 
-		/// <inheritdoc cref=""{0}.RegisteredTypes.TypesList""/>
+		/// <inheritdoc cref=""{0}.AbstractHardwired.TypesList""/>
         private new static readonly List<Type> TypesList = new List<Type>
             {
                 {3}
             };
 
 
-		/// <inheritdoc cref=""{0}.RegisteredTypes.Set""/>
+		/// <inheritdoc cref=""{0}.AbstractHardwired.Set""/>
         private new static readonly
 			Dictionary<stringValue, Dictionary<stringValue, Action<object, object>>> Set =
 				new Dictionary<stringValue,
@@ -273,7 +274,7 @@ namespace {1}
                     {4}
 				};
 
-		/// <inheritdoc cref=""{0}.RegisteredTypes.Get""/>
+		/// <inheritdoc cref=""{0}.AbstractHardwired.Get""/>
         private new static readonly
 			Dictionary<stringValue, Dictionary<stringValue, Func<object, object>>> Get =
 				new Dictionary<stringValue, Dictionary<stringValue, Func<object, object>>>

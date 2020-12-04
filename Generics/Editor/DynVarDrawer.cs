@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace Framework.Generics
 {
@@ -7,20 +8,20 @@ namespace Framework.Generics
     /// <summary>
     /// Dyn variable drawer.
     /// 
-    /// Drawer for the DynVar Class.
+    /// Drawer for the DynVariable Class.
     /// By Javier García.
     /// </summary>
-    [CustomPropertyDrawer(typeof(DynVar))]
+    [CustomPropertyDrawer(typeof(DynVariable))]
     public class DynVarDrawer : PropertyDrawer
     {
 
         #region Class Members
 
-        //  Height of a standard singleline.
+        //  Height of a standard single line.
         private readonly float _fieldSize = EditorGUIUtility.singleLineHeight;
 
         //  References of a dynamic variable.
-        private readonly DynVar _dynVar = new DynVar();
+        private readonly DynVariable _dynVariable = new DynVariable();
 
         private bool _vectorExtraSpace;
 
@@ -60,15 +61,15 @@ namespace Framework.Generics
             _vectorExtraSpace = position.width < MinWidth;
 
             //  Declaration of rects.
-            int indent = EditorGUI.indentLevel;
+            var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
-            Rect rectType = new Rect(
+            var rectType = new Rect(
                 x: position.x,
                 y: position.y + Padding,
                 width: position.width,
                 height: _fieldSize
             );
-            Rect rectValue = new Rect(
+            var rectValue = new Rect(
                 x: position.x,
                 y: position.y + _fieldSize + (Padding * 2),
                 width: position.width,
@@ -77,22 +78,22 @@ namespace Framework.Generics
             EditorGUI.indentLevel = indent;
 
             //  Getting the properties references.
-            _dynVar.Type = (DataType) property.FindPropertyRelative("type")
+            _dynVariable.Type = (DataType) property.FindPropertyRelative("type")
                 .enumValueIndex;
-            _dynVar.Vector4 =
+            _dynVariable.Vector4 =
                 property.FindPropertyRelative("vector").vector4Value;
-            _dynVar.Asset = property.FindPropertyRelative("asset")
+            _dynVariable.Asset = property.FindPropertyRelative("asset")
                 .objectReferenceValue;
-            _dynVar.Curve = property.FindPropertyRelative("curve")
+            _dynVariable.Curve = property.FindPropertyRelative("curve")
                 .animationCurveValue;
-            _dynVar.String =
+            _dynVariable.String =
                 property.FindPropertyRelative("stringValue").stringValue;
 
             //  Draw properties.
-            _dynVar.Type =
-                (DataType) EditorGUI.EnumPopup(rectType, "DynVar",
-                    _dynVar.Type);
-            switch (_dynVar.Type)
+            _dynVariable.Type =
+                (DataType) EditorGUI.EnumPopup(rectType, "DynVariable",
+                    _dynVariable.Type);
+            switch (_dynVariable.Type)
             {
 
                 case DataType.NULL:
@@ -100,88 +101,96 @@ namespace Framework.Generics
                     break;
 
                 case DataType.BOOLEAN:
-                    _dynVar.Boolean =
-                        EditorGUI.Toggle(rectValue, Text, _dynVar.Boolean);
+                    _dynVariable.Boolean =
+                        EditorGUI.Toggle(rectValue, Text, _dynVariable.Boolean);
                     break;
 
                 case DataType.INTEGER:
-                    _dynVar.Integer =
-                        EditorGUI.IntField(rectValue, Text, _dynVar.Integer);
+                    _dynVariable.Integer =
+                        EditorGUI.IntField(rectValue, Text,
+                            _dynVariable.Integer);
                     break;
 
                 case DataType.FLOAT:
-                    _dynVar.Float =
-                        EditorGUI.FloatField(rectValue, Text, _dynVar.Float);
+                    _dynVariable.Float =
+                        EditorGUI.FloatField(rectValue, Text,
+                            _dynVariable.Float);
                     break;
 
                 case DataType.DOUBLE:
-                    _dynVar.Double =
-                        EditorGUI.DoubleField(rectValue, Text, _dynVar.Double);
+                    _dynVariable.Double =
+                        EditorGUI.DoubleField(rectValue, Text,
+                            _dynVariable.Double);
                     break;
 
                 case DataType.VECTOR2:
-                    _dynVar.Vector2 =
+                    _dynVariable.Vector2 =
                         EditorGUI.Vector2Field(rectValue, Text,
-                            _dynVar.Vector2);
+                            _dynVariable.Vector2);
                     break;
 
                 case DataType.VECTOR3:
-                    _dynVar.Vector3 =
+                    _dynVariable.Vector3 =
                         EditorGUI.Vector3Field(rectValue, Text,
-                            _dynVar.Vector3);
+                            _dynVariable.Vector3);
                     break;
 
                 case DataType.VECTOR4:
-                    _dynVar.Vector4 =
+                    _dynVariable.Vector4 =
                         EditorGUI.Vector4Field(rectValue, Text,
-                            _dynVar.Vector4);
+                            _dynVariable.Vector4);
                     break;
 
                 case DataType.QUATERNION:
-                    _dynVar.Vector4 =
+                    _dynVariable.Vector4 =
                         EditorGUI.Vector4Field(rectValue, Text,
-                            _dynVar.Vector4);
+                            _dynVariable.Vector4);
                     break;
 
                 case DataType.COLOR:
-                    _dynVar.Color =
-                        EditorGUI.ColorField(rectValue, Text, _dynVar.Color);
+                    _dynVariable.Color =
+                        EditorGUI.ColorField(rectValue, Text,
+                            _dynVariable.Color);
                     break;
 
                 case DataType.STRING:
-                    _dynVar.String =
-                        EditorGUI.TextField(rectValue, Text, _dynVar.String);
+                    _dynVariable.String =
+                        EditorGUI.TextField(rectValue, Text,
+                            _dynVariable.String);
                     break;
 
                 case DataType.CURVE:
-                    _dynVar.Curve =
-                        EditorGUI.CurveField(rectValue, Text, _dynVar.Curve);
+                    _dynVariable.Curve =
+                        EditorGUI.CurveField(rectValue, Text,
+                            _dynVariable.Curve);
                     break;
 
                 case DataType.ASSET:
-                    _dynVar.Asset = EditorGUI.ObjectField(
+                    _dynVariable.Asset = EditorGUI.ObjectField(
                         rectValue,
                         Text,
-                        _dynVar.Asset,
-                        _dynVar.Asset != null
-                            ? _dynVar.Asset.GetType()
+                        _dynVariable.Asset,
+                        _dynVariable.Asset != null
+                            ? _dynVariable.Asset.GetType()
                             : typeof(Object),
                         true
                     );
                     break;
+
+                default: throw new System.SystemException();
             }
 
             //  Update properties values..
             property.FindPropertyRelative("stringValue").stringValue =
-                _dynVar.String;
+                _dynVariable.String;
             property.FindPropertyRelative("curve").animationCurveValue =
-                _dynVar.Curve;
+                _dynVariable.Curve;
             property.FindPropertyRelative("object").objectReferenceValue =
-                _dynVar.Asset;
+                _dynVariable.Asset;
             property.FindPropertyRelative("vector").vector4Value =
-                _dynVar.Vector4;
+                _dynVariable.Vector4;
             property.FindPropertyRelative("type").enumValueIndex =
-                (int) _dynVar.Type;
+                (int) _dynVariable.Type;
 
         }
 
