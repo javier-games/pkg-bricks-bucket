@@ -20,25 +20,32 @@ namespace Framework.Generics
 		public virtual string Path => "";
 
 		/// <summary> Collection of all registered types. </summary>
-		protected static readonly List<Type> TypesList = new List<Type>();
+		protected virtual List<Type> TypesList { get; } = new List<Type>();
 
 		/// <summary> Dictionary of actions to set values. </summary>
-		protected static readonly
-			Dictionary<string, Dictionary<string, Action<object, object>>> Set
-				= new Dictionary<string, 
-					Dictionary<string, 
-						Action<object, object>
-					>
-				>();
+		protected virtual Dictionary<string,
+			Dictionary<string, Action<object, object>>> Set
+		{
+			get;
+		}
+			= new Dictionary<string,
+				Dictionary<string,
+					Action<object, object>
+				>
+			>();
 
 		/// <summary> Dictionary of functions to return values. </summary>
-		protected static readonly
-			Dictionary<string, Dictionary<string, Func<object, object>>> Get =
-				new Dictionary<string,
-					Dictionary<string,
-						Func<object, object>
-					>
-				> ();
+		protected virtual
+			Dictionary<string, Dictionary<string, Func<object, object>>> Get
+		{
+			get;
+		}
+			=
+			new Dictionary<string,
+				Dictionary<string,
+					Func<object, object>
+				>
+			>();
 
 		/// <summary>
 		/// Returns the array of all registered types.

@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Generics
+namespace Framework.Generics.Editor
 {
     public class DynamicValuesWizard : ScriptableWizard
     {
@@ -24,19 +24,9 @@ namespace Framework.Generics
         [SerializeField]
         private string nameSpace = "MyNameSpace";
         
-        
-        public const string BricksBucketNameSpace = "Framework.Generics";
-        public const string DynVarClassName = "DynVariable";
-        public const string DynRefClassName = "AbstractReference";
-        public const string RegisteredTypesClassName = "AbstractHardwired";
-        public const string Extension = ".cs";
-
-        
         public void OnWizardCreate()
         {
-            
+            HardwiredWriter.CreateClasses(path + folderName, nameSpace);
         }
-        
-        
     }
 }

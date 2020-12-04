@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Framework.Generics {
+namespace Framework.Generics.Editor {
 
     /// <summary>
     /// Drawer for the DynVariable Class.
@@ -130,7 +130,7 @@ namespace Framework.Generics {
 
                     //  If button is pressed.
                     if (EditorGUI.EndChangeCheck ()) {
-                        Registrator.RegisterType(
+                        HardwiredWriter.RegisterType(
                             _dynRef.Component.GetType (),
                             _dynRef.Hardwired
                         );
@@ -199,7 +199,7 @@ namespace Framework.Generics {
 
                         //  If button is pressed.
                         if (EditorGUI.EndChangeCheck ()) {
-                            Registrator.RegisterType(
+                            HardwiredWriter.RegisterType(
                                 _dynRef.Component.GetType (),
                                 _dynRef.Hardwired
                             );

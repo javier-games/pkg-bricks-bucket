@@ -2,7 +2,7 @@
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace Framework.Generics
+namespace Framework.Generics.Editor
 {
 
     /// <summary>
