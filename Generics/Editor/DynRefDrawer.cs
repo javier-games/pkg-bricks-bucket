@@ -5,40 +5,40 @@ using UnityEditor;
 
 namespace Framework.Generics {
 
-    #if UNITY_EDITOR
     /// <summary>
     /// Dyn reference drawer.
     /// 
     /// Drawer for the DynVar Class.
     /// By Javier García.
     /// </summary>
-    [CustomPropertyDrawer (typeof (DynRef))]
-    public class DynRefDrawer : PropertyDrawer {
+    [CustomPropertyDrawer(typeof(DynRef))]
+    public class DynRefDrawer : PropertyDrawer
+    {
 
 
 
         #region Class Members
 
         //  Height of a standard singleline.
-        private readonly float fieldSize = EditorGUIUtility.singleLineHeight;
+        private readonly float _fieldSize = EditorGUIUtility.singleLineHeight;
 
         //  Array of possible rects.
-        private readonly Rect [] rects = new Rect [5];
+        private readonly Rect [] _rects = new Rect [5];
 
         //  References of a dynamic variable.
-        private readonly DynRef dynRef = new DynRef ();
+        private readonly DynRef _dynRef = new DynRef ();
 
         //  List that the stores the properties and components.
-        private readonly List<string> dropdown = new List<string> ();
+        private readonly List<string> _dropdown = new List<string> ();
 
 
-        private PropertyInfo [] propertiesInfo;      //  Reference to proertiesInfo.
-        private Component [] components;             //  Reference to components.
-        private int rectIndex;                      //  Curren count of rects.
-        private int count;                          //  Count of fields.
+        private PropertyInfo [] _propertiesInfo;      //  Reference to proertiesInfo.
+        private Component [] _components;             //  Reference to components.
+        private int _rectIndex;                      //  Curren count of rects.
+        private int _count;                          //  Count of fields.
 
-        private const float padding = 4;            //  Size of padding.
-        private const string text = "Value";        //  Text to show in value.
+        private const float Padding = 4;            //  Size of padding.
+        private const string Text = "Value";        //  Text to show in value.
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace Framework.Generics {
 
         //  Returns the height of the property.
         public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {
-            return (fieldSize * count) + (padding * (count + 1));
+            return (_fieldSize * _count) + (Padding * (_count + 1));
         }
 
         //  Called to draw in gui.
@@ -57,66 +57,66 @@ namespace Framework.Generics {
             //  Declaration of rects.
             int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
-            rectIndex = 0;
-            rects [0] = new Rect (
+            _rectIndex = 0;
+            _rects [0] = new Rect (
                 x: position.x,
-                y: position.y + padding,
+                y: position.y + Padding,
                 width: position.width,
-                height: fieldSize
+                height: _fieldSize
             );
-            rects [1] = new Rect (
+            _rects [1] = new Rect (
                 x: position.x,
-                y: position.y + fieldSize + (padding * 2),
+                y: position.y + _fieldSize + (Padding * 2),
                 width: position.width,
-                height: fieldSize
+                height: _fieldSize
             );
-            rects [2] = new Rect (
+            _rects [2] = new Rect (
                 x: position.x,
-                y: position.y + (fieldSize * 2) + (padding * 2),
+                y: position.y + (_fieldSize * 2) + (Padding * 2),
                 width: position.width,
-                height: fieldSize
+                height: _fieldSize
             );
-            rects [3] = new Rect (
+            _rects [3] = new Rect (
                 x: position.x,
-                y: position.y + (fieldSize * 3) + (padding * 2),
+                y: position.y + (_fieldSize * 3) + (Padding * 2),
                 width: position.width,
-                height: fieldSize
+                height: _fieldSize
             );
-            rects [4] = new Rect (
+            _rects [4] = new Rect (
                 x: position.x,
-                y: position.y + (fieldSize * 4) + (padding * 2),
+                y: position.y + (_fieldSize * 4) + (Padding * 2),
                 width: position.width,
-                height: fieldSize
+                height: _fieldSize
             );
             EditorGUI.indentLevel = indent;
 
 
             //  Getting the properties references.
-            SerializedProperty dynProperty = property.FindPropertyRelative ("_value");
-            dynRef.SetReference (property.FindPropertyRelative ("_component").objectReferenceValue);
-            dynRef.SetProperty (property.FindPropertyRelative ("_property").stringValue);
+            var dynProperty = property.FindPropertyRelative ("value");
+            _dynRef.SetReference (property.FindPropertyRelative ("component").objectReferenceValue);
+            _dynRef.SetProperty (property.FindPropertyRelative ("property").stringValue);
 
             //  Drawing object field.
-            dynRef.SetReference (EditorGUI.ObjectField (
+            _dynRef.SetReference (EditorGUI.ObjectField (
                 position: GetRect (),
                 label: "Component",
-                obj: dynRef.Component,
-                objType: dynRef.Component != null ?
-                                    dynRef.Component.GetType () :
+                obj: _dynRef.Component,
+                objType: _dynRef.Component != null ?
+                                    _dynRef.Component.GetType () :
                                     typeof (Object),
                 allowSceneObjects: true
             ));
 
             //  If component is different to null.
-            if (dynRef.Component != null) {
+            if (_dynRef.Component != null) {
 
                 //  Shortcuts.
-                Object objectValue = dynRef.Component;
+                Object objectValue = _dynRef.Component;
                 System.Type type = objectValue.GetType ();
 
 
                 //  Component Validation.
-                if (!RegisteredTypes.ContainsComponent (type.ToString ())) {
+                if (!_dynRef.Types.ContainsComponent (type.ToString ())) {
 
                     EditorGUI.BeginChangeCheck ();
                     EditorGUI.HelpBox (
@@ -128,7 +128,10 @@ namespace Framework.Generics {
 
                     //  If button is pressed.
                     if (EditorGUI.EndChangeCheck ()) {
-                        RegisteredTypesCreator.RegisterType (dynRef.Component.GetType ());
+                        Registrator.RegisterType(
+                            _dynRef.Component.GetType (),
+                            _dynRef.Types
+                        );
                     }
 
                     //  Update properties values.
@@ -140,46 +143,50 @@ namespace Framework.Generics {
                 //  Component Selection if object is a GameObject.
                 if (type == typeof (GameObject)) {
 
-                    components = (objectValue as GameObject).GetComponents<Component> ();
-                    dropdown.Clear ();
-                    dropdown.Add ("As GameObject");
-                    foreach (Component component in components)
-                        dropdown.Add (component.GetType ().Name);
+                    _components = (objectValue as GameObject)?.GetComponents<Component> ();
+                    _dropdown.Clear ();
+                    _dropdown.Add ("As GameObject");
+                    if (_components != null)
+                    {
+                        foreach (Component component in _components)
+                            _dropdown.Add(component.GetType().Name);
 
-                    int compIndex = 0;
-                    compIndex = EditorGUI.Popup (GetRect (), "Select", compIndex, dropdown.ToArray ());
-                    if (compIndex != 0)
-                        dynRef.SetReference (components [compIndex - 1]);
+                        var compIndex = 0;
+                        compIndex = EditorGUI.Popup(GetRect(), "Select",
+                            compIndex, _dropdown.ToArray());
+                        if (compIndex != 0)
+                            _dynRef.SetReference(_components[compIndex - 1]);
+                    }
                 }
 
 
                 //  Property Selection.
-                propertiesInfo = type.GetProperties (BindingFlags.Public | BindingFlags.Instance);
-                dropdown.Clear ();
-                dropdown.Add ("- None -");
-                foreach (PropertyInfo info in propertiesInfo)
+                _propertiesInfo = type.GetProperties (BindingFlags.Public | BindingFlags.Instance);
+                _dropdown.Clear ();
+                _dropdown.Add ("- None -");
+                foreach (PropertyInfo info in _propertiesInfo)
                     if (info.CanRead && info.CanWrite && !info.IsDefined (typeof (System.ObsoleteAttribute), true))
-                        dropdown.Add (info.Name);
+                        _dropdown.Add (info.Name);
 
                 int propIndex = 0;
                 bool inList = false;
-                for (int i = 0; i < dropdown.Count; i++)
-                    if (property.FindPropertyRelative ("_property").stringValue == dropdown [i]) {
+                for (int i = 0; i < _dropdown.Count; i++)
+                    if (property.FindPropertyRelative ("property").stringValue == _dropdown [i]) {
                         propIndex = i;
                         inList = true;
                     }
                 if (!inList)
-                    dynRef.SetProperty (string.Empty);
+                    _dynRef.SetProperty (string.Empty);
 
 
                 //  Draw properties.
-                propIndex = EditorGUI.Popup (GetRect (), "Property", propIndex, dropdown.ToArray ());
+                propIndex = EditorGUI.Popup (GetRect (), "Property", propIndex, _dropdown.ToArray ());
 
                 if (propIndex != 0) {
 
-                    dynRef.SetProperty (dropdown [propIndex]);
+                    _dynRef.SetProperty (_dropdown [propIndex]);
                     //  Property Validation.
-                    if (!RegisteredTypes.ContainsProperty (type.ToString (), dynRef.Property)) {
+                    if (!_dynRef.Types.ContainsProperty (type.ToString (), _dynRef.Property)) {
                         EditorGUI.BeginChangeCheck ();
                         EditorGUI.HelpBox (
                             position: GetRect (),
@@ -190,7 +197,10 @@ namespace Framework.Generics {
 
                         //  If button is pressed.
                         if (EditorGUI.EndChangeCheck ()) {
-                            RegisteredTypesCreator.RegisterType (dynRef.Component.GetType ());
+                            Registrator.RegisterType(
+                                _dynRef.Component.GetType (),
+                                _dynRef.Types
+                            );
                         }
 
                         //  Update properties values.
@@ -198,71 +208,71 @@ namespace Framework.Generics {
                         return;
                     }
 
-                    switch (dynRef.DynVar.Type) {
+                    switch (_dynRef.DynVar.Type) {
 
-                        case DataType.Null:
-                            EditorGUI.LabelField (GetRect (), text + " null");
+                        case DataType.NULL:
+                            EditorGUI.LabelField (GetRect (), Text + " null");
                             break;
 
-                        case DataType.Boolean:
-                            dynRef.SetValue (EditorGUI.Toggle (GetRect (), text, dynRef.DynVar.Boolean));
+                        case DataType.BOOLEAN:
+                            _dynRef.SetValue (EditorGUI.Toggle (GetRect (), Text, _dynRef.DynVar.Boolean));
                             break;
 
-                        case DataType.Integer:
-                            dynRef.SetValue (EditorGUI.IntField (GetRect (), text, dynRef.DynVar.Integer));
+                        case DataType.INTEGER:
+                            _dynRef.SetValue (EditorGUI.IntField (GetRect (), Text, _dynRef.DynVar.Integer));
                             break;
 
-                        case DataType.Float:
-                            dynRef.SetValue (EditorGUI.FloatField (GetRect (), text, dynRef.DynVar.Float));
+                        case DataType.FLOAT:
+                            _dynRef.SetValue (EditorGUI.FloatField (GetRect (), Text, _dynRef.DynVar.Float));
                             break;
 
-                        case DataType.Double:
-                            dynRef.SetValue (EditorGUI.DoubleField (GetRect (), text, dynRef.DynVar.Double));
+                        case DataType.DOUBLE:
+                            _dynRef.SetValue (EditorGUI.DoubleField (GetRect (), Text, _dynRef.DynVar.Double));
                             break;
 
-                        case DataType.Vector2:
-                            dynRef.SetValue (EditorGUI.Vector2Field (GetRect (), text, dynRef.DynVar.Vector2));
+                        case DataType.VECTOR2:
+                            _dynRef.SetValue (EditorGUI.Vector2Field (GetRect (), Text, _dynRef.DynVar.Vector2));
                             break;
 
-                        case DataType.Vector3:
-                            dynRef.SetValue (EditorGUI.Vector3Field (GetRect (), text, dynRef.DynVar.Vector3));
+                        case DataType.VECTOR3:
+                            _dynRef.SetValue (EditorGUI.Vector3Field (GetRect (), Text, _dynRef.DynVar.Vector3));
                             break;
 
-                        case DataType.Vector4:
-                            dynRef.SetValue (EditorGUI.Vector4Field (GetRect (), text, dynRef.DynVar.Vector4));
+                        case DataType.VECTOR4:
+                            _dynRef.SetValue (EditorGUI.Vector4Field (GetRect (), Text, _dynRef.DynVar.Vector4));
                             break;
 
-                        case DataType.Quaternion:
-                            Vector4 aux = EditorGUI.Vector4Field (GetRect (), text, dynRef.DynVar.Vector4);
-                            dynRef.SetValue (new Quaternion (aux.x, aux.y, aux.z, aux.w));
+                        case DataType.QUATERNION:
+                            Vector4 aux = EditorGUI.Vector4Field (GetRect (), Text, _dynRef.DynVar.Vector4);
+                            _dynRef.SetValue (new Quaternion (aux.x, aux.y, aux.z, aux.w));
                             break;
 
-                        case DataType.Color:
-                            dynRef.SetValue (EditorGUI.ColorField (GetRect (), text, dynRef.DynVar.Color));
+                        case DataType.COLOR:
+                            _dynRef.SetValue (EditorGUI.ColorField (GetRect (), Text, _dynRef.DynVar.Color));
                             break;
 
-                        case DataType.String:
-                            dynRef.SetValue (EditorGUI.TextField (GetRect (), text, dynRef.DynVar.String));
+                        case DataType.STRING:
+                            _dynRef.SetValue (EditorGUI.TextField (GetRect (), Text, _dynRef.DynVar.String));
                             break;
 
-                        case DataType.Curve:
-                            dynRef.SetValue (EditorGUI.CurveField (GetRect (), text, dynRef.DynVar.Curve));
+                        case DataType.CURVE:
+                            _dynRef.SetValue (EditorGUI.CurveField (GetRect (), Text, _dynRef.DynVar.Curve));
                             break;
 
-                        case DataType.Asset:
-                            dynRef.SetValue (EditorGUI.ObjectField (
+                        case DataType.ASSET:
+                            _dynRef.SetValue (EditorGUI.ObjectField (
                                 GetRect (),
-                                text,
-                                dynRef.DynVar.Asset,
-                                dynRef.DynVar.Asset != null ? dynRef.DynVar.Asset.GetType () : typeof (Object),
+                                Text,
+                                _dynRef.DynVar.Asset,
+                                _dynRef.DynVar.Asset != null ? _dynRef.DynVar.Asset.GetType () : typeof (Object),
                                 true
                             ));
                             break;
                     }
                 } else
-                    dynRef.SetProperty (string.Empty);
+                    _dynRef.SetProperty (string.Empty);
             } else
-                dynRef.SetProperty (string.Empty);
+                _dynRef.SetProperty (string.Empty);
 
             //  Update properties values.
             StoreData (property, dynProperty);
@@ -277,26 +287,25 @@ namespace Framework.Generics {
         /// <summary> Stores the data. </summary>
         private void StoreData (SerializedProperty property, SerializedProperty dynProperty) {
 
-            property.FindPropertyRelative ("_component").objectReferenceValue = dynRef.Component;
-            property.FindPropertyRelative ("_property").stringValue = dynRef.Property;
-            dynProperty.FindPropertyRelative ("_string").stringValue = dynRef.DynVar.String;
-            dynProperty.FindPropertyRelative ("_curve").animationCurveValue = dynRef.DynVar.Curve;
-            dynProperty.FindPropertyRelative ("_object").objectReferenceValue = dynRef.DynVar.Asset;
-            dynProperty.FindPropertyRelative ("_vector").vector4Value = dynRef.DynVar.Vector4;
-            dynProperty.FindPropertyRelative ("_type").enumValueIndex = (int)dynRef.DynVar.Type;
+            property.FindPropertyRelative ("component").objectReferenceValue = _dynRef.Component;
+            property.FindPropertyRelative ("property").stringValue = _dynRef.Property;
+            dynProperty.FindPropertyRelative ("stringValue").stringValue = _dynRef.DynVar.String;
+            dynProperty.FindPropertyRelative ("curve").animationCurveValue = _dynRef.DynVar.Curve;
+            dynProperty.FindPropertyRelative ("asset").objectReferenceValue = _dynRef.DynVar.Asset;
+            dynProperty.FindPropertyRelative ("vector").vector4Value = _dynRef.DynVar.Vector4;
+            dynProperty.FindPropertyRelative ("type").enumValueIndex = (int)_dynRef.DynVar.Type;
 
             //  Assigning count of fields shown.
-            count = rectIndex;
+            _count = _rectIndex;
         }
 
         //  Returns the follow rect to draw.
         private Rect GetRect () {
-            Rect rect = rects [rectIndex];
-            rectIndex++;
+            Rect rect = _rects [_rectIndex];
+            _rectIndex++;
             return rect;
         }
 
         #endregion
     }
-    #endif
 }

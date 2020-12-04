@@ -9,20 +9,22 @@ namespace Framework.Generics {
     /// By Javier García.
     /// </summary>
     [System.Serializable]
-    public class DynRef {
+    public class DynRef
+    {
+        
+        #region Fields
 
-
-
-        #region Class Members
-
-        [SerializeField]
-        private Object _component;    //  Component Reference.
-
-        [SerializeField]
-        private string _property;     //  Name of the property.
+        private static RegisteredTypes
+            _registeredTypes = new RegisteredTypes();
 
         [SerializeField]
-        private DynVar _value;        //  Value of the property.
+        private Object component;    //  Component Reference.
+
+        [SerializeField]
+        private string property;     //  Name of the _property.
+
+        [SerializeField]
+        private DynVar value;        //  Value of the _property.
 
         #endregion
 
@@ -32,18 +34,24 @@ namespace Framework.Generics {
 
         /// <summary> Gets the component reference. </summary>
         public Object Component {
-            get { return _component; }
+            get => component;
+            protected set => component = value;
         }
 
-        /// <summary> Gets the property name. </summary>
+        /// <summary> Gets the _property name. </summary>
         public string Property {
-            get { return _property; }
+            get => property;
+            protected set => property = value;
         }
 
         /// <summary> Gets the dynamic variable. </summary>
         public DynVar DynVar {
-            get { return _value; }
+            get => value;
+            protected set => this.value = value;
         }
+
+        public virtual RegisteredTypes Types =>
+            _registeredTypes ?? (_registeredTypes = new RegisteredTypes());
 
         #endregion
 
@@ -53,61 +61,60 @@ namespace Framework.Generics {
 
         /// <summary> Initializes a new instance of the DynRef class. </summary>
         public DynRef () {
-            _component = null;
-            _property = string.Empty;
-            _value = DynVar.NewNull ();
+            Component = null;
+            Property = string.Empty;
+            DynVar = new DynVar();
         }
 
-        /// <summary> Sets the reference. </summary>
-        public void SetReference (Object component) {
-            if (_component != component) {
-                _component = component;
-                _property = string.Empty;
-                _value.Type = DataType.Null;
-            }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reference"></param>
+        public void SetReference (Object reference)
+        {
+            if (Component == reference) return;
+            Component = reference;
+            Property = string.Empty;
+            DynVar.Type = DataType.NULL;
         }
 
         /// <summary> Sets the property. </summary>
-        public void SetProperty (string property) {
-            _property = property;
+        public void SetProperty (string propertyName) {
+            Property = propertyName;
             UpdatedDynVar ();
         }
 
         /// <summary> Updates the dyn variable. </summary>
         public void UpdatedDynVar () {
             if (GetValue () != null)
-                _value.Set (GetValue ());
+                DynVar.Set (GetValue ());
         }
 
         /// <summary> Gets the value. </summary>
         public object GetValue () {
             if (Component == null || string.IsNullOrEmpty (Property)) {
-            #if !UNITY_EDITOR
-            Debug.LogWarning (
-                "Trying to access to: " +
-                "\n\tComponent[" + Component + "]" +
-                "\n\tProperty["+ Property + "]"
-            );
-            #endif
                 return null;
             }
 
-            try { return RegisteredTypes.GetValue (Component, Property); }
-            catch (System.Exception e) {
-                Debug.LogWarning (e);
+            try { return Types.GetValue (Component, Property); }
+            catch (System.Exception) {
                 return null;
             }
         }
 
         /// <summary> Sets the value. </summary>
-        public void SetValue (object value) {
+        public void SetValue (object propertyValue) {
 
             if (Component == null || string.IsNullOrEmpty (Property))
                 return;
 
-            try { RegisteredTypes.SetValue (Component, Property, value); }
-            catch (System.Exception e) {
-                Debug.Log (e);
+            try
+            {
+                Types.SetValue (Component, Property, propertyValue);
+            }
+            catch (System.Exception)
+            {
+                // ignored
             }
         }
 
