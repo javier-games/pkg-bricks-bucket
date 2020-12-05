@@ -6,45 +6,56 @@ namespace Framework.Generics.Editor
 {
 
     /// <summary>
-    /// Dyn variable drawer.
-    /// 
-    /// Drawer for the DynVariable Class.
-    /// By Javier García.
+    /// Drawer for the Variable Class.
     /// </summary>
-    [CustomPropertyDrawer(typeof(DynVariable))]
-    public class DynVarDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(Variable))]
+    public class VariableDrawer : PropertyDrawer
     {
 
-        #region Class Members
+        #region Fields
 
-        //  Height of a standard single line.
+        /// <summary>
+        /// Height of a standard single line.
+        /// </summary>
         private readonly float _fieldSize = EditorGUIUtility.singleLineHeight;
 
-        //  References of a dynamic variable.
-        private readonly DynVariable _dynVariable = new DynVariable();
+        /// <summary>
+        /// References of a dynamic variable.
+        /// </summary>
+        private readonly Variable _variable = new Variable();
 
+        /// <summary>
+        /// Whether to apply extra space because a vector type.
+        /// </summary>
         private bool _vectorExtraSpace;
 
-        //  Count of fields to draw.
+        /// <summary>
+        /// Count of fields to draw.
+        /// </summary>
         private const int Count = 2;
 
-        //  Size of padding.
+        /// <summary>
+        /// Size of padding.
+        /// </summary>
         private const float Padding = 4;
 
-        //  Minimum width fore vectors.
+        /// <summary>
+        /// Minimum width fore vectors.
+        /// </summary>
         private const float MinWidth = 314;
 
-        //  Text to show in value.
+        /// <summary>
+        /// Text to show in value.
+        /// </summary>
         private const string Text = "Value";
 
         #endregion
+        
+        #region Methods
 
-
-
-        #region Superclass Overrides
-
-        //  Returns the height of the property.
-        public override float GetPropertyHeight(SerializedProperty property,
+        /// <inheritdoc cref="PropertyDrawer.GetPropertyHeight"/>
+        public override float GetPropertyHeight(
+            SerializedProperty property,
             GUIContent label)
         {
             return _vectorExtraSpace
@@ -52,8 +63,10 @@ namespace Framework.Generics.Editor
                 : (_fieldSize * Count) + (Padding * (Count + 1));
         }
 
-        //  Called to draw in gui.
-        public override void OnGUI(Rect position, SerializedProperty property,
+        /// <inheritdoc cref="PropertyDrawer.GetPropertyHeight"/>
+        public override void OnGUI(
+            Rect position,
+            SerializedProperty property,
             GUIContent label)
         {
 
@@ -78,22 +91,22 @@ namespace Framework.Generics.Editor
             EditorGUI.indentLevel = indent;
 
             //  Getting the properties references.
-            _dynVariable.Type = (DataType) property.FindPropertyRelative("type")
+            _variable.Type = (DataType) property.FindPropertyRelative("type")
                 .enumValueIndex;
-            _dynVariable.Vector4 =
+            _variable.Vector4 =
                 property.FindPropertyRelative("vector").vector4Value;
-            _dynVariable.Asset = property.FindPropertyRelative("asset")
+            _variable.Asset = property.FindPropertyRelative("asset")
                 .objectReferenceValue;
-            _dynVariable.Curve = property.FindPropertyRelative("curve")
+            _variable.Curve = property.FindPropertyRelative("curve")
                 .animationCurveValue;
-            _dynVariable.String =
+            _variable.String =
                 property.FindPropertyRelative("stringValue").stringValue;
 
             //  Draw properties.
-            _dynVariable.Type =
-                (DataType) EditorGUI.EnumPopup(rectType, "DynVariable",
-                    _dynVariable.Type);
-            switch (_dynVariable.Type)
+            _variable.Type =
+                (DataType) EditorGUI.EnumPopup(rectType, "Variable",
+                    _variable.Type);
+            switch (_variable.Type)
             {
 
                 case DataType.NULL:
@@ -101,96 +114,96 @@ namespace Framework.Generics.Editor
                     break;
 
                 case DataType.BOOLEAN:
-                    _dynVariable.Boolean =
-                        EditorGUI.Toggle(rectValue, Text, _dynVariable.Boolean);
+                    _variable.Boolean =
+                        EditorGUI.Toggle(rectValue, Text, _variable.Boolean);
                     break;
 
                 case DataType.INTEGER:
-                    _dynVariable.Integer =
+                    _variable.Integer =
                         EditorGUI.IntField(rectValue, Text,
-                            _dynVariable.Integer);
+                            _variable.Integer);
                     break;
 
                 case DataType.FLOAT:
-                    _dynVariable.Float =
+                    _variable.Float =
                         EditorGUI.FloatField(rectValue, Text,
-                            _dynVariable.Float);
+                            _variable.Float);
                     break;
 
                 case DataType.DOUBLE:
-                    _dynVariable.Double =
+                    _variable.Double =
                         EditorGUI.DoubleField(rectValue, Text,
-                            _dynVariable.Double);
+                            _variable.Double);
                     break;
 
                 case DataType.VECTOR2:
-                    _dynVariable.Vector2 =
+                    _variable.Vector2 =
                         EditorGUI.Vector2Field(rectValue, Text,
-                            _dynVariable.Vector2);
+                            _variable.Vector2);
                     break;
 
                 case DataType.VECTOR3:
-                    _dynVariable.Vector3 =
+                    _variable.Vector3 =
                         EditorGUI.Vector3Field(rectValue, Text,
-                            _dynVariable.Vector3);
+                            _variable.Vector3);
                     break;
 
                 case DataType.VECTOR4:
-                    _dynVariable.Vector4 =
+                    _variable.Vector4 =
                         EditorGUI.Vector4Field(rectValue, Text,
-                            _dynVariable.Vector4);
+                            _variable.Vector4);
                     break;
 
                 case DataType.QUATERNION:
-                    _dynVariable.Vector4 =
+                    _variable.Vector4 =
                         EditorGUI.Vector4Field(rectValue, Text,
-                            _dynVariable.Vector4);
+                            _variable.Vector4);
                     break;
 
                 case DataType.COLOR:
-                    _dynVariable.Color =
+                    _variable.Color =
                         EditorGUI.ColorField(rectValue, Text,
-                            _dynVariable.Color);
+                            _variable.Color);
                     break;
 
                 case DataType.STRING:
-                    _dynVariable.String =
+                    _variable.String =
                         EditorGUI.TextField(rectValue, Text,
-                            _dynVariable.String);
+                            _variable.String);
                     break;
 
                 case DataType.CURVE:
-                    _dynVariable.Curve =
+                    _variable.Curve =
                         EditorGUI.CurveField(rectValue, Text,
-                            _dynVariable.Curve);
+                            _variable.Curve);
                     break;
 
                 case DataType.ASSET:
-                    _dynVariable.Asset = EditorGUI.ObjectField(
+                    _variable.Asset = EditorGUI.ObjectField(
                         rectValue,
                         Text,
-                        _dynVariable.Asset,
-                        _dynVariable.Asset != null
-                            ? _dynVariable.Asset.GetType()
+                        _variable.Asset,
+                        _variable.Asset != null
+                            ? _variable.Asset.GetType()
                             : typeof(Object),
                         true
                     );
                     break;
 
-                default: throw new System.SystemException();
+                default: throw new System.ArgumentOutOfRangeException();
             }
 
             //  Update properties values..
             property.FindPropertyRelative("stringValue").stringValue =
-                _dynVariable.String;
+                _variable.String;
             property.FindPropertyRelative("curve").animationCurveValue =
-                _dynVariable.Curve;
+                _variable.Curve;
             property.FindPropertyRelative("object").objectReferenceValue =
-                _dynVariable.Asset;
+                _variable.Asset;
             property.FindPropertyRelative("vector").vector4Value =
-                _dynVariable.Vector4;
+                _variable.Vector4;
             property.FindPropertyRelative("type").enumValueIndex =
-                (int) _dynVariable.Type;
+                (int) _variable.Type;
 
         }
 

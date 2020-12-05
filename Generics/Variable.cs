@@ -5,44 +5,58 @@ using Object = UnityEngine.Object;
 
 namespace Framework.Generics {
 
+    /// <!-- Variable -->
     /// <summary>
-    /// DynVariable.
-    ///
     /// Dynamic variable that stores different types of data.
-    /// By Javier García.
     /// </summary>
     [Serializable]
-    public class DynVariable : IVariable {
-
-
-
+    public class Variable : IVariable {
+        
         #region Class Members
+        
+        /// <summary>
+        /// Hashcode of this instance.
+        /// </summary>
+        private int _hashCode = -1;
 
-        private int _hashCode = -1;         //  Hashcode of this instance.
-
+        /// <summary>
+        /// String variable.
+        /// </summary>
         [SerializeField]
-        protected string stringValue;           //  String variable.
+        protected string stringValue;
 
+        /// <summary>
+        /// Vector4 variable.
+        /// </summary>
         [SerializeField]
-        protected Vector4 vector;          //  Vector4 variable.
+        protected Vector4 vector;
 
+        /// <summary>
+        /// UnityEngine.Object variable.
+        /// </summary>
         [SerializeField]
-        protected Object asset;           //  UnityEngine.Object variable.
+        protected Object asset;
 
-        //  Curve variable
+        /// <summary>
+        /// Animation curve value.
+        /// </summary>
         [SerializeField]
         protected AnimationCurve curve = new AnimationCurve ();
 
+        /// <summary>
+        /// Stores the type of variable.
+        /// </summary>
         [SerializeField]
-        protected DataType type;           //  Stores the type of variable.
+        protected DataType type;
 
         #endregion
-
-
-
+        
         #region Accesors
 
-        /// <summary> Gets or sets the type. </summary>
+        /// <summary>
+        /// Type of variable.
+        /// </summary>
+        /// <returns>Type of the variable.</returns>
         public DataType Type {
             get => type;
             set {
@@ -58,55 +72,82 @@ namespace Framework.Generics {
             }
         }
 
-        /// <summary> Gets or sets a boolean value. </summary>
+        /// <summary>
+        /// Boolean value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public bool Boolean {
             get => (vector.x > 0 || vector.x < 0);
             set => vector.x = value ? 1 : 0;
         }
 
-        /// <summary> Gets or sets the integer. </summary>
+        /// <summary>
+        /// Integer value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public int Integer {
             get => (int)vector.x;
             set => vector.x = value;
         }
 
-        /// <summary> Gets or sets the float. </summary>
+        /// <summary>
+        /// Float value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public float Float {
             get => vector.x;
             set => vector.x = value;
         }
 
-        /// <summary> Gets or sets the double. </summary>
+        /// <summary>
+        /// Double value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public double Double {
             get => vector.x;
             set => vector.x = (float)value;
         }
 
-        /// <summary> Gets or sets the vector2. </summary>
+        /// <summary>
+        /// Vector2 value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public Vector2 Vector2 {
             get => vector;
             set => vector = value;
         }
 
-        /// <summary> Gets or sets the vector3. </summary>
+        /// <summary>
+        /// Vector3 value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public Vector3 Vector3 {
             get => vector;
             set => vector = value;
         }
 
-        /// <summary> Gets or sets the vector4. </summary>
+        /// <summary>
+        /// Vector4 value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public Vector4 Vector4 {
             get => vector;
             set => vector = value;
         }
 
-        /// <summary> Gets or sets the color. </summary>
+        /// <summary>
+        /// Color value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public Color Color {
             get => vector;
             set => vector = value;
         }
 
-        /// <summary> Gets or sets the quaternion. </summary>
+        /// <summary>
+        /// Quaternion value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public Quaternion Quaternion {
             get => new Quaternion (
                 vector.x,
@@ -117,31 +158,50 @@ namespace Framework.Generics {
             set => vector = new Vector4 (value.x, value.y, value.z, value.w);
         }
 
-        /// <summary> Gets or sets the string. </summary>
+        /// <summary>
+        /// String value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public string String {
             get => stringValue;
             set => stringValue = value;
         }
 
-        /// <summary> Gets or sets the asset. </summary>
+        /// <summary>
+        /// Object value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public Object Asset {
             get => asset;
             set => asset = value;
         }
 
-        /// <summary> Gets or sets the curve. </summary>
+        /// <summary>
+        /// Animation Curve value of the variable.
+        /// </summary>
+        /// <returns>Value of the variable.</returns>
         public AnimationCurve Curve {
             get => curve;
             set => curve = value;
         }
 
-        /// <summary> Returns true if this instance is write protected. </summary>
+        /// <summary>
+        /// Whether the variable is declared as read only.
+        /// </summary>
+        /// <returns><value>TRUE</value> if the variable can only be read
+        /// </returns>
         public bool ReadOnly { get; private set; }
 
-        /// <summary> Determines whether this instance is nil or void. </summary>
+        /// <summary>
+        /// Whether the variable is nil.
+        /// </summary>
+        /// <returns><value>TRUE</value> if the variable is nil.</returns>
         public bool IsNil => Type == DataType.NULL;
 
-        /// <summary> Gets the hash code. </summary>
+        /// <summary>
+        /// Hashcode of this instance.
+        /// </summary>
+        /// <returns><value>-1</value> if the variable is empty.</returns>
         public int HashCode {
             get => _hashCode;
             private set => _hashCode = value;
@@ -149,11 +209,14 @@ namespace Framework.Generics {
 
         #endregion
 
-
-
         #region Class Implementation
 
-        public DynVariable (bool readOnly = false) {
+        /// <summary>
+        /// Creates a new instance of a Variable.
+        /// </summary>
+        /// <param name="readOnly">Whether the variable must be
+        /// read only.</param>
+        public Variable (bool readOnly = false) {
             Type = DataType.NULL;
             Vector4 = Vector4.zero;
             String = string.Empty;
@@ -165,29 +228,11 @@ namespace Framework.Generics {
                 curve.RemoveKey (i);
         }
 
-        public DynVariable (
-            Vector4 vector,
-            string @string,
-            AnimationCurve curve,
-            Object @object,
-            int hashCode,
-            DataType type,
-            bool readOnly
-        ) {
-            Vector4 = vector;
-            String = @string;
-            Curve = curve;
-            Asset = @object;
-            HashCode = hashCode;
-            Type = type;
-            ReadOnly = readOnly;
-        }
-
         /// <summary>
         /// Clones this instance, overriding the "readonly".
         /// </summary>
-        public DynVariable Clone (bool readOnly) {
-            var v = new DynVariable {
+        public Variable Clone (bool readOnly) {
+            var v = new Variable {
                 Vector4 = vector,
                 String = stringValue,
                 Curve = curve,
@@ -202,22 +247,22 @@ namespace Framework.Generics {
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        public DynVariable Clone () => Clone (ReadOnly);
+        public Variable Clone () => Clone (ReadOnly);
 
         /// <summary>
         /// Returns this value as readonly
         /// </summary>
-        public DynVariable AsReadOnly () => ReadOnly ? this : Clone (true);
+        public Variable AsReadOnly () => ReadOnly ? this : Clone (true);
 
         /// <summary>
-        /// Clones this instance, returning a writable copy.
+        /// Clones this instance, returning it as writable.
         /// </summary>
-        public DynVariable AsWritable () => Clone (false);
+        public Variable AsWritable () => Clone (false);
 
         /// <summary>
-        /// Performs an assignment with the specified one.
+        /// Performs an assignment with the specified value.
         /// </summary>
-        public void Assign (DynVariable value) {
+        public void Assign (Variable value) {
             if (ReadOnly)
                 throw new Exception ("Assigning on r-value");
 
@@ -229,7 +274,9 @@ namespace Framework.Generics {
             HashCode = -1;
         }
 
-        /// <summary> Set with the specified value. </summary>
+        /// <summary>
+        /// Sets the value of the variable with the specified value.
+        /// </summary>
         public void Set (object value) {
 
             if (ReadOnly)
@@ -319,12 +366,22 @@ namespace Framework.Generics {
             }
         }
 
-        /// <summary> Returns this DynValue to an object of a T type. </summary>
+        /// <summary>
+        /// Returns the value of the variable to an object of a T type.
+        /// </summary>
+        /// <typeparam name="T">Desired type.</typeparam>
+        /// <returns>The value of the variable of the type T.</returns>
         public T Get<T> () {
             return (T)Get (typeof (T));
         }
 
-        /// <summary> Returns this DynValue to an object of desired type. </summary>
+        /// <summary>
+        /// Returns this variable to an object of desired type.
+        /// </summary>
+        /// <param name="desiredType">Desired Type.</param>
+        /// <returns>Value of the variable.</returns>
+        /// <exception cref="Exception">Throw exception fi the data type
+        /// property is corrupted.</exception>
         public object Get (Type desiredType) {
 
             if (ReadOnly)
@@ -366,15 +423,9 @@ namespace Framework.Generics {
             return Asset;
         }
 
-        #endregion
-
-
-
-        #region Superclass Overrides
-
-        /// <summary> Determines if Obj is equal to this instance. </summary>
+        /// <inheritdoc cref="System.object"/>
         public override bool Equals (object obj) {
-            if (!(obj is DynVariable other))
+            if (!(obj is Variable other))
                 return false;
 
             if (other.Type == Type && Type == DataType.NULL)
@@ -412,7 +463,7 @@ namespace Framework.Generics {
             }
         }
 
-        /// <summary> Returns a String that represents this instance. </summary>
+        /// <inheritdoc cref="System.object.ToString"/>
         public override string ToString () {
             switch (Type) {
 
@@ -458,7 +509,7 @@ namespace Framework.Generics {
             }
         }
 
-        /// <summary> Returns a hash code for this instance. </summary>
+        /// <inheritdoc cref="System.object.GetHashCode"/>
         public override int GetHashCode () {
             if (HashCode != -1)
                 return HashCode;

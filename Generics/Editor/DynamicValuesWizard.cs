@@ -3,8 +3,41 @@ using UnityEngine;
 
 namespace Framework.Generics.Editor
 {
+    /// <!-- DynamicValuesWizard -->
+    /// <summary>
+    /// Displays a Wizard window to set up the hardwired scripts.
+    /// </summary>
     public class DynamicValuesWizard : ScriptableWizard
     {
+        #region Fields
+        
+        /// <summary>
+        /// Local path where to put the scripts.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Local path where to put the scripts.")]
+        private string path = "";
+        
+        /// <summary>
+        /// Name of the folder container.
+        /// </summary>
+        [SerializeField]
+        [Tooltip("Name of the folder container")]
+        private string folderName = "Custom Values";
+
+        /// <summary>
+        /// Name space where to put the scripts.
+        /// </summary>
+        [SerializeField]
+        private string nameSpace = "MyNameSpace";
+
+        #endregion
+
+        #region Methods
+        
+        /// <summary>
+        /// Creates a Custom Dynamic Environment.
+        /// </summary>
         [MenuItem("Tools/BricksBucket/Create Custom Dynamic Values")]
         public static void CreateWizard()
         {
@@ -15,18 +48,14 @@ namespace Framework.Generics.Editor
             );
         }
 
-        [SerializeField]
-        private string path = "";
-        
-        [SerializeField]
-        private string folderName = "Custom Values";
-
-        [SerializeField]
-        private string nameSpace = "MyNameSpace";
-        
+        /// <summary>
+        /// Called after the wizard window is accepted.
+        /// </summary>
         public void OnWizardCreate()
         {
             HardwiredWriter.CreateClasses(path + folderName, nameSpace);
         }
+
+        #endregion
     }
 }

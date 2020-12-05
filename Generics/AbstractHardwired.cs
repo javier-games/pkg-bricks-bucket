@@ -8,21 +8,33 @@ using System.Collections.Generic;
 
 namespace Framework.Generics
 {
+	/// <!-- AbstractHardwired -->
 	/// <summary>
 	/// Since iOS cannot support System.Reflection, AbstractReference has to
 	/// have this static class to cast values.
 	/// </summary>
 	public abstract class AbstractHardwired : IHardwiredRegistry
 	{
+		/// <summary>
+		/// Namespace of the hardwired script inheritor.
+		/// </summary>
+		/// <returns>Empty if has not inheritor.</returns>
+		public virtual string NameSpace => string.Empty;
+		
+		/// <summary>
+		/// Path of the hardwired script inheritor.
+		/// </summary>
+		/// <returns>Empty if has not inheritor.</returns>
+		public virtual string Path => string.Empty;
 
-		public virtual string NameSpace => "";
-
-		public virtual string Path => "";
-
-		/// <summary> Collection of all registered types. </summary>
+		/// <summary>
+		/// Collection of all registered types.
+		/// </summary>
 		protected virtual List<Type> TypesList { get; } = new List<Type>();
 
-		/// <summary> Dictionary of actions to set values. </summary>
+		/// <summary>
+		/// Dictionary of actions to set values.
+		/// </summary>
 		protected virtual Dictionary<string,
 			Dictionary<string, Action<object, object>>> Set
 		{
@@ -34,7 +46,9 @@ namespace Framework.Generics
 				>
 			>();
 
-		/// <summary> Dictionary of functions to return values. </summary>
+		/// <summary>
+		/// Dictionary of functions to return values.
+		/// </summary>
 		protected virtual
 			Dictionary<string, Dictionary<string, Func<object, object>>> Get
 		{
@@ -51,7 +65,7 @@ namespace Framework.Generics
 		/// Returns the array of all registered types.
 		/// </summary>
 		/// <value>The array.</value>
-		public Type[] Array => TypesList.ToArray();
+		public IEnumerable<Type> Array => TypesList.ToArray();
 
 		/// <summary>
 		/// Whether the list of registered types contains the given component.
