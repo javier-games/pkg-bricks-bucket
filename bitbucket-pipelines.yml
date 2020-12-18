@@ -1,12 +1,12 @@
 # Deployment Pipeline for the Bricks Bucket API.
 image: monogum/docfx-surge:latest
-
 pipelines:
-  default:
-    - step:
-        name: Build and Deploy to Production
-        deployment: Production
-        script:
-          - git submodule update --init
-          - docfx docfx.json
-          - surge --project ./_site --domain $DOMAIN
+    branches:
+        master:
+        - step:
+            name: Build and Deploy to Production
+            deployment: Production
+            script:
+            - git submodule update --init
+            - docfx docfx.json
+            - surge --project ./_site --domain $DOMAIN
