@@ -13,4 +13,4 @@ the game development. It's the main package
 which all the Bricks Bucket packages and
 projects depends on.
 
-[source](https://github.com/javier-games/pkg-bricks-bucket) | [download](https://github.com/javier-games/pkg-bricks-bucket/releases) | [npm](https://www.npmjs.com/package/games.javier.upm.bricksbucket)
+[source](https://github.com/javier-games/pkg-bricks-bucket) | [download](https://github.com/javier-games/pkg-bricks-bucket/releases) | [npm](https://www.npmjs.com/package/games.javier.upm.bricksbucket) | [manual](articles/index.md) | [api](api/index.md)
