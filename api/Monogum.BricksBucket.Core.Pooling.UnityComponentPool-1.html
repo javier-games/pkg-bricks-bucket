@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class UnityComponentPool&lt;T&gt; | Bricks Bucket </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class UnityComponentPool&lt;T&gt; | Bricks Bucket ">
+      
+      <meta name="description" content="A variant pool that takes Unity components. Automatically enables and disables them as necessary.">
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/javier-games/pkg-bricks-bucket/new/main/apiSpec/new?filename=Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1.md&amp;value=---%0Auid%3A%20Monogum.BricksBucket.Core.Pooling.UnityComponentPool%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1">
+
+
+
+  <h1 id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1" class="text-break">
+Class UnityComponentPool&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Pooling/Pool.cs/#L211"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Monogum.html">Monogum</a>.<a class="xref" href="Monogum.BricksBucket.html">BricksBucket</a>.<a class="xref" href="Monogum.BricksBucket.Core.html">Core</a>.<a class="xref" href="Monogum.BricksBucket.Core.Pooling.html">Pooling</a></dd></dl>
+  
+  </div>
+
+  <div class="markdown summary"><p>A variant pool that takes Unity components. Automatically enables
+and disables them as necessary.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class UnityComponentPool&lt;T&gt; : Pool&lt;T&gt; where T : Component</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html">Pool</a>&lt;T&gt;</div>
+      <div><span class="xref">UnityComponentPool&lt;T&gt;</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Monogum.BricksBucket.Core.Pooling.AutoComponentPrefabPool-1.html">AutoComponentPrefabPool&lt;T&gt;</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_Factory">Pool&lt;T&gt;.Factory</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_Reset">Pool&lt;T&gt;.Reset</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_Available">Pool&lt;T&gt;.Available</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_All">Pool&lt;T&gt;.All</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_Get">Pool&lt;T&gt;.Get()</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_Contains__0_">Pool&lt;T&gt;.Contains(T)</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_Return__0_">Pool&lt;T&gt;.Return(T)</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_ReturnAll">Pool&lt;T&gt;.ReturnAll()</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_ReturnAll_System_Action__0__">Pool&lt;T&gt;.ReturnAll(Action&lt;T&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_Grow_System_Int32_">Pool&lt;T&gt;.Grow(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="Monogum.BricksBucket.Core.Pooling.Pool-1.html#Monogum_BricksBucket_Core_Pooling_Pool_1_DummyFactory">Pool&lt;T&gt;.DummyFactory()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1__ctor_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.#ctor*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1__ctor_System_Func__0__" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.#ctor(System.Func{`0})">
+  UnityComponentPool(Func&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Pooling/Pool.cs/#L234"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new blank pool.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnityComponentPool(Func&lt;T&gt; factory)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>factory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;T&gt;</dt>
+    <dd><p>The function that creates pool objects.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1__ctor_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.#ctor*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1__ctor_System_Func__0__System_Action__0__System_Int32_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.#ctor(System.Func{`0},System.Action{`0},System.Int32)">
+  UnityComponentPool(Func&lt;T&gt;, Action&lt;T&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Pooling/Pool.cs/#L223"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create a new pool with a given number of starting elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnityComponentPool(Func&lt;T&gt; factory, Action&lt;T&gt; reset, int initialCapacity)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>factory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;T&gt;</dt>
+    <dd><p>The function that creates pool objects.</p>
+</dd>
+    <dt><code>reset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;T&gt;</dt>
+    <dd><p>Function to use to reset items when retrieving
+from the pool.</p>
+</dd>
+    <dt><code>initialCapacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of elements to seed the
+pool with.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1__ctor_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.#ctor*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1__ctor_System_Func__0__System_Int32_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.#ctor(System.Func{`0},System.Int32)">
+  UnityComponentPool(Func&lt;T&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Pooling/Pool.cs/#L245"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create a new pool with a given number of starting elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnityComponentPool(Func&lt;T&gt; factory, int initialCapacity)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>factory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;T&gt;</dt>
+    <dd><p>The function that creates pool objects.</p>
+</dd>
+    <dt><code>initialCapacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of elements to seed the
+pool with.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1_AddNewElement_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.AddNewElement*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1_AddNewElement" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.AddNewElement">
+  AddNewElement()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Pooling/Pool.cs/#L280"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Keep newly created objects disabled.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override T AddNewElement()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1_Get_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.Get*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1_Get_System_Action__0__" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.Get(System.Action{`0})">
+  Get(Action&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Pooling/Pool.cs/#L253"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retrieve an enabled element from the pool.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override T Get(Action&lt;T&gt; resetOverride)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>resetOverride</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1_ReturnToPoolInternal_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.ReturnToPoolInternal*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Pooling_UnityComponentPool_1_ReturnToPoolInternal__0_" data-uid="Monogum.BricksBucket.Core.Pooling.UnityComponentPool`1.ReturnToPoolInternal(`0)">
+  ReturnToPoolInternal(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Pooling/Pool.cs/#L265"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Automatically disable returned object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void ReturnToPoolInternal(T element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright © 2020 Monogum Hi-Turbo
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

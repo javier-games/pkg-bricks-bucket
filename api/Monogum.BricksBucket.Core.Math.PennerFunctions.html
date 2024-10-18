@@ -1,0 +1,2191 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class PennerFunctions | Bricks Bucket </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class PennerFunctions | Bricks Bucket ">
+      
+      <meta name="description" content="Library to generate ease panner functions for animation curves.     Based in the   EasingCurvePresets project by @aureliendrouet - @nobutaka.">
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/javier-games/pkg-bricks-bucket/new/main/apiSpec/new?filename=Monogum_BricksBucket_Core_Math_PennerFunctions.md&amp;value=---%0Auid%3A%20Monogum.BricksBucket.Core.Math.PennerFunctions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions">
+
+
+
+  <h1 id="Monogum_BricksBucket_Core_Math_PennerFunctions" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions" class="text-break">
+Class PennerFunctions  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Monogum.html">Monogum</a>.<a class="xref" href="Monogum.BricksBucket.html">BricksBucket</a>.<a class="xref" href="Monogum.BricksBucket.Core.html">Core</a>.<a class="xref" href="Monogum.BricksBucket.Core.Math.html">Math</a></dd></dl>
+  
+  </div>
+
+  <div class="markdown summary"><p>
+ Library to generate ease panner functions for animation curves.
+ </p>
+<p>
+ Based in the <a href="https://github.com/aureliendrouet/EasingCurvePresets">
+ EasingCurvePresets</a> project by <a href="      https://github.com/aureliendrouet">@aureliendrouet</a> - <a href="https://github.com/nobutaka">@nobutaka</a>.
+ </p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class PennerFunctions</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">PennerFunctions</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  BackEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L692"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a back (overshooting cubic easing: (s+1)<em>t^3 - s</em>t^2) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BackEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  BackEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L706"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a back (overshooting cubic easing: (s+1)<em>t^3 - s</em>t^2) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BackEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  BackEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L678"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a back (overshooting cubic easing: (s+1)<em>t^3 - s</em>t^2) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BackEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BackEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BackEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  BackEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L723"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a back (overshooting cubic easing: (s+1)<em>t^3 - s</em>t^2) easing out/in:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BackEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  BounceEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L628"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a bounce (exponentially decaying parabolic bounce) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BounceEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  BounceEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L642"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a bounce (exponentially decaying parabolic bounce) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BounceEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  BounceEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L608"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a bounce (exponentially decaying parabolic bounce) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BounceEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_BounceEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.BounceEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  BounceEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L658"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a bounce (exponentially decaying parabolic bounce) easing out/in:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double BounceEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  CircEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L146"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a circular (sqrt(1-t^2)) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CircEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  CircEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L160"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a circular (sqrt(1-t^2)) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CircEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  CircEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a circular (sqrt(1-t^2)) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CircEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CircEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CircEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  CircEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L177"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a circular (sqrt(1-t^2)) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CircEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  CubicEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L344"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a cubic (t^3) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CubicEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  CubicEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L358"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a cubic (t^3) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CubicEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  CubicEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L330"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a cubic (t^3) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CubicEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_CubicEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.CubicEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  CubicEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L375"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a cubic (t^3) easing out/in:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CubicEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  ElasticEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L546"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an elastic (exponentially decaying sine wave) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ElasticEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  ElasticEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L566"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an elastic (exponentially decaying sine wave) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ElasticEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  ElasticEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L526"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an elastic (exponentially decaying sine wave) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ElasticEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ElasticEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ElasticEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  ElasticEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L588"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an elastic (exponentially decaying sine wave) easing out/in:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ElasticEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  ExpoEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L74"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an exponential (2^t) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ExpoEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  ExpoEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an exponential (2^t) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ExpoEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  ExpoEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an exponential (2^t) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ExpoEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_ExpoEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.ExpoEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  ExpoEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L111"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for an exponential (2^t) easing out/in:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double ExpoEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_Linear_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.Linear*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_Linear_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.Linear(System.Double,System.Double,System.Double,System.Double)">
+  Linear(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a simple linear tweening, with no easing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double Linear(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  QuadEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L212"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quadratic (t^2) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuadEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  QuadEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L226"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quadratic (t^2) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuadEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  QuadEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L198"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quadratic (t^2) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuadEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuadEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuadEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  QuadEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L243"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quadratic (t^2) easing out/in:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuadEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  QuartEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L410"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quartic (t^4) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuartEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  QuartEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L424"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quartic (t^4) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuartEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  QuartEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L396"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quartic (t^4) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuartEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuartEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuartEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  QuartEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L441"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quartic (t^4) easing out/in:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuartEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  QuintEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L476"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quintic (t^5) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuintEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  QuintEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L490"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quintic (t^5) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuintEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  QuintEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L462"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quintic (t^5) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuintEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_QuintEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.QuintEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  QuintEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L506"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a quintic (t^5) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double QuintEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseIn(System.Double,System.Double,System.Double,System.Double)">
+  SineEaseIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L278"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a sinusoidal (sin(t)) easing in:
+accelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double SineEaseIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseInOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseInOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseInOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseInOut(System.Double,System.Double,System.Double,System.Double)">
+  SineEaseInOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L292"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a sinusoidal (sin(t)) easing in/out:
+acceleration until halfway, then deceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double SineEaseInOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseOut_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseOut*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseOut_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseOut(System.Double,System.Double,System.Double,System.Double)">
+  SineEaseOut(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L264"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a sinusoidal (sin(t)) easing out:
+decelerating from zero velocity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double SineEaseOut(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseOutIn_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseOutIn*"></a>
+
+  <h3 id="Monogum_BricksBucket_Core_Math_PennerFunctions_SineEaseOutIn_System_Double_System_Double_System_Double_System_Double_" data-uid="Monogum.BricksBucket.Core.Math.PennerFunctions.SineEaseOutIn(System.Double,System.Double,System.Double,System.Double)">
+  SineEaseOutIn(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/javier-games/pkg-bricks-bucket/blob/main/source/Runtime/Math/PennerFunctions.cs/#L309"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Easing equation function for a sinusoidal (sin(t)) easing in/out:
+deceleration until halfway, then acceleration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double SineEaseOutIn(double t, double b, double c, double d)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Current time in seconds.</p>
+</dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Starting value.</p>
+</dd>
+    <dt><code>c</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Final value.</p>
+</dd>
+    <dt><code>d</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Duration of animation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The correct value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><span><a href="https://github.com/aureliendrouet/EasingCurvePresets">aureliendrouet/EasingCurvePresets</a></span></div>
+  </div>
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright © 2020 Monogum Hi-Turbo
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

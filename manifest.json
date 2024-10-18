@@ -1,0 +1,1010 @@
+{
+  "source_base_path": "/home/runner/work/pkg-bricks-bucket/pkg-bricks-bucket",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "CHANGELOG.md",
+      "output": {
+        ".html": {
+          "relative_path": "CHANGELOG.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.ArrayExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.ArrayExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.AutoFillAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.AutoFillAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.ButtonAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.ButtonAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.DefinedValuesAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.DefinedValuesAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.EnumMaskAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.EnumMaskAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.LayerAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.LayerAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.OnSaveAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.OnSaveAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.PositiveOnlyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.PositiveOnlyAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.ReadOnlyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.ReadOnlyAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.SearchableEnumAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.SearchableEnumAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.ShowIfAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.ShowIfAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.SpriteLayerAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.SpriteLayerAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.TagAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.TagAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Attributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Attributes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Bucket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Bucket.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Collections.SerializableDictionary-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Collections.SerializableDictionary-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Collections.SerializableQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Collections.SerializableQueue-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Collections.SerializableStack-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Collections.SerializableStack-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Collections.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Collections.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.ColorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.ColorExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.DoubleExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.DoubleExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.AssetExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.AssetExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.AutoFillAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.AutoFillAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.AutoFillAttributeHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.AutoFillAttributeHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.ButtonAttributeHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.ButtonAttributeHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.DefinedValuesAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.DefinedValuesAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.EnumMaskAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.EnumMaskAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.LayerAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.LayerAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.OnSaveAttributeHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.OnSaveAttributeHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.PositiveValueOnlyAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.PositiveValueOnlyAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.ReadOnlyAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.ReadOnlyAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.SearchableEnumAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.SearchableEnumAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.SearchablePopup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.SearchablePopup.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.ShowIfAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.ShowIfAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.SpriteLayerAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.SpriteLayerAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.TagAttributeDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.TagAttributeDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.Attributes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.BucketEditor.ComponentFieldInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.BucketEditor.ComponentFieldInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.BucketEditor.ComponentMethodInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.BucketEditor.ComponentMethodInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.BucketEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.BucketEditor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.EditorEvents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.EditorEvents.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.MonoBehaviourEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.MonoBehaviourEditor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.ReflectionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.ReflectionExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.ScriptableObjectEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.ScriptableObjectEditor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.SerializedPropertyExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.SerializedPropertyExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Editor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.EnumerableExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.EnumerableExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.DynamicProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.DynamicProperty.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.Editor.DynamicPropertyDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.Editor.DynamicPropertyDrawer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.Editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.Editor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.HardwiredComponents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.HardwiredComponents.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Examples.DynamicProperties.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.FloatExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.FloatExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.AbstractComponentRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.AbstractComponentRegistry.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.AbstractPropertyReference-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.AbstractPropertyReference-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.AbstractValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.AbstractValue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.HardwiredFileWriter.ScriptData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.HardwiredFileWriter.ScriptData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.HardwiredFileWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.HardwiredFileWriter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.HardwiredWizard.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.HardwiredWizard.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.Editor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.IAutogeneratedScript.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.IAutogeneratedScript.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.IComponentRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.IComponentRegistry.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.IPropertyReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.IPropertyReference.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.IValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.IValue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Generics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Generics.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.IntegerExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.IntegerExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.ListExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.ListExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Math.ActivationFunction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Math.ActivationFunction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Math.PennerFunctions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Math.PennerFunctions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Math.RoundType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Math.RoundType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Math.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Math.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.MonoSingleton-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.MonoSingleton-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.AutoComponentPrefabPool-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.AutoComponentPrefabPool-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.AutoGameObjectPrefabPool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.AutoGameObjectPrefabPool.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.GameObjectPool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.GameObjectPool.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.Pool-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.Pool-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.PoolManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.PoolManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.Poolable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.Poolable.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.UnityComponentPool-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.UnityComponentPool-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.Pooling.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.Pooling.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.ScriptableSingleton-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.ScriptableSingleton-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.StackExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.StackExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.StringExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.StringExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.TextureExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.TextureExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.TransformExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.TransformExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.UiExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.UiExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.VectorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.VectorExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.WaitForUnscaledSeconds.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.WaitForUnscaledSeconds.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Monogum.BricksBucket.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Monogum.BricksBucket.Core.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/installation_guide.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/installation_guide.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "articles/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.ico"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.svg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "toc.json"
+        },
+        ".html": {
+          "relative_path": "toc.html"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
