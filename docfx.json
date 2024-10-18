@@ -9,7 +9,7 @@
         }
       ],
       "dest": "api",
-      "globalNamespaceId": "Global"
+      "allowCompilationErrors": true
     }
   ],
   "build": {
@@ -58,7 +58,7 @@
     "fileMetadataFiles": [],
     "template": [
       "default",
-      "templates/monogum"
+      "modern"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",
