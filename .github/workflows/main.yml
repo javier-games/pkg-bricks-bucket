@@ -1,0 +1,59 @@
+name: Build and Publish Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Create artifact
+        run: |
+          mkdir -p artifact/Runtime artifact/Editor artifact/Examples
+          cp -r Runtime artifact/
+          cp -r Editor artifact/
+          cp -r Examples artifact/
+          cp CHANGELOG.md LICENSE.md NOTICE.md artifact/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: artifact
+
+      - name: Checkout docfx branch
+        run: |
+          git fetch
+          git checkout docfx
+
+      - name: Copy artifact to source folder
+        run: |
+          mkdir -p source
+          cp -r artifact/* source/
+
+      - name: Install docfx
+        run: |
+          dotnet tool install -g docfx
+
+      - name: Add docfx to PATH
+        run: echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Build Documentation
+        run: |
+          docfx docfx.json
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _site

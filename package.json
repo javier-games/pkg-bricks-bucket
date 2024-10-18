@@ -1,6 +1,6 @@
 {
-  "name": "games.monogum.bricksbucket.core",
-  "version": "1.0.9",
+  "name": "games.javier.upm.bricksbucket.core",
+  "version": "1.0.10",
   "displayName": "Bricks Bucket Core Package",
   "description": "Bucket full of bricks to build something great.",
   "unity": "2020.1",
@@ -14,8 +14,8 @@
     "com.unity.ugui": "1.0.0"
   },
   "author": {
-    "name": "Monogum",
-    "email": "javier@monogum.games",
-    "url": "monogum.games"
+    "name": "Javier García",
+    "email": "bricksbucket@javier.games",
+    "url": "bricksbucket.javier.games"
   }
 }
