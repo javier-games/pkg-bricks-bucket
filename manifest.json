@@ -3,16 +3,6 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "type": "Conceptual",
-      "source_relative_path": "CHANGELOG.md",
-      "output": {
-        ".html": {
-          "relative_path": "CHANGELOG.html"
-        }
-      },
-      "version": ""
-    },
-    {
       "type": "ManagedReference",
       "source_relative_path": "api/Monogum.BricksBucket.Core.ArrayExtensions.yml",
       "output": {
@@ -984,6 +974,26 @@
       "output": {
         ".html": {
           "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "source/CHANGELOG.md",
+      "output": {
+        ".html": {
+          "relative_path": "source/CHANGELOG.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "source/NOTICE.md",
+      "output": {
+        ".html": {
+          "relative_path": "source/NOTICE.html"
         }
       },
       "version": ""

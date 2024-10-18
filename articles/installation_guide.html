@@ -83,47 +83,84 @@
         <article data-uid="">
 <h1 id="installation-guide">Installation Guide</h1>
 
-<p>This article will guide throw the different ways to
-install a <em>Bricks Bucket Package</em>.</p>
-<h2 id="git-package-method">Git Package Method</h2>
-<p>Unity can fetch a Git repository using the <a href="https://docs.unity3d.com/Manual/Packages.html">Package
-Manager</a>.
-To add a <em>Bricks Bucket Package</em> first make sure
-you have installed <a href="https://git-scm.com">Git</a> in your
-machine. Then get the link of the package from its
-repository you want to install.</p>
-<p>Taking as example the Bricks Bucket Core Package, you can
-install it by adding the following code to your package JSON
-located at <code>../&lt;MyUnityProject&gt;/Packages/manifest.json</code>.</p>
-<pre><code>{
-    &quot;dependencies&quot;: {
-        &quot;games.monogum.bricksbucket.core&quot;:
-        &quot;https://bitbucket.org/monogum/bricks-bucket-core-package.git&quot;
+<p>There are several ways to install <strong>BricksBucket</strong> into your Unity project. Choose the method that best fits your workflow. For easy updates and access to future releases, we recommend using npm.</p>
+<h2 id="installation-via-npm">Installation via npm</h2>
+<p>To install BricksBucket from an npm registry, follow these steps:</p>
+<ol>
+<li>Open your Unity project and go to <code>Edit &gt; Project Settings &gt; Package Manager</code>.</li>
+<li>In the <code>Scoped Registries</code> section, click the <code>+</code> button to add a new registry.</li>
+<li>Fill in the following fields:
+<ul>
+<li><strong>Name</strong>: <code>Javier Games</code></li>
+<li><strong>URL</strong>: <code>https://registry.npmjs.org</code></li>
+<li><strong>Scope(s)</strong>: <code>games.javier</code></li>
+</ul>
+</li>
+<li>Click <code>Save</code>, then close the Project Settings window.</li>
+<li>Open the Package Manager by navigating to <code>Window &gt; Package Manager</code>.</li>
+<li>In the Package Manager, select <code>Packages: My Registries</code> from the dropdown.</li>
+<li>You should see the <code>games.javier.upm.bricksbucket.core</code> package listed. Click <code>Install</code> to add it to your project.</li>
+</ol>
+<p>Alternatively, you can directly modify your <code>Packages/manifest.json</code> file:</p>
+<ol>
+<li>Add the following entry to the <code>scopedRegistries</code> section of your <code>manifest.json</code>:</li>
+</ol>
+<pre><code class="lang-json">{
+  &quot;scopedRegistries&quot;: [
+    {
+      &quot;name&quot;: &quot;Javier Games&quot;,
+      &quot;url&quot;: &quot;https://registry.npmjs.org&quot;,
+      &quot;scopes&quot;: [&quot;games.javier&quot;]
     }
+  ]
 }
 </code></pre>
-<p>Or by adding the package using the editor in the
-<code>Package Manager/+/Add package from git URL</code> option.
-Read more about this method in the official <a href="https://docs.unity3d.com/Manual/upm-git.html">Unity
-Manual</a>.</p>
-<h2 id="unity-package-import">Unity Package Import</h2>
-<p>If you need the source code into your project you also can
-download the <code>.unitypackage</code> file from the repository under
-the download section of bitbucket.</p>
-<ul>
-<li><a href="https://bitbucket.org/monogum/bricks-bucket-core-package/downloads/">BricksBucket.Core</a></li>
-</ul>
-<p>To install it just open you project and double-click the
-downloaded package.</p>
-<h2 id="download-different-versions">Download Different Versions</h2>
-<p>Under the download section you can also find a tab named
-<em>Tags</em> or <em>Branches</em>, from here you can download de source
-files, un-zip the drag and drop the files inside your
-<em>Assets</em> or <em>Packages</em> folder.</p>
-<h2 id="advanced-options">Advanced Options</h2>
-<p>Taking advantage of the repository you can install the
-package as a submodule and change between branches. You can
-read more about this option in the <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">Git Documentation</a>.</p>
+<ol start="2">
+<li>Add <code>games.javier.upm.bricksbucket.core</code> to the <code>dependencies</code> section:</li>
+</ol>
+<pre><code class="lang-json">{
+  &quot;dependencies&quot;: {
+    &quot;games.javier.upm.bricksbucket.core&quot;: &quot;1.0.0&quot;
+  }
+}
+</code></pre>
+<p>Replace <code>1.0.0</code> with the desired version of BricksBucket. Save the <code>manifest.json</code> file after editing.</p>
+<h2 id="installation-via-openupm">Installation via OpenUPM</h2>
+<p>You can also install BricksBucket via the OpenUPM CLI. Make sure you have Node.js v16 or higher and the <a href="https://openupm.com/docs/getting-started-cli.html">openupm-cli</a> installed.</p>
+<p>Run the following command:</p>
+<pre><code class="lang-bash">openupm add games.javier.upm.bricksbucket.core
+</code></pre>
+<p>This will configure your Unity project to use the OpenUPM registry.</p>
+<h2 id="installation-via-cloning">Installation via Cloning</h2>
+<p>To install BricksBucket by cloning the repository:</p>
+<ol>
+<li>Clone the repository to your local machine:</li>
+</ol>
+<pre><code class="lang-bash">git clone https://github.com/javier-games/pkg-bricks-bucket.git
+</code></pre>
+<ol start="2">
+<li>Open Unity and go to <code>Window &gt; Package Manager</code>.</li>
+<li>Click the <code>+</code> button in the top-left corner, then select <code>Add package from disk...</code>.</li>
+<li>In the file explorer, navigate to the cloned repository and select the <code>package.json</code> file.</li>
+<li>Click <code>Open</code> to install the package.</li>
+</ol>
+<p>Unity will recognize the package, and it will appear in the Package Manager.</p>
+<h2 id="install-from-a-tarball">Install from a Tarball</h2>
+<p>Download the tarball (<code>games.javier.upm.bricksbucket.core-{version}.tgz</code>) from the <a href="https://github.com/javier-games/pkg-bricks-bucket/tags">Releases section</a> or <a href="https://javier-games.itch.io/bricks-bucket">itch.io</a>.</p>
+<ol>
+<li>In Unity, go to <code>Window &gt; Package Manager</code>.</li>
+<li>Click the <code>+</code> button and select <code>Add package from tarball...</code>.</li>
+<li>Locate the downloaded tarball and click <code>Open</code>.</li>
+</ol>
+<h2 id="install-from-git-url">Install from Git URL</h2>
+<p>If you prefer, you can directly install the package from the Git repository:</p>
+<ol>
+<li>In Unity, go to <code>Window &gt; Package Manager</code>.</li>
+<li>Click the <code>+</code> button and select <code>Add package from git URL...</code>.</li>
+<li>Enter the repository URL:</li>
+</ol>
+<pre><code>https://github.com/javier-games/pkg-bricks-bucket.git
+</code></pre>
 
 </article>
 
