@@ -1,12 +1,12 @@
-#Changelog
+# Changelog
 
-## `Unreleased`
-### Added
-- Log system in Bucket Class.
-- Plugins Newtonsoft.Json.
-- Pooling System working with nested prefabs and UI.
-- Define symbols manager system.
-
+## `1.0.11` - October 19th, 2024
+### Updated
+- Readme.
+- 
+## `1.0.10` - October 18th, 2024
+### Updated
+- Readme.
 
 ## `1.0.9` - February 8th, 2023
 ### Fixed
