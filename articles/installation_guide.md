@@ -1,10 +1,10 @@
 # Installation Guide
 
-There are several ways to install **BricksBucket** into your Unity project. Choose the method that best fits your workflow. For easy updates and access to future releases, we recommend using npm.
+There are several ways to install **Bricks Bucket** into your Unity project. Choose the method that best fits your workflow. For easy updates and access to future releases, we recommend using npm.
 
 ## Installation via npm
 
-To install BricksBucket from an npm registry, follow these steps:
+To install Bricks Bucket from an npm registry, follow these steps:
 
 1. Open your Unity project and go to `Edit > Project Settings > Package Manager`.
 2. In the `Scoped Registries` section, click the `+` button to add a new registry.
@@ -39,11 +39,11 @@ Alternatively, you can directly modify your `Packages/manifest.json` file:
   }
 }
 ```
-Replace `1.0.0` with the desired version of BricksBucket. Save the `manifest.json` file after editing.
+Replace `1.0.0` with the desired version of Bricks Bucket. Save the `manifest.json` file after editing.
 
 ## Installation via OpenUPM
 
-You can also install BricksBucket via the OpenUPM CLI. Make sure you have Node.js v16 or higher and the [openupm-cli](https://openupm.com/docs/getting-started-cli.html) installed.
+You can also install Bricks Bucket via the OpenUPM CLI. Make sure you have Node.js v16 or higher and the [openupm-cli](https://openupm.com/docs/getting-started-cli.html) installed.
 
 Run the following command:
 
@@ -55,7 +55,7 @@ This will configure your Unity project to use the OpenUPM registry.
 
 ## Installation via Cloning
 
-To install BricksBucket by cloning the repository:
+To install Bricks Bucket by cloning the repository:
 
 1. Clone the repository to your local machine:
 ```bash
@@ -67,7 +67,7 @@ git clone https://github.com/javier-games/pkg-bricks-bucket.git
 4. In the file explorer, navigate to the cloned repository and select the `package.json` file.
 5. Click `Open` to install the package.
 
-Unity will recognize the package, and it will appear in the Package Manager.
+If you clone it as submodule under the Packages folder Unity will recognize automatically the package.
 
 ## Install from a Tarball
 
@@ -87,4 +87,5 @@ If you prefer, you can directly install the package from the Git repository:
 ```
 https://github.com/javier-games/pkg-bricks-bucket.git
 ```
+Using this method will not show any updates or previous versions.
 
