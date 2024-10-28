@@ -1,5 +1,5 @@
 {
-  "source_base_path": "/home/runner/work/pkg-bricks-bucket/pkg-bricks-bucket",
+  "source_base_path": "/home/runner/work/upm-bricks-bucket/upm-bricks-bucket",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -921,16 +921,6 @@
       "output": {
         ".html": {
           "relative_path": "articles/index.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/installation_guide.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/installation_guide.html"
         }
       },
       "version": ""
