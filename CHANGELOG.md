@@ -1,9 +1,13 @@
 # Changelog
 
+## `1.0.12` - October 28th, 2024
+### Updated
+- Readme URLs.
+
 ## `1.0.11` - October 19th, 2024
 ### Updated
 - Readme.
-- 
+
 ## `1.0.10` - October 18th, 2024
 ### Updated
 - Readme.
