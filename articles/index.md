@@ -8,5 +8,5 @@ reference and learn from its
 [Tutorials](https://learn.unity.com).
  
 ## Latest
-* [Installation Guide](installation_guide.md)
+* [Installation Guide](https://installation.upm.javier.games/)
 
